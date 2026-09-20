@@ -1,0 +1,11 @@
+bin/
+obj/
+.packages/
+state/
+output/
+logs/
+.codex/
+.idea/
+.release/
+*.user
+*.tmp

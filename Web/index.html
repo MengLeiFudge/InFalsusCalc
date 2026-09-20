@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>In Falsus · 配方与回想成果</title>
+<link rel="stylesheet" href="/style.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<header class="topbar"><div><p class="eyebrow">IN FALSUS / COLLECTION</p><h1>配方与回想成果</h1><p class="subtitle">只查询已经计算并保存的配方与回想成果。</p></div><div class="header-meta"><span id="summary" class="badge"></span><span id="created" class="help"></span></div></header>
+<main>
+  <div class="conditions"><span>完全探索</span><span>角色技能全解锁</span><span>效能999</span><span>材料充足</span><span>全EXACT · 25代表键</span><span>配队按等级10搜索 · 可观察1-20级</span><span>联觉开启</span><span>初始HP100</span></div>
+  <div id="notice" class="notice" hidden></div>
+  <nav class="tabs" aria-label="成果分类"><button class="tab active" data-tab="recipes">配方拼法</button><button class="tab" data-tab="encounters">回想配队</button></nav>
+  <section id="recipes-tab" class="tab-content">
+    <div class="filters panel"><label>配方<select id="recipe-select"></select></label><label class="wide">槽位／左右范围＋可选颜色<select id="group-select"></select></label></div>
+    <div class="section-intro"><div><h2 id="recipe-title"></h2><p id="group-summary"></p></div><span id="recipe-count" class="badge"></span></div>
+    <div id="results" class="result-cards"></div>
+    <p class="help explanation">普通配方结果只在已保存并重新复算合法的候选集中择优，不代表未枚举类别的全空间极值。全覆盖配方只在已有合法布局中发布一个代表。原始攻击与原始防御只对已激活区域求和，不包含效能和惩罚；卡牌数值为最终结果。同面板先少用Ⅲ阶，再少用Ⅱ阶，最后减少多余用块；材料已择优，不宣称全局最省。</p>
+  </section>
+  <section id="encounters-tab" class="tab-content" hidden>
+    <div class="filters panel"><label class="wide">回想<select id="encounter-select"></select></label><label class="rating-control">观察等级 <output id="encounter-rating-value">10</output><input id="encounter-rating" type="range" min="1" max="20" value="10" step="1"></label></div>
+    <div class="section-intro"><div><h2 id="encounter-title"></h2><p id="battle-condition"></p></div><span id="battle-status" class="badge"></span></div>
+    <div id="encounter-score" class="score-summary"></div>
+    <div id="settlement" class="settlement"></div>
+    <div class="deck-heading"><h3>推荐配队</h3><span class="help">顺序对应游戏中的五个槽位</span></div>
+    <div id="player-deck" class="card-strip"></div>
+    <details class="panel enemy-panel" open><summary>对方卡组</summary><div id="enemy-deck" class="card-strip"></div></details>
+    <details class="panel"><summary>逐阶段结果</summary><div class="table-scroll"><table id="phase-table"><thead><tr><th>阶段</th><th>己方攻击／防御</th><th>对方攻击／防御</th><th>造成伤害</th><th>受到伤害</th><th>己方HP</th><th>对方进度</th></tr></thead><tbody></tbody></table></div></details>
+    <details class="panel"><summary>制卡需要的特性粒子</summary><div id="materials"></div></details>
+    <details class="panel"><summary>特性触发明细</summary><div id="events" class="event-list"></div></details>
+    <p class="help explanation">推荐配队固定按等级10、联觉开启、25个代表性全EXACT键（每阶段5键，最后一键为暴击）、初始HP100搜索。等级1至20只复算同一配队的战斗结果，不改变卡牌、顺序、颜色或特性。推荐在从零生成的有限模板库内搜索，未声明穷举所有配队后的全局最优。</p>
+  </section>
+</main>
+<dialog id="layout-dialog"><div class="dialog-header"><div><p id="layout-goals" class="eyebrow"></p><h2 id="layout-title"></h2><p id="layout-stats" class="help"></p></div><button id="close-layout" class="secondary">关闭</button></div><div class="layout-tools"><label>缩放<input id="layout-zoom" type="range" min="70" max="250" value="100"></label><label class="check"><input id="layout-flip" type="checkbox">上下翻转</label><button id="save-svg" class="secondary">保存拼法SVG</button></div><div id="layout-board" class="layout-board"></div><div id="piece-list" class="piece-list"></div><p class="help">编号对应一块粒子；同格多个编号表示重叠。点击粒子清单高亮整块。坐标使用游戏Q、R轴。</p><details><summary>这张卡可以选择的特性</summary><div id="layout-traits" class="trait-list"></div></details></dialog>
+<div id="toast" role="status" hidden></div>
+<footer>全部数据保存在此成果页中，查询与查看拼法不需要联网或AI。游戏规则来自安装资源与原生代码静态分析。</footer>
+</body>
+</html>
