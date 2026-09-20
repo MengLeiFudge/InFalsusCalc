@@ -1,0 +1,1857 @@
+{
+  "id": 64,
+  "status": "OPTIMAL",
+  "time": 4.829061268013902,
+  "upper": 13200,
+  "candidates": 1492,
+  "budget": 0,
+  "connected": true,
+  "cuts": 40,
+  "active": [
+    0,
+    2,
+    3,
+    6,
+    7,
+    8
+  ],
+  "stats": {
+    "power": 5400,
+    "fortitude": 6200
+  },
+  "score": 11600,
+  "final": {
+    "power": 53946,
+    "fortitude": 61938
+  },
+  "total": 115884,
+  "strikes": 0,
+  "raw_penalties": [
+    0,
+    1,
+    1,
+    3
+  ],
+  "net_penalties": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "groups": [
+    [
+      [
+        -14,
+        7
+      ],
+      [
+        -14,
+        8
+      ],
+      [
+        -14,
+        9
+      ],
+      [
+        -13,
+        7
+      ],
+      [
+        -12,
+        5
+      ],
+      [
+        -12,
+        6
+      ],
+      [
+        -11,
+        5
+      ],
+      [
+        -10,
+        4
+      ]
+    ],
+    [
+      [
+        -8,
+        2
+      ],
+      [
+        -8,
+        3
+      ],
+      [
+        -7,
+        0
+      ],
+      [
+        -7,
+        1
+      ],
+      [
+        -7,
+        2
+      ],
+      [
+        -7,
+        3
+      ],
+      [
+        -6,
+        0
+      ],
+      [
+        -6,
+        3
+      ],
+      [
+        -5,
+        -1
+      ],
+      [
+        -5,
+        2
+      ],
+      [
+        -5,
+        3
+      ],
+      [
+        -4,
+        -2
+      ],
+      [
+        -4,
+        -1
+      ],
+      [
+        -4,
+        2
+      ],
+      [
+        -4,
+        3
+      ],
+      [
+        -3,
+        -1
+      ],
+      [
+        -3,
+        3
+      ],
+      [
+        -2,
+        3
+      ],
+      [
+        -1,
+        2
+      ],
+      [
+        -1,
+        3
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        6,
+        -3
+      ],
+      [
+        6,
+        -2
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        7,
+        -2
+      ],
+      [
+        7,
+        -1
+      ]
+    ],
+    [
+      [
+        9,
+        -4
+      ],
+      [
+        9,
+        -3
+      ],
+      [
+        10,
+        -5
+      ],
+      [
+        10,
+        -4
+      ],
+      [
+        10,
+        -3
+      ],
+      [
+        11,
+        -5
+      ],
+      [
+        11,
+        -4
+      ],
+      [
+        12,
+        -7
+      ],
+      [
+        12,
+        -6
+      ],
+      [
+        13,
+        -8
+      ],
+      [
+        13,
+        -7
+      ]
+    ]
+  ],
+  "count": 15,
+  "cap": 15,
+  "tolerances": [
+    1,
+    1,
+    3
+  ],
+  "falsehood": false,
+  "placements": [
+    {
+      "id": 2,
+      "name": "r-1-2",
+      "q": 4,
+      "r": 2,
+      "color": 1,
+      "cells": [
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "matches": [
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 2,
+      "name": "r-1-2",
+      "q": 6,
+      "r": 0,
+      "color": 1,
+      "cells": [
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          -1
+        ]
+      ],
+      "matches": [
+        [
+          6,
+          0
+        ],
+        [
+          7,
+          -1
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 3,
+      "name": "r-1-3",
+      "q": -8,
+      "r": 3,
+      "color": 1,
+      "cells": [
+        [
+          -8,
+          2
+        ],
+        [
+          -8,
+          3
+        ],
+        [
+          -7,
+          3
+        ]
+      ],
+      "matches": [
+        [
+          -8,
+          2
+        ],
+        [
+          -8,
+          3
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 3,
+      "name": "r-1-3",
+      "q": -4,
+      "r": -1,
+      "color": 1,
+      "cells": [
+        [
+          -4,
+          -2
+        ],
+        [
+          -4,
+          -1
+        ],
+        [
+          -3,
+          -1
+        ]
+      ],
+      "matches": [
+        [
+          -4,
+          -1
+        ],
+        [
+          -3,
+          -1
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 3,
+      "name": "r-1-3",
+      "q": 2,
+      "r": 2,
+      "color": 1,
+      "cells": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "matches": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 3,
+      "name": "r-1-3",
+      "q": 6,
+      "r": -2,
+      "color": 1,
+      "cells": [
+        [
+          6,
+          -3
+        ],
+        [
+          6,
+          -2
+        ],
+        [
+          7,
+          -2
+        ]
+      ],
+      "matches": [
+        [
+          6,
+          -3
+        ],
+        [
+          7,
+          -2
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 5,
+      "name": "y-1-2",
+      "q": -3,
+      "r": 3,
+      "color": 2,
+      "cells": [
+        [
+          -4,
+          3
+        ],
+        [
+          -3,
+          3
+        ]
+      ],
+      "matches": [
+        [
+          -4,
+          3
+        ],
+        [
+          -3,
+          3
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 10,
+      "name": "b-1-1",
+      "q": -14,
+      "r": 9,
+      "color": 4,
+      "cells": [
+        [
+          -14,
+          9
+        ]
+      ],
+      "matches": [
+        [
+          -14,
+          9
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 17,
+      "name": "r-2-2",
+      "q": -7,
+      "r": 1,
+      "color": 1,
+      "cells": [
+        [
+          -7,
+          0
+        ],
+        [
+          -7,
+          1
+        ],
+        [
+          -7,
+          2
+        ],
+        [
+          -6,
+          0
+        ],
+        [
+          -5,
+          -1
+        ]
+      ],
+      "matches": [
+        [
+          -7,
+          1
+        ],
+        [
+          -6,
+          0
+        ],
+        [
+          -5,
+          -1
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 19,
+      "name": "y-2-1",
+      "q": -5,
+      "r": 3,
+      "color": 2,
+      "cells": [
+        [
+          -6,
+          3
+        ],
+        [
+          -5,
+          2
+        ],
+        [
+          -5,
+          3
+        ],
+        [
+          -4,
+          2
+        ]
+      ],
+      "matches": [
+        [
+          -6,
+          3
+        ],
+        [
+          -5,
+          3
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 19,
+      "name": "y-2-1",
+      "q": -1,
+      "r": 3,
+      "color": 2,
+      "cells": [
+        [
+          -2,
+          3
+        ],
+        [
+          -1,
+          2
+        ],
+        [
+          -1,
+          3
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "matches": [
+        [
+          -2,
+          3
+        ],
+        [
+          -1,
+          3
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 22,
+      "name": "g-2-1",
+      "q": 12,
+      "r": -7,
+      "color": 3,
+      "cells": [
+        [
+          12,
+          -7
+        ],
+        [
+          12,
+          -6
+        ],
+        [
+          13,
+          -8
+        ],
+        [
+          13,
+          -7
+        ]
+      ],
+      "matches": [
+        [
+          12,
+          -6
+        ],
+        [
+          13,
+          -8
+        ],
+        [
+          13,
+          -7
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 25,
+      "name": "b-2-1",
+      "q": -13,
+      "r": 7,
+      "color": 4,
+      "cells": [
+        [
+          -14,
+          7
+        ],
+        [
+          -14,
+          8
+        ],
+        [
+          -13,
+          7
+        ],
+        [
+          -12,
+          6
+        ]
+      ],
+      "matches": [
+        [
+          -14,
+          8
+        ],
+        [
+          -13,
+          7
+        ],
+        [
+          -12,
+          6
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 25,
+      "name": "b-2-1",
+      "q": -11,
+      "r": 5,
+      "color": 4,
+      "cells": [
+        [
+          -12,
+          5
+        ],
+        [
+          -12,
+          6
+        ],
+        [
+          -11,
+          5
+        ],
+        [
+          -10,
+          4
+        ]
+      ],
+      "matches": [
+        [
+          -12,
+          6
+        ],
+        [
+          -11,
+          5
+        ],
+        [
+          -10,
+          4
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 36,
+      "name": "g-3-2",
+      "q": 10,
+      "r": -4,
+      "color": 3,
+      "cells": [
+        [
+          9,
+          -4
+        ],
+        [
+          9,
+          -3
+        ],
+        [
+          10,
+          -5
+        ],
+        [
+          10,
+          -4
+        ],
+        [
+          10,
+          -3
+        ],
+        [
+          11,
+          -5
+        ],
+        [
+          11,
+          -4
+        ]
+      ],
+      "matches": [
+        [
+          9,
+          -3
+        ],
+        [
+          10,
+          -4
+        ],
+        [
+          11,
+          -5
+        ]
+      ],
+      "unsafe": true
+    }
+  ],
+  "bound": 11600,
+  "model_objective": 11599985.0,
+  "name": "新的一天，新的决心",
+  "english": "New Day, New Conviction",
+  "code": "4-2-n",
+  "character": 0,
+  "bounds": [
+    115884,
+    110112,
+    73262
+  ],
+  "base_bounds": [
+    11600,
+    12400,
+    13200
+  ],
+  "upper_bound": 115884,
+  "proven": true,
+  "safe": [
+    {
+      "q": -14,
+      "r": 9,
+      "color": 4
+    },
+    {
+      "q": -14,
+      "r": 8,
+      "color": 4
+    },
+    {
+      "q": -14,
+      "r": 7,
+      "color": 6
+    },
+    {
+      "q": -13,
+      "r": 7,
+      "color": 4
+    },
+    {
+      "q": -13,
+      "r": 6,
+      "color": 6
+    },
+    {
+      "q": -12,
+      "r": 6,
+      "color": 4
+    },
+    {
+      "q": -12,
+      "r": 5,
+      "color": 6
+    },
+    {
+      "q": -11,
+      "r": 5,
+      "color": 4
+    },
+    {
+      "q": -11,
+      "r": 4,
+      "color": 6
+    },
+    {
+      "q": -10,
+      "r": 4,
+      "color": 4
+    },
+    {
+      "q": -10,
+      "r": 3,
+      "color": 6
+    },
+    {
+      "q": -8,
+      "r": 3,
+      "color": 1
+    },
+    {
+      "q": -8,
+      "r": 2,
+      "color": 1
+    },
+    {
+      "q": -8,
+      "r": 1,
+      "color": 6
+    },
+    {
+      "q": -7,
+      "r": 4,
+      "color": 1
+    },
+    {
+      "q": -7,
+      "r": 3,
+      "color": 6
+    },
+    {
+      "q": -7,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -7,
+      "r": 1,
+      "color": 1
+    },
+    {
+      "q": -7,
+      "r": 0,
+      "color": 6
+    },
+    {
+      "q": -6,
+      "r": 3,
+      "color": 2
+    },
+    {
+      "q": -6,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -6,
+      "r": 0,
+      "color": 1
+    },
+    {
+      "q": -6,
+      "r": -1,
+      "color": 6
+    },
+    {
+      "q": -5,
+      "r": 3,
+      "color": 2
+    },
+    {
+      "q": -5,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -5,
+      "r": -1,
+      "color": 1
+    },
+    {
+      "q": -5,
+      "r": -2,
+      "color": 6
+    },
+    {
+      "q": -4,
+      "r": 3,
+      "color": 2
+    },
+    {
+      "q": -4,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -4,
+      "r": -1,
+      "color": 1
+    },
+    {
+      "q": -4,
+      "r": -2,
+      "color": 6
+    },
+    {
+      "q": -3,
+      "r": 3,
+      "color": 2
+    },
+    {
+      "q": -3,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -3,
+      "r": -1,
+      "color": 1
+    },
+    {
+      "q": -3,
+      "r": -2,
+      "color": 6
+    },
+    {
+      "q": -2,
+      "r": 3,
+      "color": 2
+    },
+    {
+      "q": -2,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -1,
+      "r": 3,
+      "color": 2
+    },
+    {
+      "q": -1,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -1,
+      "r": -1,
+      "color": 5
+    },
+    {
+      "q": -1,
+      "r": -2,
+      "color": 6
+    },
+    {
+      "q": 0,
+      "r": 2,
+      "color": 2
+    },
+    {
+      "q": 0,
+      "r": 1,
+      "color": 6
+    },
+    {
+      "q": 0,
+      "r": 0,
+      "color": 1
+    },
+    {
+      "q": 0,
+      "r": -1,
+      "color": 6
+    },
+    {
+      "q": 0,
+      "r": -2,
+      "color": 5
+    },
+    {
+      "q": 0,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 1,
+      "r": -2,
+      "color": 5
+    },
+    {
+      "q": 1,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 2,
+      "r": 2,
+      "color": 1
+    },
+    {
+      "q": 2,
+      "r": 1,
+      "color": 6
+    },
+    {
+      "q": 2,
+      "r": -2,
+      "color": 5
+    },
+    {
+      "q": 2,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 3,
+      "r": 2,
+      "color": 1
+    },
+    {
+      "q": 3,
+      "r": 1,
+      "color": 6
+    },
+    {
+      "q": 3,
+      "r": -2,
+      "color": 5
+    },
+    {
+      "q": 3,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 4,
+      "r": 2,
+      "color": 1
+    },
+    {
+      "q": 4,
+      "r": 1,
+      "color": 6
+    },
+    {
+      "q": 4,
+      "r": -2,
+      "color": 5
+    },
+    {
+      "q": 4,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 5,
+      "r": 1,
+      "color": 1
+    },
+    {
+      "q": 5,
+      "r": 0,
+      "color": 6
+    },
+    {
+      "q": 5,
+      "r": -2,
+      "color": 5
+    },
+    {
+      "q": 5,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 6,
+      "r": 0,
+      "color": 1
+    },
+    {
+      "q": 6,
+      "r": -1,
+      "color": 6
+    },
+    {
+      "q": 6,
+      "r": -2,
+      "color": 6
+    },
+    {
+      "q": 6,
+      "r": -3,
+      "color": 1
+    },
+    {
+      "q": 6,
+      "r": -4,
+      "color": 6
+    },
+    {
+      "q": 7,
+      "r": -1,
+      "color": 1
+    },
+    {
+      "q": 7,
+      "r": -2,
+      "color": 1
+    },
+    {
+      "q": 7,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 9,
+      "r": -3,
+      "color": 3
+    },
+    {
+      "q": 9,
+      "r": -4,
+      "color": 6
+    },
+    {
+      "q": 10,
+      "r": -4,
+      "color": 3
+    },
+    {
+      "q": 10,
+      "r": -5,
+      "color": 6
+    },
+    {
+      "q": 11,
+      "r": -5,
+      "color": 3
+    },
+    {
+      "q": 11,
+      "r": -6,
+      "color": 6
+    },
+    {
+      "q": 12,
+      "r": -6,
+      "color": 3
+    },
+    {
+      "q": 12,
+      "r": -7,
+      "color": 6
+    },
+    {
+      "q": 13,
+      "r": -7,
+      "color": 3
+    },
+    {
+      "q": 13,
+      "r": -8,
+      "color": 3
+    },
+    {
+      "q": 13,
+      "r": -9,
+      "color": 6
+    }
+  ],
+  "zones": [
+    {
+      "Id": "103d1946-cca9-4124-b556-d56bf72038e1",
+      "Cells": [
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": -1,
+            "R": 3,
+            "S": -2,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": 0,
+            "R": 2,
+            "S": -2,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": -2,
+            "R": 3,
+            "S": -1,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": -3,
+            "R": 3,
+            "S": 0,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": -4,
+            "R": 3,
+            "S": 1,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": -5,
+            "R": 3,
+            "S": 2,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": -6,
+            "R": 3,
+            "S": 3,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "type_change",
+          "EffectType": 1,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 2,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 2400,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "1dfd0116-c721-41c9-a8ad-fe55e017a788",
+      "Cells": [
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 0,
+            "R": 0,
+            "S": 0,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 400,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 400,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "3859a090-0eab-478f-abea-149f1c0f5ac5",
+      "Cells": [
+        {
+          "Color": 4,
+          "Hex": {
+            "Q": -14,
+            "R": 8,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 4,
+          "Hex": {
+            "Q": -10,
+            "R": 4,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 4,
+          "Hex": {
+            "Q": -11,
+            "R": 5,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 4,
+          "Hex": {
+            "Q": -12,
+            "R": 6,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 4,
+          "Hex": {
+            "Q": -13,
+            "R": 7,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 4,
+          "Hex": {
+            "Q": -14,
+            "R": 9,
+            "S": 5,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1800,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_range",
+          "EffectType": 8,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1,
+              "IsString": 0,
+              "IsInt": 1
+            },
+            {
+              "StringValue": "",
+              "IntValue": 0,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "7a2f5643-9d55-468f-bcd9-9d33eca7b9ce",
+      "Cells": [
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 7,
+            "R": -1,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 4,
+            "R": 2,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 7,
+            "R": -2,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 6,
+            "R": 0,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 5,
+            "R": 1,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 3,
+            "R": 2,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 2,
+            "R": 2,
+            "S": -4,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1200,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1200,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "8056b49a-3314-4d3c-9e3c-e92897717c1c",
+      "Cells": [
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 0,
+            "R": -2,
+            "S": 2,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 5,
+            "R": -2,
+            "S": -3,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 4,
+            "R": -2,
+            "S": -2,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 3,
+            "R": -2,
+            "S": -1,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 2,
+            "R": -2,
+            "S": 0,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 1,
+            "R": -2,
+            "S": 1,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": -1,
+            "R": -1,
+            "S": 2,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_trait_slots",
+          "EffectType": 7,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "947c2054-02f9-4dfb-aafb-8308c123c5a4",
+      "Cells": [
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -7,
+            "R": 4,
+            "S": 3,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 800,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "aad1854d-098b-4bfe-89cf-45cd4e56877e",
+      "Cells": [
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 6,
+            "R": -3,
+            "S": -3,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 800,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "b580c44f-04a0-48bd-920c-f472d36b79f8",
+      "Cells": [
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 13,
+            "R": -7,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 13,
+            "R": -8,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 12,
+            "R": -6,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 11,
+            "R": -5,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 10,
+            "R": -4,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 9,
+            "R": -3,
+            "S": -6,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 2400,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "ea5c9622-17ce-46b7-8d5b-7d0f523cf75c",
+      "Cells": [
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -8,
+            "R": 2,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -5,
+            "R": -1,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -3,
+            "R": -1,
+            "S": 4,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -4,
+            "R": -1,
+            "S": 5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -6,
+            "R": 0,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -7,
+            "R": 1,
+            "S": 6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -8,
+            "R": 3,
+            "S": 5,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1800,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_range",
+          "EffectType": 8,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1,
+              "IsString": 0,
+              "IsInt": 1
+            },
+            {
+              "StringValue": "",
+              "IntValue": 0,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

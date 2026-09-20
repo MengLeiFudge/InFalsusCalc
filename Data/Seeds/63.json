@@ -1,0 +1,1448 @@
+{
+  "id": 63,
+  "status": "OPTIMAL",
+  "time": 8.965173874981701,
+  "upper": 13200,
+  "candidates": 884,
+  "budget": 0,
+  "connected": true,
+  "cuts": 0,
+  "active": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6
+  ],
+  "stats": {
+    "power": 6600,
+    "fortitude": 6600
+  },
+  "score": 13200,
+  "final": {
+    "power": 65934,
+    "fortitude": 65934
+  },
+  "total": 131868,
+  "strikes": 0,
+  "raw_penalties": [
+    0,
+    4,
+    2,
+    0
+  ],
+  "net_penalties": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "groups": [
+    [
+      [
+        -5,
+        5
+      ],
+      [
+        -4,
+        4
+      ],
+      [
+        -3,
+        3
+      ],
+      [
+        -3,
+        4
+      ],
+      [
+        -3,
+        6
+      ],
+      [
+        -2,
+        3
+      ],
+      [
+        -2,
+        5
+      ],
+      [
+        -2,
+        6
+      ],
+      [
+        -2,
+        7
+      ],
+      [
+        -2,
+        8
+      ],
+      [
+        -2,
+        9
+      ],
+      [
+        -1,
+        3
+      ],
+      [
+        -1,
+        4
+      ],
+      [
+        -1,
+        5
+      ],
+      [
+        -1,
+        6
+      ],
+      [
+        -1,
+        7
+      ],
+      [
+        -1,
+        8
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        -1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        -2
+      ],
+      [
+        2,
+        -1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        -2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        -4
+      ],
+      [
+        4,
+        -3
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        5,
+        -5
+      ]
+    ]
+  ],
+  "count": 10,
+  "cap": 10,
+  "tolerances": [
+    4,
+    2,
+    0
+  ],
+  "falsehood": false,
+  "placements": [
+    {
+      "id": 2,
+      "name": "r-1-2",
+      "q": -1,
+      "r": 8,
+      "color": 1,
+      "cells": [
+        [
+          -1,
+          8
+        ],
+        [
+          0,
+          7
+        ]
+      ],
+      "matches": [
+        [
+          -1,
+          8
+        ],
+        [
+          0,
+          7
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 8,
+      "name": "g-1-2",
+      "q": 2,
+      "r": 4,
+      "color": 3,
+      "cells": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "matches": [
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 12,
+      "name": "b-1-3",
+      "q": -4,
+      "r": 4,
+      "color": 4,
+      "cells": [
+        [
+          -5,
+          5
+        ],
+        [
+          -4,
+          4
+        ],
+        [
+          -3,
+          4
+        ]
+      ],
+      "matches": [
+        [
+          -5,
+          5
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 16,
+      "name": "r-2-1",
+      "q": 4,
+      "r": -3,
+      "color": 1,
+      "cells": [
+        [
+          2,
+          -2
+        ],
+        [
+          3,
+          -2
+        ],
+        [
+          4,
+          -4
+        ],
+        [
+          4,
+          -3
+        ],
+        [
+          5,
+          -5
+        ]
+      ],
+      "matches": [
+        [
+          5,
+          -5
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 17,
+      "name": "r-2-2",
+      "q": -2,
+      "r": 8,
+      "color": 1,
+      "cells": [
+        [
+          -2,
+          7
+        ],
+        [
+          -2,
+          8
+        ],
+        [
+          -2,
+          9
+        ],
+        [
+          -1,
+          7
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "matches": [
+        [
+          -2,
+          7
+        ],
+        [
+          -2,
+          8
+        ],
+        [
+          -2,
+          9
+        ],
+        [
+          -1,
+          7
+        ],
+        [
+          0,
+          6
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 21,
+      "name": "y-2-3",
+      "q": 2,
+      "r": -1,
+      "color": 2,
+      "cells": [
+        [
+          1,
+          -1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          -2
+        ],
+        [
+          2,
+          -1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          -2
+        ]
+      ],
+      "matches": [
+        [
+          3,
+          -2
+        ]
+      ],
+      "unsafe": true
+    },
+    {
+      "id": 22,
+      "name": "g-2-1",
+      "q": 3,
+      "r": 3,
+      "color": 3,
+      "cells": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          3
+        ]
+      ],
+      "matches": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          3
+        ]
+      ],
+      "unsafe": false
+    },
+    {
+      "id": 32,
+      "name": "r-3-2",
+      "q": -1,
+      "r": 5,
+      "color": 1,
+      "cells": [
+        [
+          -3,
+          6
+        ],
+        [
+          -2,
+          5
+        ],
+        [
+          -2,
+          6
+        ],
+        [
+          -1,
+          4
+        ],
+        [
+          -1,
+          5
+        ],
+        [
+          -1,
+          6
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "matches": [
+        [
+          -2,
+          6
+        ],
+        [
+          -1,
+          5
+        ],
+        [
+          -1,
+          6
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ]
+      ],
+      "unsafe": true
+    },
+    {
+      "id": 35,
+      "name": "g-3-1",
+      "q": -3,
+      "r": 3,
+      "color": 3,
+      "cells": [
+        [
+          -3,
+          3
+        ],
+        [
+          -2,
+          3
+        ],
+        [
+          -1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "matches": [
+        [
+          -2,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "unsafe": true
+    },
+    {
+      "id": 36,
+      "name": "g-3-2",
+      "q": 3,
+      "r": 1,
+      "color": 3,
+      "cells": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "matches": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "unsafe": true
+    }
+  ],
+  "bound": 13200,
+  "model_objective": 13200000.0,
+  "name": "本色",
+  "english": "True Colors",
+  "code": "4-2-m",
+  "character": 1,
+  "bounds": [
+    131868,
+    117216,
+    73262
+  ],
+  "base_bounds": [
+    13200,
+    13200,
+    13200
+  ],
+  "upper_bound": 131868,
+  "proven": true,
+  "safe": [
+    {
+      "q": -5,
+      "r": 5,
+      "color": 4
+    },
+    {
+      "q": -4,
+      "r": 5,
+      "color": 6
+    },
+    {
+      "q": -4,
+      "r": 4,
+      "color": 6
+    },
+    {
+      "q": -3,
+      "r": 4,
+      "color": 6
+    },
+    {
+      "q": -3,
+      "r": 3,
+      "color": 6
+    },
+    {
+      "q": -2,
+      "r": 9,
+      "color": 1
+    },
+    {
+      "q": -2,
+      "r": 8,
+      "color": 1
+    },
+    {
+      "q": -2,
+      "r": 7,
+      "color": 1
+    },
+    {
+      "q": -2,
+      "r": 6,
+      "color": 1
+    },
+    {
+      "q": -2,
+      "r": 3,
+      "color": 3
+    },
+    {
+      "q": -2,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -1,
+      "r": 8,
+      "color": 1
+    },
+    {
+      "q": -1,
+      "r": 7,
+      "color": 1
+    },
+    {
+      "q": -1,
+      "r": 6,
+      "color": 1
+    },
+    {
+      "q": -1,
+      "r": 5,
+      "color": 1
+    },
+    {
+      "q": -1,
+      "r": 2,
+      "color": 6
+    },
+    {
+      "q": -1,
+      "r": 1,
+      "color": 5
+    },
+    {
+      "q": 0,
+      "r": 7,
+      "color": 1
+    },
+    {
+      "q": 0,
+      "r": 6,
+      "color": 1
+    },
+    {
+      "q": 0,
+      "r": 5,
+      "color": 1
+    },
+    {
+      "q": 0,
+      "r": 4,
+      "color": 1
+    },
+    {
+      "q": 0,
+      "r": 1,
+      "color": 5
+    },
+    {
+      "q": 0,
+      "r": 0,
+      "color": 5
+    },
+    {
+      "q": 1,
+      "r": 0,
+      "color": 5
+    },
+    {
+      "q": 1,
+      "r": -1,
+      "color": 5
+    },
+    {
+      "q": 2,
+      "r": 5,
+      "color": 3
+    },
+    {
+      "q": 2,
+      "r": 4,
+      "color": 3
+    },
+    {
+      "q": 2,
+      "r": 3,
+      "color": 3
+    },
+    {
+      "q": 2,
+      "r": 2,
+      "color": 3
+    },
+    {
+      "q": 2,
+      "r": -1,
+      "color": 6
+    },
+    {
+      "q": 2,
+      "r": -2,
+      "color": 6
+    },
+    {
+      "q": 3,
+      "r": 4,
+      "color": 3
+    },
+    {
+      "q": 3,
+      "r": 3,
+      "color": 3
+    },
+    {
+      "q": 3,
+      "r": 2,
+      "color": 3
+    },
+    {
+      "q": 3,
+      "r": 1,
+      "color": 3
+    },
+    {
+      "q": 3,
+      "r": -2,
+      "color": 2
+    },
+    {
+      "q": 3,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 4,
+      "r": 3,
+      "color": 3
+    },
+    {
+      "q": 4,
+      "r": 2,
+      "color": 3
+    },
+    {
+      "q": 4,
+      "r": 1,
+      "color": 3
+    },
+    {
+      "q": 4,
+      "r": 0,
+      "color": 3
+    },
+    {
+      "q": 4,
+      "r": -3,
+      "color": 6
+    },
+    {
+      "q": 4,
+      "r": -4,
+      "color": 6
+    },
+    {
+      "q": 5,
+      "r": -4,
+      "color": 6
+    },
+    {
+      "q": 5,
+      "r": -5,
+      "color": 1
+    }
+  ],
+  "zones": [
+    {
+      "Id": "03689788-0f0b-4cf4-ae74-ca5c9896c440",
+      "Cells": [
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 3,
+            "R": 3,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 4,
+            "R": 3,
+            "S": -7,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 4,
+            "R": 2,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 4,
+            "R": 1,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 4,
+            "R": 0,
+            "S": -4,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 2,
+            "R": 3,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 3,
+            "R": 1,
+            "S": -4,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 3,
+            "R": 4,
+            "S": -7,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 3,
+            "R": 2,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 2,
+            "R": 2,
+            "S": -4,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 2,
+            "R": 4,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": 2,
+            "R": 5,
+            "S": -7,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "type_change",
+          "EffectType": 1,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 3,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1200,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 3000,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_range",
+          "EffectType": 8,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 0,
+              "IsString": 0,
+              "IsInt": 1
+            },
+            {
+              "StringValue": "",
+              "IntValue": 1,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "0c20b7a3-c728-424f-89d2-2a05536e2260",
+      "Cells": [
+        {
+          "Color": 3,
+          "Hex": {
+            "Q": -2,
+            "R": 3,
+            "S": -1,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 600,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 600,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "11f75d9e-d511-4295-86ca-53a082895c8e",
+      "Cells": [
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 5,
+            "R": -5,
+            "S": 0,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1200,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "35e2b3f9-16db-467b-8bc8-d5184e1ce5a3",
+      "Cells": [
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -1,
+            "R": 7,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -2,
+            "R": 9,
+            "S": -7,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -2,
+            "R": 8,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -2,
+            "R": 7,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -2,
+            "R": 6,
+            "S": -4,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 0,
+            "R": 6,
+            "S": -6,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 0,
+            "R": 7,
+            "S": -7,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 0,
+            "R": 5,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": 0,
+            "R": 4,
+            "S": -4,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -1,
+            "R": 5,
+            "S": -4,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -1,
+            "R": 6,
+            "S": -5,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 1,
+          "Hex": {
+            "Q": -1,
+            "R": 8,
+            "S": -7,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "type_change",
+          "EffectType": 1,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 3000,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1200,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_range",
+          "EffectType": 8,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 0,
+              "IsString": 0,
+              "IsInt": 1
+            },
+            {
+              "StringValue": "",
+              "IntValue": 1,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "89e167ea-f170-44d2-b98b-2bcbcd6594e4",
+      "Cells": [
+        {
+          "Color": 4,
+          "Hex": {
+            "Q": -5,
+            "R": 5,
+            "S": 0,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1200,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "bf2b704b-46f5-4bc5-95d4-b598d65b32c8",
+      "Cells": [
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 0,
+            "R": 0,
+            "S": 0,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 1,
+            "R": -1,
+            "S": 0,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 1,
+            "R": 0,
+            "S": -1,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": 0,
+            "R": 1,
+            "S": -1,
+            "Unused": 0
+          }
+        },
+        {
+          "Color": 5,
+          "Hex": {
+            "Q": -1,
+            "R": 1,
+            "S": 0,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_trait_slots",
+          "EffectType": 7,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 1,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "ca536401-fb7a-435a-a720-28f8217adc43",
+      "Cells": [
+        {
+          "Color": 2,
+          "Hex": {
+            "Q": 3,
+            "R": -2,
+            "S": -1,
+            "Unused": 0
+          }
+        }
+      ],
+      "BonusEffects": [
+        {
+          "Id": "base_power",
+          "EffectType": 3,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 600,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        },
+        {
+          "Id": "base_fortitude",
+          "EffectType": 4,
+          "Parameters": [
+            {
+              "StringValue": "",
+              "IntValue": 600,
+              "IsString": 0,
+              "IsInt": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
