@@ -6,7 +6,9 @@ namespace InFalsusCalc;
 /// <summary>在几何求解前按卡牌定位、范围和技能槽收益生成通用置信度筛选报告。</summary>
 internal static class ConfidenceAnalysis
 {
-    public const string Scope = "confidence-key-v2";
+    public const string Scope = "confidence-key-penalty-v3";
+    /// <summary>正式保留的净惩罚层；三次惩罚会令面板归零。</summary>
+    public static readonly int[] RetainedStrikes = [0, 1, 2];
     private static readonly ConcurrentDictionary<int, ConfidenceRecipe> ConfidenceCache = new();
     private sealed record BenchmarkKey(string Key, bool Passed, double Value, double Score, int Position, int[] Traits);
     private sealed record BenchmarkEncounter(int Encounter, string Name, BenchmarkKey[] Keys);
@@ -20,8 +22,22 @@ internal static class ConfidenceAnalysis
     public static CardTemplate[] SelectedCards(RecipeResult result, Recipe recipe)
     {
         HashSet<string> keys = RetainedKeys(recipe).Select(Key).ToHashSet();
-        return result.Groups.Where(p => keys.Contains(p.Key)).SelectMany(p => p.Value.Best.Values).Distinct()
+        CardTemplate[] cards = result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes)).SelectMany(p => p.Value.Best.Values).Distinct()
             .Where(result.Cards.ContainsKey).Select(id => result.Cards[id]).ToArray();
+        return cards.Where(card => !cards.Any(other => other.Id != card.Id && Dominates(other, card))).ToArray();
+    }
+
+    /// <summary>只删除战斗结构、颜色和材料能力均可安全替代的同配方候选。</summary>
+    private static bool Dominates(CardTemplate candidate, CardTemplate other)
+    {
+        bool sameStructure = candidate.Slots == other.Slots && candidate.Left == other.Left && candidate.Right == other.Right;
+        bool colors = other.Colors.All(candidate.Colors.Contains);
+        bool carriers = Enumerable.Range(0, Math.Max(candidate.Carriers.Length, other.Carriers.Length))
+            .All(i => candidate.Carriers.ElementAtOrDefault(i) >= other.Carriers.ElementAtOrDefault(i));
+        bool noWorse = candidate.Power >= other.Power && candidate.Fortitude >= other.Fortitude;
+        bool strict = candidate.Power > other.Power || candidate.Fortitude > other.Fortitude || candidate.Colors.Length > other.Colors.Length ||
+            candidate.Carriers.Sum() > other.Carriers.Sum();
+        return sameStructure && colors && carriers && noWorse && strict;
     }
 
     /// <summary>按70%底线保留，若不足3种则按置信度补齐；返回顺序即计算优先级。</summary>
@@ -69,7 +85,7 @@ internal static class ConfidenceAnalysis
             saved.Groups["0,0,0"] = merged;
         }
         saved.SelectionScope = Scope;
-        saved.Complete = RetainedKeys(recipe).All(k => new[] { "power", "fortitude", "total" }.All(g => KeyRecipeSolver.Done(saved, Key(k), g)));
+        saved.Complete = false;
         saved.BoundedFinalized = saved.Complete; saved.Updated = DateTimeOffset.UtcNow;
         string path = Path.Combine(Storage.State, "key-recipes", $"{recipe.Id:00}.json");
         string backup = Path.Combine(Storage.Root, ".codex", "trash", "confidence-key-v1", $"{recipe.Id:00}-{catalog.Data.Id}.json");
