@@ -34,6 +34,8 @@ internal sealed class DeckResult
     public string Library { get; init; } = "";
     /// <summary>回想编号。</summary>
     public int Encounter { get; init; }
+    /// <summary>队伍中单张卡允许的最大净惩罚次数。</summary>
+    public int MaxStrikes { get; init; } = -1;
     /// <summary>固定谱面等级。</summary>
     public int Rating { get; init; } = InFalsusCalc.Battle.SearchRating;
     /// <summary>联觉固定开启。</summary>
@@ -46,7 +48,7 @@ internal sealed class DeckResult
     public DeckCardResult[] Cards { get; init; } = [];
     /// <summary>逐判定复算的对局。</summary>
     public required BattleResult Battle { get; init; }
-    /// <summary>同一推荐配队在等级1至20下的完整复算结果。</summary>
+    /// <summary>同一推荐配队在谱面等级1至20下的完整复算结果。</summary>
     public Dictionary<int, BattleResult> RatingBattles { get; init; } = [];
     /// <summary>实际比较的配置数量。</summary>
     public long Evaluated { get; init; }
@@ -61,12 +63,13 @@ internal sealed class DeckResult
 /// <summary>以真实遭遇得分选择通关队伍，失败方案只用于寻找可行起点。</summary>
 internal sealed class DeckSearch
 {
-    /// <summary>惩罚档案、多起点随机骨架和双卡邻域搜索版本。</summary>
-    public const string Policy = "opponent-neighborhood-v4";
+    /// <summary>分罚分上限的多起点随机骨架和双卡邻域搜索版本。</summary>
+    public const string Policy = "opponent-neighborhood-v5";
     private readonly Catalog catalog;
     private readonly CardTemplate[] templates;
     private readonly Encounter encounter;
     private readonly string library;
+    private readonly int maxStrikes;
     private readonly CancellationToken token;
     private readonly int[] allowed;
     private readonly Dictionary<string, int[][]> combinationCache = [];
@@ -83,12 +86,16 @@ internal sealed class DeckSearch
     /// <param name="templates">网页也使用的同一代表库。</param>
     /// <param name="encounter">目标回想。</param>
     /// <param name="library">固定模板库指纹。</param>
+    /// <param name="maxStrikes">队伍中单张卡允许的最大净惩罚次数，范围为0至2。</param>
     /// <param name="token">停止信号。</param>
-    public DeckSearch(Catalog catalog, CardTemplate[] templates, Encounter encounter, string library, CancellationToken token)
+    public DeckSearch(Catalog catalog, CardTemplate[] templates, Encounter encounter, string library, int maxStrikes, CancellationToken token)
     {
-        this.catalog = catalog; this.encounter = encounter; this.library = library; this.token = token;
-        int maxPower = templates.Max(c => c.Power), maxFortitude = templates.Max(c => c.Fortitude), maxTotal = templates.Max(c => c.Total);
-        this.templates = templates.Where(c => c.Slots == 3 && c.Left + c.Right >= 4
+        if (maxStrikes is < 0 or > 2) throw new ArgumentOutOfRangeException(nameof(maxStrikes), "允许罚分应为0至2。");
+        this.catalog = catalog; this.encounter = encounter; this.library = library; this.maxStrikes = maxStrikes; this.token = token;
+        CardTemplate[] eligible = templates.Where(c => c.Strikes <= maxStrikes).ToArray();
+        if (eligible.Select(c => c.BaseId).Distinct().Count() < 5) throw new InvalidDataException($"允许罚分{maxStrikes}的模板不足五种不同名卡。");
+        int maxPower = eligible.Max(c => c.Power), maxFortitude = eligible.Max(c => c.Fortitude), maxTotal = eligible.Max(c => c.Total);
+        this.templates = eligible.Where(c => c.Slots == 3 && c.Left + c.Right >= 4
             || c.Power >= maxPower * .8 || c.Fortitude >= maxFortitude * .8 || c.Total >= maxTotal * .8).ToArray();
         if (this.templates.Select(c => c.BaseId).Distinct().Count() < 5) throw new InvalidDataException("二阶段筛选后不足五种不同名卡。");
         allowed = this.templates.SelectMany(c => c.AvailableTraits).Distinct().Order().ToArray();
@@ -455,9 +462,9 @@ internal sealed class DeckSearch
         if (!battle.Passed) throw new InvalidDataException("保存前复算未满足通关条件。");
         DeckCardResult[] cards = winner.Select(c => new DeckCardResult { Template = c.Template.Id, Color = c.Color, Traits = c.Traits,
             Materials = Craft.Assign(catalog, c.Template, c.Traits) ?? throw new InvalidDataException("技能不能由实际粒子同时提供。") }).ToArray();
-        return new DeckResult { Library = library, Encounter = encounter.Id, Cards = cards, Battle = battle, RatingBattles = ratingBattles,
+        return new DeckResult { Library = library, Encounter = encounter.Id, MaxStrikes = maxStrikes, Cards = cards, Battle = battle, RatingBattles = ratingBattles,
             Evaluated = evaluated,
-            Seconds = timer.Elapsed.TotalSeconds, Method = "惩罚0/1/2候选、已验证基准与随机多起点、技能beam、单卡和前24双卡邻域、完整战斗复算" };
+            Seconds = timer.Elapsed.TotalSeconds, Method = $"单卡允许罚分不超过{maxStrikes}；已验证基准与随机多起点、技能beam、单卡和前24双卡邻域、完整战斗复算" };
     }
 
     /// <summary>最多三个技能的全部装备顺序；不改变技能集合或材料合法性。</summary>

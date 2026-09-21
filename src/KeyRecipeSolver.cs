@@ -83,8 +83,8 @@ internal sealed partial class KeyRecipeSolver
     public string Progress => progress;
     /// <summary>当前目标已经运行的墙钟秒数。</summary>
     public double GoalSeconds => Volatile.Read(ref goalClock)?.Elapsed.TotalSeconds ?? 0;
-    /// <summary>首轮各子步骤共享目标预算；重试没有目标截止时间。</summary>
-    private double SearchBudget => retry ? double.PositiveInfinity : Math.Max(0, slice - GoalSeconds);
+    /// <summary>普通重试可持续证明；公平置信轮次和首轮共享单目标总墙钟预算。</summary>
+    private double SearchBudget => retry && !proveConfidence ? double.PositiveInfinity : Math.Max(0, slice - GoalSeconds);
     /// <summary>当前配方全部已计算key及其三个面板代表。</summary>
     public RecipeResult Result { get; }
 
@@ -109,14 +109,9 @@ internal sealed partial class KeyRecipeSolver
         Result = Load(catalog, recipe) ?? new RecipeResult { Recipe = recipe.Id, Snapshot = catalog.Data.Id, Policy = RecipePolicy(recipe),
             SelectionScope = ConfidenceAnalysis.Scope,
             ExcludedAreas = Enumerable.Range(0, recipe.Areas.Length).Where(i => (excluded & (1u << i)) != 0).ToArray() };
-        if (proveConfidence)
-        {
-            HashSet<string> retained = ConfidenceAnalysis.RetainedKeys(recipe).Select(k => string.Join(',', k)).ToHashSet();
-            foreach (GroupState group in Result.Groups.Values.Where(g => retained.Contains(string.Join(',', g.Key)) && ConfidenceAnalysis.RetainedStrikes.Contains(g.Strikes)))
-                foreach (KeyGoalState goal in group.Goals.Values.Where(g => g.Status == "CONFIDENCE")) goal.Status = "UNKNOWN";
-            Result.Complete = false; Result.BoundedFinalized = false;
-        }
         foreach (uint mask in Result.InfeasibleRegions) solved[(mask, 0)] = null;
+        foreach (var layer in Result.InfeasibleRegionLayers)
+            foreach (uint mask in layer.Value) solved[(mask, layer.Key)] = null;
         foreach (CardTemplate stored in Result.Cards.Values)
         {
             CardTemplate card = Craft.Evaluate(catalog, recipe, stored.Placements);
@@ -142,6 +137,7 @@ internal sealed partial class KeyRecipeSolver
         int[] bitRegion = recipe.Areas.SelectMany((a, i) => a.Cells.Select(_ => i)).ToArray();
         regionMaxCover = new int[recipe.Areas.Length];
         HashSet<string> seen = [];
+        Dictionary<(int Id, int Q, int R), string> placementIdentities = [];
         foreach (Shape shape in catalog.Data.Shapes)
         {
             // 任选一个形状格作为锚点，遍历外框格即可得到全部合法平移。
@@ -156,6 +152,7 @@ internal sealed partial class KeyRecipeSolver
                 int[] ids = occupied.Select(c => cellIndex[c]).Order().ToArray();
                 // 相同占用和奖励覆盖对当前三个面板目标完全等价；保留一种真实材料。
                 string identity = string.Join(',', ids) + "/" + string.Join(',', matches);
+                placementIdentities[(shape.Id, at.Q, at.R)] = identity;
                 if (!seen.Add(identity)) continue;
                 uint regions = 0;
                 foreach (var group in matches.GroupBy(b => bitRegion[b]))
@@ -242,7 +239,13 @@ internal sealed partial class KeyRecipeSolver
                 if (recipe.Areas[i].Cells.Any(c => safeParts[part].Contains(c.Position))) regionSafeParts[i] |= 1UL << part;
         }
         maxSafeMerge = pieces.Where(p => p.Outside).Select(p => Math.Max(0, System.Numerics.BitOperations.PopCount(p.Cells.Aggregate(0UL, (mask, c) => mask | safeContacts[c])) - 1)).DefaultIfEmpty(0).Max();
-        placementIndex = pieces.Select((p, i) => (p, i)).ToDictionary(x => (x.p.Placement.Id, x.p.Placement.Q, x.p.Placement.R), x => x.i);
+        Dictionary<string, int> representativeIndices = pieces.Select((piece, index) => new
+        {
+            Identity = string.Join(',', piece.Cells) + "/" + string.Join(',', piece.Matches),
+            Index = index
+        }).ToDictionary(item => item.Identity, item => item.Index);
+        placementIndex = placementIdentities.Where(pair => representativeIndices.ContainsKey(pair.Value))
+            .ToDictionary(pair => pair.Key, pair => representativeIndices[pair.Value]);
         Console.WriteLine($"[{recipe.Id}] 几何预编译：{pieces.Count}个放置，区域共享={(independent ? "无" : "有")}，{elapsed.Elapsed.TotalSeconds:F3}秒。");
     }
 
@@ -253,6 +256,16 @@ internal sealed partial class KeyRecipeSolver
     public void Run(int[]? requested, string? goal, bool retry)
     {
         this.retry = retry;
+        if (proveConfidence)
+        {
+            string[] targetGoals = goal is null ? ["power", "fortitude", "total"] : [goal];
+            HashSet<string> retained = ConfidenceAnalysis.RetainedKeys(recipe).Select(k => string.Join(',', k)).ToHashSet();
+            foreach (GroupState group in Result.Groups.Values.Where(g => retained.Contains(string.Join(',', g.Key))
+                && ConfidenceAnalysis.RetainedStrikes.Contains(g.Strikes) && (requested is null || g.Key.SequenceEqual(requested))))
+                foreach (KeyGoalState state in group.Goals.Where(p => targetGoals.Contains(p.Key) && p.Value.Status == "CONFIDENCE").Select(p => p.Value))
+                    state.Status = "UNKNOWN";
+            Result.Complete = false;
+        }
         Dictionary<string, List<RegionSet>> baseGroups = [];
         List<RegionSet>?[] indexedGroups = new List<RegionSet>?[100];
         foreach (int[] k in ConfidenceAnalysis.RetainedKeys(recipe))
@@ -308,7 +321,7 @@ internal sealed partial class KeyRecipeSolver
             Strikes = strikes,
             Sets = pair.Value
         })).ToArray();
-        string[] requestedGoals = goal is null ? ["power", "fortitude", "total"] : [goal];
+        string[] requestedGoals = goal is null ? ["total", "power", "fortitude"] : [goal];
         foreach (var entry in groups
             .OrderBy(g => requestedGoals.Any(n => !Done(Result, g.Id, n) && !Attempted(Result, g.Id, n)) ? 0
                 : requestedGoals.Any(n => !Done(Result, g.Id, n)) ? 1 : 2)
@@ -336,11 +349,25 @@ internal sealed partial class KeyRecipeSolver
                 Stopwatch watch = Stopwatch.StartNew(); long before = checks;
                 goalClock = watch; target = $"key={key} p{currentStrikes} {name}"; progress = target + " 区域收益排序";
                 int g = name == "power" ? 0 : name == "fortitude" ? 1 : 2;
-                // 基础数值排序与统一999效能下的单项排序一致；总和按原生取整后的值排序。
-                int? savedUpper = group.Goals.GetValueOrDefault(name)?.UpperBound;
-                RegionSet[] ordered = sets.Where(s => savedUpper is null || Value(s, g, currentStrikes) <= savedUpper.Value).OrderByDescending(s => Value(s, g, currentStrikes)).ThenBy(s => s.Cost).ThenBy(s => s.Mask).ToArray();
-                bool unresolved = false; int upper = 0;
-                runningGoal = new KeyGoalState { Status = "UNKNOWN", SearchPolicy = Result.Policy, UpperBound = ordered.Length == 0 ? 0 : Value(ordered[0], g, currentStrikes) };
+                // 每个目标均按主面板、次面板做字典序搜索；旧最优结论可直接限定在已证主面板层。
+                KeyGoalState? savedState = group.Goals.GetValueOrDefault(name);
+                bool legacyPrimaryOptimal = savedState?.Status == "OPTIMAL" && !savedState.ObjectiveComplete;
+                int? savedUpper = savedState?.UpperBound;
+                int? savedSecondary = savedState?.SecondaryUpperBound;
+                RegionSet[] ordered = sets.Where(s =>
+                    {
+                        if (savedUpper is null) return true;
+                        var value = Objective(s, g, currentStrikes);
+                        if (legacyPrimaryOptimal) return value.Primary == savedUpper.Value;
+                        return value.Primary < savedUpper.Value || value.Primary == savedUpper.Value && (savedSecondary is null || value.Secondary <= savedSecondary.Value);
+                    })
+                    .OrderByDescending(s => Objective(s, g, currentStrikes).Primary)
+                    .ThenByDescending(s => Objective(s, g, currentStrikes).Secondary)
+                    .ThenBy(s => s.Cost).ThenBy(s => s.Mask).ToArray();
+                bool unresolved = false; (int Primary, int Secondary) upper = default;
+                var initialUpper = ordered.Length == 0 ? default : Objective(ordered[0], g, currentStrikes);
+                runningGoal = new KeyGoalState { Status = "UNKNOWN", SearchPolicy = Result.Policy,
+                    UpperBound = initialUpper.Primary, SecondaryUpperBound = initialUpper.Secondary };
                 group.Goals[name] = runningGoal;
                 Save();
                 if (Done(Result, groupId, name)) { runningGoal = null; progress = target + " 已复用证明"; continue; }
@@ -350,16 +377,83 @@ internal sealed partial class KeyRecipeSolver
                     initial = FindLayout(ordered.OrderBy(s => s.Cost).Take(64).ToArray(), .35);
                 if (initial is not null)
                 {
-                    solved[(initial.Active.Aggregate(0u, (mask, i) => mask | (1u << i)), currentStrikes)] = initial;
-                    Result.Cards[initial.Id] = initial; group.Best[name] = initial.Id;
+                    AcceptCandidate(group, name, initial);
                     Save();
                 }
                 if (Done(Result, groupId, name)) { runningGoal = null; progress = target + " 已复用证明"; continue; }
-                foreach (var batch in ordered.GroupBy(s => Value(s, g, currentStrikes)))
+                bool thresholdClosed = false;
+                if (group.Best.TryGetValue(name, out string? incumbentId) && Result.Cards.TryGetValue(incumbentId, out CardTemplate? incumbent))
                 {
-                    if (SearchBudget <= 0) { unresolved = true; upper = runningGoal.UpperBound; break; }
+                    progress = target + " 合并更优收益层";
+                    while (true)
+                    {
+                        RegionSet[] better = ordered.Where(set => BetterThan(set, incumbent, g, currentStrikes)).ToArray();
+                        CardTemplate? known = better.Select(set => solved.GetValueOrDefault((set.Mask, currentStrikes))).FirstOrDefault(card => card is not null);
+                        if (known is not null)
+                        {
+                            AcceptCandidate(group, name, known);
+                            incumbent = Result.Cards[group.Best[name]];
+                            continue;
+                        }
+                        RegionSet[] pending = better.Where(set => !solved.ContainsKey((set.Mask, currentStrikes))).Take(96).ToArray();
+                        if (pending.Length == 0)
+                        {
+                            thresholdClosed = true;
+                            upper = Objective(incumbent, g);
+                            runningGoal.UpperBound = upper.Primary;
+                            runningGoal.SecondaryUpperBound = upper.Secondary;
+                            break;
+                        }
+                        if (SearchBudget <= 0)
+                        {
+                            unresolved = true;
+                            upper = (runningGoal.UpperBound, runningGoal.SecondaryUpperBound ?? 0);
+                            break;
+                        }
+                        var pendingUpper = Objective(pending[0], g, currentStrikes);
+                        runningGoal.UpperBound = pendingUpper.Primary;
+                        runningGoal.SecondaryUpperBound = pendingUpper.Secondary;
+                        var answer = Feasible(pending, tuple);
+                        if (answer.Status == CpSolverStatus.Unknown)
+                        {
+                            unresolved = true;
+                            upper = pendingUpper;
+                            break;
+                        }
+                        if (answer.Card is null)
+                        {
+                            foreach (RegionSet impossible in pending) solved[(impossible.Mask, currentStrikes)] = null;
+                            continue;
+                        }
+                        AcceptCandidate(group, name, answer.Card);
+                        incumbent = Result.Cards[group.Best[name]];
+                    }
+                    if (thresholdClosed && g == 2)
+                    {
+                        int total = incumbent.Total;
+                        ordered = ordered.Where(set => Objective(set, g, currentStrikes).Primary == total).ToArray();
+                    }
+                }
+                int? foundTotal = name == "total"
+                    ? group.Best.TryGetValue("total", out string? totalId) && Result.Cards.TryGetValue(totalId, out CardTemplate? totalCard) ? totalCard.Total : null
+                    : null;
+                if (!unresolved && (!thresholdClosed || g == 2))
+                foreach (var batch in ordered.GroupBy(s => Objective(s, g, currentStrikes)))
+                {
+                    if (foundTotal.HasValue && batch.Key.Primary < foundTotal.Value) break;
+                    if (SearchBudget <= 0)
+                    {
+                        unresolved = true;
+                        upper = (runningGoal.UpperBound, runningGoal.SecondaryUpperBound ?? 0);
+                        break;
+                    }
                     cancellation.ThrowIfCancellationRequested();
-                    if (!unresolved) runningGoal.UpperBound = upper = batch.Key;
+                    if (!unresolved)
+                    {
+                        upper = batch.Key;
+                        runningGoal.UpperBound = upper.Primary;
+                        runningGoal.SecondaryUpperBound = upper.Secondary;
+                    }
                     RegionSet[] alternatives = batch.ToArray();
                     CardTemplate? card = alternatives.Select(s => solved.GetValueOrDefault((s.Mask, currentStrikes))).FirstOrDefault(c => c is not null);
                     if (card is null)
@@ -378,37 +472,28 @@ internal sealed partial class KeyRecipeSolver
                             if (answer.Status == CpSolverStatus.Unknown) { unresolved = true; continue; }
                             card = answer.Card;
                         }
-                        if (card is not null) solved[(card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)), currentStrikes)] = card;
-                        else foreach (RegionSet impossible in alternatives) solved[(impossible.Mask, currentStrikes)] = null;
+                        if (card is null)
+                            foreach (RegionSet impossible in alternatives) solved[(impossible.Mask, currentStrikes)] = null;
                     }
                     if (card is null) continue;
-                    Result.Cards[card.Id] = card; group.Best[name] = card.Id;
-                    if (recipe.Areas.Any(a => a.Cells.Length > 1))
-                    {
-                        int[] indices = card.Placements.Select(p => placementIndex[(p.Id, p.Q, p.R)]).ToArray();
-                        foreach (int region in card.Active)
-                        {
-                            int[] pattern = indices.Where(i => (pieces[i].Regions & (1u << region)) != 0).Order().ToArray();
-                            List<int[]> patterns = Patterns(region);
-                            if (!patterns.Any(p => p.SequenceEqual(pattern))) patterns.Insert(0, pattern);
-                        }
-                    }
-                    break;
+                    AcceptCandidate(group, name, card);
+                    if (name == "total") foundTotal = card.Total;
+                    if (name != "total") break;
                 }
                 string status = unresolved ? group.Best.ContainsKey(name) ? "CONFIDENCE" : "UNKNOWN" : group.Best.ContainsKey(name) ? "OPTIMAL" : "INFEASIBLE";
                 group.Goals[name] = new KeyGoalState { SearchPolicy = Result.Policy, Status = status,
-                    UpperBound = !unresolved && !group.Best.ContainsKey(name) ? 0 : upper, Seconds = watch.Elapsed.TotalSeconds, GeometryQueries = checks - before };
+                    UpperBound = !unresolved && !group.Best.ContainsKey(name) ? 0 : upper.Primary,
+                    SecondaryUpperBound = !unresolved && !group.Best.ContainsKey(name) ? 0 : upper.Secondary,
+                    ObjectiveComplete = !unresolved,
+                    Seconds = watch.Elapsed.TotalSeconds, GeometryQueries = checks - before };
                 runningGoal = null;
                 progress = target + " " + group.Goals[name].Status;
                 string panel = group.Best.TryGetValue(name, out string? id) ? $"基础{Result.Cards[id].BasePower}/{Result.Cards[id].BaseFortitude}" : "无布局";
                 Console.WriteLine($"[{recipe.Id}] key={key} p{currentStrikes} {name} {group.Goals[name].Status} {panel}，{watch.Elapsed.TotalSeconds:F3}秒，几何查询{checks - before}。");
                 Save();
             }
-            group.Complete = group.Goals.Count == 3 && group.Goals.Values.All(c => c.Status != "UNKNOWN");
-            group.Infeasible = group.Complete && group.Best.Count == 0;
         }
-        Result.Complete = Complete(Result, recipe);
-        Result.BoundedFinalized = Result.Complete; Result.SolveSeconds = elapsed.Elapsed.TotalSeconds; Save();
+        Result.Complete = Complete(Result, recipe); Save();
     }
 
     /// <summary>单区域考虑重叠和越界后的粒子数下界；有限时间只采用安全目标界。</summary>
@@ -428,6 +513,7 @@ internal sealed partial class KeyRecipeSolver
         foreach (var group in options.SelectMany((p, i) => p.Cells.Select(c => (c, i))).GroupBy(p => p.c))
         {
             if (group.Count() < 2) continue;
+            model.Add(LinearExpr.Sum(group.Select(p => take[p.i])) <= Craft.MaxStack);
             BoolVar over = model.NewBoolVar($"repeat{group.Key}");
             model.Add(LinearExpr.Sum(group.Select(p => take[p.i])) <= 1).OnlyEnforceIf(over.Not()); repeated.Add(over);
         }
@@ -534,44 +620,115 @@ internal sealed partial class KeyRecipeSolver
         return limit + 1;
     }
 
+    /// <summary>记录求解器找到的合法代表，并把其局部区域拼法加入当前进程缓存。</summary>
+    private void AcceptCandidate(GroupState group, string goal, CardTemplate card)
+    {
+        solved[(card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)), currentStrikes)] = card;
+        RecordCandidate(Result, group, goal, card);
+        if (!recipe.Areas.Any(area => area.Cells.Length > 1)) return;
+        int[] indices = card.Placements.Select(p => placementIndex[(p.Id, p.Q, p.R)]).ToArray();
+        foreach (int region in card.Active)
+        {
+            int[] pattern = indices.Where(i => (pieces[i].Regions & (1u << region)) != 0).Order().ToArray();
+            List<int[]> patterns = Patterns(region);
+            if (!patterns.Any(existing => existing.SequenceEqual(pattern))) patterns.Insert(0, pattern);
+        }
+    }
+
+    /// <summary>判断收益层是否严格优于当前合法代表；总和不以攻击打破并列。</summary>
+    private static bool BetterThan(RegionSet set, CardTemplate incumbent, int goal, int strikes)
+    {
+        var candidate = Objective(set, goal, strikes);
+        var current = Objective(incumbent, goal);
+        return candidate.Primary > current.Primary || goal != 2 && candidate.Primary == current.Primary && candidate.Secondary > current.Secondary;
+    }
+
+    /// <summary>返回合法代表在指定目标下的主、次面板。</summary>
+    private static (int Primary, int Secondary) Objective(CardTemplate card, int goal) => goal switch
+    {
+        0 => (card.Power, card.Fortitude),
+        1 => (card.Fortitude, card.Power),
+        _ => (card.Total, card.Power)
+    };
+
+    /// <summary>规范化一个结构组的字典序单项代表和最大总和的全部面板拆分。</summary>
+    private static void NormalizeBest(RecipeResult result, GroupState group)
+    {
+        CardTemplate[] cards = group.Best.Values.Concat(group.TotalBest).Distinct().Where(result.Cards.ContainsKey).Select(id => result.Cards[id]).ToArray();
+        if (cards.Length == 0) return;
+        foreach (string goal in group.Best.Keys.Where(name => name != "total").ToArray()) group.Best[goal] = Craft.BestForGoal(cards, goal).Id;
+        if (!group.Best.ContainsKey("total")) return;
+        int total = cards.Max(card => card.Total);
+        CardTemplate[] totals = cards.Where(card => card.Total == total).GroupBy(card => (card.Power, card.Fortitude))
+            .Select(panel => Craft.BestForGoal(panel, "total")).OrderByDescending(card => card.Power).ThenByDescending(card => card.Fortitude).ToArray();
+        group.TotalBest = totals.Select(card => card.Id).ToArray();
+        group.Best["total"] = Craft.BestForGoal(totals, "total").Id;
+    }
+
+    /// <summary>使每个目标引用同组全部已知代表中的真实最佳卡。</summary>
+    private static void NormalizeBest(RecipeResult result)
+    {
+        foreach (GroupState group in result.Groups.Values) NormalizeBest(result, group);
+    }
+
+    /// <summary>记录合法布局，并立即更新同组单项目标和总和并列代表。</summary>
+    private static void RecordCandidate(RecipeResult result, GroupState group, string goal, CardTemplate card)
+    {
+        result.Cards[card.Id] = card;
+        if (goal == "total")
+        {
+            if (group.Best.TryGetValue(goal, out string? oldTotal)) group.TotalBest = group.TotalBest.Append(oldTotal).ToArray();
+            group.TotalBest = group.TotalBest.Append(card.Id).Distinct().ToArray();
+            group.Best[goal] = card.Id;
+        }
+        else if (!group.Best.TryGetValue(goal, out string? oldId) || !result.Cards.TryGetValue(oldId, out CardTemplate? old)) group.Best[goal] = card.Id;
+        else group.Best[goal] = Craft.BestForGoal([old, card], goal).Id;
+        NormalizeBest(result, group);
+    }
+
     /// <summary>将已完成和未决状态写入新策略目录，不改旧成果。</summary>
     public void Save()
     {
         if (runningGoal is not null && goalClock is not null) runningGoal.Seconds = goalClock.Elapsed.TotalSeconds;
         ReuseBounds(Result);
+        NormalizeBest(Result);
         Result.InfeasibleRegions = solved.Where(p => p.Key.Strikes == 0 && p.Value is null).Select(p => p.Key.Mask).Order().ToArray();
+        Result.InfeasibleRegionLayers = solved.Where(pair => pair.Value is null).GroupBy(pair => pair.Key.Strikes)
+            .ToDictionary(layer => layer.Key, layer => layer.Select(pair => pair.Key.Mask).Distinct().Order().ToArray());
         Result.Updated = DateTimeOffset.UtcNow;
         string path = Path.Combine(Storage.State, "key-recipes", $"{recipe.Id:00}.json");
         RecipeResult? previous = Storage.Read<RecipeResult>(path);
         if (previous is null || previous.Policy != Result.Policy || previous.Snapshot != catalog.Data.Id)
         { Storage.Write(path, Result); return; }
         previous.InfeasibleRegions = previous.InfeasibleRegions.Union(Result.InfeasibleRegions).Order().ToArray();
+        foreach (var layer in Result.InfeasibleRegionLayers)
+            previous.InfeasibleRegionLayers[layer.Key] = previous.InfeasibleRegionLayers.GetValueOrDefault(layer.Key, []).Union(layer.Value).Order().ToArray();
         foreach (var pair in Result.Cards) previous.Cards[pair.Key] = pair.Value;
         foreach (var pair in Result.Groups)
         {
             if (!previous.Groups.TryGetValue(pair.Key, out GroupState? group)) previous.Groups[pair.Key] = group = new GroupState { Key = pair.Value.Key, Strikes = pair.Value.Strikes };
+            group.TotalBest = group.TotalBest.Concat(pair.Value.TotalBest).Distinct().ToArray();
             foreach (var goal in pair.Value.Goals)
             {
                 KeyGoalState? oldGoal = group.Goals.GetValueOrDefault(goal.Key);
-                if (oldGoal?.Status == "OPTIMAL" && goal.Value.Status != "OPTIMAL" || oldGoal?.Status == "CONFIDENCE" && goal.Value.Status == "UNKNOWN") continue;
+                if (oldGoal?.Status == "OPTIMAL" && oldGoal.ObjectiveComplete && goal.Value.Status != "OPTIMAL"
+                    || oldGoal?.Status == "CONFIDENCE" && goal.Value.Status == "UNKNOWN") continue;
                 group.Goals[goal.Key] = goal.Value;
                 if (pair.Value.Best.TryGetValue(goal.Key, out string? card))
                 {
                     CardTemplate next = previous.Cards[card];
                     CardTemplate? old = group.Best.TryGetValue(goal.Key, out string? oldId) ? previous.Cards.GetValueOrDefault(oldId) : null;
-                    int nextValue = goal.Key == "power" ? next.Power : goal.Key == "fortitude" ? next.Fortitude : next.Total;
-                    int oldValue = old is null ? -1 : goal.Key == "power" ? old.Power : goal.Key == "fortitude" ? old.Fortitude : old.Total;
-                    if (nextValue >= oldValue) group.Best[goal.Key] = card;
+                    if (old is null || goal.Key == "total" && next.Total >= old.Total
+                        || goal.Key != "total" && Craft.BestForGoal([old, next], goal.Key).Id == next.Id)
+                        group.Best[goal.Key] = card;
                 }
                 else if (goal.Value.Status == "INFEASIBLE") group.Best.Remove(goal.Key);
             }
-            group.Complete = group.Goals.Count == 3 && group.Goals.Values.All(g => g.Status != "UNKNOWN");
-            group.Infeasible = group.Complete && group.Best.Count == 0;
         }
-        previous.Updated = Result.Updated; previous.SolveSeconds = Result.SolveSeconds;
+        NormalizeBest(previous);
+        previous.Updated = Result.Updated;
         previous.Complete = Complete(previous, recipe);
-        previous.BoundedFinalized = previous.Complete;
-        HashSet<string> used = previous.Groups.Values.SelectMany(g => g.Best.Values).ToHashSet();
+        HashSet<string> used = previous.Groups.Values.SelectMany(g => g.Best.Values.Concat(g.TotalBest)).ToHashSet();
         previous.Cards = previous.Cards.Where(p => used.Contains(p.Key)).ToDictionary(p => p.Key, p => p.Value);
         Dictionary<string, string> representatives = [];
         foreach (var cards in previous.Cards.Values.GroupBy(c => $"{c.Strikes}:{c.Power}:{c.Fortitude}:" + string.Join(',', c.Active.Order())))
@@ -580,18 +737,20 @@ internal sealed partial class KeyRecipeSolver
             foreach (CardTemplate card in cards) representatives[card.Id] = id;
         }
         foreach (GroupState group in previous.Groups.Values)
+        {
             foreach (string name in group.Best.Keys.ToArray()) group.Best[name] = representatives[group.Best[name]];
+            group.TotalBest = group.TotalBest.Select(id => representatives[id]).Distinct().ToArray();
+        }
         previous.Cards = representatives.Values.Distinct().ToDictionary(id => id, id => previous.Cards[id]);
         Storage.Write(path, previous);
     }
 
-    /// <summary>区域收益按真实效能取整，保证总和目标与最终卡牌一致。</summary>
-    /// <param name="set">区域选择对应的基础数值。</param>
-    /// <param name="goal">0攻击、1防御、2攻防和。</param>
-    /// <param name="strikes">要求的精确净惩罚次数。</param>
-    /// <returns>999效能下该惩罚层的目标面板值。</returns>
-    private static int Value(RegionSet set, int goal, int strikes) => goal == 0 ? Craft.FinalStat(set.Power, strikes) : goal == 1 ? Craft.FinalStat(set.Fortitude, strikes)
-        : Craft.FinalStat(set.Power, strikes) + Craft.FinalStat(set.Fortitude, strikes);
+    /// <summary>返回目标的主、次面板；总和的次值只用于稳定遍历全部并列拆分。</summary>
+    private static (int Primary, int Secondary) Objective(RegionSet set, int goal, int strikes)
+    {
+        int power = Craft.FinalStat(set.Power, strikes), fortitude = Craft.FinalStat(set.Fortitude, strikes);
+        return goal switch { 0 => (power, fortitude), 1 => (fortitude, power), _ => (power + fortitude, power) };
+    }
 
     /// <summary>先用奖励附近的紧域找合法解，只有完整域明确不可行才排除区域集合。</summary>
     /// <param name="sets">同一key与面板值的替代区域集合。</param>
@@ -601,6 +760,7 @@ internal sealed partial class KeyRecipeSolver
     {
         if (SearchBudget <= 0) return (null, CpSolverStatus.Unknown);
         checks++;
+        if (proveConfidence && sets.Length > 24) return Geometry(sets, key, GeometryMode.Full);
         Console.WriteLine($"[{recipe.Id}] 收益层：{sets.Length}组区域，粒子数下界{sets.Min(s => s.Cost)}/{limit}。");
         CardTemplate? seed = recipe.Areas.Any(a => a.Cells.Length > 1) ? FindPatterns(sets, Math.Min(2, SearchBudget)) : null;
         seed ??= FindLayout(sets, Math.Min(2, SearchBudget));
@@ -634,7 +794,9 @@ internal sealed partial class KeyRecipeSolver
         List<int[]> result = []; HashSet<string> seen = [];
         int[] occupied = new int[cells.Length]; List<int> selected = []; int outside = 0, overlaps = 0;
         Stopwatch clock = Stopwatch.StartNew(); int outsideTarget = 0, quota = 0; double deadline = 0;
-        bool Fits(int i) => (!pieces[i].Outside || outside < outsideTarget) && overlaps + pieces[i].Cells.Count(c => occupied[c] == 1) <= Craft.Skills[recipe.Character].Overlap;
+        bool Fits(int i) => (!pieces[i].Outside || outside < outsideTarget)
+            && pieces[i].Cells.All(c => occupied[c] < Craft.MaxStack)
+            && overlaps + pieces[i].Cells.Count(c => occupied[c] == 1) <= Craft.Skills[recipe.Character].Overlap;
         void Search(uint covered, int depth)
         {
             if (clock.Elapsed.TotalSeconds > deadline || result.Count >= quota || SearchBudget <= 0 || cancellation.IsCancellationRequested) return;
@@ -678,6 +840,7 @@ internal sealed partial class KeyRecipeSolver
             foreach (var group in indices.SelectMany((i, j) => pieces[i].Cells.Select(c => (c, j))).GroupBy(p => p.c))
             {
                 if (group.Count() < 2) continue;
+                model.Add(LinearExpr.Sum(group.Select(p => take[p.j])) <= Craft.MaxStack);
                 BoolVar over = model.NewBoolVar($"localOver{group.Key}");
                 model.Add(LinearExpr.Sum(group.Select(p => take[p.j])) <= 1).OnlyEnforceIf(over.Not());
                 repeated.Add(over);
@@ -746,7 +909,9 @@ internal sealed partial class KeyRecipeSolver
                 foreach (int[] pattern in orderedPatterns[region])
                 {
                     int[] added = pattern.Where(i => !selectedSet.Contains(i)).ToArray();
-                    if (selected.Count + added.Length + after > countLimit || outside + added.Count(i => pieces[i].Outside) > maxOutside) continue;
+                    bool stackOk = added.SelectMany(i => pieces[i].Cells).GroupBy(c => c)
+                        .All(cell => occupied[cell.Key] + cell.Count() <= Craft.MaxStack);
+                    if (!stackOk || selected.Count + added.Length + after > countLimit || outside + added.Count(i => pieces[i].Outside) > maxOutside) continue;
                     foreach (int i in added)
                     {
                         if (pieces[i].Outside) outside++;
@@ -806,6 +971,7 @@ internal sealed partial class KeyRecipeSolver
             {
                 Piece p = pieces[index];
                 if (p.Outside && outside >= maxOutside || chosen.Contains(index)) return false;
+                if (p.Cells.Any(c => occupied[c] >= Craft.MaxStack)) return false;
                 if (overlaps + p.Cells.Count(c => occupied[c] == 1) > maxOverlap) return false;
                 foreach (var g in p.Matches.Where(b => covered[b] == 0).GroupBy(b => bitArea[b]))
                     if ((set.Mask & (1u << g.Key)) == 0 && areaCovered[g.Key] + g.Count() == recipe.Areas[g.Key].Cells.Length) return false;
@@ -889,6 +1055,47 @@ internal sealed partial class KeyRecipeSolver
     private (CardTemplate? Card, CpSolverStatus Status) Geometry(RegionSet[] sets, int[] key, GeometryMode mode, double? seconds = null)
     {
         bool compact = mode != GeometryMode.Full, connect = mode != GeometryMode.Cover;
+        if (mode == GeometryMode.Full && proveConfidence && sets.Length > 8)
+        {
+            RegionSet[][] chunks = sets.Chunk(8).ToArray();
+            Console.WriteLine($"[{recipe.Id}] 完整域分块证明：{sets.Length}组→{chunks.Length}块，每块最多8组。");
+            bool unknown = false;
+            foreach (RegionSet[] chunk in chunks)
+            {
+                if (SearchBudget <= 0) return (null, CpSolverStatus.Unknown);
+                var answer = Geometry(chunk, key, mode, seconds);
+                if (answer.Card is not null) return answer;
+                if (answer.Status == CpSolverStatus.Infeasible)
+                {
+                    foreach (RegionSet impossible in chunk) solved[(impossible.Mask, currentStrikes)] = null;
+                }
+                else unknown = true;
+            }
+            return (null, unknown ? CpSolverStatus.Unknown : CpSolverStatus.Infeasible);
+        }
+        if (mode == GeometryMode.Full && proveConfidence && sets.Length > 1)
+        {
+            int choiceCount = PruneChoices(sets).Length;
+            if ((long)sets.Length * choiceCount > 200000)
+            {
+                int middle = sets.Length / 2;
+                RegionSet[][] halves = [sets[..middle], sets[middle..]];
+                Console.WriteLine($"[{recipe.Id}] 完整域成本分块：{sets.Length}组×{choiceCount}放置，递归拆为{halves[0].Length}+{halves[1].Length}组。");
+                bool unknown = false;
+                foreach (RegionSet[] half in halves)
+                {
+                    if (SearchBudget <= 0) return (null, CpSolverStatus.Unknown);
+                    var answer = Geometry(half, key, mode, seconds);
+                    if (answer.Card is not null) return answer;
+                    if (answer.Status == CpSolverStatus.Infeasible)
+                    {
+                        foreach (RegionSet impossible in half) solved[(impossible.Mask, currentStrikes)] = null;
+                    }
+                    else unknown = true;
+                }
+                return (null, unknown ? CpSolverStatus.Unknown : CpSolverStatus.Infeasible);
+            }
+        }
         if (mode == GeometryMode.Full && sets.Length > 1 && Environment.GetEnvironmentVariable("INFALSUS_SPLIT") == "1")
         {
             var ordered = sets.Select(s => (Set: s, Count: PruneChoices([s]).Length)).OrderBy(p => p.Count).ToArray();
@@ -906,7 +1113,9 @@ internal sealed partial class KeyRecipeSolver
         }
         double defaultBudget = retry ? mode switch
         {
-            GeometryMode.Full when proveConfidence => double.PositiveInfinity,
+            GeometryMode.Cover when proveConfidence => Math.Min(2, slice),
+            GeometryMode.Compact when proveConfidence => Math.Min(2, slice),
+            GeometryMode.Full when proveConfidence => slice,
             GeometryMode.Full => 120,
             GeometryMode.Cover => 30,
             _ => slice
@@ -949,9 +1158,10 @@ internal sealed partial class KeyRecipeSolver
             foreach (int b in choices[i].Matches) matches[b].Add(selected[i]);
         }
         BoolVar[] active = recipe.Areas.Select((_, i) => model.NewBoolVar($"area{i}")).ToArray();
+        BoolVar[]? cases = null;
         if (sets.Length is > 1 and <= 32)
         {
-            BoolVar[] cases = sets.Select((_, i) => model.NewBoolVar($"case{i}")).ToArray();
+            cases = sets.Select((_, i) => model.NewBoolVar($"case{i}")).ToArray();
             model.AddExactlyOne(cases);
             for (int r = 0; r < active.Length; r++)
                 model.Add(active[r] == LinearExpr.Sum(cases.Where((_, s) => (sets[s].Mask & (1u << r)) != 0)));
@@ -1039,6 +1249,7 @@ internal sealed partial class KeyRecipeSolver
         for (int c = 0; c < cells.Length; c++)
         {
             if (cover[c].Count < 2) continue;
+            model.Add(LinearExpr.Sum(cover[c]) <= Craft.MaxStack);
             BoolVar over = model.NewBoolVar($"over{c}");
             model.Add(LinearExpr.Sum(cover[c]) <= 1).OnlyEnforceIf(over.Not());
             model.Add(LinearExpr.Sum(cover[c]) >= 2).OnlyEnforceIf(over);
@@ -1073,16 +1284,74 @@ internal sealed partial class KeyRecipeSolver
             ? new Timer(_ => { if (cancellation.IsCancellationRequested) solver.StopSearch(); }, null, 250, 250)
             : new Timer(_ => solver.StopSearch(), null, Math.Max(1, (int)Math.Ceiling(budget * 1000)), Timeout.Infinite);
         Stopwatch watch = Stopwatch.StartNew();
-        while (watch.Elapsed.TotalSeconds < budget)
+        bool linear = mode == GeometryMode.Full && Environment.GetEnvironmentVariable("INFALSUS_LINEAR") == "1";
+        void ConfigureSolver()
         {
             int workers = threads;
             string duration = double.IsPositiveInfinity(budget) ? "" : FormattableString.Invariant($"max_time_in_seconds:{Math.Max(.001, budget - watch.Elapsed.TotalSeconds)} ");
             solver.StringParameters = duration + FormattableString.Invariant($"num_search_workers:{workers} random_seed:1 stop_after_first_solution:true linearization_level:{(connect || retry ? 2 : 0)} cp_model_probing_level:{(retry ? 2 : 0)}")
                 + (connect && workers > 1 ? FormattableString.Invariant($" num_full_subsolvers:{workers - 1} extra_subsolvers:\"max_lp\"") : "")
                 + (bridgeFirst ? " search_branching:PARTIAL_FIXED_SEARCH" : "");
-            bool linear = mode == GeometryMode.Full && Environment.GetEnvironmentVariable("INFALSUS_LINEAR") == "1";
-            string budgetLabel = double.IsPositiveInfinity(budget) ? "无时限" : retry ? "置信度预算" : "首轮/快速检查";
+            string budgetLabel = proveConfidence && mode == GeometryMode.Full ? "置信度公平时间片"
+                : double.IsPositiveInfinity(budget) ? "无时限" : retry ? "置信度预算" : "首轮/快速检查";
             progress = $"{target} {(linear ? "连续流" : connect ? "连接" : "覆盖")}/{(compact ? "紧域" : "全域")} {workers}线程 {budgetLabel}";
+        }
+        CardTemplate? Validate(int[] chosen)
+        {
+            CardTemplate card = Craft.Evaluate(catalog, recipe, chosen.SelectMany(i => choices[i].Layout));
+            HashSet<Hex> rewards = card.Active.SelectMany(i => recipe.Areas[i].Cells.Select(c => c.Position)).ToHashSet();
+            var decoration = Craft.Components(card.Placements.SelectMany(p => p.Cells)).Where(c => !c.Overlaps(rewards)).SelectMany(c => c).ToHashSet();
+            if (decoration.Count > 0)
+            {
+                chosen = chosen.Where(i => !choices[i].Cells.All(c => decoration.Contains(cells[c]))).ToArray();
+                card = Craft.Evaluate(catalog, recipe, chosen.SelectMany(i => choices[i].Layout));
+            }
+            uint actual = card.Active.Aggregate(0u, (mask, i) => mask | (1u << i));
+            if (!sets.Any(s => s.Mask == actual)) throw new InvalidDataException($"区域集合约束不一致：{recipe.Id}/{actual}");
+            if (card.Valid && card.Strikes == currentStrikes) return card;
+            LinearExpr noGood = LinearExpr.Sum(chosen.Select(i => selected[i])) -
+                LinearExpr.Sum(Enumerable.Range(0, selected.Length).Except(chosen).Select(i => selected[i]));
+            model.Add(noGood <= chosen.Length - 1);
+            if (connect && currentStrikes == 0) throw new InvalidDataException($"完整连接模型复核不一致：{recipe.Id}，惩罚{card.Strikes}。");
+            return null;
+        }
+        if (proveConfidence && mode == GeometryMode.Full && cases is not null && !linear)
+        {
+            Console.WriteLine($"[{recipe.Id}] 复用完整模型逐项证明：{cases.Length}个case。");
+            for (int current = 0; current < cases.Length; current++)
+            {
+                model.ClearAssumptions();
+                model.AddAssumption(cases[current]);
+                while (watch.Elapsed.TotalSeconds < budget)
+                {
+                    ConfigureSolver();
+                    cancellation.ThrowIfCancellationRequested();
+                    CpSolverStatus status = solver.Solve(model);
+                    cancellation.ThrowIfCancellationRequested();
+                    if (status == CpSolverStatus.ModelInvalid) throw new InvalidDataException(solver.ResponseStats());
+                    if (status == CpSolverStatus.Infeasible)
+                    {
+                        solved[(sets[current].Mask, currentStrikes)] = null;
+                        break;
+                    }
+                    if (status is not (CpSolverStatus.Optimal or CpSolverStatus.Feasible)) return (null, CpSolverStatus.Unknown);
+                    int[] chosen = Enumerable.Range(0, selected.Length).Where(i => solver.Value(selected[i]) != 0).ToArray();
+                    CardTemplate? card = Validate(chosen);
+                    if (card is not null)
+                    {
+                        if (watch.Elapsed.TotalSeconds > 1) Console.WriteLine($"[{recipe.Id}] 连接/全域复用模型 {choices.Length}放置 可行 {watch.Elapsed.TotalSeconds:F3}秒。");
+                        return (card, status);
+                    }
+                }
+                if (watch.Elapsed.TotalSeconds >= budget) return (null, CpSolverStatus.Unknown);
+            }
+            model.ClearAssumptions();
+            Console.WriteLine($"[{recipe.Id}] 连接/全域复用模型 {choices.Length}放置 Infeasible {watch.Elapsed.TotalSeconds:F3}秒。");
+            return (null, CpSolverStatus.Infeasible);
+        }
+        while (watch.Elapsed.TotalSeconds < budget)
+        {
+            ConfigureSolver();
             cancellation.ThrowIfCancellationRequested();
             int[] chosen;
             CpSolverStatus status;
@@ -1100,26 +1369,12 @@ internal sealed partial class KeyRecipeSolver
                 Console.WriteLine($"[{recipe.Id}] {(connect ? "连接" : "覆盖")}/{(compact ? "紧域" : "全域")} {choices.Length}放置 {status} {watch.Elapsed.TotalSeconds:F3}秒。");
                 return (null, status);
             }
-            CardTemplate card = Craft.Evaluate(catalog, recipe, chosen.SelectMany(i => choices[i].Layout));
-            HashSet<Hex> rewards = card.Active.SelectMany(i => recipe.Areas[i].Cells.Select(c => c.Position)).ToHashSet();
-            var decoration = Craft.Components(card.Placements.SelectMany(p => p.Cells)).Where(c => !c.Overlaps(rewards)).SelectMany(c => c).ToHashSet();
-            if (decoration.Count > 0)
-            {
-                chosen = chosen.Where(i => !choices[i].Cells.All(c => decoration.Contains(cells[c]))).ToArray();
-                card = Craft.Evaluate(catalog, recipe, chosen.SelectMany(i => choices[i].Layout));
-            }
-            uint actual = card.Active.Aggregate(0u, (mask, i) => mask | (1u << i));
-            if (!sets.Any(s => s.Mask == actual)) throw new InvalidDataException($"区域集合约束不一致：{recipe.Id}/{actual}");
-            if (card.Valid && card.Strikes == currentStrikes)
+            CardTemplate? card = Validate(chosen);
+            if (card is not null)
             {
                 if (watch.Elapsed.TotalSeconds > 1) Console.WriteLine($"[{recipe.Id}] {(connect ? "连接" : "覆盖")}/{(compact ? "紧域" : "全域")} {choices.Length}放置 可行 {watch.Elapsed.TotalSeconds:F3}秒。");
                 return (card, status);
             }
-            int[] rejected = chosen;
-            LinearExpr noGood = LinearExpr.Sum(rejected.Select(i => selected[i])) -
-                LinearExpr.Sum(Enumerable.Range(0, selected.Length).Except(rejected).Select(i => selected[i]));
-            model.Add(noGood <= rejected.Length - 1);
-            if (connect && currentStrikes == 0) throw new InvalidDataException($"完整连接模型复核不一致：{recipe.Id}，惩罚{card.Strikes}。");
         }
         return (null, CpSolverStatus.Unknown);
     }

@@ -17,8 +17,6 @@ internal static class Storage
     };
     /// <summary>串行化检查点读写，避免状态读取与Windows文件替换争用句柄。</summary>
     private static readonly object IoGate = new();
-    /// <summary>新策略与旧Python完成状态隔离。</summary>
-    public const string Policy = "csharp-region-structure-v2";
     /// <summary>从构建输出向上定位项目；便携分发则使用可执行文件目录。</summary>
     public static readonly string Root = FindRoot();
     /// <summary>本程序的检查点和运行状态目录。</summary>
@@ -101,25 +99,7 @@ internal static class Storage
     }
 }
 
-/// <summary>当前兼容版本的一份安装文件指纹。</summary>
-internal sealed class AssetFingerprint
-{
-    /// <summary>相对于游戏根目录的路径。</summary>
-    public string Path { get; init; } = "";
-    /// <summary>完整文件的SHA-256。</summary>
-    public string Sha256 { get; init; } = "";
-}
-
-/// <summary>资源快照对应的实际安装文件清单。</summary>
-internal sealed class GameManifest
-{
-    /// <summary>资源快照编号。</summary>
-    public string Snapshot { get; init; } = "";
-    /// <summary>原生文件与四个资产包的哈希。</summary>
-    public AssetFingerprint[] Files { get; init; } = [];
-}
-
-/// <summary>读取已提取的真实资源，并以当前安装文件指纹约束其适用版本。</summary>
+/// <summary>读取已提取的真实资源快照。</summary>
 internal sealed class Catalog
 {
     /// <summary>带类型的游戏数据。</summary>
@@ -130,14 +110,8 @@ internal sealed class Catalog
     public IReadOnlyDictionary<int, Shape> Shapes { get; }
     /// <summary>特性快速查找表。</summary>
     public IReadOnlyDictionary<int, SkillTrait> Traits { get; }
-    /// <summary>当前资源快照保留的兼容属性，不参与运行时校验。</summary>
-    public IReadOnlyDictionary<int, int> TotalBounds { get; } = new Dictionary<int, int>();
-    /// <summary>资源快照不依赖运行时游戏安装目录。</summary>
-    public string GameDirectory { get; } = "";
-
-    /// <summary>加载当前资源快照；计算阶段不读取游戏目录或版本指纹。</summary>
-    /// <param name="gameDirectory">保留兼容签名，不参与运行时计算。</param>
-    public Catalog(string? gameDirectory = null)
+    /// <summary>加载当前资源快照。</summary>
+    public Catalog()
     {
         string path = Path.Combine(Storage.Root, "Data", "catalog.json");
         Data = Storage.Read<GameSnapshot>(path) ?? throw new FileNotFoundException("缺少游戏资源快照。", path);

@@ -1,21 +1,11 @@
 namespace InFalsusCalc;
 
-/// <summary>确定的卡牌结构；零槽统一左右范围为零。</summary>
-/// <param name="Slots">普通特性槽数。</param>
-/// <param name="Left">左范围。</param>
-/// <param name="Right">右范围。</param>
-/// <param name="Palette">同一布局可选颜色的位集合。</param>
-internal readonly record struct Structure(int Slots, int Left, int Right, int Palette)
-{
-    /// <summary>持久化的稳定类别编号。</summary>
-    public string Key => $"{Slots},{Left},{Right},{Palette}";
-    /// <summary>网页使用的四元组。</summary>
-    public int[] Values => [Slots, Left, Right, Palette];
-}
-
 /// <summary>布局的真实规则、区域上界与材料技能合法性。</summary>
 internal static class Craft
 {
+    /// <summary>游戏允许同一棋盘格叠放的粒子上限。</summary>
+    public const int MaxStack = 3;
+
     /// <summary>当前版本可解锁的数量、越界、重叠、断连容忍，按角色编号排列。</summary>
     public static readonly (int Count, int Outside, int Overlap, int Split)[] Skills =
         [(15, 1, 1, 3), (10, 4, 2, 0), (17, 2, 3, 3), (15, 3, 1, 4), (20, 1, 4, 1)];
@@ -92,71 +82,31 @@ internal static class Craft
             occupied.Values.Count(n => n > 1), Math.Max(0, components.Count - 1)];
         int[] penalties = [rawPenalties[0], Math.Max(0, outside - limits.Outside - effects[9]),
             Math.Max(0, rawPenalties[2] - limits.Overlap - effects[10]), Math.Max(0, rawPenalties[3] - limits.Split - effects[11])];
-        bool falsehood = components.Any(c => !c.Overlaps(safe)); int strikes = penalties.Sum();
+        bool falsehood = components.Any(c => !c.Overlaps(safe));
+        bool overstacked = occupied.Values.Any(count => count > MaxStack);
+        int strikes = penalties.Sum();
         if (falsehood) strikes = Math.Max(3, strikes);
         int power = FinalStat(effects[3], strikes), fortitude = FinalStat(effects[4], strikes);
         int slots = Math.Min(3, effects[7]); left = Math.Min(4, left); right = Math.Min(4, right);
-        Structure structure = new(slots, slots > 0 ? left : 0, slots > 0 ? right : 0, colors.Sum(c => 1 << c));
+        int[] group = [slots, slots > 0 ? left : 0, slots > 0 ? right : 0, colors.Sum(c => 1 << c)];
         double innerStructure = slots * (Math.Min(left + right + 1, 5) + 0.5 * Math.Max(left + right - 4, 0));
         double outerStructure = slots * Math.Max(4 - left - right, 0);
-        double heuristicScore = Math.Max(innerStructure * 0.53, outerStructure * 0.28) + (power + fortitude) / 10000d;
         int[] available = slots == 0 ? [] : catalog.Data.Profiles.Where(p => profiles[p.Id] > 0)
             .SelectMany(p => p.Options).SelectMany(p => p.Traits).Distinct().Order().ToArray();
         CardTemplate card = new()
         {
             Recipe = recipe.Id, BaseId = recipe.BaseId, Name = recipe.Name, Power = power, Fortitude = fortitude,
             BasePower = effects[3], BaseFortitude = effects[4], Slots = slots, Left = left, Right = right,
-            InnerStructure = innerStructure, OuterStructure = outerStructure, HeuristicScore = heuristicScore,
+            InnerStructure = innerStructure, OuterStructure = outerStructure,
             Colors = colors.Order().ToArray(), TierCounts = tiers, AvailableTraits = available,
             RetainedPercent = Math.Max(0, (9d - strikes * strikes) / 9) * 100,
             Carriers = profiles.Select(n => Math.Min(3, n)).ToArray(), Placements = selected.ToArray(),
             Active = active.ToArray(), Strikes = strikes, Penalties = penalties, RawPenalties = rawPenalties,
-            Falsehood = falsehood, Valid = power > 0 && fortitude > 0 && !falsehood,
-            Group = structure.Values, FullCoverage = active.Count == recipe.Areas.Length
+            Falsehood = falsehood, Valid = power > 0 && fortitude > 0 && !falsehood && !overstacked,
+            Group = group
         };
         card.Id = Storage.Digest(new object[] { catalog.Data.Id, recipe.Id, selected.Select(p => new[] { p.Id, p.Q, p.R }).ToArray() });
         return card;
-    }
-
-    /// <summary>枚举奖励子集的结构上界，不把这些理论类别误认为均可制作。</summary>
-    /// <param name="recipe">当前配方。</param>
-    /// <returns>每类忽略几何时的基础攻击、防御、总值上界。</returns>
-    public static Dictionary<Structure, int[]> Groups(Recipe recipe)
-    {
-        Dictionary<Structure, int[]> states = new() { [new(0, 0, 0, 1 << recipe.BaseColor)] = [0, 0, 0] };
-        foreach (BonusArea area in recipe.Areas)
-        {
-            int slots = 0, left = 0, right = 0, palette = 0, power = 0, fortitude = 0;
-            foreach (RegionEffect effect in area.Effects)
-            {
-                int value = effect.Arguments[0].Value;
-                switch (effect.Kind)
-                {
-                    case 1: palette |= 1 << value; break;
-                    case 3: power += value; break;
-                    case 4: fortitude += value; break;
-                    case 7: slots += value; break;
-                    case 8: left += value; right += effect.Arguments[1].Value; break;
-                }
-            }
-            foreach (var pair in states.ToArray())
-            {
-                Structure k = pair.Key;
-                Structure next = new(Math.Min(3, k.Slots + slots), Math.Min(4, k.Left + left), Math.Min(4, k.Right + right), k.Palette | palette);
-                int[] candidate = [pair.Value[0] + power, pair.Value[1] + fortitude, pair.Value[2] + power + fortitude];
-                if (states.TryGetValue(next, out int[]? previous))
-                    for (int i = 0; i < 3; i++) candidate[i] = Math.Max(candidate[i], previous[i]);
-                states[next] = candidate;
-            }
-        }
-        Dictionary<Structure, int[]> result = [];
-        foreach (var pair in states)
-        {
-            Structure key = pair.Key.Slots == 0 ? pair.Key with { Left = 0, Right = 0 } : pair.Key;
-            if (!result.TryGetValue(key, out int[]? values)) result[key] = (int[])pair.Value.Clone();
-            else for (int i = 0; i < 3; i++) values[i] = Math.Max(values[i], pair.Value[i]);
-        }
-        return result;
     }
 
     /// <summary>取得三个实际面板目标之一，不把材料数量加入求解目标。</summary>
@@ -165,20 +115,17 @@ internal static class Craft
     /// <returns>该目标的最终值。</returns>
     public static int Panel(CardTemplate card, int goal) => goal switch { 0 => card.Power, 1 => card.Fortitude, _ => card.Total };
 
-    /// <summary>只在已有候选间择优；同面板才比较Ⅲ、Ⅱ、Ⅰ阶用量，不另行搜索材料。</summary>
-    /// <param name="candidate">新候选。</param>
-    /// <param name="previous">已有代表。</param>
-    /// <param name="goal">主要面板目标。</param>
-    /// <returns>新候选是否更适合作为代表。</returns>
-    public static bool Better(CardTemplate candidate, CardTemplate previous, int goal)
+    /// <summary>在同组候选中选择指定面板目标的代表；主目标相同时优先另一项面板。</summary>
+    /// <param name="cards">结构key和惩罚层相同的合法候选。</param>
+    /// <param name="goal">power、fortitude或total。</param>
+    /// <returns>该目标的确定代表。</returns>
+    public static CardTemplate BestForGoal(IEnumerable<CardTemplate> cards, string goal)
     {
-        int comparison = Panel(candidate, goal).CompareTo(Panel(previous, goal));
-        if (comparison != 0) return comparison > 0;
-        comparison = (goal == 0 ? candidate.Fortitude : candidate.Power).CompareTo(goal == 0 ? previous.Fortitude : previous.Power);
-        if (comparison != 0) return comparison > 0;
-        for (int i = 2; i >= 0; i--)
-            if (candidate.TierCounts[i] != previous.TierCounts[i]) return candidate.TierCounts[i] < previous.TierCounts[i];
-        return string.CompareOrdinal(candidate.Id, previous.Id) < 0;
+        int index = goal == "power" ? 0 : goal == "fortitude" ? 1 : 2;
+        return cards.OrderByDescending(card => Panel(card, index))
+            .ThenByDescending(card => goal == "power" ? card.Fortitude : card.Power)
+            .ThenBy(card => card.TierCounts[2]).ThenBy(card => card.TierCounts[1]).ThenBy(card => card.TierCounts[0])
+            .ThenBy(card => card.Id, StringComparer.Ordinal).First();
     }
 
     /// <summary>列出单颗粒子能从同一个真实池提供的待选技能子集。</summary>

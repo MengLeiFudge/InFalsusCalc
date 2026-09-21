@@ -31,7 +31,7 @@ internal sealed class Battle
     /// <param name="catalog">特性与规则资源。</param>
     /// <param name="player">按位置排序的五张玩家卡。</param>
     /// <param name="encounter">敌方固定配置。</param>
-    /// <param name="rating">观察等级1至20；配队搜索省略时固定为10。</param>
+    /// <param name="rating">谱面等级1至20；配队搜索省略时固定为10。</param>
     public Battle(Catalog catalog, BattleCard[] player, Encounter encounter, int rating = SearchRating)
     {
         if (player.Length != 5) throw new ArgumentException("需要五张卡。", nameof(player));

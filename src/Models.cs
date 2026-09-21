@@ -89,6 +89,12 @@ internal sealed class Recipe
     public int BaseId { get; init; }
     /// <summary>角色编号，决定可解锁的拼图容忍。</summary>
     [JsonPropertyName("Character")] public int Character { get; init; }
+    /// <summary>游戏中的配方等级，范围为1至5。</summary>
+    [JsonPropertyName("RecipeTier")] public int Tier { get; init; }
+    /// <summary>游戏资源中的高阶卡面标记，0为普通卡面。</summary>
+    [JsonPropertyName("IsSR")] public int SrFlag { get; init; }
+    /// <summary>是否使用游戏中的高阶卡面样式。</summary>
+    [JsonIgnore] public bool IsSr => SrFlag != 0;
     /// <summary>默认卡牌颜色。</summary>
     [JsonPropertyName("BaseColor")] public int BaseColor { get; init; }
     /// <summary>配方自身的粒子数量上限。</summary>
@@ -169,8 +175,62 @@ internal sealed class SkillTrait
     public string Name { get; init; } = "";
     /// <summary>原生本地化描述。</summary>
     public string Description { get; init; } = "";
+    /// <summary>技能素材阶级；特殊敌方技能为0。</summary>
+    public int Tier { get; init; }
     /// <summary>该技能同时提供的效果。</summary>
     public TraitEffect[] Effects { get; init; } = [];
+}
+
+/// <summary>完整游戏掉落表中的一项带权技能。</summary>
+internal sealed class EncounterLootTrait
+{
+    /// <summary>技能编号。</summary>
+    public int Id { get; init; }
+    /// <summary>该技能在原始技能表中的权重。</summary>
+    public int Weight { get; init; }
+}
+
+/// <summary>完整游戏掉落表中的一项粒子结果。</summary>
+internal sealed class EncounterLootDrop
+{
+    /// <summary>粒子形状编号。</summary>
+    public int Shape { get; init; }
+    /// <summary>该粒子在原始粒子表中的权重。</summary>
+    public int Weight { get; init; }
+    /// <summary>最低效能。</summary>
+    public int MinPotency { get; init; }
+    /// <summary>最高效能。</summary>
+    public int MaxPotency { get; init; }
+    /// <summary>生成粒子时抽取技能的次数。</summary>
+    public int TraitRolls { get; init; }
+}
+
+/// <summary>一个回想的完整游戏掉落表，仅供成果页展示。</summary>
+internal sealed class EncounterLoot
+{
+    /// <summary>回想编号。</summary>
+    public int Id { get; init; }
+    /// <summary>原始掉落表编号。</summary>
+    public int Table { get; init; }
+    /// <summary>粒子表的总权重。</summary>
+    public int TotalWeight { get; init; }
+    /// <summary>技能表的总权重，包含未发布的“无技能”行。</summary>
+    public int TraitTotalWeight { get; init; }
+    /// <summary>技能表中实际技能的带权行。</summary>
+    public EncounterLootTrait[] Traits { get; init; } = [];
+    /// <summary>粒子表中的全部带权行。</summary>
+    public EncounterLootDrop[] Drops { get; init; } = [];
+}
+
+/// <summary>从当前游戏版本提取的完整回想掉落展示快照。</summary>
+internal sealed class EncounterLootSnapshot
+{
+    /// <summary>快照格式版本。</summary>
+    public int Schema { get; init; }
+    /// <summary>对应的游戏资源提交编号。</summary>
+    public string Commit { get; init; } = "";
+    /// <summary>31个自由选曲回想的完整掉落表。</summary>
+    public EncounterLoot[] Encounters { get; init; } = [];
 }
 
 /// <summary>敌我战斗使用的固定卡牌数值。</summary>
@@ -201,6 +261,8 @@ internal sealed class Encounter
     public string Name { get; init; } = "";
     /// <summary>connect或reflection。</summary>
     public string Mode { get; init; } = "";
+    /// <summary>自由选曲列表中的零基顺序，用于划分章节。</summary>
+    public int Order { get; init; }
     /// <summary>敌方按槽位排列的五张卡。</summary>
     public BattleCard[] Cards { get; init; } = [];
     /// <summary>敌方随机NEAR概率，当前支持版本为零。</summary>
@@ -286,8 +348,6 @@ internal sealed class CardTemplate
     public double InnerStructure { get; init; }
     /// <summary>范围外其他卡阶段的槽位收益粗略结构分。</summary>
     public double OuterStructure { get; init; }
-    /// <summary>当前结构和技能方向的简化收益估计。</summary>
-    public double HeuristicScore { get; init; }
     /// <summary>惩罚后的保留百分比。</summary>
     public double RetainedPercent { get; init; }
     /// <summary>内部材料能力数量，仅在最多3个槽的匹配中截断。</summary>
@@ -310,8 +370,6 @@ internal sealed class CardTemplate
     public bool Valid { get; init; }
     /// <summary>槽数、规范化左右范围和颜色位集合。</summary>
     public int[] Group { get; init; } = [];
-    /// <summary>是否激活了全部奖励区域。</summary>
-    public bool FullCoverage { get; init; }
 }
 
 /// <summary>一个已装备技能的粒子与可刷来源。</summary>

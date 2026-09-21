@@ -71,6 +71,7 @@ internal sealed partial class KeyRecipeSolver
         for (int c = 0; c < cover.Length; c++)
         {
             if (cover[c].Count < 2) continue;
+            model.Add(LinearExpr.Sum(cover[c]) <= Craft.MaxStack);
             BoolVar over = model.NewBoolVar($"over{c}");
             model.Add(LinearExpr.Sum(cover[c]) <= 1).OnlyEnforceIf(over.Not()); overlap.Add(over);
         }

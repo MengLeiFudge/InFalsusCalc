@@ -9,39 +9,41 @@ namespace InFalsusCalc;
 internal static class Program
 {
     /// <summary>解析命令，计算结束或中断时返回明确状态。</summary>
-    /// <param name="args">craft、compute、status或stop以及可选参数。</param>
+    /// <param name="args">普通运行参数，或debug、status、stop控制命令。</param>
     /// <returns>完成0、错误1、保存后暂停2。</returns>
     private static int Main(string[] args)
     {
         Console.OutputEncoding = new UTF8Encoding(false);
         try
         {
-            string command = args.Length == 0 ? "compute" : args[0];
-            if (command == "craft")
-            {
-                Options options = Parse(args);
-                if (options.Encounter is not null) throw new ArgumentException("--encounter仅用于compute命令。");
-                return CraftKeys(options);
-            }
-            if (command == "compute")
-            {
-                Options options = Parse(args);
-                if (options.Key is not null || options.Goal is not null) throw new ArgumentException("固定key和面板目标请使用craft命令。");
-                return Compute(options);
-            }
-            if (command == "confidence") { ConfidenceAnalysis.Run(new Catalog()); return 0; }
+            string? command = args.FirstOrDefault();
             if (command == "status")
             {
+                if (args.Length != 1) throw new ArgumentException("status不接受参数。");
                 string path = Path.Combine(Storage.State, "status.json");
                 Console.WriteLine(File.Exists(path) ? File.ReadAllText(path) : "尚未开始计算。"); return 0;
             }
             if (command == "stop")
             {
+                if (args.Length != 1) throw new ArgumentException("stop不接受参数。");
                 Directory.CreateDirectory(Storage.State);
                 File.WriteAllText(Path.Combine(Storage.State, "cancel"), "user-request");
                 Console.WriteLine("已请求停止，程序将在当前求解返回后保存退出。"); return 0;
             }
-            throw new ArgumentException("命令为craft、compute、confidence、status或stop。craft支持--recipe、--key 槽,左,右、--goal power|fortitude|total、--prove-confidence true|false、--slice-seconds、--recipe-seconds、--threads、--seconds。");
+            if (command == "debug")
+            {
+                if (args.Length < 2) throw new ArgumentException("调试命令为debug run或debug confidence。");
+                if (args[1] == "confidence")
+                {
+                    if (args.Length != 2) throw new ArgumentException("debug confidence不接受其他参数。");
+                    ConfidenceAnalysis.Run(new Catalog()); return 0;
+                }
+                if (args[1] == "run") return RunPipeline(Parse(args, 2, true));
+                throw new ArgumentException("调试命令为debug run或debug confidence。");
+            }
+            if (command is not null && !command.StartsWith("--", StringComparison.Ordinal))
+                throw new ArgumentException("直接运行程序即可完整计算；另有status、stop和debug命令。");
+            return RunPipeline(Parse(args, 0, false));
         }
         catch (Exception error)
         {
@@ -51,35 +53,37 @@ internal static class Program
 
     /// <summary>仅提供命令行工程参数；网页没有求解配置界面。</summary>
     /// <param name="args">完整命令行参数。</param>
+    /// <param name="start">第一个参数选项的位置。</param>
+    /// <param name="advanced">是否允许内部定位参数。</param>
     /// <returns>已检查范围的计算参数。</returns>
-    private static Options Parse(string[] args)
+    private static Options Parse(string[] args, int start, bool advanced)
     {
         Options options = new();
-        if (args.FirstOrDefault() == "craft") options.Seconds = 0;
-        for (int i = 1; i < args.Length; i++)
+        for (int i = start; i < args.Length; i++)
         {
-            if (i + 1 >= args.Length) throw new ArgumentException($"参数{args[i]}缺少值。");
-            string name = args[i], value = args[++i];
+            string name = args[i];
+            if (name == "--prove-confidence") { options.ProveConfidence = true; continue; }
+            if (i + 1 >= args.Length) throw new ArgumentException($"参数{name}缺少值。");
+            string value = args[++i];
             switch (name)
             {
-                case "--output": options.Output = Path.GetFullPath(value); break;
                 case "--threads": options.Threads = int.Parse(value); break;
-                case "--recipe-seconds": options.RecipeSeconds = int.Parse(value); break;
                 case "--seconds": options.Seconds = int.Parse(value); break;
-                case "--key": options.Key = value.Split(',').Select(int.Parse).ToArray(); break;
-                case "--goal": options.Goal = value; break;
-                case "--recipe": options.Recipe = int.Parse(value); break;
-                case "--encounter": options.Encounter = int.Parse(value); break;
-                case "--slice-seconds":
-                case "--direction-seconds": options.DirectionSeconds = int.Parse(value); break;
-                case "--search-seed": options.SearchSeed = int.Parse(value); break;
-                case "--prove-confidence": options.ProveConfidence = bool.Parse(value); break;
-                default: throw new ArgumentException($"未知参数{name}。");
+                case "--output" when advanced: options.Output = Path.GetFullPath(value); break;
+                case "--recipe-seconds" when advanced: options.RecipeSeconds = int.Parse(value); break;
+                case "--key" when advanced: options.Key = value.Split(',').Select(int.Parse).ToArray(); break;
+                case "--goal" when advanced: options.Goal = value; break;
+                case "--recipe" when advanced: options.Recipe = int.Parse(value); break;
+                case "--encounter" when advanced: options.Encounter = int.Parse(value); break;
+                case "--slice-seconds" when advanced: options.DirectionSeconds = int.Parse(value); break;
+                default: throw new ArgumentException(advanced
+                    ? $"未知调试参数{name}。"
+                    : $"普通运行仅支持--prove-confidence、--threads和--seconds；{name}请放在debug run后使用。");
             }
         }
         if (options.Threads < 1 || options.Threads > Environment.ProcessorCount) throw new ArgumentException($"线程数应为1～{Environment.ProcessorCount}。");
         if (options.RecipeSeconds < 0 || options.RecipeSeconds > 86400) throw new ArgumentException("单卡预算应为0～86400秒，0表示仅使用总预算。");
-        if (options.Seconds < 0 || options.Seconds > 86400 || options.Seconds == 0 && args.FirstOrDefault() != "craft") throw new ArgumentException("本次预算应为1～86400秒；craft可用0表示无总时限。");
+        if (options.Seconds < 1 || options.Seconds > 86400) throw new ArgumentException("每个普通计算阶段的预算应为1～86400秒；prove-confidence制卡阶段不使用该截止时间。");
         if (options.DirectionSeconds < 1 || options.DirectionSeconds > 3600) throw new ArgumentException("求解时间片应为1～3600秒。");
         if (options.Key is not null && (options.Key.Length != 3 || options.Key[0] < 0 || options.Key[0] > 3 || options.Key.Skip(1).Any(x => x < 0 || x > 4)))
             throw new ArgumentException("--key格式为槽数,左范围,右范围，槽数0～3，范围0～4。");
@@ -87,14 +91,21 @@ internal static class Program
         return options;
     }
 
-    /// <summary>运行新固定key制卡器；输出独立检查点，不覆盖已有网页。</summary>
+    /// <summary>完整执行制卡、配队和网页导出；阶段参数不改变后续阶段是否执行。</summary>
+    private static int RunPipeline(Options options)
+    {
+        int craft = CraftKeys(options);
+        return craft == 0 ? Compute(options) : craft;
+    }
+
+    /// <summary>运行固定key制卡器并保存检查点；成功后由完整管线继续配队。</summary>
     /// <param name="options">可选配方、key、目标和搜索预算。</param>
     /// <returns>全部目标完成为0，存在未决为2。</returns>
     private static int CraftKeys(Options options)
     {
         using FileStream lease = Storage.AcquireLock();
         using CancellationTokenSource cancel = new();
-        if (options.Seconds > 0) cancel.CancelAfter(TimeSpan.FromSeconds(options.Seconds));
+        if (!options.ProveConfidence) cancel.CancelAfter(TimeSpan.FromSeconds(options.Seconds));
         string stopFile = Path.Combine(Storage.State, "cancel");
         if (File.Exists(stopFile)) File.Move(stopFile, stopFile + ".previous", true);
         using Timer watcher = new(_ => { if (File.Exists(stopFile)) cancel.Cancel(); }, null, 250, 250);
@@ -110,6 +121,7 @@ internal static class Program
             {
                 KeyRecipeSolver.MigrateExclusions(catalog, recipe);
                 ConfidenceAnalysis.Migrate(catalog, recipe);
+                KeyRecipeSolver.MigrateStackLimit(catalog, recipe);
                 KeyRecipeSolver.RestoreBounds(catalog, recipe);
             }
             object statusGate = new();
@@ -178,11 +190,18 @@ internal static class Program
                 try { Publish(); }
                 catch (Exception ex) { Console.WriteLine($"状态保存失败：{ex.Message}"); cancel.Cancel(); }
             }, null, 5000, 5000);
-            Console.WriteLine($"并行续算：总线程预算{options.Threads}；先全局首轮，再无时限重试；每5秒输出状态。");
+            Console.WriteLine(options.ProveConfidence
+                ? $"置信度公平续算：总线程预算{options.Threads}；每个目标一个{options.DirectionSeconds:0.###}秒完整模型时间片；每5秒输出状态。"
+                : $"并行续算：总线程预算{options.Threads}；先全局首轮，再无时限重试；每5秒输出状态。");
             Publish();
-            foreach (bool retry in new[] { false, true })
+            int fairRound = 0;
+            do
             {
-                phase = retry ? "无时限重试" : "未尝试目标首轮";
+                fairRound++;
+                bool[] passes = options.ProveConfidence ? [true] : [false, true];
+                foreach (bool retry in passes)
+                {
+                    phase = retry ? options.ProveConfidence ? $"置信度公平轮次{fairRound}" : "无时限重试" : "未尝试目标首轮";
                 Recipe[] work = recipes.Where(r => Needed(r, retry)).ToArray();
                 if (retry)
                     work = work.Select(r => (Recipe: r, Saved: KeyRecipeSolver.Load(catalog, r)))
@@ -222,9 +241,12 @@ internal static class Program
                     }
                 });
                 Publish();
-                if (!retry && recipes.Any(r => Needed(r, false)))
-                { Console.WriteLine("首轮预算内仍有未尝试目标，已保存；本轮不提前进入重试。"); return 2; }
-            }
+                    if (!retry && recipes.Any(r => Needed(r, false)))
+                    { Console.WriteLine("首轮预算内仍有未尝试目标，已保存；本轮不提前进入重试。"); return 2; }
+                }
+                if (!options.ProveConfidence || !errors.IsEmpty || !recipes.Any(recipe => Needed(recipe, true))) break;
+                Console.WriteLine($"置信度公平轮次{fairRound}完成；保存后继续下一轮，直到全部闭合或收到停止请求。");
+            } while (!cancel.IsCancellationRequested);
             phase = "本轮结束"; Publish();
             return errors.IsEmpty && recipes.All(r => !Needed(r, false) && !Needed(r, true)) ? 0 : 2;
         }
@@ -245,7 +267,7 @@ internal static class Program
         Console.CancelKeyPress += handler;
         using Timer watcher = new(_ => { if (File.Exists(cancel)) cancellation.Cancel(); }, null, 250, 250);
         Stopwatch elapsed = Stopwatch.StartNew(); DateTimeOffset started = DateTimeOffset.UtcNow;
-        List<RecipeResult> results = []; ConcurrentDictionary<int, DeckResult> decks = [];
+        List<RecipeResult> results = []; ConcurrentDictionary<(int Encounter, int MaxStrikes), DeckResult> decks = [];
         string stage = "读取并核验游戏资源"; object statusGate = new(); string? library = null;
         // 在一个锁中保存阶段和进度，避免并行回想覆盖状态文件。
         void SaveStatus()
@@ -257,7 +279,7 @@ internal static class Program
                     policy = KeyRecipeSolver.Policy, selection_scope = ConfidenceAnalysis.Scope, pid = Environment.ProcessId, started, updated = DateTimeOffset.UtcNow,
                     elapsed_seconds = elapsed.Elapsed.TotalSeconds, deadline_seconds = options.Seconds, threads = options.Threads,
                     stage, recipes = results.Count, completed_recipes = results.Count(r => r.Complete),
-                    completed_encounters = decks.Count,
+                    completed_encounters = decks.Keys.Select(k => k.Encounter).Distinct().Count(), completed_decks = decks.Count,
                     library, output = options.Output
                 });
             }
@@ -267,7 +289,7 @@ internal static class Program
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.BelowNormal;
             SaveStatus(); Console.WriteLine($"C#计算已启动，使用{options.Threads}个求解线程；Ctrl+C可保存后停止。");
             Catalog catalog = new();
-            Recipe[] selectedRecipes = (options.Recipe is null ? catalog.Data.Recipes : catalog.Data.Recipes.Where(r => r.Id == options.Recipe)).ToArray();
+            Recipe[] selectedRecipes = catalog.Data.Recipes;
             stage = "读取置信key配方库"; SaveStatus();
             foreach (Recipe recipe in selectedRecipes)
             {
@@ -277,66 +299,77 @@ internal static class Program
                 if (!result.Complete) throw new InvalidDataException($"配方{recipe.Id}的置信key尚未完成。");
                 results.Add(result);
             }
-            if (options.Recipe is not null)
-            {
-                stage = "completed"; SaveStatus();
-                Console.WriteLine($"配方{options.Recipe}置信key成果完整。候选={ConfidenceAnalysis.SelectedCards(results[0], selectedRecipes[0]).Length}"); return 0;
-            }
             CardTemplate[] templates = results.Zip(selectedRecipes).SelectMany(p => ConfidenceAnalysis.SelectedCards(p.First, p.Second)).DistinctBy(c => c.Id).OrderBy(c => c.Id).ToArray();
             if (templates.Select(c => c.BaseId).Distinct().Count() < 5) throw new InvalidDataException("结果不足五种不同名卡。");
-            Dictionary<int, DeckResult> incumbents = LoadIncumbents(); Dictionary<string, CardTemplate> byTemplate = templates.ToDictionary(c => c.Id);
+            Dictionary<(int Encounter, int MaxStrikes), DeckResult> incumbents = LoadIncumbents(); Dictionary<string, CardTemplate> byTemplate = templates.ToDictionary(c => c.Id);
             library = Storage.Digest(new object[] { KeyRecipeSolver.Policy, ConfidenceAnalysis.Scope, DeckSearch.Policy, catalog.Data.Id, templates });
             stage = "通关约束下的遭遇得分搜索"; SaveStatus();
             string directory = Path.Combine(Storage.State, "decks", library); ConcurrentBag<string> missing = [];
-            Encounter[] selectedEncounters = catalog.Data.Encounters.Where(e => options.Encounter is null || e.Id == options.Encounter).ToArray();
-            if (selectedEncounters.Length == 0) throw new ArgumentException("回想编号不存在。");
+            Encounter[] selectedEncounters = catalog.Data.Encounters;
+            if (selectedEncounters.Length == 0) throw new InvalidDataException("资源中没有回想。");
+            if (options.Encounter is int requestedEncounter && !selectedEncounters.Any(e => e.Id == requestedEncounter))
+                throw new ArgumentException("回想编号不存在。");
             Parallel.ForEach(selectedEncounters, new ParallelOptions { MaxDegreeOfParallelism = options.Threads, CancellationToken = cancellation.Token }, encounter =>
             {
-                string file = Path.Combine(directory, $"{encounter.Id:000}.json");
-                DeckResult? cached = Storage.Read<DeckResult>(file);
-                if (cached is not null && cached.Library == library && cached.Encounter == encounter.Id && cached.Rating == Battle.SearchRating &&
-                    cached.Battle.Passed && cached.RatingBattles.Count == 20)
+                DeckResult? lowerResult = null;
+                foreach (int maxStrikes in ConfidenceAnalysis.RetainedStrikes)
                 {
-                    decks[encounter.Id] = cached;
-                    Console.WriteLine($"{encounter.Name}：复用已完成配队，遭遇分{cached.Battle.Score:N0}。");
-                    SaveStatus(); return;
+                    cancellation.Token.ThrowIfCancellationRequested();
+                    string file = Path.Combine(directory, $"{encounter.Id:000}-p{maxStrikes}.json");
+                    DeckResult? cached = Storage.Read<DeckResult>(file);
+                    bool cacheValid = cached is not null && cached.Library == library && cached.Encounter == encounter.Id && cached.MaxStrikes == maxStrikes
+                        && cached.Rating == Battle.SearchRating && cached.Battle.Passed && cached.RatingBattles.Count == 20
+                        && cached.Cards.All(c => byTemplate.TryGetValue(c.Template, out CardTemplate? card) && card.Strikes <= maxStrikes);
+                    bool CachedBeatsLower() => lowerResult is null || cached!.Battle.Score > lowerResult.Battle.Score
+                        || cached.Battle.Score == lowerResult.Battle.Score && cached.Battle.RawScore >= lowerResult.Battle.RawScore;
+                    if (cacheValid && CachedBeatsLower() && options.Encounter != encounter.Id)
+                    {
+                        decks[(encounter.Id, maxStrikes)] = cached!; lowerResult = cached;
+                        Console.WriteLine($"{encounter.Name}（允许罚分{maxStrikes}）：复用已完成配队，遭遇分{cached!.Battle.Score:N0}。");
+                        SaveStatus(); continue;
+                    }
+                    DeckResult? incumbent = incumbents.GetValueOrDefault((encounter.Id, maxStrikes))
+                        ?? incumbents.GetValueOrDefault((encounter.Id, -1));
+                    DeckChoice[]? Team(DeckResult? source) => source is not null
+                        && source.Cards.All(c => byTemplate.TryGetValue(c.Template, out CardTemplate? card) && card.Strikes <= maxStrikes)
+                        ? source.Cards.Select(c => new DeckChoice(byTemplate[c.Template], c.Color, c.Traits)).ToArray() : null;
+                    DeckResult[] baselines = new DeckResult?[] { lowerResult, cacheValid ? cached : null, incumbent }
+                        .Where(x => Team(x) is not null).Select(x => x!).Distinct().ToArray();
+                    DeckChoice[][] seeds = baselines.Select(Team).Select(x => x!).ToArray();
+                    DeckResult? result = new DeckSearch(catalog, templates, encounter, library, maxStrikes, cancellation.Token).Run(seeds);
+                    foreach (DeckResult baseline in baselines)
+                    {
+                        DeckChoice[] baselineTeam = Team(baseline)!;
+                        BattleCard[] oldCards = baselineTeam.Select(c => c.ToBattleCard()).ToArray();
+                        Dictionary<int, BattleResult> oldRatings = Enumerable.Range(1, 20)
+                            .ToDictionary(rating => rating, rating => new Battle(catalog, oldCards, encounter, rating).Run(true, true));
+                        BattleResult oldBattle = oldRatings[Battle.SearchRating];
+                        if (oldBattle.Passed && (result is null || oldBattle.Score > result.Battle.Score
+                            || oldBattle.Score == result.Battle.Score && oldBattle.RawScore > result.Battle.RawScore))
+                            result = new DeckResult { Library = library, Encounter = encounter.Id, MaxStrikes = maxStrikes, Cards = baseline.Cards,
+                                Battle = oldBattle, RatingBattles = oldRatings, Evaluated = result?.Evaluated ?? 1, Seconds = result?.Seconds ?? 0,
+                                Method = $"允许罚分{maxStrikes}保留已有更高分配队；{DeckSearch.Policy}未超过基准" };
+                    }
+                    if (result is null)
+                    {
+                        missing.Add($"{encounter.Name}（允许罚分{maxStrikes}）");
+                        Console.WriteLine($"{encounter.Name}（允许罚分{maxStrikes}）：当前搜索尚未找到通关配置。");
+                    }
+                    else
+                    {
+                        Storage.Write(file, result); decks[(encounter.Id, maxStrikes)] = result; lowerResult = result;
+                        Console.WriteLine($"{encounter.Name}（允许罚分{maxStrikes}）：通关，遭遇分{result.Battle.Score:N0}，比较{result.Evaluated}组，耗时{result.Seconds:F2}秒。");
+                    }
+                    SaveStatus();
                 }
-                DeckChoice[]? incumbentTeam = null;
-                if (incumbents.TryGetValue(encounter.Id, out DeckResult? incumbent) && incumbent.Cards.All(c => byTemplate.ContainsKey(c.Template)))
-                    incumbentTeam = incumbent.Cards.Select(c => new DeckChoice(byTemplate[c.Template], c.Color, c.Traits)).ToArray();
-                DeckResult? result = new DeckSearch(catalog, templates, encounter, library, cancellation.Token).Run(incumbentTeam is null ? null : [incumbentTeam]);
-                if (incumbentTeam is not null)
-                {
-                    BattleCard[] oldCards = incumbentTeam.Select(c => c.ToBattleCard()).ToArray();
-                    Dictionary<int, BattleResult> oldRatings = Enumerable.Range(1, 20)
-                        .ToDictionary(rating => rating, rating => new Battle(catalog, oldCards, encounter, rating).Run(true, true));
-                    BattleResult oldBattle = oldRatings[Battle.SearchRating];
-                    if (oldBattle.Passed && (result is null || oldBattle.Score > result.Battle.Score
-                        || oldBattle.Score == result.Battle.Score && oldBattle.RawScore > result.Battle.RawScore))
-                        result = new DeckResult { Library = library, Encounter = encounter.Id, Cards = incumbent!.Cards, Battle = oldBattle,
-                            RatingBattles = oldRatings,
-                            Evaluated = result?.Evaluated ?? 1, Seconds = result?.Seconds ?? 0, Method = $"保留旧配队；{DeckSearch.Policy}未超过incumbent" };
-                }
-                if (result is null) { missing.Add(encounter.Name); Console.WriteLine($"{encounter.Name}：当前搜索尚未找到通关配置。"); }
-                else
-                {
-                    Storage.Write(file, result); decks[encounter.Id] = result;
-                    Console.WriteLine($"{encounter.Name}：通关，遭遇分{result.Battle.Score:N0}，比较{result.Evaluated}组，耗时{result.Seconds:F2}秒。");
-                }
-                SaveStatus();
             });
-            if (options.Encounter is not null)
-            {
-                stage = missing.IsEmpty ? "completed" : "指定回想未找到通关配置"; SaveStatus();
-                return missing.IsEmpty ? 0 : 2;
-            }
             if (!missing.IsEmpty)
             {
                 stage = "仍有回想未找到通关配置，已保留其余成果"; SaveStatus();
                 Console.WriteLine(string.Join("、", missing)); return 2;
             }
             cancellation.Token.ThrowIfCancellationRequested(); stage = "生成独立成果网页"; SaveStatus();
-            Reporting.Export(catalog, results.ToArray(), decks.Values.OrderBy(d => d.Encounter).ToArray(), library, options.Output);
+            Reporting.Export(catalog, results.ToArray(), decks.Values.OrderBy(d => d.Encounter).ThenBy(d => d.MaxStrikes).ToArray(), library, options.Output);
             stage = "completed"; SaveStatus(); Console.WriteLine($"全部成果已生成：{options.Output}"); return 0;
         }
         catch (OperationCanceledException)
@@ -351,14 +384,29 @@ internal static class Program
     }
 
     /// <summary>读取当前发布报告中的旧配队，只作新策略起点和不降级回退。</summary>
-    private static Dictionary<int, DeckResult> LoadIncumbents()
+    private static Dictionary<(int Encounter, int MaxStrikes), DeckResult> LoadIncumbents()
     {
         string path = Path.Combine(Storage.State, "report.json");
         if (!File.Exists(path)) return [];
         using JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(path));
         if (!document.RootElement.TryGetProperty("encounters", out JsonElement encounters)) return [];
-        return encounters.EnumerateObject().Select(p => p.Value.Deserialize<DeckResult>(Storage.Json))
-            .Where(x => x is not null).ToDictionary(x => x!.Encounter, x => x!);
+        List<DeckResult> results = [];
+        foreach (JsonProperty encounter in encounters.EnumerateObject())
+        {
+            if (encounter.Value.TryGetProperty("cards", out _))
+            {
+                DeckResult? result = encounter.Value.Deserialize<DeckResult>(Storage.Json);
+                if (result is not null) results.Add(result);
+            }
+            else
+                foreach (JsonProperty tier in encounter.Value.EnumerateObject())
+                {
+                    DeckResult? result = tier.Value.Deserialize<DeckResult>(Storage.Json);
+                    if (result is not null) results.Add(result);
+                }
+        }
+        return results.GroupBy(result => (result.Encounter, result.MaxStrikes))
+            .ToDictionary(group => group.Key, group => group.MaxBy(result => result.Battle.Score)!);
     }
 
     /// <summary>Windows原生入口的工程参数，战斗等级等条件不可调整。</summary>
@@ -378,9 +426,7 @@ internal static class Program
         public string? Goal { get; set; }
         /// <summary>每个内外方向的求解时间片。</summary>
         public int DirectionSeconds { get; set; } = 23;
-        /// <summary>单卡重试时叠加到CP搜索种子的偏移。</summary>
-        public int SearchSeed { get; set; }
-        /// <summary>首轮单卡预算秒数，0表示不限；重试阶段不使用此上限。</summary>
+        /// <summary>单卡首轮总预算，0表示仅使用阶段总预算。</summary>
         public int RecipeSeconds { get; set; }
         /// <summary>不限时继续证明CONFIDENCE上界。</summary>
         public bool ProveConfidence { get; set; }

@@ -34,6 +34,50 @@ internal sealed partial class KeyRecipeSolver
         return mask == 0 ? Policy : $"{Policy}/excluded-v1-{mask:x}";
     }
 
+    /// <summary>迁移遗漏“同格最多三粒子”硬限制的检查点，仅重开直接受影响的目标。</summary>
+    /// <param name="catalog">当前资源快照。</param>
+    /// <param name="recipe">待迁移配方。</param>
+    public static void MigrateStackLimit(Catalog catalog, Recipe recipe)
+    {
+        RecipeResult? saved = Load(catalog, recipe);
+        if (saved is null) return;
+        HashSet<string> invalid = saved.Cards.Values.Where(card => card.Placements.SelectMany(p => p.Cells)
+            .GroupBy(cell => cell).Any(stack => stack.Count() > Craft.MaxStack)).Select(card => card.Id).ToHashSet();
+        if (invalid.Count == 0) return;
+        string path = Path.Combine(Storage.State, "key-recipes", $"{recipe.Id:00}.json");
+        string backup = Path.Combine(Storage.Root, ".codex", "trash", "stack-limit-v1", $"{recipe.Id:00}-{catalog.Data.Id}.json");
+        if (!File.Exists(backup)) Storage.Write(backup, saved);
+        int reopened = 0;
+        foreach (GroupState group in saved.Groups.Values)
+        {
+            HashSet<string> affected = group.Best.Where(pair => invalid.Contains(pair.Value)).Select(pair => pair.Key).ToHashSet();
+            if (group.TotalBest.Any(invalid.Contains)) affected.Add("total");
+            group.TotalBest = group.TotalBest.Where(id => !invalid.Contains(id)).ToArray();
+            foreach (string goal in affected)
+            {
+                CardTemplate[] remaining = group.Best.Values.Concat(group.TotalBest).Where(id => !invalid.Contains(id) && saved.Cards.ContainsKey(id))
+                    .Distinct().Select(id => saved.Cards[id]).ToArray();
+                if (remaining.Length == 0) group.Best.Remove(goal);
+                else group.Best[goal] = Craft.BestForGoal(remaining, goal).Id;
+                if (group.Goals.TryGetValue(goal, out KeyGoalState? state))
+                {
+                    state.Status = "UNKNOWN";
+                    state.SearchPolicy = "stack-limit-v1";
+                    state.ObjectiveComplete = false;
+                }
+                reopened++;
+            }
+        }
+        saved.Cards = saved.Cards.Where(pair => !invalid.Contains(pair.Key)).ToDictionary(pair => pair.Key, pair => pair.Value);
+        NormalizeBest(saved);
+        HashSet<string> used = saved.Groups.Values.SelectMany(group => group.Best.Values.Concat(group.TotalBest)).ToHashSet();
+        saved.Cards = saved.Cards.Where(pair => used.Contains(pair.Key)).ToDictionary(pair => pair.Key, pair => pair.Value);
+        saved.Complete = false;
+        saved.Updated = DateTimeOffset.UtcNow;
+        Storage.Write(path, saved);
+        Console.WriteLine($"[{recipe.Id}] 移除{invalid.Count}个超过同格{Craft.MaxStack}粒子的旧代表，重新打开{reopened}个目标。");
+    }
+
     /// <summary>启动并行计算前迁移旧范围；保留仍成立的证明，原检查点先备份。</summary>
     /// <param name="catalog">用于判断旧结果资源兼容性的快照。</param>
     /// <param name="recipe">需要检查排除范围的配方。</param>
@@ -55,14 +99,13 @@ internal sealed partial class KeyRecipeSolver
         {
             foreach (string goal in group.Best.Keys.ToArray())
                 if (!saved.Cards.ContainsKey(group.Best[goal])) group.Best.Remove(goal);
+            group.TotalBest = group.TotalBest.Where(saved.Cards.ContainsKey).ToArray();
             foreach (var pair in group.Goals)
                 if (pair.Value.Status == "OPTIMAL" && !group.Best.ContainsKey(pair.Key))
                 { pair.Value.Status = "UNKNOWN"; reopened++; }
-            group.Complete = new[] { "power", "fortitude", "total" }.All(g => Done(saved, GroupKey(string.Join(',', group.Key), group.Strikes), g));
-            group.Infeasible = group.Complete && group.Best.Count == 0;
         }
         saved.Complete = false;
-        saved.BoundedFinalized = saved.Complete; saved.Updated = DateTimeOffset.UtcNow;
+        saved.Updated = DateTimeOffset.UtcNow;
         Storage.Write(path, saved);
         Console.WriteLine($"[{recipe.Id}] 排除区域{string.Join(',', saved.ExcludedAreas)}；保留兼容证明，重新开放{reopened}个受影响目标。");
     }

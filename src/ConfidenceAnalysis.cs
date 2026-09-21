@@ -22,22 +22,19 @@ internal static class ConfidenceAnalysis
     public static CardTemplate[] SelectedCards(RecipeResult result, Recipe recipe)
     {
         HashSet<string> keys = RetainedKeys(recipe).Select(Key).ToHashSet();
-        CardTemplate[] cards = result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes)).SelectMany(p => p.Value.Best.Values).Distinct()
+        CardTemplate[] cards = result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes))
+            .SelectMany(p => p.Value.Best.Values.Concat(p.Value.TotalBest)).Distinct()
             .Where(result.Cards.ContainsKey).Select(id => result.Cards[id]).ToArray();
         return cards.Where(card => !cards.Any(other => other.Id != card.Id && Dominates(other, card))).ToArray();
     }
 
-    /// <summary>只删除战斗结构、颜色和材料能力均可安全替代的同配方候选。</summary>
+    /// <summary>同一卡同结构只保留最终攻防未被支配的候选。</summary>
     private static bool Dominates(CardTemplate candidate, CardTemplate other)
     {
         bool sameStructure = candidate.Slots == other.Slots && candidate.Left == other.Left && candidate.Right == other.Right;
-        bool colors = other.Colors.All(candidate.Colors.Contains);
-        bool carriers = Enumerable.Range(0, Math.Max(candidate.Carriers.Length, other.Carriers.Length))
-            .All(i => candidate.Carriers.ElementAtOrDefault(i) >= other.Carriers.ElementAtOrDefault(i));
         bool noWorse = candidate.Power >= other.Power && candidate.Fortitude >= other.Fortitude;
-        bool strict = candidate.Power > other.Power || candidate.Fortitude > other.Fortitude || candidate.Colors.Length > other.Colors.Length ||
-            candidate.Carriers.Sum() > other.Carriers.Sum();
-        return sameStructure && colors && carriers && noWorse && strict;
+        bool strict = candidate.Power > other.Power || candidate.Fortitude > other.Fortitude;
+        return sameStructure && noWorse && strict;
     }
 
     /// <summary>按70%底线保留，若不足3种则按置信度补齐；返回顺序即计算优先级。</summary>
@@ -78,15 +75,19 @@ internal static class ConfidenceAnalysis
                     .Where(c => c.Valid && c.Strikes == 0).OrderByDescending(c => Craft.Panel(c, index)).ThenBy(c => c.Id).FirstOrDefault();
                 string status = best is not null && Craft.Panel(best, index) == upper ? "OPTIMAL" : states.Length == zero.Length && states.All(s => s.Status == "INFEASIBLE") ? "INFEASIBLE" : "UNKNOWN";
                 merged.Goals[goal] = new KeyGoalState { Status = status, SearchPolicy = saved.Policy, UpperBound = upper, Seconds = states.Sum(s => s.Seconds), GeometryQueries = states.Sum(s => s.GeometryQueries) };
-                if (best is not null) { saved.Cards[best.Id] = best; merged.Best[goal] = best.Id; }
+                if (best is not null)
+                {
+                    saved.Cards[best.Id] = best;
+                    merged.Best[goal] = best.Id;
+                    if (goal == "total") merged.TotalBest = zero.SelectMany(g => g.TotalBest.Append(best.Id)).Distinct().ToArray();
+                }
             }
-            merged.Complete = merged.Goals.Values.All(g => g.Status != "UNKNOWN"); merged.Infeasible = merged.Complete && merged.Best.Count == 0;
             foreach (string key in saved.Groups.Where(p => p.Value.Key.Length == 3 && p.Value.Key[0] == 0).Select(p => p.Key).ToArray()) saved.Groups.Remove(key);
             saved.Groups["0,0,0"] = merged;
         }
         saved.SelectionScope = Scope;
         saved.Complete = false;
-        saved.BoundedFinalized = saved.Complete; saved.Updated = DateTimeOffset.UtcNow;
+        saved.Updated = DateTimeOffset.UtcNow;
         string path = Path.Combine(Storage.State, "key-recipes", $"{recipe.Id:00}.json");
         string backup = Path.Combine(Storage.Root, ".codex", "trash", "confidence-key-v1", $"{recipe.Id:00}-{catalog.Data.Id}.json");
         if (!File.Exists(backup)) Storage.Write(backup, KeyRecipeSolver.Load(catalog, recipe)!);

@@ -40,23 +40,23 @@ internal sealed partial class KeyRecipeSolver
         foreach (var entry in result.Groups)
         {
             GroupState group = entry.Value;
-            CardTemplate[] available = group.Best.Values.Distinct().Where(result.Cards.ContainsKey).Select(id => result.Cards[id])
+            CardTemplate[] available = group.Best.Values.Concat(group.TotalBest).Distinct().Where(result.Cards.ContainsKey).Select(id => result.Cards[id])
                 .Where(c => c.Valid && c.Strikes == group.Strikes && group.Key.SequenceEqual(new[] { c.Slots, c.Slots == 0 ? 0 : c.Left, c.Slots == 0 ? 0 : c.Right }) &&
                     !c.Active.Intersect(result.ExcludedAreas).Any()).ToArray();
             foreach (var pair in group.Goals)
             {
-                if (pair.Value.Status != "UNKNOWN") continue;
-                int goal = pair.Key == "power" ? 0 : pair.Key == "fortitude" ? 1 : 2;
-                CardTemplate? card = available.OrderByDescending(c => Craft.Panel(c, goal)).ThenBy(c => c.Id).FirstOrDefault();
+                if (pair.Value.Status != "UNKNOWN" || pair.Key == "total" || pair.Value.SecondaryUpperBound is null) continue;
+                int goal = pair.Key == "power" ? 0 : 1;
+                CardTemplate? card = available.Length == 0 ? null : Craft.BestForGoal(available, pair.Key);
                 if (card is null) continue;
                 int value = Craft.Panel(card, goal);
-                if (value > pair.Value.UpperBound) throw new InvalidDataException($"配方{result.Recipe}/{entry.Key}/{pair.Key}的合法布局超过保存上界。");
-                if (value != pair.Value.UpperBound) continue;
-                group.Best[pair.Key] = card.Id; pair.Value.Status = "OPTIMAL"; closed++;
+                int secondary = pair.Key == "power" ? card.Fortitude : card.Power;
+                if (value > pair.Value.UpperBound || value == pair.Value.UpperBound && secondary > pair.Value.SecondaryUpperBound.Value)
+                    throw new InvalidDataException($"配方{result.Recipe}/{entry.Key}/{pair.Key}的合法布局超过保存上界。");
+                if (value != pair.Value.UpperBound || secondary != pair.Value.SecondaryUpperBound.Value) continue;
+                group.Best[pair.Key] = card.Id; pair.Value.Status = "OPTIMAL"; pair.Value.ObjectiveComplete = true; closed++;
                 Console.WriteLine($"[{result.Recipe}] key={entry.Key} {pair.Key} 已有合法布局达到上界，复用证明闭合。");
             }
-            group.Complete = new[] { "power", "fortitude", "total" }.All(g => Done(result, entry.Key, g));
-            group.Infeasible = group.Complete && group.Best.Count == 0;
         }
         return closed;
     }
@@ -80,17 +80,20 @@ internal sealed partial class KeyRecipeSolver
                 foreach (string goal in new[] { "power", "fortitude", "total" })
                 {
                     if (Done(saved, key, goal)) continue;
-                    int index = goal == "power" ? 0 : goal == "fortitude" ? 1 : 2;
                     CardTemplate? old = group.Best.TryGetValue(goal, out string? id) ? saved.Cards.GetValueOrDefault(id) : null;
-                    if (old is not null && Craft.Panel(old, index) >= Craft.Panel(card, index)) continue;
-                    saved.Cards[card.Id] = card; group.Best[goal] = card.Id; imported++;
+                    if (old is not null)
+                    {
+                        if (goal == "total" && old.Total > card.Total) continue;
+                        if (goal != "total" && Craft.BestForGoal([old, card], goal).Id == old.Id) continue;
+                    }
+                    RecordCandidate(saved, group, goal, card); imported++;
                 }
             }
         int closed = ReuseBounds(saved);
         if (imported == 0 && closed == 0) return;
         if (imported > 0) Console.WriteLine($"[{recipe.Id}] 按当前规则复核旧布局，改善{imported}个目标候选；不复用旧最优标签。");
         saved.Complete = Complete(saved, recipe);
-        saved.BoundedFinalized = saved.Complete; saved.Updated = DateTimeOffset.UtcNow;
+        saved.Updated = DateTimeOffset.UtcNow;
         Storage.Write(Path.Combine(Storage.State, "key-recipes", $"{recipe.Id:00}.json"), saved);
     }
 
@@ -102,7 +105,7 @@ internal sealed partial class KeyRecipeSolver
         ConfidenceAnalysis.RetainedStrikes.All(strikes => new[] { "power", "fortitude", "total" }
             .All(goal => Done(result, GroupKey(string.Join(',', k), strikes), goal))));
 
-    /// <summary>判断当前范围是否真正尝试过；换范围后仅保留上界不算已搜索。</summary>
+    /// <summary>判断当前目标合同是否真正尝试过；旧主面板最优标签按未尝试的新合同处理。</summary>
     /// <param name="saved">兼容当前范围的检查点。</param>
     /// <param name="key">固定结构key。</param>
     /// <param name="goal">目标名称。</param>
@@ -110,7 +113,8 @@ internal sealed partial class KeyRecipeSolver
     public static bool Attempted(RecipeResult? saved, string key, string goal)
     {
         KeyGoalState? state = saved?.Groups.GetValueOrDefault(key)?.Goals.GetValueOrDefault(goal);
-        return state is not null && (state.SearchPolicy ?? Policy) == saved!.Policy;
+        return state is not null && !(state.Status == "OPTIMAL" && !state.ObjectiveComplete)
+            && (state.SearchPolicy ?? Policy) == saved!.Policy;
     }
 
     /// <summary>目标只有明确无解或拥有布局的最优结论才算完成。</summary>
@@ -121,6 +125,9 @@ internal sealed partial class KeyRecipeSolver
     public static bool Done(RecipeResult? saved, string key, string goal)
     {
         if (saved is null || !saved.Groups.TryGetValue(key, out GroupState? group) || !group.Goals.TryGetValue(goal, out KeyGoalState? state)) return false;
-        return state.Status == "INFEASIBLE" || state.Status is "OPTIMAL" or "CONFIDENCE" && group.Best.TryGetValue(goal, out string? id) && saved.Cards.ContainsKey(id);
+        if (state.Status == "INFEASIBLE") return true;
+        if (state.Status == "CONFIDENCE") return group.Best.TryGetValue(goal, out string? confidenceId) && saved.Cards.ContainsKey(confidenceId);
+        return state.Status == "OPTIMAL" && state.ObjectiveComplete && group.Best.TryGetValue(goal, out string? id) && saved.Cards.ContainsKey(id)
+            && (goal != "total" || group.TotalBest.Length > 0 && group.TotalBest.All(saved.Cards.ContainsKey));
     }
 }
