@@ -16,6 +16,8 @@ internal sealed partial class KeyRecipeSolver
     private int threads => threadBudget();
     /// <summary>用户停止和整个命令预算共用的取消信号。</summary>
     private readonly CancellationToken cancellation;
+    /// <summary>是否要求把CONFIDENCE继续证明为精确结论。</summary>
+    private readonly bool proveConfidence;
     /// <summary>从几何预处理开始计时，不扣除建模与保存成本。</summary>
     private readonly Stopwatch elapsed = Stopwatch.StartNew();
     /// <summary>坐标到紧凑格子编号的映射。</summary>
@@ -92,9 +94,11 @@ internal sealed partial class KeyRecipeSolver
     /// <param name="threadBudget">共享总预算中的当前线程份额。</param>
     /// <param name="slice">单次几何搜索时间片，秒。</param>
     /// <param name="cancellation">整个任务的取消信号。</param>
-    public KeyRecipeSolver(Catalog catalog, Recipe recipe, Func<int> threadBudget, double slice, CancellationToken cancellation)
+    /// <param name="proveConfidence">是否取消单目标时限并继续证明置信上界。</param>
+    public KeyRecipeSolver(Catalog catalog, Recipe recipe, Func<int> threadBudget, double slice, CancellationToken cancellation, bool proveConfidence = false)
     {
         this.catalog = catalog; this.recipe = recipe; this.threadBudget = threadBudget; this.slice = slice; this.cancellation = cancellation;
+        this.proveConfidence = proveConfidence;
         cells = recipe.Board.Select(c => c.Position).Distinct().ToArray();
         cellIndex = cells.Select((c, i) => (c, i)).ToDictionary(p => p.c, p => p.i);
         safe = recipe.Safe.Select(c => c.Position).ToHashSet();
@@ -105,6 +109,13 @@ internal sealed partial class KeyRecipeSolver
         Result = Load(catalog, recipe) ?? new RecipeResult { Recipe = recipe.Id, Snapshot = catalog.Data.Id, Policy = RecipePolicy(recipe),
             SelectionScope = ConfidenceAnalysis.Scope,
             ExcludedAreas = Enumerable.Range(0, recipe.Areas.Length).Where(i => (excluded & (1u << i)) != 0).ToArray() };
+        if (proveConfidence)
+        {
+            HashSet<string> retained = ConfidenceAnalysis.RetainedKeys(recipe).Select(k => string.Join(',', k)).ToHashSet();
+            foreach (GroupState group in Result.Groups.Values.Where(g => retained.Contains(string.Join(',', g.Key)) && ConfidenceAnalysis.RetainedStrikes.Contains(g.Strikes)))
+                foreach (KeyGoalState goal in group.Goals.Values.Where(g => g.Status == "CONFIDENCE")) goal.Status = "UNKNOWN";
+            Result.Complete = false; Result.BoundedFinalized = false;
+        }
         foreach (uint mask in Result.InfeasibleRegions) solved[(mask, 0)] = null;
         foreach (CardTemplate stored in Result.Cards.Values)
         {
@@ -893,7 +904,7 @@ internal sealed partial class KeyRecipeSolver
             }
             return (null, unknown ? CpSolverStatus.Unknown : CpSolverStatus.Infeasible);
         }
-        double defaultBudget = retry ? mode switch { GeometryMode.Full => 120, GeometryMode.Cover => 30, _ => slice } : slice;
+        double defaultBudget = retry && proveConfidence ? double.PositiveInfinity : retry ? mode switch { GeometryMode.Full => 120, GeometryMode.Cover => 30, _ => slice } : slice;
         double budget = Math.Min(SearchBudget, seconds ?? defaultBudget);
         if (budget <= 0) return (null, CpSolverStatus.Unknown);
         progress = $"{target} {(connect ? "连接" : "覆盖")}/{(compact ? "紧域" : "全域")} 建模";

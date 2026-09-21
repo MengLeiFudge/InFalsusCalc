@@ -41,7 +41,7 @@ internal static class Program
                 File.WriteAllText(Path.Combine(Storage.State, "cancel"), "user-request");
                 Console.WriteLine("已请求停止，程序将在当前求解返回后保存退出。"); return 0;
             }
-            throw new ArgumentException("命令为craft、compute、confidence、status或stop。craft支持--recipe、--key 槽,左,右、--goal power|fortitude|total、--slice-seconds、--recipe-seconds、--threads、--seconds。");
+            throw new ArgumentException("命令为craft、compute、confidence、status或stop。craft支持--recipe、--key 槽,左,右、--goal power|fortitude|total、--prove-confidence true|false、--slice-seconds、--recipe-seconds、--threads、--seconds。");
         }
         catch (Exception error)
         {
@@ -73,6 +73,7 @@ internal static class Program
                 case "--slice-seconds":
                 case "--direction-seconds": options.DirectionSeconds = int.Parse(value); break;
                 case "--search-seed": options.SearchSeed = int.Parse(value); break;
+                case "--prove-confidence": options.ProveConfidence = bool.Parse(value); break;
                 default: throw new ArgumentException($"未知参数{name}。");
             }
         }
@@ -123,6 +124,12 @@ internal static class Program
             bool Needed(Recipe recipe, bool retry)
             {
                 RecipeResult? saved = KeyRecipeSolver.Load(catalog, recipe);
+                if (options.ProveConfidence)
+                {
+                    if (!retry || saved is null) return false;
+                    return !errors.ContainsKey(recipe.Id) && Keys(recipe).Any(k => ConfidenceAnalysis.RetainedStrikes.Any(strikes => goals.Any(g =>
+                        saved.Groups.GetValueOrDefault(KeyRecipeSolver.GroupKey(string.Join(',', k), strikes))?.Goals.GetValueOrDefault(g)?.Status == "CONFIDENCE")));
+                }
                 return !errors.ContainsKey(recipe.Id) && Keys(recipe).Any(k => ConfidenceAnalysis.RetainedStrikes.Any(strikes => goals.Any(g =>
                     !KeyRecipeSolver.Done(saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g) &&
                     retry == KeyRecipeSolver.Attempted(saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g))));
@@ -146,7 +153,9 @@ internal static class Program
                             optimal = states.Count(s => s == "OPTIMAL"), confidence = states.Count(s => s == "CONFIDENCE"), infeasible = states.Count(s => s == "INFEASIBLE"),
                             unknown = states.Count(s => s == "UNKNOWN"), missing = states.Count(s => s == "MISSING"),
                             complete = keys.All(k => ConfidenceAnalysis.RetainedStrikes.All(strikes => goals.All(g =>
-                                KeyRecipeSolver.Done(saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g)))),
+                                options.ProveConfidence
+                                    ? saved?.Groups.GetValueOrDefault(KeyRecipeSolver.GroupKey(string.Join(',', k), strikes))?.Goals.GetValueOrDefault(g)?.Status is "OPTIMAL" or "INFEASIBLE"
+                                    : KeyRecipeSolver.Done(saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g)))),
                             running, seconds = spent.GetValueOrDefault(recipe.Id) + (running ? job.Clock.Elapsed.TotalSeconds : 0),
                             error = errors.GetValueOrDefault(recipe.Id) };
                     }).ToArray();
@@ -180,7 +189,7 @@ internal static class Program
                         .OrderByDescending(p => Keys(p.Recipe).Sum(k => ConfidenceAnalysis.RetainedStrikes.Sum(strikes => goals.Count(g =>
                             !KeyRecipeSolver.Done(p.Saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g)))))
                         .ThenBy(p => p.Recipe.Id).Select(p => p.Recipe).ToArray();
-                int parallelism = retry ? Math.Min(4, options.Threads) : options.Threads;
+                int parallelism = options.ProveConfidence ? options.Threads : retry ? Math.Min(4, options.Threads) : options.Threads;
                 ConcurrentDictionary<int, byte> pending = new(work.Select(r => new KeyValuePair<int, byte>(r.Id, 0)));
                 Console.WriteLine($"进入{phase}：{work.Length}张卡，最多并行{parallelism}张。");
                 Parallel.ForEach(Partitioner.Create(work, EnumerablePartitionerOptions.NoBuffering), new ParallelOptions { MaxDegreeOfParallelism = parallelism, CancellationToken = cancel.Token }, recipe =>
@@ -200,7 +209,7 @@ internal static class Program
                         using CancellationTokenSource cardCancel = CancellationTokenSource.CreateLinkedTokenSource(cancel.Token);
                         if (!retry && options.RecipeSeconds > 0) cardCancel.CancelAfter(TimeSpan.FromSeconds(options.RecipeSeconds));
                         Console.WriteLine($"[{recipe.Id}] {recipe.Name} 开始{phase}，当前线程份额{ThreadBudget()}。");
-                        current = new KeyRecipeSolver(catalog, recipe, ThreadBudget, options.DirectionSeconds, cardCancel.Token);
+                        current = new KeyRecipeSolver(catalog, recipe, ThreadBudget, options.DirectionSeconds, cardCancel.Token, options.ProveConfidence);
                         solvers[recipe.Id] = current;
                         current.Run(options.Key, options.Goal, retry);
                     }
@@ -373,6 +382,8 @@ internal static class Program
         public int SearchSeed { get; set; }
         /// <summary>首轮单卡预算秒数，0表示不限；重试阶段不使用此上限。</summary>
         public int RecipeSeconds { get; set; }
+        /// <summary>不限时继续证明CONFIDENCE上界。</summary>
+        public bool ProveConfidence { get; set; }
         /// <summary>整次运行预算；craft默认0不设上限，compute默认8小时。</summary>
         public int Seconds { get; set; } = 28800;
     }
