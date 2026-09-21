@@ -904,7 +904,13 @@ internal sealed partial class KeyRecipeSolver
             }
             return (null, unknown ? CpSolverStatus.Unknown : CpSolverStatus.Infeasible);
         }
-        double defaultBudget = retry && proveConfidence ? double.PositiveInfinity : retry ? mode switch { GeometryMode.Full => 120, GeometryMode.Cover => 30, _ => slice } : slice;
+        double defaultBudget = retry ? mode switch
+        {
+            GeometryMode.Full when proveConfidence => double.PositiveInfinity,
+            GeometryMode.Full => 120,
+            GeometryMode.Cover => 30,
+            _ => slice
+        } : slice;
         double budget = Math.Min(SearchBudget, seconds ?? defaultBudget);
         if (budget <= 0) return (null, CpSolverStatus.Unknown);
         progress = $"{target} {(connect ? "连接" : "覆盖")}/{(compact ? "紧域" : "全域")} 建模";
