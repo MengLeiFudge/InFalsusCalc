@@ -26,8 +26,8 @@ internal sealed partial class KeyRecipeSolver
     private readonly HashSet<Hex> safe;
     /// <summary>真实放置域；仅合并面板等价放置并删去越界预算下不可达的装饰放置。</summary>
     private readonly List<Piece> pieces = [];
-    /// <summary>区域位掩码对应的合法布局或已证不可行空值。</summary>
-    private readonly Dictionary<uint, CardTemplate?> solved = [];
+    /// <summary>区域位掩码与精确惩罚层对应的合法布局或已证不可行空值。</summary>
+    private readonly Dictionary<(uint Mask, int Strikes), CardTemplate?> solved = [];
     /// <summary>各区域的多种候选拼法，可在组合时复用共享粒子；候选缺失不代表不可行。</summary>
     private readonly Dictionary<int, List<int[]>> localPatterns = [];
     /// <summary>把真实布局中的粒子坐标还原为预编译放置编号。</summary>
@@ -69,6 +69,8 @@ internal sealed partial class KeyRecipeSolver
     private bool retry;
     /// <summary>供状态线程读取的当前求解阶段。</summary>
     private volatile string progress = "几何预编译";
+    /// <summary>当前目标要求的精确净惩罚次数。</summary>
+    private int currentStrikes;
     /// <summary>当前目标的可保存状态，停止时补齐真实用时。</summary>
     private KeyGoalState? runningGoal;
     /// <summary>当前目标的墙钟计时。</summary>
@@ -103,15 +105,16 @@ internal sealed partial class KeyRecipeSolver
         Result = Load(catalog, recipe) ?? new RecipeResult { Recipe = recipe.Id, Snapshot = catalog.Data.Id, Policy = RecipePolicy(recipe),
             SelectionScope = ConfidenceAnalysis.Scope,
             ExcludedAreas = Enumerable.Range(0, recipe.Areas.Length).Where(i => (excluded & (1u << i)) != 0).ToArray() };
-        foreach (uint mask in Result.InfeasibleRegions) solved[mask] = null;
+        foreach (uint mask in Result.InfeasibleRegions) solved[(mask, 0)] = null;
         foreach (CardTemplate stored in Result.Cards.Values)
         {
             CardTemplate card = Craft.Evaluate(catalog, recipe, stored.Placements);
-            if (!card.Valid || card.Strikes != 0 || card.Power != stored.Power || card.Fortitude != stored.Fortitude || !card.Active.Order().SequenceEqual(stored.Active.Order()))
+            if (!card.Valid || card.Strikes is < 0 or > 2 || card.Power != stored.Power || card.Fortitude != stored.Fortitude || !card.Active.Order().SequenceEqual(stored.Active.Order()))
                 throw new InvalidDataException($"配方{recipe.Id}的续算布局复核失败：{stored.Id}。");
             uint mask = card.Active.Aggregate(0u, (m, i) => m | (1u << i));
-            if (solved.TryGetValue(mask, out CardTemplate? existing) && existing is null) throw new InvalidDataException($"配方{recipe.Id}的布局与不可行区域证明冲突：{mask}。");
-            solved[mask] = card;
+            var solvedKey = (mask, card.Strikes);
+            if (solved.TryGetValue(solvedKey, out CardTemplate? existing) && existing is null) throw new InvalidDataException($"配方{recipe.Id}的布局与不可行区域证明冲突：{mask}/p{card.Strikes}。");
+            solved[solvedKey] = card;
         }
         effects = new int[recipe.Areas.Length, 18];
         Dictionary<(Hex, int), int> target = [];
@@ -161,7 +164,7 @@ internal sealed partial class KeyRecipeSolver
         {
             regionMinimum[i] = CoverMinimum(i, offset, regionMinimum[i]); offset += recipe.Areas[i].Cells.Length;
         }
-        outsideBudget = Craft.Skills[recipe.Character].Outside + Enumerable.Range(0, recipe.Areas.Length)
+        outsideBudget = Craft.Skills[recipe.Character].Outside + ConfidenceAnalysis.RetainedStrikes.Max() + Enumerable.Range(0, recipe.Areas.Length)
             .Where(i => (excluded & (1u << i)) == 0).Sum(i => Math.Max(0, effects[i, 9]));
         HashSet<int> reachable = safe.Select(c => cellIndex[c]).ToHashSet();
         HashSet<int> border = [];
@@ -239,11 +242,11 @@ internal sealed partial class KeyRecipeSolver
     public void Run(int[]? requested, string? goal, bool retry)
     {
         this.retry = retry;
-        Dictionary<string, List<RegionSet>> groups = [];
+        Dictionary<string, List<RegionSet>> baseGroups = [];
         List<RegionSet>?[] indexedGroups = new List<RegionSet>?[100];
         foreach (int[] k in ConfidenceAnalysis.RetainedKeys(recipe))
             if (requested is null || requested.SequenceEqual(k))
-                groups[string.Join(',', k)] = indexedGroups[k[0] * 25 + k[1] * 5 + k[2]] = [];
+                baseGroups[string.Join(',', k)] = indexedGroups[k[0] * 25 + k[1] * 5 + k[2]] = [];
         byte[] lower = coverageLower = new byte[1 << recipe.Areas.Length];
         for (uint mask = 1; mask < lower.Length; mask++)
         {
@@ -277,7 +280,7 @@ internal sealed partial class KeyRecipeSolver
                 power += effects[i, 3]; fortitude += effects[i, 4]; extra += effects[i, 15];
             }
             int cost = lower[mask];
-            if (cost + extra > limit || power <= 0 || fortitude <= 0) continue;
+            if (cost + extra > limit + ConfidenceAnalysis.RetainedStrikes.Max() || power <= 0 || fortitude <= 0) continue;
             slots = Math.Min(3, slots); left = Math.Min(4, left); right = Math.Min(4, right);
             if (slots == 0) left = right = 0;
             if (requested is not null && (slots != requested[0] || left != requested[1] || right != requested[2])) continue;
@@ -285,60 +288,72 @@ internal sealed partial class KeyRecipeSolver
             if (group is null) continue;
             group.Add(new RegionSet(mask, power, fortitude, cost));
         }
-        if (requested is not null && groups.Count == 0)
-            groups[string.Join(',', requested)] = [];
+        if (requested is not null && baseGroups.Count == 0)
+            baseGroups[string.Join(',', requested)] = [];
+        var groups = baseGroups.SelectMany(pair => ConfidenceAnalysis.RetainedStrikes.Select(strikes => new
+        {
+            Id = GroupKey(pair.Key, strikes),
+            Key = pair.Key,
+            Strikes = strikes,
+            Sets = pair.Value
+        })).ToArray();
         string[] requestedGoals = goal is null ? ["power", "fortitude", "total"] : [goal];
-        foreach ((string key, List<RegionSet> sets) in groups
-            .OrderBy(g => requestedGoals.Any(n => !Done(Result, g.Key, n) && !Attempted(Result, g.Key, n)) ? 0
-                : requestedGoals.Any(n => !Done(Result, g.Key, n)) ? 1 : 2)
+        foreach (var entry in groups
+            .OrderBy(g => requestedGoals.Any(n => !Done(Result, g.Id, n) && !Attempted(Result, g.Id, n)) ? 0
+                : requestedGoals.Any(n => !Done(Result, g.Id, n)) ? 1 : 2)
+            .ThenBy(g => g.Strikes)
             .ThenByDescending(g => ConfidenceAnalysis.KeyConfidence(recipe, g.Key))
             .ThenBy(g => g.Key))
         {
+            string key = entry.Key, groupId = entry.Id;
+            List<RegionSet> sets = entry.Sets;
+            currentStrikes = entry.Strikes;
             cancellation.ThrowIfCancellationRequested();
             int[] tuple = key.Split(',').Select(int.Parse).ToArray();
-            if (!Result.Groups.TryGetValue(key, out GroupState? group)) Result.Groups[key] = group = new GroupState { Key = tuple };
-            foreach (string name in requestedGoals.OrderBy(n => Attempted(Result, key, n) ? 1 : 0).ToArray())
+            if (!Result.Groups.TryGetValue(groupId, out GroupState? group)) Result.Groups[groupId] = group = new GroupState { Key = tuple, Strikes = currentStrikes };
+            else if (group.Strikes != currentStrikes) throw new InvalidDataException($"配方{recipe.Id}/{groupId}惩罚层不一致。");
+            foreach (string name in requestedGoals.OrderBy(n => Attempted(Result, groupId, n) ? 1 : 0).ToArray())
             {
-                if (Done(Result, key, name)) continue;
-                if (retry != Attempted(Result, key, name)) continue;
+                if (Done(Result, groupId, name)) continue;
+                if (retry != Attempted(Result, groupId, name)) continue;
                 if (group.Goals.Values.Any(s => s.Status == "INFEASIBLE"))
                 {
                     group.Goals[name] = new KeyGoalState { Status = "INFEASIBLE" };
-                    Console.WriteLine($"[{recipe.Id}] key={key} {name} 复用同key不可行证明。");
+                    Console.WriteLine($"[{recipe.Id}] key={key} p{currentStrikes} {name} 复用同key不可行证明。");
                     Save(); continue;
                 }
                 Stopwatch watch = Stopwatch.StartNew(); long before = checks;
-                goalClock = watch; target = $"key={key} {name}"; progress = target + " 区域收益排序";
+                goalClock = watch; target = $"key={key} p{currentStrikes} {name}"; progress = target + " 区域收益排序";
                 int g = name == "power" ? 0 : name == "fortitude" ? 1 : 2;
                 // 基础数值排序与统一999效能下的单项排序一致；总和按原生取整后的值排序。
                 int? savedUpper = group.Goals.GetValueOrDefault(name)?.UpperBound;
-                RegionSet[] ordered = sets.Where(s => savedUpper is null || Value(s, g) <= savedUpper.Value).OrderByDescending(s => Value(s, g)).ThenBy(s => s.Cost).ThenBy(s => s.Mask).ToArray();
+                RegionSet[] ordered = sets.Where(s => savedUpper is null || Value(s, g, currentStrikes) <= savedUpper.Value).OrderByDescending(s => Value(s, g, currentStrikes)).ThenBy(s => s.Cost).ThenBy(s => s.Mask).ToArray();
                 bool unresolved = false; int upper = 0;
-                runningGoal = new KeyGoalState { Status = "UNKNOWN", SearchPolicy = Result.Policy, UpperBound = ordered.Length == 0 ? 0 : Value(ordered[0], g) };
+                runningGoal = new KeyGoalState { Status = "UNKNOWN", SearchPolicy = Result.Policy, UpperBound = ordered.Length == 0 ? 0 : Value(ordered[0], g, currentStrikes) };
                 group.Goals[name] = runningGoal;
                 Save();
-                if (Done(Result, key, name)) { runningGoal = null; progress = target + " 已复用证明"; continue; }
+                if (Done(Result, groupId, name)) { runningGoal = null; progress = target + " 已复用证明"; continue; }
                 progress = target + " 构造合法候选";
-                CardTemplate? initial = ordered.Select(s => solved.GetValueOrDefault(s.Mask)).FirstOrDefault(c => c is not null);
+                CardTemplate? initial = ordered.Select(s => solved.GetValueOrDefault((s.Mask, currentStrikes))).FirstOrDefault(c => c is not null);
                 if (initial is null && recipe.Areas.Any(a => a.Cells.Length > 1))
                     initial = FindLayout(ordered.OrderBy(s => s.Cost).Take(64).ToArray(), .35);
                 if (initial is not null)
                 {
-                    solved[initial.Active.Aggregate(0u, (mask, i) => mask | (1u << i))] = initial;
+                    solved[(initial.Active.Aggregate(0u, (mask, i) => mask | (1u << i)), currentStrikes)] = initial;
                     Result.Cards[initial.Id] = initial; group.Best[name] = initial.Id;
                     Save();
                 }
-                if (Done(Result, key, name)) { runningGoal = null; progress = target + " 已复用证明"; continue; }
-                foreach (var batch in ordered.GroupBy(s => Value(s, g)))
+                if (Done(Result, groupId, name)) { runningGoal = null; progress = target + " 已复用证明"; continue; }
+                foreach (var batch in ordered.GroupBy(s => Value(s, g, currentStrikes)))
                 {
                     if (SearchBudget <= 0) { unresolved = true; upper = runningGoal.UpperBound; break; }
                     cancellation.ThrowIfCancellationRequested();
                     if (!unresolved) runningGoal.UpperBound = upper = batch.Key;
                     RegionSet[] alternatives = batch.ToArray();
-                    CardTemplate? card = alternatives.Select(s => solved.GetValueOrDefault(s.Mask)).FirstOrDefault(c => c is not null);
+                    CardTemplate? card = alternatives.Select(s => solved.GetValueOrDefault((s.Mask, currentStrikes))).FirstOrDefault(c => c is not null);
                     if (card is null)
                     {
-                        alternatives = alternatives.Where(s => !solved.ContainsKey(s.Mask)).ToArray();
+                        alternatives = alternatives.Where(s => !solved.ContainsKey((s.Mask, currentStrikes))).ToArray();
                         if (alternatives.Length == 0) continue;
                         if (unresolved)
                         {
@@ -352,8 +367,8 @@ internal sealed partial class KeyRecipeSolver
                             if (answer.Status == CpSolverStatus.Unknown) { unresolved = true; continue; }
                             card = answer.Card;
                         }
-                        if (card is not null) solved[card.Active.Aggregate(0u, (mask, i) => mask | (1u << i))] = card;
-                        else foreach (RegionSet impossible in alternatives) solved[impossible.Mask] = null;
+                        if (card is not null) solved[(card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)), currentStrikes)] = card;
+                        else foreach (RegionSet impossible in alternatives) solved[(impossible.Mask, currentStrikes)] = null;
                     }
                     if (card is null) continue;
                     Result.Cards[card.Id] = card; group.Best[name] = card.Id;
@@ -375,13 +390,13 @@ internal sealed partial class KeyRecipeSolver
                 runningGoal = null;
                 progress = target + " " + group.Goals[name].Status;
                 string panel = group.Best.TryGetValue(name, out string? id) ? $"基础{Result.Cards[id].BasePower}/{Result.Cards[id].BaseFortitude}" : "无布局";
-                Console.WriteLine($"[{recipe.Id}] key={key} {name} {group.Goals[name].Status} {panel}，{watch.Elapsed.TotalSeconds:F3}秒，几何查询{checks - before}。");
+                Console.WriteLine($"[{recipe.Id}] key={key} p{currentStrikes} {name} {group.Goals[name].Status} {panel}，{watch.Elapsed.TotalSeconds:F3}秒，几何查询{checks - before}。");
                 Save();
             }
             group.Complete = group.Goals.Count == 3 && group.Goals.Values.All(c => c.Status != "UNKNOWN");
             group.Infeasible = group.Complete && group.Best.Count == 0;
         }
-        Result.Complete = ConfidenceAnalysis.RetainedKeys(recipe).All(k => new[] { "power", "fortitude", "total" }.All(g => Done(Result, string.Join(',', k), g)));
+        Result.Complete = Complete(Result, recipe);
         Result.BoundedFinalized = Result.Complete; Result.SolveSeconds = elapsed.Elapsed.TotalSeconds; Save();
     }
 
@@ -513,7 +528,7 @@ internal sealed partial class KeyRecipeSolver
     {
         if (runningGoal is not null && goalClock is not null) runningGoal.Seconds = goalClock.Elapsed.TotalSeconds;
         ReuseBounds(Result);
-        Result.InfeasibleRegions = solved.Where(p => p.Value is null).Select(p => p.Key).Order().ToArray();
+        Result.InfeasibleRegions = solved.Where(p => p.Key.Strikes == 0 && p.Value is null).Select(p => p.Key.Mask).Order().ToArray();
         Result.Updated = DateTimeOffset.UtcNow;
         string path = Path.Combine(Storage.State, "key-recipes", $"{recipe.Id:00}.json");
         RecipeResult? previous = Storage.Read<RecipeResult>(path);
@@ -523,7 +538,7 @@ internal sealed partial class KeyRecipeSolver
         foreach (var pair in Result.Cards) previous.Cards[pair.Key] = pair.Value;
         foreach (var pair in Result.Groups)
         {
-            if (!previous.Groups.TryGetValue(pair.Key, out GroupState? group)) previous.Groups[pair.Key] = group = new GroupState { Key = pair.Value.Key };
+            if (!previous.Groups.TryGetValue(pair.Key, out GroupState? group)) previous.Groups[pair.Key] = group = new GroupState { Key = pair.Value.Key, Strikes = pair.Value.Strikes };
             foreach (var goal in pair.Value.Goals)
             {
                 KeyGoalState? oldGoal = group.Goals.GetValueOrDefault(goal.Key);
@@ -543,12 +558,12 @@ internal sealed partial class KeyRecipeSolver
             group.Infeasible = group.Complete && group.Best.Count == 0;
         }
         previous.Updated = Result.Updated; previous.SolveSeconds = Result.SolveSeconds;
-        previous.Complete = ConfidenceAnalysis.RetainedKeys(recipe).All(k => new[] { "power", "fortitude", "total" }.All(g => Done(previous, string.Join(',', k), g)));
+        previous.Complete = Complete(previous, recipe);
         previous.BoundedFinalized = previous.Complete;
         HashSet<string> used = previous.Groups.Values.SelectMany(g => g.Best.Values).ToHashSet();
         previous.Cards = previous.Cards.Where(p => used.Contains(p.Key)).ToDictionary(p => p.Key, p => p.Value);
         Dictionary<string, string> representatives = [];
-        foreach (var cards in previous.Cards.Values.GroupBy(c => string.Join(',', c.Active.Order())))
+        foreach (var cards in previous.Cards.Values.GroupBy(c => $"{c.Strikes}:{c.Power}:{c.Fortitude}:" + string.Join(',', c.Active.Order())))
         {
             string id = cards.First().Id;
             foreach (CardTemplate card in cards) representatives[card.Id] = id;
@@ -562,9 +577,10 @@ internal sealed partial class KeyRecipeSolver
     /// <summary>区域收益按真实效能取整，保证总和目标与最终卡牌一致。</summary>
     /// <param name="set">区域选择对应的基础数值。</param>
     /// <param name="goal">0攻击、1防御、2攻防和。</param>
-    /// <returns>999效能、惩罚0时的目标面板值。</returns>
-    private static int Value(RegionSet set, int goal) => goal == 0 ? Craft.FinalStat(set.Power, 0) : goal == 1 ? Craft.FinalStat(set.Fortitude, 0)
-        : Craft.FinalStat(set.Power, 0) + Craft.FinalStat(set.Fortitude, 0);
+    /// <param name="strikes">要求的精确净惩罚次数。</param>
+    /// <returns>999效能下该惩罚层的目标面板值。</returns>
+    private static int Value(RegionSet set, int goal, int strikes) => goal == 0 ? Craft.FinalStat(set.Power, strikes) : goal == 1 ? Craft.FinalStat(set.Fortitude, strikes)
+        : Craft.FinalStat(set.Power, strikes) + Craft.FinalStat(set.Fortitude, strikes);
 
     /// <summary>先用奖励附近的紧域找合法解，只有完整域明确不可行才排除区域集合。</summary>
     /// <param name="sets">同一key与面板值的替代区域集合。</param>
@@ -584,7 +600,7 @@ internal sealed partial class KeyRecipeSolver
             foreach (RegionSet candidate in sets.OrderBy(s => s.Cost).Take(8))
             {
                 if (SearchBudget <= 0) return (null, CpSolverStatus.Unknown);
-                var direct = independent ? PatternGraph(candidate, Math.Min(5, Math.Min(slice, SearchBudget))) : Geometry([candidate], key, GeometryMode.Compact, .75);
+                var direct = currentStrikes == 0 && independent ? PatternGraph(candidate, Math.Min(5, Math.Min(slice, SearchBudget))) : Geometry([candidate], key, GeometryMode.Compact, .75);
                 if (direct.Card is not null) return direct;
             }
         var small = Geometry(sets, key, GeometryMode.Compact);
@@ -698,9 +714,9 @@ internal sealed partial class KeyRecipeSolver
             int[] occupied = new int[cells.Length], covered = new int[recipe.Areas.Sum(a => a.Cells.Length)];
             int[] offsets = Enumerable.Range(0, recipe.Areas.Length).Select(r => recipe.Areas.Take(r).Sum(a => a.Cells.Length)).ToArray();
             List<int> selected = []; HashSet<int> selectedSet = []; int outside = 0, overlaps = 0;
-            int maxOutside = Craft.Skills[recipe.Character].Outside + regions.Sum(i => effects[i, 9]);
-            int maxOverlap = Craft.Skills[recipe.Character].Overlap + regions.Sum(i => effects[i, 10]);
-            int countLimit = limit - regions.Sum(i => effects[i, 15]);
+            int maxOutside = Craft.Skills[recipe.Character].Outside + regions.Sum(i => effects[i, 9]) + currentStrikes;
+            int maxOverlap = Craft.Skills[recipe.Character].Overlap + regions.Sum(i => effects[i, 10]) + currentStrikes;
+            int countLimit = limit - regions.Sum(i => effects[i, 15]) + currentStrikes;
             double until = Math.Min(seconds, clock.Elapsed.TotalSeconds + .3);
             CardTemplate? answer = null;
             bool Search(int at)
@@ -709,7 +725,7 @@ internal sealed partial class KeyRecipeSolver
                 if (at == regions.Length)
                 {
                     CardTemplate card = Craft.Evaluate(catalog, recipe, selected.Select(i => pieces[i].Placement));
-                    if (card.Valid && card.Strikes == 0 && card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)) == set.Mask)
+                    if (card.Valid && card.Strikes == currentStrikes && card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)) == set.Mask)
                     { answer = card; return true; }
                     return false;
                 }
@@ -765,9 +781,9 @@ internal sealed partial class KeyRecipeSolver
             for (int i = 0; i < components.Count; i++)
                 foreach (Hex c in components[i].SelectMany(c => Hex.Directions.Select(c.Add).Append(c)))
                     if (cellIndex.TryGetValue(c, out int index)) near[index] = near.GetValueOrDefault(index) | (1UL << i);
-            int maxCount = limit - Enumerable.Range(0, recipe.Areas.Length).Where(i => (set.Mask & (1u << i)) != 0).Sum(i => effects[i, 15]);
-            int maxOutside = Craft.Skills[recipe.Character].Outside + Enumerable.Range(0, recipe.Areas.Length).Where(i => (set.Mask & (1u << i)) != 0).Sum(i => effects[i, 9]);
-            int maxOverlap = Craft.Skills[recipe.Character].Overlap + Enumerable.Range(0, recipe.Areas.Length).Where(i => (set.Mask & (1u << i)) != 0).Sum(i => effects[i, 10]);
+            int maxCount = limit - Enumerable.Range(0, recipe.Areas.Length).Where(i => (set.Mask & (1u << i)) != 0).Sum(i => effects[i, 15]) + currentStrikes;
+            int maxOutside = Craft.Skills[recipe.Character].Outside + Enumerable.Range(0, recipe.Areas.Length).Where(i => (set.Mask & (1u << i)) != 0).Sum(i => effects[i, 9]) + currentStrikes;
+            int maxOverlap = Craft.Skills[recipe.Character].Overlap + Enumerable.Range(0, recipe.Areas.Length).Where(i => (set.Mask & (1u << i)) != 0).Sum(i => effects[i, 10]) + currentStrikes;
             int[] gains = pieces.Select(p => System.Numerics.BitOperations.PopCount(p.Cells.Aggregate(0UL, (m, c) => m | near.GetValueOrDefault(c)))).ToArray();
             int[][] byBit = Enumerable.Range(0, required.Length).Select(b => required[b]
                 ? Enumerable.Range(0, pieces.Count).Where(i => pieces[i].Matches.Contains(b)).OrderByDescending(i => gains[i] * 10 - (pieces[i].Outside ? 8 : 0) +
@@ -814,7 +830,7 @@ internal sealed partial class KeyRecipeSolver
                 if (next is null)
                 {
                     CardTemplate card = Craft.Evaluate(catalog, recipe, chosen.Select(i => pieces[i].Placement));
-                    if (card.Valid && card.Strikes == 0 && card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)) == set.Mask)
+                    if (card.Valid && card.Strikes == currentStrikes && card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)) == set.Mask)
                     { answer = card; return true; }
                     if (chosen.Count >= maxCount) return false;
                     var groups = Craft.Components(Enumerable.Range(0, occupied.Length).Where(c => occupied[c] > 0).Select(c => cells[c]));
@@ -872,7 +888,7 @@ internal sealed partial class KeyRecipeSolver
                 cancellation.ThrowIfCancellationRequested();
                 var answer = Geometry([item.Set], key, mode, seconds);
                 if (answer.Card is not null) return answer;
-                if (answer.Status == CpSolverStatus.Infeasible) { solved[item.Set.Mask] = null; Save(); }
+                if (answer.Status == CpSolverStatus.Infeasible) { solved[(item.Set.Mask, currentStrikes)] = null; Save(); }
                 else unknown = true;
             }
             return (null, unknown ? CpSolverStatus.Unknown : CpSolverStatus.Infeasible);
@@ -885,7 +901,7 @@ internal sealed partial class KeyRecipeSolver
         uint common = sets.Aggregate(uint.MaxValue, (mask, s) => mask & s.Mask);
         uint union = sets.Aggregate(0u, (mask, s) => mask | s.Mask);
         bool[] required = recipe.Areas.Select((_, i) => (common & (1u << i)) != 0).ToArray();
-        int outsideLimit = Craft.Skills[recipe.Character].Outside + Enumerable.Range(0, required.Length).Sum(i => Math.Max(0, effects[i, 9]));
+        int outsideLimit = Craft.Skills[recipe.Character].Outside + Enumerable.Range(0, required.Length).Sum(i => Math.Max(0, effects[i, 9])) + currentStrikes;
         bool noSpare = sets.All(s => s.Cost + Enumerable.Range(0, required.Length).Where(i => (s.Mask & (1u << i)) != 0).Sum(i => effects[i, 15]) == limit);
         HashSet<Hex> forced = recipe.Areas.Where((_, i) => required[i]).SelectMany(a => a.Cells).Select(c => c.Position).ToHashSet();
         List<HashSet<Hex>> forcedComponents = Craft.Components(forced);
@@ -927,12 +943,12 @@ internal sealed partial class KeyRecipeSolver
             for (int s = 0; s < sets.Length; s++)
             {
                 RegionSet set = sets[s];
-                if (connect) AddSafeConnectionBound(model, selected, choices, set, cases[s]);
+                if (connect && currentStrikes == 0) AddSafeConnectionBound(model, selected, choices, set, cases[s]);
                 HashSet<int> domain = prunedDomains[set.Mask].ToHashSet();
                 for (int i = 0; i < selected.Length; i++)
                     if (!domain.Contains(indices[i])) { model.AddImplication(cases[s], selected[i].Not()); disabled++; }
                 model.Add(LinearExpr.Sum(selected.Where((_, i) => (choices[i].Regions & set.Mask) != 0)) >= set.Cost).OnlyEnforceIf(cases[s]);
-                int remaining = limit - set.Cost - Enumerable.Range(0, active.Length).Where(r => (set.Mask & (1u << r)) != 0).Sum(r => effects[r, 15]);
+                int remaining = limit - set.Cost - Enumerable.Range(0, active.Length).Where(r => (set.Mask & (1u << r)) != 0).Sum(r => effects[r, 15]) + currentStrikes;
                 model.Add(LinearExpr.Sum(selected.Where((_, i) => (choices[i].Regions & set.Mask) == 0)) <= remaining).OnlyEnforceIf(cases[s]);
             }
             Console.WriteLine($"[{recipe.Id}] 组合条件：{sets.Length}组，{disabled}条放置禁用关系。");
@@ -944,13 +960,19 @@ internal sealed partial class KeyRecipeSolver
                 for (int i = 0; i < active.Length; i++) activation[s, i] = (sets[s].Mask & (1u << i)) != 0 ? 1 : 0;
             model.AddAllowedAssignments(active).AddTuples(activation);
         }
-        if (connect && sets.Length == 1) AddSafeConnectionBound(model, selected, choices, sets[0]);
+        if (connect && sets.Length == 1 && currentStrikes == 0) AddSafeConnectionBound(model, selected, choices, sets[0]);
         model.Add(LinearExpr.Sum(selected.Where((_, i) => (choices[i].Regions & union) != 0)) >= sets.Min(s => s.Cost));
-        int spare = sets.Max(s => limit - s.Cost - Enumerable.Range(0, active.Length).Where(i => (s.Mask & (1u << i)) != 0).Sum(i => effects[i, 15]));
+        int spare = sets.Max(s => limit - s.Cost - Enumerable.Range(0, active.Length).Where(i => (s.Mask & (1u << i)) != 0).Sum(i => effects[i, 15])) + currentStrikes;
         model.Add(LinearExpr.Sum(selected.Where((_, i) => (choices[i].Regions & union) == 0)) <= spare);
         LinearExpr Effect(int kind) => LinearExpr.WeightedSum(active, Enumerable.Range(0, active.Length).Select(i => (long)effects[i, kind]).ToArray());
-        model.Add(LinearExpr.WeightedSum(selected, choices.Select(p => (long)p.Layout.Length).ToArray()) + Effect(15) <= limit);
-        model.Add(LinearExpr.WeightedSum(selected, choices.Select(p => (long)p.Outside).ToArray()) <= Craft.Skills[recipe.Character].Outside + Effect(9));
+        LinearExpr selectedCount = LinearExpr.WeightedSum(selected, choices.Select(p => (long)p.Layout.Length).ToArray());
+        LinearExpr outside = LinearExpr.WeightedSum(selected, choices.Select(p => (long)p.Outside).ToArray());
+        IntVar countPenalty = model.NewIntVar(0, currentStrikes, "countPenalty");
+        IntVar outsidePenalty = model.NewIntVar(0, currentStrikes, "outsidePenalty");
+        IntVar overlapPenalty = model.NewIntVar(0, currentStrikes, "overlapPenalty");
+        IntVar splitPenalty = model.NewIntVar(0, currentStrikes, "splitPenalty");
+        model.AddMaxEquality(countPenalty, [selectedCount + Effect(15) - limit, model.NewConstant(0)]);
+        model.AddMaxEquality(outsidePenalty, [outside - Craft.Skills[recipe.Character].Outside - Effect(9), model.NewConstant(0)]);
         foreach (var (kind, value, cap) in new[] { (7, key[0], 3), (16, key[1], 4), (17, key[2], 4) })
         {
             if (key[0] == 0 && kind is 16 or 17) continue;
@@ -977,7 +999,7 @@ internal sealed partial class KeyRecipeSolver
             }
             model.AddBoolOr(missing.Append(active[i]));
         }
-        if (outsideBudget <= 1)
+        if (currentStrikes == 0 && outsideBudget <= 1)
         {
             int activeParts = sets.Min(s => System.Numerics.BitOperations.PopCount(Enumerable.Range(0, regionSafeParts.Length)
                 .Where(i => (s.Mask & (1u << i)) != 0).Aggregate(0UL, (mask, i) => mask | regionSafeParts[i])));
@@ -1006,9 +1028,10 @@ internal sealed partial class KeyRecipeSolver
             foreach (BoolVar particle in forcedOverlap[c]) model.AddImplication(particle, over);
             overlap.Add(over);
         }
-        model.Add(LinearExpr.Sum(overlap) <= Craft.Skills[recipe.Character].Overlap + Effect(10));
-        if (connect) AddConnection(model, active, cover, forced, sets);
-        bool bridgeFirst = connect && sets.All(s =>
+        model.AddMaxEquality(overlapPenalty, [LinearExpr.Sum(overlap) - Craft.Skills[recipe.Character].Overlap - Effect(10), model.NewConstant(0)]);
+        if (connect) AddConnection(model, active, cover, forced, sets, splitPenalty);
+        model.Add(countPenalty + outsidePenalty + overlapPenalty + splitPenalty <= currentStrikes);
+        bool bridgeFirst = currentStrikes == 0 && connect && sets.All(s =>
         {
             int[] regions = Enumerable.Range(0, recipe.Areas.Length).Where(r => (s.Mask & (1u << r)) != 0).ToArray();
             int outside = Craft.Skills[recipe.Character].Outside + regions.Sum(r => effects[r, 9]);
@@ -1070,13 +1093,16 @@ internal sealed partial class KeyRecipeSolver
             }
             uint actual = card.Active.Aggregate(0u, (mask, i) => mask | (1u << i));
             if (!sets.Any(s => s.Mask == actual)) throw new InvalidDataException($"区域集合约束不一致：{recipe.Id}/{actual}");
-            if (card.Valid && card.Strikes == 0)
+            if (card.Valid && card.Strikes == currentStrikes)
             {
                 if (watch.Elapsed.TotalSeconds > 1) Console.WriteLine($"[{recipe.Id}] {(connect ? "连接" : "覆盖")}/{(compact ? "紧域" : "全域")} {choices.Length}放置 可行 {watch.Elapsed.TotalSeconds:F3}秒。");
                 return (card, status);
             }
-            if (connect) throw new InvalidDataException($"完整连接模型复核不一致：{recipe.Id}，惩罚{card.Strikes}。");
-            return (null, CpSolverStatus.Unknown);
+            int[] rejected = chosen;
+            LinearExpr noGood = LinearExpr.Sum(rejected.Select(i => selected[i])) -
+                LinearExpr.Sum(Enumerable.Range(0, selected.Length).Except(rejected).Select(i => selected[i]));
+            model.Add(noGood <= rejected.Length - 1);
+            if (connect && currentStrikes == 0) throw new InvalidDataException($"完整连接模型复核不一致：{recipe.Id}，惩罚{card.Strikes}。");
         }
         return (null, CpSolverStatus.Unknown);
     }

@@ -123,9 +123,9 @@ internal static class Program
             bool Needed(Recipe recipe, bool retry)
             {
                 RecipeResult? saved = KeyRecipeSolver.Load(catalog, recipe);
-                return !errors.ContainsKey(recipe.Id) && Keys(recipe).Any(k => goals.Any(g =>
-                    !KeyRecipeSolver.Done(saved, string.Join(',', k), g) &&
-                    retry == KeyRecipeSolver.Attempted(saved, string.Join(',', k), g)));
+                return !errors.ContainsKey(recipe.Id) && Keys(recipe).Any(k => ConfidenceAnalysis.RetainedStrikes.Any(strikes => goals.Any(g =>
+                    !KeyRecipeSolver.Done(saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g) &&
+                    retry == KeyRecipeSolver.Attempted(saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g))));
             }
             void Publish()
             {
@@ -135,14 +135,18 @@ internal static class Program
                     {
                         RecipeResult? saved = KeyRecipeSolver.Load(catalog, recipe);
                         int[][] keys = Keys(recipe);
-                        string[] states = keys.SelectMany(k => goals.Select(g =>
-                            !KeyRecipeSolver.Done(saved, string.Join(',', k), g) && !KeyRecipeSolver.Attempted(saved, string.Join(',', k), g)
-                                ? "MISSING" : saved!.Groups[string.Join(',', k)].Goals[g].Status)).ToArray();
+                        string[] states = keys.SelectMany(k => ConfidenceAnalysis.RetainedStrikes.SelectMany(strikes => goals.Select(g =>
+                        {
+                            string group = KeyRecipeSolver.GroupKey(string.Join(',', k), strikes);
+                            return !KeyRecipeSolver.Done(saved, group, g) && !KeyRecipeSolver.Attempted(saved, group, g)
+                                ? "MISSING" : saved!.Groups[group].Goals[g].Status;
+                        }))).ToArray();
                         bool running = active.TryGetValue(recipe.Id, out var job);
                         return new { recipe = recipe.Id, name = recipe.Name, excluded_areas = saved?.ExcludedAreas ?? [], keys = keys.Length, total = states.Length,
                             optimal = states.Count(s => s == "OPTIMAL"), confidence = states.Count(s => s == "CONFIDENCE"), infeasible = states.Count(s => s == "INFEASIBLE"),
                             unknown = states.Count(s => s == "UNKNOWN"), missing = states.Count(s => s == "MISSING"),
-                            complete = keys.All(k => goals.All(g => KeyRecipeSolver.Done(saved, string.Join(',', k), g))),
+                            complete = keys.All(k => ConfidenceAnalysis.RetainedStrikes.All(strikes => goals.All(g =>
+                                KeyRecipeSolver.Done(saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g)))),
                             running, seconds = spent.GetValueOrDefault(recipe.Id) + (running ? job.Clock.Elapsed.TotalSeconds : 0),
                             error = errors.GetValueOrDefault(recipe.Id) };
                     }).ToArray();
@@ -173,7 +177,8 @@ internal static class Program
                 Recipe[] work = recipes.Where(r => Needed(r, retry)).ToArray();
                 if (retry)
                     work = work.Select(r => (Recipe: r, Saved: KeyRecipeSolver.Load(catalog, r)))
-                        .OrderByDescending(p => Keys(p.Recipe).Sum(k => goals.Count(g => !KeyRecipeSolver.Done(p.Saved, string.Join(',', k), g))))
+                        .OrderByDescending(p => Keys(p.Recipe).Sum(k => ConfidenceAnalysis.RetainedStrikes.Sum(strikes => goals.Count(g =>
+                            !KeyRecipeSolver.Done(p.Saved, KeyRecipeSolver.GroupKey(string.Join(',', k), strikes), g)))))
                         .ThenBy(p => p.Recipe.Id).Select(p => p.Recipe).ToArray();
                 int parallelism = retry ? Math.Min(4, options.Threads) : options.Threads;
                 ConcurrentDictionary<int, byte> pending = new(work.Select(r => new KeyValuePair<int, byte>(r.Id, 0)));
@@ -279,6 +284,14 @@ internal static class Program
             Parallel.ForEach(selectedEncounters, new ParallelOptions { MaxDegreeOfParallelism = options.Threads, CancellationToken = cancellation.Token }, encounter =>
             {
                 string file = Path.Combine(directory, $"{encounter.Id:000}.json");
+                DeckResult? cached = Storage.Read<DeckResult>(file);
+                if (cached is not null && cached.Library == library && cached.Encounter == encounter.Id && cached.Rating == Battle.SearchRating &&
+                    cached.Battle.Passed && cached.RatingBattles.Count == 20)
+                {
+                    decks[encounter.Id] = cached;
+                    Console.WriteLine($"{encounter.Name}：复用已完成配队，遭遇分{cached.Battle.Score:N0}。");
+                    SaveStatus(); return;
+                }
                 DeckChoice[]? incumbentTeam = null;
                 if (incumbents.TryGetValue(encounter.Id, out DeckResult? incumbent) && incumbent.Cards.All(c => byTemplate.ContainsKey(c.Template)))
                     incumbentTeam = incumbent.Cards.Select(c => new DeckChoice(byTemplate[c.Template], c.Color, c.Traits)).ToArray();

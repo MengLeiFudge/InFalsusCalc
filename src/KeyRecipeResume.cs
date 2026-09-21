@@ -41,7 +41,7 @@ internal sealed partial class KeyRecipeSolver
         {
             GroupState group = entry.Value;
             CardTemplate[] available = group.Best.Values.Distinct().Where(result.Cards.ContainsKey).Select(id => result.Cards[id])
-                .Where(c => c.Valid && c.Strikes == 0 && group.Key.SequenceEqual(new[] { c.Slots, c.Slots == 0 ? 0 : c.Left, c.Slots == 0 ? 0 : c.Right }) &&
+                .Where(c => c.Valid && c.Strikes == group.Strikes && group.Key.SequenceEqual(new[] { c.Slots, c.Slots == 0 ? 0 : c.Left, c.Slots == 0 ? 0 : c.Right }) &&
                     !c.Active.Intersect(result.ExcludedAreas).Any()).ToArray();
             foreach (var pair in group.Goals)
             {
@@ -75,7 +75,7 @@ internal sealed partial class KeyRecipeSolver
             {
                 CardTemplate card = Craft.Evaluate(catalog, recipe, stored.Placements);
                 if (!card.Valid || card.Strikes != 0 || card.Active.Intersect(saved.ExcludedAreas).Any()) continue;
-                string key = $"{card.Slots},{card.Left},{card.Right}";
+                string key = GroupKey($"{card.Slots},{card.Left},{card.Right}", 0);
                 if (!saved.Groups.TryGetValue(key, out GroupState? group)) continue;
                 foreach (string goal in new[] { "power", "fortitude", "total" })
                 {
@@ -89,10 +89,18 @@ internal sealed partial class KeyRecipeSolver
         int closed = ReuseBounds(saved);
         if (imported == 0 && closed == 0) return;
         if (imported > 0) Console.WriteLine($"[{recipe.Id}] 按当前规则复核旧布局，改善{imported}个目标候选；不复用旧最优标签。");
-        saved.Complete = ConfidenceAnalysis.RetainedKeys(recipe).All(k => new[] { "power", "fortitude", "total" }.All(g => Done(saved, string.Join(',', k), g)));
+        saved.Complete = Complete(saved, recipe);
         saved.BoundedFinalized = saved.Complete; saved.Updated = DateTimeOffset.UtcNow;
         Storage.Write(Path.Combine(Storage.State, "key-recipes", $"{recipe.Id:00}.json"), saved);
     }
+
+    /// <summary>生成惩罚层的稳定分组编号；惩罚0沿用旧编号以复用既有检查点。</summary>
+    internal static string GroupKey(string key, int strikes) => strikes == 0 ? key : $"{key}/p{strikes}";
+
+    /// <summary>所有保留结构和惩罚层的三个目标均有结论时才完成。</summary>
+    private static bool Complete(RecipeResult result, Recipe recipe) => ConfidenceAnalysis.RetainedKeys(recipe).All(k =>
+        ConfidenceAnalysis.RetainedStrikes.All(strikes => new[] { "power", "fortitude", "total" }
+            .All(goal => Done(result, GroupKey(string.Join(',', k), strikes), goal))));
 
     /// <summary>判断当前范围是否真正尝试过；换范围后仅保留上界不算已搜索。</summary>
     /// <param name="saved">兼容当前范围的检查点。</param>

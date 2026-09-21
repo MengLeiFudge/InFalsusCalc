@@ -32,7 +32,8 @@ internal sealed partial class KeyRecipeSolver
     /// <param name="cover">覆盖每个格子的粒子选择变量。</param>
     /// <param name="forced">全部替代集合都必须占用的奖励格。</param>
     /// <param name="sets">用于收紧激活锚点数量上界的区域集合。</param>
-    private void AddConnection(CpModel model, BoolVar[] active, List<BoolVar>[] cover, HashSet<Hex> forced, RegionSet[] sets)
+    /// <param name="splitPenalty">允许增加的断连惩罚次数。</param>
+    private void AddConnection(CpModel model, BoolVar[] active, List<BoolVar>[] cover, HashSet<Hex> forced, RegionSet[] sets, IntVar splitPenalty)
     {
         int[] nodes = Enumerable.Repeat(-1, cells.Length).ToArray();
         List<LinearExpr> enabled = [];
@@ -48,7 +49,7 @@ internal sealed partial class KeyRecipeSolver
                 BoolVar used = model.NewBoolVar($"used{c}"); model.AddMaxEquality(used, cover[c]);
                 nodes[c] = enabled.Count; enabled.Add(used);
             }
-        LinearExpr rootLimit = Craft.Skills[recipe.Character].Split +
+        LinearExpr rootLimit = Craft.Skills[recipe.Character].Split + splitPenalty +
             LinearExpr.WeightedSum(active, Enumerable.Range(0, active.Length).Select(i => (long)effects[i, 11])) + 1;
         // 连通块在任一六边格坐标轴上的投影都是连续区间，占用段数因此不能超过允许的连通块数。
         Func<Hex, int>[] axes = [c => c.Q, c => c.R, c => c.Q + c.R];

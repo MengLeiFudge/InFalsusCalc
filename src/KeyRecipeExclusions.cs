@@ -58,10 +58,10 @@ internal sealed partial class KeyRecipeSolver
             foreach (var pair in group.Goals)
                 if (pair.Value.Status == "OPTIMAL" && !group.Best.ContainsKey(pair.Key))
                 { pair.Value.Status = "UNKNOWN"; reopened++; }
-            group.Complete = new[] { "power", "fortitude", "total" }.All(g => Done(saved, string.Join(',', group.Key), g));
+            group.Complete = new[] { "power", "fortitude", "total" }.All(g => Done(saved, GroupKey(string.Join(',', group.Key), group.Strikes), g));
             group.Infeasible = group.Complete && group.Best.Count == 0;
         }
-        saved.Complete = ConfidenceAnalysis.RetainedKeys(recipe).All(k => new[] { "power", "fortitude", "total" }.All(g => Done(saved, string.Join(',', k), g)));
+        saved.Complete = false;
         saved.BoundedFinalized = saved.Complete; saved.Updated = DateTimeOffset.UtcNow;
         Storage.Write(path, saved);
         Console.WriteLine($"[{recipe.Id}] 排除区域{string.Join(',', saved.ExcludedAreas)}；保留兼容证明，重新开放{reopened}个受影响目标。");

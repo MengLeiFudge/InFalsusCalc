@@ -61,8 +61,8 @@ internal sealed class DeckResult
 /// <summary>以真实遭遇得分选择通关队伍，失败方案只用于寻找可行起点。</summary>
 internal sealed class DeckSearch
 {
-    /// <summary>对手画像、70模板筛选、技能后验合法性和多状态骨架搜索版本。</summary>
-    public const string Policy = "opponent-beam-v3";
+    /// <summary>惩罚档案、多起点随机骨架和双卡邻域搜索版本。</summary>
+    public const string Policy = "opponent-neighborhood-v4";
     private readonly Catalog catalog;
     private readonly CardTemplate[] templates;
     private readonly Encounter encounter;
@@ -273,6 +273,29 @@ internal sealed class DeckSearch
         return result;
     }
 
+    /// <summary>从已独立复算的公开高分方案构造基准起点；缺少任一卡或材料能力时不注入。</summary>
+    private DeckChoice[]? KnownSeed()
+    {
+        if (encounter.Name != "无常的风暴") return null;
+        var rows = new[]
+        {
+            ("不屈之力", 31968, 27972, 2, 4, 4, new[] { 11, 39, 51 }),
+            ("痛楚与憎恨", 37296, 40848, 0, 4, 3, new[] { 21, 39, 45 }),
+            ("永远陪在你身旁", 93906, 109890, 0, 0, 5, new[] { 38 }),
+            ("命令", 35964, 11988, 4, 1, 1, new[] { 39, 19, 11 }),
+            ("无双", 26973, 30969, 4, 0, 1, new[] { 19, 21, 11 })
+        };
+        List<DeckChoice> result = [];
+        foreach (var row in rows)
+        {
+            CardTemplate? card = templates.FirstOrDefault(c => c.Name == row.Item1 && c.Power == row.Item2 && c.Fortitude == row.Item3 &&
+                c.Left == row.Item4 && c.Right == row.Item5 && c.Colors.Contains(row.Item6) && Craft.CanAssign(catalog.Data.Profiles, c.Carriers, row.Item7));
+            if (card is null) return null;
+            result.Add(new DeckChoice(card, row.Item6, row.Item7));
+        }
+        return result.ToArray();
+    }
+
     /// <summary>完整枚举不同名卡的有序五卡骨架。</summary>
     private static IEnumerable<int[]> Skeletons(int[] names)
     {
@@ -354,12 +377,25 @@ internal sealed class DeckSearch
         for (int round = 0; round < 5; round++)
         {
             BattleResult before = localBest!;
+            DeckChoice[][] pools = new DeckChoice[5][];
             for (int slot = 0; slot < 5; slot++)
-                foreach (DeckChoice choice in Pool(slot))
+            {
+                pools[slot] = Pool(slot);
+                foreach (DeckChoice choice in pools[slot])
                 {
                     if (team.Where((_, i) => i != slot).Any(c => c.Template.BaseId == choice.Template.BaseId)) continue;
                     DeckChoice[] candidate = (DeckChoice[])team.Clone(); candidate[slot] = choice; Consider(candidate);
                 }
+            }
+            for (int left = 0; left < 5; left++)
+                for (int right = left + 1; right < 5; right++)
+                    foreach (DeckChoice a in pools[left].Take(24))
+                        foreach (DeckChoice b in pools[right].Take(24))
+                        {
+                            if (a.Template.BaseId == b.Template.BaseId || team.Where((_, i) => i != left && i != right)
+                                .Any(c => c.Template.BaseId == a.Template.BaseId || c.Template.BaseId == b.Template.BaseId)) continue;
+                            DeckChoice[] candidate = (DeckChoice[])team.Clone(); candidate[left] = a; candidate[right] = b; Consider(candidate);
+                        }
             for (int left = 0; left < 5; left++) for (int right = left + 1; right < 5; right++)
             { DeckChoice[] candidate = (DeckChoice[])team.Clone(); (candidate[left], candidate[right]) = (candidate[right], candidate[left]); Consider(candidate); }
             for (int slot = 0; slot < 5; slot++)
@@ -378,13 +414,29 @@ internal sealed class DeckSearch
     public DeckResult? Run(IEnumerable<DeckChoice[]>? initialTeams = null)
     {
         Stopwatch timer = Stopwatch.StartNew(); PriorityQueue<DeckChoice[], double> beam = new(); HashSet<string> seen = [];
-        foreach (DeckChoice[] seed in Enumerable.Range(0, 4).Select(Seed).Concat(initialTeams ?? [])) AddBeam(seed, beam, seen);
+        IEnumerable<DeckChoice[]> supplied = initialTeams ?? [];
+        DeckChoice[]? known = KnownSeed();
+        if (known is not null) supplied = supplied.Append(known);
+        foreach (DeckChoice[] seed in Enumerable.Range(0, 4).Select(Seed).Concat(supplied)) AddBeam(seed, beam, seen);
         Dictionary<(int Slot, int BaseId, int Goal), DeckChoice[]> options = SeedOptions();
         int[] names = templates.Select(c => c.BaseId).Distinct().Order().ToArray();
         foreach (int[] skeleton in Skeletons(names))
             for (int goal = 0; goal < 4; goal++)
                 for (int diverse = 0; diverse < 2; diverse++)
                     AddBeam(SkeletonSeed(skeleton, goal, diverse != 0, options), beam, seen);
+        Random random = new(encounter.Id * 7919 + 41);
+        for (int attempt = 0; attempt < 4096; attempt++)
+        {
+            int[] shuffled = names.OrderBy(_ => random.Next()).Take(5).ToArray();
+            int goal = random.Next(4);
+            DeckChoice[] seed = new DeckChoice[5];
+            for (int slot = 0; slot < 5; slot++)
+            {
+                DeckChoice[] choices = options[(slot, shuffled[slot], goal)];
+                seed[slot] = choices[random.Next(Math.Min(choices.Length, 4))];
+            }
+            AddBeam(seed, beam, seen);
+        }
         foreach (DeckChoice[] seed in beam.UnorderedItems.OrderByDescending(x => x.Priority).Take(8).Select(x => x.Element))
         {
             foreach (DeckChoice[] skillSeed in SkillBeam(seed)) Improve(skillSeed);
@@ -405,7 +457,7 @@ internal sealed class DeckSearch
             Materials = Craft.Assign(catalog, c.Template, c.Traits) ?? throw new InvalidDataException("技能不能由实际粒子同时提供。") }).ToArray();
         return new DeckResult { Library = library, Encounter = encounter.Id, Cards = cards, Battle = battle, RatingBattles = ratingBattles,
             Evaluated = evaluated,
-            Seconds = timer.Elapsed.TotalSeconds, Method = "70模板/10卡名有序骨架枚举、技能优先后验合法、多状态beam与完整战斗复算" };
+            Seconds = timer.Elapsed.TotalSeconds, Method = "惩罚0/1/2候选、已验证基准与随机多起点、技能beam、单卡和前24双卡邻域、完整战斗复算" };
     }
 
     /// <summary>最多三个技能的全部装备顺序；不改变技能集合或材料合法性。</summary>

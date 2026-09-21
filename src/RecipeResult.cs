@@ -41,6 +41,8 @@ internal sealed class GroupState
 {
     /// <summary>新制卡器为槽数、左范围、右范围；旧展示分组另含颜色掩码。</summary>
     public int[] Key { get; set; } = [];
+    /// <summary>该组要求的精确净惩罚次数。</summary>
+    public int Strikes { get; set; }
     /// <summary>每个主要目标引用的布局编号。</summary>
     public Dictionary<string, string> Best { get; set; } = [];
     /// <summary>固定key求解器的面板证明状态；旧内外求解器不使用此字段。</summary>
@@ -93,7 +95,7 @@ internal sealed class RecipeResult
     /// <summary>累计真实求解用时，单位秒。</summary>
     public double SolveSeconds { get; set; }
 
-    /// <summary>供网页与配队共同使用的选择范围，避免两端采用不同模板。</summary>
+    /// <summary>供网页与配队共同使用的选择范围，包含惩罚0、1、2的非支配代表。</summary>
     /// <returns>全覆盖时仅一个布局，否则为各类别的三代表并集。</returns>
     public IEnumerable<CardTemplate> SelectedCards()
     {

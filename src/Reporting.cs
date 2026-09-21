@@ -29,7 +29,10 @@ internal static class Reporting
         {
             Recipe definition = catalog.Data.Recipes.Single(r => r.Id == recipe.Recipe);
             CardTemplate[] selected = ConfidenceAnalysis.SelectedCards(recipe, definition);
-            foreach (CardTemplate card in selected)
+            HashSet<string> retained = ConfidenceAnalysis.RetainedKeys(definition).Select(k => string.Join(',', k)).ToHashSet();
+            string[] visibleIds = recipe.Groups.Values.Where(g => retained.Contains(string.Join(',', g.Key)))
+                .SelectMany(g => g.Best.Values).Append(recipe.FullCover).Where(id => id is not null).Select(id => id!).Distinct().ToArray();
+            foreach (CardTemplate card in selected.Concat(visibleIds.Select(id => recipe.Cards[id])).DistinctBy(c => c.Id))
             {
                 JsonObject node = JsonSerializer.SerializeToNode(card, Storage.Json)!.AsObject();
                 node["goals"] = new JsonArray(); templates[card.Id] = node;
@@ -43,15 +46,15 @@ internal static class Reporting
             }
             else
             {
-                HashSet<string> retained = ConfidenceAnalysis.RetainedKeys(definition).Select(k => string.Join(',', k)).ToHashSet();
-                foreach (var pair in recipe.Groups.Where(p => retained.Contains(p.Key)).OrderBy(p => p.Value.Key[0]).ThenBy(p => p.Value.Key[1]).ThenBy(p => p.Value.Key[2]))
+                foreach (var pair in recipe.Groups.Where(p => retained.Contains(string.Join(',', p.Value.Key)))
+                    .OrderBy(p => p.Value.Key[0]).ThenBy(p => p.Value.Key[1]).ThenBy(p => p.Value.Key[2]).ThenBy(p => p.Value.Strikes))
                 {
                     GroupState group = pair.Value;
                     if (group.Best.Count == 0) continue;
                     var rows = group.Best.GroupBy(item => item.Value).Select(items => new { template = items.Key, goals = items.Select(p => p.Key).ToArray() }).ToArray();
                     foreach (var row in rows) templates[row.template]["goals"] = JsonSerializer.SerializeToNode(row.goals, Storage.Json);
                     int palette = rows.SelectMany(row => recipe.Cards[row.template].Colors).Distinct().Sum(color => 1 << color);
-                    visible.Add(new { key = group.Key.Concat([palette]).ToArray(), full_coverage = false, results = rows });
+                    visible.Add(new { key = group.Key.Concat([palette]).ToArray(), strikes = group.Strikes, full_coverage = false, results = rows });
                 }
             }
             groups[recipe.Recipe] = visible.ToArray();
@@ -60,7 +63,7 @@ internal static class Reporting
         JsonElement raw = catalog.Raw;
         var report = new
         {
-            schema = 7, version = $"{KeyRecipeSolver.Policy}/{ConfidenceAnalysis.Scope}/{DeckSearch.Policy}", library, created = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            schema = 8, version = $"{KeyRecipeSolver.Policy}/{ConfidenceAnalysis.Scope}/{DeckSearch.Policy}", library, created = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             catalog = new { id = catalog.Data.Id, commit = catalog.Data.Commit, traits = raw.GetProperty("traits"),
                 shapes = raw.GetProperty("shapes"), encounters = raw.GetProperty("encounters"),
                 recipes = catalog.Data.Recipes.Select(r => new { id = r.Id, name = r.Name }).ToArray() },
