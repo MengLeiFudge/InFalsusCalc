@@ -1,0 +1,148 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 61,
+  "groups": {
+    "1,0,2,40": {
+      "key": [1, 0, 2, 40],
+      "best": {
+        "inner:power": "ba6b9be3fc14c44c8bbb5bcf",
+        "inner:fortitude": "ba6b9be3fc14c44c8bbb5bcf",
+        "inner:total": "ba6b9be3fc14c44c8bbb5bcf"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    },
+    "1,0,0,8": {
+      "key": [1, 0, 0, 8],
+      "best": {
+        "outer:power": "640670215bb8be30d6dc8bd5",
+        "outer:fortitude": "640670215bb8be30d6dc8bd5",
+        "outer:total": "640670215bb8be30d6dc8bd5"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 3, "outer": 4 },
+  "cards": {
+    "ba6b9be3fc14c44c8bbb5bcf": {
+      "id": "ba6b9be3fc14c44c8bbb5bcf",
+      "recipe": 61,
+      "base_id": 61,
+      "name": "丑陋的告白",
+      "power": 31968,
+      "fortitude": 23976,
+      "total": 55944,
+      "base_power": 3200,
+      "base_fortitude": 2400,
+      "colors": [3, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 2,
+      "tier_counts": [9, 2, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "heuristic_score": 7.1844,
+      "retained_percent": 100,
+      "carriers": [3, 2, 1],
+      "placements": [
+        { "id": 3, "q": 5, "r": -8, "color": 1, "cells": [[5, -9], [5, -8], [6, -8]] },
+        { "id": 4, "q": 3, "r": -9, "color": 2, "cells": [[3, -9]] },
+        { "id": 7, "q": 6, "r": -11, "color": 3, "cells": [[6, -11]] },
+        { "id": 7, "q": 6, "r": -4, "color": 3, "cells": [[6, -4]] },
+        { "id": 7, "q": 16, "r": -20, "color": 3, "cells": [[16, -20]] },
+        { "id": 13, "q": 2, "r": -6, "color": 5, "cells": [[2, -6]] },
+        { "id": 13, "q": 12, "r": -15, "color": 5, "cells": [[12, -15]] },
+        { "id": 13, "q": 12, "r": -8, "color": 5, "cells": [[12, -8]] },
+        { "id": 14, "q": 6, "r": -7, "color": 5, "cells": [[6, -7], [7, -7]] },
+        { "id": 17, "q": 3, "r": -8, "color": 1, "cells": [[3, -9], [3, -8], [3, -7], [4, -9], [5, -10]] },
+        {
+          "id": 21,
+          "q": 14,
+          "r": -18,
+          "color": 2,
+          "cells": [[13, -18], [13, -17], [14, -19], [14, -18], [14, -17], [15, -19]]
+        },
+        {
+          "id": 38,
+          "q": 14,
+          "r": -17,
+          "color": 4,
+          "cells": [[13, -17], [13, -16], [14, -18], [14, -16], [15, -18], [15, -17]]
+        }
+      ],
+      "active": [1, 3, 4, 7, 8, 10, 12, 18, 19, 21],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 3],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 2, 40],
+      "full_coverage": false
+    },
+    "640670215bb8be30d6dc8bd5": {
+      "id": "640670215bb8be30d6dc8bd5",
+      "recipe": 61,
+      "base_id": 61,
+      "name": "丑陋的告白",
+      "power": 27972,
+      "fortitude": 43956,
+      "total": 71928,
+      "base_power": 2800,
+      "base_fortitude": 4400,
+      "colors": [3],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [10, 2, 0],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 8.3128,
+      "retained_percent": 100,
+      "carriers": [3, 2, 0],
+      "placements": [
+        { "id": 2, "q": 9, "r": -15, "color": 1, "cells": [[9, -15], [10, -16]] },
+        { "id": 3, "q": 10, "r": -8, "color": 1, "cells": [[10, -9], [10, -8], [11, -8]] },
+        { "id": 7, "q": 16, "r": -20, "color": 3, "cells": [[16, -20]] },
+        { "id": 10, "q": 4, "r": -5, "color": 4, "cells": [[4, -5]] },
+        { "id": 10, "q": 9, "r": -13, "color": 4, "cells": [[9, -13]] },
+        { "id": 10, "q": 9, "r": -6, "color": 4, "cells": [[9, -6]] },
+        { "id": 13, "q": 8, "r": -13, "color": 5, "cells": [[8, -13]] },
+        { "id": 13, "q": 10, "r": -7, "color": 5, "cells": [[10, -7]] },
+        { "id": 13, "q": 12, "r": -8, "color": 5, "cells": [[12, -8]] },
+        { "id": 14, "q": 7, "r": -14, "color": 5, "cells": [[7, -14], [8, -14]] },
+        { "id": 22, "q": 1, "r": -3, "color": 3, "cells": [[1, -3], [1, -2], [2, -4], [2, -3]] },
+        { "id": 28, "q": 2, "r": -5, "color": 5, "cells": [[1, -6], [1, -5], [2, -6], [2, -5], [3, -5]] }
+      ],
+      "active": [3, 6, 9, 11, 12, 13, 14, 15, 16, 18],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 0, 3],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 8],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:04.7418802+00:00",
+  "solve_seconds": 0.5819163
+}

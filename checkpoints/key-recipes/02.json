@@ -1,0 +1,261 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [],
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 2,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "bf07cfab52b2b5661ba83849",
+        "fortitude": "bf07cfab52b2b5661ba83849",
+        "total": "bf07cfab52b2b5661ba83849"
+      },
+      "total_best": ["bf07cfab52b2b5661ba83849"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 29970,
+          "secondary_upper_bound": 29970,
+          "objective_complete": true,
+          "seconds": 1.61e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 29970,
+          "secondary_upper_bound": 29970,
+          "objective_complete": true,
+          "seconds": 1.43e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 59940,
+          "secondary_upper_bound": 29970,
+          "objective_complete": true,
+          "seconds": 5.9808904,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "0f3e66646b4ecd741059cddc",
+        "fortitude": "0f3e66646b4ecd741059cddc",
+        "total": "0f3e66646b4ecd741059cddc"
+      },
+      "total_best": ["0f3e66646b4ecd741059cddc"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 26640,
+          "secondary_upper_bound": 26640,
+          "objective_complete": true,
+          "seconds": 1.35e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 26640,
+          "secondary_upper_bound": 26640,
+          "objective_complete": true,
+          "seconds": 1.34e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 53280,
+          "secondary_upper_bound": 26640,
+          "objective_complete": true,
+          "seconds": 0.0565098,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "fefacade1fd259baf8a02aa7",
+        "fortitude": "fefacade1fd259baf8a02aa7",
+        "total": "fefacade1fd259baf8a02aa7"
+      },
+      "total_best": ["fefacade1fd259baf8a02aa7"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 16651,
+          "secondary_upper_bound": 16651,
+          "objective_complete": true,
+          "seconds": 1.21e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 16651,
+          "secondary_upper_bound": 16651,
+          "objective_complete": true,
+          "seconds": 1.26e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 33302,
+          "secondary_upper_bound": 16651,
+          "objective_complete": true,
+          "seconds": 0.06824,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "bf07cfab52b2b5661ba83849": {
+      "id": "bf07cfab52b2b5661ba83849",
+      "recipe": 2,
+      "base_id": 2,
+      "name": "冷酷的督导",
+      "power": 29970,
+      "fortitude": 29970,
+      "total": 59940,
+      "base_power": 3000,
+      "base_fortitude": 3000,
+      "colors": [2],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 2, 2],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 2, 2],
+      "placements": [
+        { "id": 2, "q": -6, "r": 10, "color": 1, "cells": [[-6, 10], [-5, 9]] },
+        { "id": 3, "q": 5, "r": 4, "color": 1, "cells": [[5, 3], [5, 4], [6, 4]] },
+        { "id": 4, "q": 1, "r": 4, "color": 2, "cells": [[1, 4]] },
+        { "id": 4, "q": 2, "r": 3, "color": 2, "cells": [[2, 3]] },
+        { "id": 4, "q": 4, "r": -1, "color": 2, "cells": [[4, -1]] },
+        { "id": 21, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0]] },
+        { "id": 21, "q": 2, "r": 1, "color": 2, "cells": [[1, 1], [1, 2], [2, 0], [2, 1], [2, 2], [3, 0]] },
+        {
+          "id": 34,
+          "q": -3,
+          "r": 2,
+          "color": 2,
+          "cells": [[-4, 2], [-4, 3], [-3, 1], [-3, 2], [-3, 3], [-2, 1], [-2, 2], [-1, 1]]
+        },
+        {
+          "id": 34,
+          "q": -1,
+          "r": 4,
+          "color": 2,
+          "cells": [[-2, 4], [-2, 5], [-1, 3], [-1, 4], [-1, 5], [0, 3], [0, 4], [1, 3]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 3, 1, 2],
+      "falsehood": false,
+      "count": 9,
+      "valid": true,
+      "group": [0, 0, 0, 4]
+    },
+    "0f3e66646b4ecd741059cddc": {
+      "id": "0f3e66646b4ecd741059cddc",
+      "recipe": 2,
+      "base_id": 2,
+      "name": "冷酷的督导",
+      "power": 26640,
+      "fortitude": 26640,
+      "total": 53280,
+      "base_power": 3000,
+      "base_fortitude": 3000,
+      "colors": [2],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 6, 0],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [2, 3, 0],
+      "placements": [
+        { "id": 2, "q": -6, "r": 10, "color": 1, "cells": [[-6, 10], [-5, 9]] },
+        { "id": 3, "q": 5, "r": 4, "color": 1, "cells": [[5, 3], [5, 4], [6, 4]] },
+        { "id": 19, "q": 1, "r": 4, "color": 2, "cells": [[0, 4], [1, 3], [1, 4], [2, 3]] },
+        { "id": 20, "q": 2, "r": 1, "color": 2, "cells": [[1, 1], [1, 2], [2, 1], [2, 2], [3, 1]] },
+        { "id": 21, "q": -3, "r": 3, "color": 2, "cells": [[-4, 3], [-4, 4], [-3, 2], [-3, 3], [-3, 4], [-2, 2]] },
+        { "id": 21, "q": -1, "r": 4, "color": 2, "cells": [[-2, 4], [-2, 5], [-1, 3], [-1, 4], [-1, 5], [0, 3]] },
+        { "id": 21, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0]] },
+        { "id": 21, "q": 3, "r": 0, "color": 2, "cells": [[2, 0], [2, 1], [3, -1], [3, 0], [3, 1], [4, -1]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 2, 2, 2],
+      "falsehood": false,
+      "count": 8,
+      "valid": true,
+      "group": [0, 0, 0, 4]
+    },
+    "fefacade1fd259baf8a02aa7": {
+      "id": "fefacade1fd259baf8a02aa7",
+      "recipe": 2,
+      "base_id": 2,
+      "name": "冷酷的督导",
+      "power": 16651,
+      "fortitude": 16651,
+      "total": 33302,
+      "base_power": 3000,
+      "base_fortitude": 3000,
+      "colors": [2],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 6, 0],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [2, 3, 0],
+      "placements": [
+        { "id": 2, "q": -6, "r": 10, "color": 1, "cells": [[-6, 10], [-5, 9]] },
+        { "id": 3, "q": 5, "r": 4, "color": 1, "cells": [[5, 3], [5, 4], [6, 4]] },
+        { "id": 19, "q": 1, "r": 4, "color": 2, "cells": [[0, 4], [1, 3], [1, 4], [2, 3]] },
+        { "id": 21, "q": -3, "r": 3, "color": 2, "cells": [[-4, 3], [-4, 4], [-3, 2], [-3, 3], [-3, 4], [-2, 2]] },
+        { "id": 21, "q": -1, "r": 4, "color": 2, "cells": [[-2, 4], [-2, 5], [-1, 3], [-1, 4], [-1, 5], [0, 3]] },
+        { "id": 21, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0]] },
+        { "id": 21, "q": 2, "r": 1, "color": 2, "cells": [[1, 1], [1, 2], [2, 0], [2, 1], [2, 2], [3, 0]] },
+        { "id": 21, "q": 3, "r": 0, "color": 2, "cells": [[2, 0], [2, 1], [3, -1], [3, 0], [3, 1], [4, -1]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 2,
+      "penalties": [0, 0, 2, 0],
+      "raw_penalties": [0, 2, 3, 2],
+      "falsehood": false,
+      "count": 8,
+      "valid": true,
+      "group": [0, 0, 0, 4]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T03:52:05.3695844+00:00"
+}

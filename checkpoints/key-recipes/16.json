@@ -1,0 +1,1087 @@
+{
+  "policy": "key-regions-v2/excluded-v1-4",
+  "infeasible_regions": [123],
+  "excluded_areas": [2],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 16,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "f3426ca2c88b84ad664db5e0",
+        "fortitude": "f3426ca2c88b84ad664db5e0",
+        "total": "f3426ca2c88b84ad664db5e0"
+      },
+      "total_best": ["f3426ca2c88b84ad664db5e0"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 86913,
+          "secondary_upper_bound": 6993,
+          "objective_complete": true,
+          "seconds": 2.2e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 6993,
+          "secondary_upper_bound": 86913,
+          "objective_complete": true,
+          "seconds": 6.09e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 93906,
+          "secondary_upper_bound": 86913,
+          "objective_complete": true,
+          "seconds": 0.0605894,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0": {
+      "key": [1, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "0c800e6308c0ff36b9911c1a",
+        "total": "0c800e6308c0ff36b9911c1a",
+        "fortitude": "0c800e6308c0ff36b9911c1a"
+      },
+      "total_best": ["0c800e6308c0ff36b9911c1a"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 78921,
+          "secondary_upper_bound": 6993,
+          "objective_complete": true,
+          "seconds": 5.49e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 6993,
+          "secondary_upper_bound": 78921,
+          "objective_complete": true,
+          "seconds": 2.78e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 85914,
+          "secondary_upper_bound": 78921,
+          "objective_complete": true,
+          "seconds": 0.0681559,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,1,1": {
+      "key": [1, 1, 1],
+      "strikes": 0,
+      "best": {
+        "power": "a8a43b1e62018797e696a317",
+        "total": "a8a43b1e62018797e696a317",
+        "fortitude": "a8a43b1e62018797e696a317"
+      },
+      "total_best": ["a8a43b1e62018797e696a317"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 79920,
+          "secondary_upper_bound": 6993,
+          "objective_complete": true,
+          "seconds": 1.87e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 6993,
+          "secondary_upper_bound": 79920,
+          "objective_complete": true,
+          "seconds": 22.8864011,
+          "geometry_queries": 1
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 86913,
+          "secondary_upper_bound": 79920,
+          "objective_complete": true,
+          "seconds": 23.0079759,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,1,1/p1": {
+      "key": [1, 1, 1],
+      "strikes": 1,
+      "best": {
+        "power": "2cfcfc6ee0d4ff4f615fae42",
+        "fortitude": "2cfcfc6ee0d4ff4f615fae42",
+        "total": "2cfcfc6ee0d4ff4f615fae42"
+      },
+      "total_best": ["2cfcfc6ee0d4ff4f615fae42"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 77256,
+          "secondary_upper_bound": 6216,
+          "objective_complete": true,
+          "seconds": 0.0060972,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 6216,
+          "secondary_upper_bound": 77256,
+          "objective_complete": true,
+          "seconds": 5.17e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 83472,
+          "secondary_upper_bound": 77256,
+          "objective_complete": true,
+          "seconds": 0.0607764,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p1": {
+      "key": [1, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "dbf36d21938b77fd5e2fd334",
+        "fortitude": "dbf36d21938b77fd5e2fd334",
+        "total": "dbf36d21938b77fd5e2fd334"
+      },
+      "total_best": ["dbf36d21938b77fd5e2fd334"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 70152,
+          "secondary_upper_bound": 6216,
+          "objective_complete": true,
+          "seconds": 2.04e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 6216,
+          "secondary_upper_bound": 70152,
+          "objective_complete": true,
+          "seconds": 3.06e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 76368,
+          "secondary_upper_bound": 70152,
+          "objective_complete": true,
+          "seconds": 0.0875397,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "2140e15d5cdb4593b325749d",
+        "fortitude": "2140e15d5cdb4593b325749d",
+        "total": "2140e15d5cdb4593b325749d"
+      },
+      "total_best": ["2140e15d5cdb4593b325749d"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 77256,
+          "secondary_upper_bound": 6216,
+          "objective_complete": true,
+          "seconds": 1.85e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 6216,
+          "secondary_upper_bound": 77256,
+          "objective_complete": true,
+          "seconds": 4.96e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 83472,
+          "secondary_upper_bound": 77256,
+          "objective_complete": true,
+          "seconds": 0.1072251,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,1,1/p2": {
+      "key": [1, 1, 1],
+      "strikes": 2,
+      "best": {
+        "power": "f51708723bd716d5cde49e68",
+        "fortitude": "f51708723bd716d5cde49e68",
+        "total": "f51708723bd716d5cde49e68"
+      },
+      "total_best": ["f51708723bd716d5cde49e68"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 48286,
+          "secondary_upper_bound": 3886,
+          "objective_complete": true,
+          "seconds": 1.71e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 3886,
+          "secondary_upper_bound": 48286,
+          "objective_complete": true,
+          "seconds": 2.83e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 52172,
+          "secondary_upper_bound": 48286,
+          "objective_complete": true,
+          "seconds": 0.0782451,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p2": {
+      "key": [1, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "1a47f442c9b95ab58bc1fc07",
+        "fortitude": "1a47f442c9b95ab58bc1fc07",
+        "total": "1a47f442c9b95ab58bc1fc07"
+      },
+      "total_best": ["1a47f442c9b95ab58bc1fc07"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 43846,
+          "secondary_upper_bound": 3886,
+          "objective_complete": true,
+          "seconds": 1.67e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 3886,
+          "secondary_upper_bound": 43846,
+          "objective_complete": true,
+          "seconds": 2.79e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 47732,
+          "secondary_upper_bound": 43846,
+          "objective_complete": true,
+          "seconds": 0.0605255,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "8a69a791809376dab9f3ec4a",
+        "fortitude": "8a69a791809376dab9f3ec4a",
+        "total": "8a69a791809376dab9f3ec4a"
+      },
+      "total_best": ["8a69a791809376dab9f3ec4a"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 48286,
+          "secondary_upper_bound": 3886,
+          "objective_complete": true,
+          "seconds": 2.23e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 3886,
+          "secondary_upper_bound": 48286,
+          "objective_complete": true,
+          "seconds": 4.51e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-4",
+          "upper_bound": 52172,
+          "secondary_upper_bound": 48286,
+          "objective_complete": true,
+          "seconds": 0.137311,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "f3426ca2c88b84ad664db5e0": {
+      "id": "f3426ca2c88b84ad664db5e0",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 86913,
+      "fortitude": 6993,
+      "total": 93906,
+      "base_power": 8700,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 0,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [5, 5, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 1, "q": -2, "r": -4, "color": 1, "cells": [[-2, -4]] },
+        { "id": 3, "q": 0, "r": -4, "color": 1, "cells": [[0, -5], [0, -4], [1, -4]] },
+        { "id": 6, "q": -1, "r": 3, "color": 2, "cells": [[-1, 2], [-1, 3], [0, 2]] },
+        { "id": 6, "q": 0, "r": 1, "color": 2, "cells": [[0, 0], [0, 1], [1, 0]] },
+        { "id": 14, "q": 7, "r": -9, "color": 5, "cells": [[7, -9], [8, -9]] },
+        { "id": 17, "q": -1, "r": -5, "color": 1, "cells": [[-1, -6], [-1, -5], [-1, -4], [0, -6], [1, -7]] },
+        { "id": 18, "q": 0, "r": -8, "color": 1, "cells": [[-1, -7], [0, -8], [0, -7], [1, -10], [1, -9]] },
+        { "id": 29, "q": 5, "r": -5, "color": 5, "cells": [[3, -4], [4, -4], [5, -5], [6, -6], [7, -6]] },
+        { "id": 30, "q": 7, "r": -8, "color": 5, "cells": [[5, -7], [6, -8], [7, -8], [8, -8], [9, -9]] },
+        { "id": 30, "q": 7, "r": -7, "color": 5, "cells": [[5, -6], [6, -7], [7, -7], [8, -7], [9, -8]] },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 35,
+          "q": -15,
+          "r": 0,
+          "color": 3,
+          "cells": [[-15, 0], [-14, 0], [-13, 0], [-12, 0], [-11, 0], [-10, 0]]
+        },
+        {
+          "id": 36,
+          "q": -11,
+          "r": -2,
+          "color": 3,
+          "cells": [[-12, -2], [-12, -1], [-11, -3], [-11, -2], [-11, -1], [-10, -3], [-10, -2]]
+        },
+        {
+          "id": 36,
+          "q": -9,
+          "r": -2,
+          "color": 3,
+          "cells": [[-10, -2], [-10, -1], [-9, -3], [-9, -2], [-9, -1], [-8, -3], [-8, -2]]
+        },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [0, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 3, 1, 3],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [0, 0, 0, 36]
+    },
+    "0c800e6308c0ff36b9911c1a": {
+      "id": "0c800e6308c0ff36b9911c1a",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 78921,
+      "fortitude": 6993,
+      "total": 85914,
+      "base_power": 7900,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 9, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 2, "q": -2, "r": -6, "color": 1, "cells": [[-2, -6], [-1, -7]] },
+        { "id": 3, "q": 0, "r": -7, "color": 1, "cells": [[0, -8], [0, -7], [1, -7]] },
+        { "id": 6, "q": -1, "r": 3, "color": 2, "cells": [[-1, 2], [-1, 3], [0, 2]] },
+        { "id": 15, "q": 5, "r": -6, "color": 5, "cells": [[5, -7], [5, -6], [5, -5]] },
+        { "id": 17, "q": -3, "r": -4, "color": 1, "cells": [[-3, -5], [-3, -4], [-3, -3], [-2, -5], [-1, -6]] },
+        { "id": 18, "q": -4, "r": -5, "color": 1, "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -7], [-3, -6]] },
+        { "id": 19, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [0, 0], [0, 1], [1, 0]] },
+        {
+          "id": 27,
+          "q": 12,
+          "r": -11,
+          "color": 4,
+          "cells": [[11, -11], [12, -13], [12, -11], [13, -13], [13, -12], [14, -13]]
+        },
+        {
+          "id": 27,
+          "q": 12,
+          "r": -8,
+          "color": 4,
+          "cells": [[11, -8], [12, -10], [12, -8], [13, -10], [13, -9], [14, -10]]
+        },
+        {
+          "id": 27,
+          "q": 15,
+          "r": -11,
+          "color": 4,
+          "cells": [[14, -11], [15, -13], [15, -11], [16, -13], [16, -12], [17, -13]]
+        },
+        { "id": 28, "q": 7, "r": -6, "color": 5, "cells": [[6, -7], [6, -6], [7, -7], [7, -6], [8, -6]] },
+        { "id": 30, "q": 7, "r": -9, "color": 5, "cells": [[5, -8], [6, -9], [7, -9], [8, -9], [9, -10]] },
+        { "id": 30, "q": 7, "r": -8, "color": 5, "cells": [[5, -7], [6, -8], [7, -8], [8, -8], [9, -9]] },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -5,
+          "color": 1,
+          "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -6], [0, -5], [0, -4], [1, -6], [1, -5]]
+        },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -6,
+          "color": 5,
+          "cells": [[3, -5], [4, -8], [4, -7], [4, -6], [4, -5], [4, -4], [5, -7]]
+        }
+      ],
+      "active": [0, 1, 3, 4, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 3, 1, 3],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [1, 0, 0, 36]
+    },
+    "a8a43b1e62018797e696a317": {
+      "id": "a8a43b1e62018797e696a317",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 79920,
+      "fortitude": 6993,
+      "total": 86913,
+      "base_power": 8000,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [2, 6, 7],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 100,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 3, "q": 0, "r": -4, "color": 1, "cells": [[0, -5], [0, -4], [1, -4]] },
+        { "id": 8, "q": -8, "r": -3, "color": 3, "cells": [[-8, -3], [-8, -2]] },
+        { "id": 17, "q": -1, "r": -7, "color": 1, "cells": [[-1, -8], [-1, -7], [-1, -6], [0, -8], [1, -9]] },
+        { "id": 18, "q": -1, "r": -5, "color": 1, "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -7], [0, -6]] },
+        { "id": 19, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [0, 0], [0, 1], [1, 0]] },
+        { "id": 23, "q": -9, "r": -2, "color": 3, "cells": [[-10, -3], [-10, 0], [-9, -3], [-9, -2], [-9, -1]] },
+        { "id": 25, "q": 15, "r": -11, "color": 4, "cells": [[14, -11], [14, -10], [15, -11], [16, -12]] },
+        {
+          "id": 27,
+          "q": 14,
+          "r": -11,
+          "color": 4,
+          "cells": [[13, -11], [14, -13], [14, -11], [15, -13], [15, -12], [16, -13]]
+        },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 36,
+          "q": -11,
+          "r": -1,
+          "color": 3,
+          "cells": [[-12, -1], [-12, 0], [-11, -2], [-11, -1], [-11, 0], [-10, -2], [-10, -1]]
+        },
+        {
+          "id": 38,
+          "q": 13,
+          "r": -11,
+          "color": 4,
+          "cells": [[12, -11], [12, -10], [13, -12], [13, -10], [14, -12], [14, -11]]
+        },
+        { "id": 39, "q": 4, "r": -4, "color": 5, "cells": [[4, -4], [5, -5], [6, -6], [7, -7], [8, -8], [9, -9]] },
+        { "id": 39, "q": 5, "r": -7, "color": 5, "cells": [[5, -7], [6, -8], [7, -9], [8, -10], [9, -11], [10, -12]] },
+        { "id": 39, "q": 5, "r": -6, "color": 5, "cells": [[5, -6], [6, -7], [7, -8], [8, -9], [9, -10], [10, -11]] },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [1, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 3, 1, 4],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [1, 1, 1, 36]
+    },
+    "dbf36d21938b77fd5e2fd334": {
+      "id": "dbf36d21938b77fd5e2fd334",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 70152,
+      "fortitude": 6216,
+      "total": 76368,
+      "base_power": 7900,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 5, 5],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 2, "q": -1, "r": -7, "color": 1, "cells": [[-1, -7], [0, -8]] },
+        { "id": 2, "q": -1, "r": -6, "color": 1, "cells": [[-1, -6], [0, -7]] },
+        { "id": 4, "q": 1, "r": 0, "color": 2, "cells": [[1, 0]] },
+        { "id": 6, "q": -1, "r": 3, "color": 2, "cells": [[-1, 2], [-1, 3], [0, 2]] },
+        { "id": 14, "q": 7, "r": -9, "color": 5, "cells": [[7, -9], [8, -9]] },
+        { "id": 25, "q": 15, "r": -11, "color": 4, "cells": [[14, -11], [14, -10], [15, -11], [16, -12]] },
+        {
+          "id": 27,
+          "q": 14,
+          "r": -11,
+          "color": 4,
+          "cells": [[13, -11], [14, -13], [14, -11], [15, -13], [15, -12], [16, -13]]
+        },
+        { "id": 29, "q": 5, "r": -5, "color": 5, "cells": [[3, -4], [4, -4], [5, -5], [6, -6], [7, -6]] },
+        { "id": 30, "q": 7, "r": -8, "color": 5, "cells": [[5, -7], [6, -8], [7, -8], [8, -8], [9, -9]] },
+        { "id": 30, "q": 7, "r": -7, "color": 5, "cells": [[5, -6], [6, -7], [7, -7], [8, -7], [9, -8]] },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -5,
+          "color": 1,
+          "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -6], [0, -5], [0, -4], [1, -6], [1, -5]]
+        },
+        { "id": 33, "q": 0, "r": 2, "color": 2, "cells": [[0, -3], [0, -2], [0, -1], [0, 0], [0, 1], [0, 2]] },
+        {
+          "id": 38,
+          "q": 13,
+          "r": -11,
+          "color": 4,
+          "cells": [[12, -11], [12, -10], [13, -12], [13, -10], [14, -12], [14, -11]]
+        },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [0, 1, 3, 4, 6],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 1, 2, 2],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [1, 0, 0, 36]
+    },
+    "2140e15d5cdb4593b325749d": {
+      "id": "2140e15d5cdb4593b325749d",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 77256,
+      "fortitude": 6216,
+      "total": 83472,
+      "base_power": 8700,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 0,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [4, 5, 6],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 2, "q": -1, "r": -7, "color": 1, "cells": [[-1, -7], [0, -8]] },
+        { "id": 2, "q": -1, "r": -6, "color": 1, "cells": [[-1, -6], [0, -7]] },
+        { "id": 4, "q": 1, "r": 0, "color": 2, "cells": [[1, 0]] },
+        { "id": 14, "q": 7, "r": -9, "color": 5, "cells": [[7, -9], [8, -9]] },
+        { "id": 21, "q": 0, "r": 2, "color": 2, "cells": [[-1, 2], [-1, 3], [0, 1], [0, 2], [0, 3], [1, 1]] },
+        { "id": 23, "q": -9, "r": -2, "color": 3, "cells": [[-10, -3], [-10, 0], [-9, -3], [-9, -2], [-9, -1]] },
+        { "id": 29, "q": 5, "r": -5, "color": 5, "cells": [[3, -4], [4, -4], [5, -5], [6, -6], [7, -6]] },
+        { "id": 30, "q": 7, "r": -8, "color": 5, "cells": [[5, -7], [6, -8], [7, -8], [8, -8], [9, -9]] },
+        { "id": 30, "q": 7, "r": -7, "color": 5, "cells": [[5, -6], [6, -7], [7, -7], [8, -7], [9, -8]] },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -5,
+          "color": 1,
+          "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -6], [0, -5], [0, -4], [1, -6], [1, -5]]
+        },
+        { "id": 33, "q": 0, "r": 2, "color": 2, "cells": [[0, -3], [0, -2], [0, -1], [0, 0], [0, 1], [0, 2]] },
+        {
+          "id": 36,
+          "q": -11,
+          "r": -1,
+          "color": 3,
+          "cells": [[-12, -1], [-12, 0], [-11, -2], [-11, -1], [-11, 0], [-10, -2], [-10, -1]]
+        },
+        {
+          "id": 36,
+          "q": -7,
+          "r": -3,
+          "color": 3,
+          "cells": [[-8, -3], [-8, -2], [-7, -4], [-7, -3], [-7, -2], [-6, -4], [-6, -3]]
+        },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [0, 3, 4, 5, 6],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 3, 2, 1],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [0, 0, 0, 36]
+    },
+    "f51708723bd716d5cde49e68": {
+      "id": "f51708723bd716d5cde49e68",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 48286,
+      "fortitude": 3886,
+      "total": 52172,
+      "base_power": 8700,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [4, 7, 6],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 2, "q": -1, "r": -7, "color": 1, "cells": [[-1, -7], [0, -8]] },
+        { "id": 2, "q": -1, "r": -6, "color": 1, "cells": [[-1, -6], [0, -7]] },
+        { "id": 4, "q": -1, "r": 3, "color": 2, "cells": [[-1, 3]] },
+        { "id": 14, "q": 7, "r": -9, "color": 5, "cells": [[7, -9], [8, -9]] },
+        { "id": 21, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0]] },
+        { "id": 23, "q": -9, "r": -2, "color": 3, "cells": [[-10, -3], [-10, 0], [-9, -3], [-9, -2], [-9, -1]] },
+        { "id": 25, "q": 15, "r": -11, "color": 4, "cells": [[14, -11], [14, -10], [15, -11], [16, -12]] },
+        {
+          "id": 27,
+          "q": 14,
+          "r": -11,
+          "color": 4,
+          "cells": [[13, -11], [14, -13], [14, -11], [15, -13], [15, -12], [16, -13]]
+        },
+        { "id": 29, "q": 5, "r": -5, "color": 5, "cells": [[3, -4], [4, -4], [5, -5], [6, -6], [7, -6]] },
+        { "id": 30, "q": 7, "r": -8, "color": 5, "cells": [[5, -7], [6, -8], [7, -8], [8, -8], [9, -9]] },
+        { "id": 30, "q": 7, "r": -7, "color": 5, "cells": [[5, -6], [6, -7], [7, -7], [8, -7], [9, -8]] },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -5,
+          "color": 1,
+          "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -6], [0, -5], [0, -4], [1, -6], [1, -5]]
+        },
+        {
+          "id": 36,
+          "q": -11,
+          "r": -1,
+          "color": 3,
+          "cells": [[-12, -1], [-12, 0], [-11, -2], [-11, -1], [-11, 0], [-10, -2], [-10, -1]]
+        },
+        {
+          "id": 36,
+          "q": -7,
+          "r": -3,
+          "color": 3,
+          "cells": [[-8, -3], [-8, -2], [-7, -4], [-7, -3], [-7, -2], [-6, -4], [-6, -3]]
+        },
+        {
+          "id": 38,
+          "q": 13,
+          "r": -11,
+          "color": 4,
+          "cells": [[12, -11], [12, -10], [13, -12], [13, -10], [14, -12], [14, -11]]
+        },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [0, 1, 3, 4, 5, 6],
+      "strikes": 2,
+      "penalties": [2, 0, 0, 0],
+      "raw_penalties": [2, 1, 1, 3],
+      "falsehood": false,
+      "count": 17,
+      "valid": true,
+      "group": [1, 1, 1, 36]
+    },
+    "1a47f442c9b95ab58bc1fc07": {
+      "id": "1a47f442c9b95ab58bc1fc07",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 43846,
+      "fortitude": 3886,
+      "total": 47732,
+      "base_power": 7900,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 6, 5],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 2, "q": -1, "r": -7, "color": 1, "cells": [[-1, -7], [0, -8]] },
+        { "id": 2, "q": -1, "r": -6, "color": 1, "cells": [[-1, -6], [0, -7]] },
+        { "id": 4, "q": 1, "r": 0, "color": 2, "cells": [[1, 0]] },
+        { "id": 14, "q": 7, "r": -9, "color": 5, "cells": [[7, -9], [8, -9]] },
+        { "id": 21, "q": 0, "r": 2, "color": 2, "cells": [[-1, 2], [-1, 3], [0, 1], [0, 2], [0, 3], [1, 1]] },
+        { "id": 25, "q": 15, "r": -11, "color": 4, "cells": [[14, -11], [14, -10], [15, -11], [16, -12]] },
+        {
+          "id": 27,
+          "q": 14,
+          "r": -11,
+          "color": 4,
+          "cells": [[13, -11], [14, -13], [14, -11], [15, -13], [15, -12], [16, -13]]
+        },
+        { "id": 29, "q": 5, "r": -5, "color": 5, "cells": [[3, -4], [4, -4], [5, -5], [6, -6], [7, -6]] },
+        { "id": 30, "q": 7, "r": -8, "color": 5, "cells": [[5, -7], [6, -8], [7, -8], [8, -8], [9, -9]] },
+        { "id": 30, "q": 7, "r": -7, "color": 5, "cells": [[5, -6], [6, -7], [7, -7], [8, -7], [9, -8]] },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -5,
+          "color": 1,
+          "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -6], [0, -5], [0, -4], [1, -6], [1, -5]]
+        },
+        { "id": 33, "q": 0, "r": 2, "color": 2, "cells": [[0, -3], [0, -2], [0, -1], [0, 0], [0, 1], [0, 2]] },
+        {
+          "id": 38,
+          "q": 13,
+          "r": -11,
+          "color": 4,
+          "cells": [[12, -11], [12, -10], [13, -12], [13, -10], [14, -12], [14, -11]]
+        },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [0, 1, 3, 4, 6],
+      "strikes": 2,
+      "penalties": [0, 0, 2, 0],
+      "raw_penalties": [0, 2, 3, 2],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [1, 0, 0, 36]
+    },
+    "8a69a791809376dab9f3ec4a": {
+      "id": "8a69a791809376dab9f3ec4a",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 48286,
+      "fortitude": 3886,
+      "total": 52172,
+      "base_power": 8700,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 0,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [3, 6, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 2, "q": -1, "r": -7, "color": 1, "cells": [[-1, -7], [0, -8]] },
+        { "id": 2, "q": -1, "r": -6, "color": 1, "cells": [[-1, -6], [0, -7]] },
+        { "id": 14, "q": 7, "r": -9, "color": 5, "cells": [[7, -9], [8, -9]] },
+        { "id": 21, "q": -1, "r": 2, "color": 2, "cells": [[-2, 2], [-2, 3], [-1, 1], [-1, 2], [-1, 3], [0, 1]] },
+        { "id": 21, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0]] },
+        { "id": 23, "q": -9, "r": -2, "color": 3, "cells": [[-10, -3], [-10, 0], [-9, -3], [-9, -2], [-9, -1]] },
+        { "id": 29, "q": 5, "r": -5, "color": 5, "cells": [[3, -4], [4, -4], [5, -5], [6, -6], [7, -6]] },
+        { "id": 30, "q": 7, "r": -8, "color": 5, "cells": [[5, -7], [6, -8], [7, -8], [8, -8], [9, -9]] },
+        { "id": 30, "q": 7, "r": -7, "color": 5, "cells": [[5, -6], [6, -7], [7, -7], [8, -7], [9, -8]] },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -5,
+          "color": 1,
+          "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -6], [0, -5], [0, -4], [1, -6], [1, -5]]
+        },
+        {
+          "id": 36,
+          "q": -11,
+          "r": -1,
+          "color": 3,
+          "cells": [[-12, -1], [-12, 0], [-11, -2], [-11, -1], [-11, 0], [-10, -2], [-10, -1]]
+        },
+        {
+          "id": 36,
+          "q": -7,
+          "r": -3,
+          "color": 3,
+          "cells": [[-8, -3], [-8, -2], [-7, -4], [-7, -3], [-7, -2], [-6, -4], [-6, -3]]
+        },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [0, 3, 4, 5, 6],
+      "strikes": 2,
+      "penalties": [0, 0, 2, 0],
+      "raw_penalties": [0, 2, 3, 2],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [0, 0, 0, 36]
+    },
+    "2cfcfc6ee0d4ff4f615fae42": {
+      "id": "2cfcfc6ee0d4ff4f615fae42",
+      "recipe": 16,
+      "base_id": 16,
+      "name": "非日常服装",
+      "power": 77256,
+      "fortitude": 6216,
+      "total": 83472,
+      "base_power": 8700,
+      "base_fortitude": 700,
+      "colors": [2, 5],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [4, 5, 7],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 2, "q": -1, "r": -7, "color": 1, "cells": [[-1, -7], [0, -8]] },
+        { "id": 2, "q": -1, "r": -6, "color": 1, "cells": [[-1, -6], [0, -7]] },
+        { "id": 4, "q": -1, "r": 3, "color": 2, "cells": [[-1, 3]] },
+        { "id": 8, "q": -8, "r": -3, "color": 3, "cells": [[-8, -3], [-8, -2]] },
+        { "id": 21, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0]] },
+        { "id": 23, "q": -9, "r": -2, "color": 3, "cells": [[-10, -3], [-10, 0], [-9, -3], [-9, -2], [-9, -1]] },
+        {
+          "id": 27,
+          "q": 12,
+          "r": -11,
+          "color": 4,
+          "cells": [[11, -11], [12, -13], [12, -11], [13, -13], [13, -12], [14, -13]]
+        },
+        {
+          "id": 27,
+          "q": 12,
+          "r": -8,
+          "color": 4,
+          "cells": [[11, -8], [12, -10], [12, -8], [13, -10], [13, -9], [14, -10]]
+        },
+        {
+          "id": 27,
+          "q": 15,
+          "r": -11,
+          "color": 4,
+          "cells": [[14, -11], [15, -13], [15, -11], [16, -13], [16, -12], [17, -13]]
+        },
+        {
+          "id": 32,
+          "q": -3,
+          "r": -5,
+          "color": 1,
+          "cells": [[-5, -4], [-4, -5], [-4, -4], [-3, -6], [-3, -5], [-3, -4], [-2, -6], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -5,
+          "color": 1,
+          "cells": [[-2, -4], [-1, -5], [-1, -4], [0, -6], [0, -5], [0, -4], [1, -6], [1, -5]]
+        },
+        {
+          "id": 36,
+          "q": -11,
+          "r": -1,
+          "color": 3,
+          "cells": [[-12, -1], [-12, 0], [-11, -2], [-11, -1], [-11, 0], [-10, -2], [-10, -1]]
+        },
+        { "id": 39, "q": 3, "r": -4, "color": 5, "cells": [[3, -4], [4, -5], [5, -6], [6, -7], [7, -8], [8, -9]] },
+        { "id": 39, "q": 4, "r": -4, "color": 5, "cells": [[4, -4], [5, -5], [6, -6], [7, -7], [8, -8], [9, -9]] },
+        { "id": 39, "q": 5, "r": -7, "color": 5, "cells": [[5, -7], [6, -8], [7, -9], [8, -10], [9, -11], [10, -12]] },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -7,
+          "color": 5,
+          "cells": [[3, -6], [4, -9], [4, -8], [4, -7], [4, -6], [4, -5], [5, -8]]
+        }
+      ],
+      "active": [0, 1, 3, 4, 5, 6],
+      "strikes": 1,
+      "penalties": [1, 0, 0, 0],
+      "raw_penalties": [1, 3, 1, 4],
+      "falsehood": false,
+      "count": 16,
+      "valid": true,
+      "group": [1, 1, 1, 36]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T04:51:02.1048933+00:00"
+}

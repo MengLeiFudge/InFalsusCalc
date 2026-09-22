@@ -1,0 +1,129 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 5,
+  "groups": {
+    "1,0,0,16": {
+      "key": [1, 0, 0, 16],
+      "best": {
+        "inner:power": "812463acdfbfcbf14b634874",
+        "inner:fortitude": "812463acdfbfcbf14b634874",
+        "inner:total": "812463acdfbfcbf14b634874",
+        "outer:power": "107d000dbb7b50a8353789f7",
+        "outer:fortitude": "107d000dbb7b50a8353789f7",
+        "outer:total": "107d000dbb7b50a8353789f7"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 1, "outer": 4 },
+  "cards": {
+    "812463acdfbfcbf14b634874": {
+      "id": "812463acdfbfcbf14b634874",
+      "recipe": 5,
+      "base_id": 5,
+      "name": "无序的指挥者",
+      "power": 26973,
+      "fortitude": 36963,
+      "total": 63936,
+      "base_power": 2700,
+      "base_fortitude": 3700,
+      "colors": [4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [1, 5, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 7.5136,
+      "retained_percent": 100,
+      "carriers": [1, 3, 2],
+      "placements": [
+        { "id": 10, "q": 0, "r": 3, "color": 4, "cells": [[0, 3]] },
+        { "id": 25, "q": -2, "r": 4, "color": 4, "cells": [[-3, 4], [-3, 5], [-2, 4], [-1, 3]] },
+        { "id": 26, "q": 0, "r": 0, "color": 4, "cells": [[-1, -1], [-1, 0], [0, 0], [1, -2], [1, -1]] },
+        { "id": 27, "q": 1, "r": -1, "color": 4, "cells": [[0, -1], [1, -3], [1, -1], [2, -3], [2, -2], [3, -3]] },
+        { "id": 28, "q": 5, "r": -3, "color": 5, "cells": [[4, -4], [4, -3], [5, -4], [5, -3], [6, -3]] },
+        { "id": 30, "q": 5, "r": -2, "color": 5, "cells": [[3, -1], [4, -2], [5, -2], [6, -2], [7, -3]] },
+        { "id": 37, "q": -2, "r": 5, "color": 4, "cells": [[-2, 5], [-1, 4], [0, 4], [1, 3], [2, 3], [3, 2]] },
+        { "id": 38, "q": 2, "r": 1, "color": 4, "cells": [[1, 1], [1, 2], [2, 0], [2, 2], [3, 0], [3, 1]] }
+      ],
+      "active": [0, 1, 2, 3],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 3, 1, 0],
+      "falsehood": false,
+      "count": 8,
+      "valid": true,
+      "group": [1, 0, 0, 16],
+      "full_coverage": false
+    },
+    "107d000dbb7b50a8353789f7": {
+      "id": "107d000dbb7b50a8353789f7",
+      "recipe": 5,
+      "base_id": 5,
+      "name": "无序的指挥者",
+      "power": 18981,
+      "fortitude": 24975,
+      "total": 43956,
+      "base_power": 1900,
+      "base_fortitude": 2500,
+      "colors": [4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [0, 2, 5],
+      "available_traits": [4, 7, 10, 15, 24, 27, 30, 35, 36, 39, 42, 45, 48, 51],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 5.5156,
+      "retained_percent": 100,
+      "carriers": [0, 2, 3],
+      "placements": [
+        { "id": 25, "q": -2, "r": 5, "color": 4, "cells": [[-3, 5], [-3, 6], [-2, 5], [-1, 4]] },
+        { "id": 26, "q": -2, "r": 4, "color": 4, "cells": [[-3, 3], [-3, 4], [-2, 4], [-1, 2], [-1, 3]] },
+        { "id": 38, "q": 1, "r": 3, "color": 4, "cells": [[0, 3], [0, 4], [1, 2], [1, 4], [2, 2], [2, 3]] },
+        { "id": 38, "q": 2, "r": 2, "color": 4, "cells": [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]] },
+        {
+          "id": 40,
+          "q": 4,
+          "r": -1,
+          "color": 5,
+          "cells": [[3, 0], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [5, -2]]
+        },
+        {
+          "id": 40,
+          "q": 5,
+          "r": -5,
+          "color": 5,
+          "cells": [[4, -4], [5, -7], [5, -6], [5, -5], [5, -4], [5, -3], [6, -6]]
+        },
+        { "id": 40, "q": 6, "r": -1, "color": 5, "cells": [[5, 0], [6, -3], [6, -2], [6, -1], [6, 0], [6, 1], [7, -2]] }
+      ],
+      "active": [0, 2, 3],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 2, 0],
+      "falsehood": false,
+      "count": 7,
+      "valid": true,
+      "group": [1, 0, 0, 16],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.5709139+00:00",
+  "solve_seconds": 0.0037412
+}

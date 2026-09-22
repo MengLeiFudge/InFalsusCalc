@@ -1,0 +1,261 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [],
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 9,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "63af01e585bd871616446898",
+        "fortitude": "63af01e585bd871616446898",
+        "total": "63af01e585bd871616446898"
+      },
+      "total_best": ["63af01e585bd871616446898"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 50949,
+          "secondary_upper_bound": 50949,
+          "objective_complete": true,
+          "seconds": 3.54e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 50949,
+          "secondary_upper_bound": 50949,
+          "objective_complete": true,
+          "seconds": 3.91e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 101898,
+          "secondary_upper_bound": 50949,
+          "objective_complete": true,
+          "seconds": 21.4215351,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "5cfa72974bdcb8387ad56dcf",
+        "fortitude": "5cfa72974bdcb8387ad56dcf",
+        "total": "5cfa72974bdcb8387ad56dcf"
+      },
+      "total_best": ["5cfa72974bdcb8387ad56dcf"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 45288,
+          "secondary_upper_bound": 45288,
+          "objective_complete": true,
+          "seconds": 3.59e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 45288,
+          "secondary_upper_bound": 45288,
+          "objective_complete": true,
+          "seconds": 4.32e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 90576,
+          "secondary_upper_bound": 45288,
+          "objective_complete": true,
+          "seconds": 0.0494964,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "1f4d0451d4595158b8f1fa93",
+        "fortitude": "1f4d0451d4595158b8f1fa93",
+        "total": "1f4d0451d4595158b8f1fa93"
+      },
+      "total_best": ["1f4d0451d4595158b8f1fa93"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 28306,
+          "secondary_upper_bound": 28306,
+          "objective_complete": true,
+          "seconds": 3.88e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 28306,
+          "secondary_upper_bound": 28306,
+          "objective_complete": true,
+          "seconds": 3.26e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 56612,
+          "secondary_upper_bound": 28306,
+          "objective_complete": true,
+          "seconds": 0.0469241,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "63af01e585bd871616446898": {
+      "id": "63af01e585bd871616446898",
+      "recipe": 9,
+      "base_id": 9,
+      "name": "夏日的最后时光",
+      "power": 50949,
+      "fortitude": 50949,
+      "total": 101898,
+      "base_power": 5100,
+      "base_fortitude": 5100,
+      "colors": [1, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [0, 3, 3],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [0, 3, 3],
+      "placements": [
+        { "id": 25, "q": -5, "r": 1, "color": 4, "cells": [[-6, 1], [-6, 2], [-5, 1], [-4, 0]] },
+        { "id": 25, "q": -1, "r": 0, "color": 4, "cells": [[-2, 0], [-2, 1], [-1, 0], [0, -1]] },
+        { "id": 26, "q": -2, "r": 1, "color": 4, "cells": [[-3, 0], [-3, 1], [-2, 1], [-1, -1], [-1, 0]] },
+        {
+          "id": 32,
+          "q": 2,
+          "r": 5,
+          "color": 1,
+          "cells": [[0, 6], [1, 5], [1, 6], [2, 4], [2, 5], [2, 6], [3, 4], [3, 5]]
+        },
+        {
+          "id": 32,
+          "q": 5,
+          "r": 5,
+          "color": 1,
+          "cells": [[3, 6], [4, 5], [4, 6], [5, 4], [5, 5], [5, 6], [6, 4], [6, 5]]
+        },
+        { "id": 33, "q": 0, "r": 5, "color": 2, "cells": [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5]] }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 2, 0],
+      "falsehood": false,
+      "count": 6,
+      "valid": true,
+      "group": [0, 0, 0, 18]
+    },
+    "5cfa72974bdcb8387ad56dcf": {
+      "id": "5cfa72974bdcb8387ad56dcf",
+      "recipe": 9,
+      "base_id": 9,
+      "name": "夏日的最后时光",
+      "power": 45288,
+      "fortitude": 45288,
+      "total": 90576,
+      "base_power": 5100,
+      "base_fortitude": 5100,
+      "colors": [1, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [1, 0, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [1, 0, 3],
+      "placements": [
+        { "id": 12, "q": -1, "r": -1, "color": 4, "cells": [[-2, 0], [-1, -1], [0, -1]] },
+        { "id": 31, "q": 6, "r": 4, "color": 1, "cells": [[1, 6], [2, 6], [3, 5], [4, 5], [5, 4], [6, 4]] },
+        {
+          "id": 32,
+          "q": 2,
+          "r": 5,
+          "color": 1,
+          "cells": [[0, 6], [1, 5], [1, 6], [2, 4], [2, 5], [2, 6], [3, 4], [3, 5]]
+        },
+        { "id": 33, "q": 0, "r": 5, "color": 2, "cells": [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5]] },
+        { "id": 37, "q": -7, "r": 2, "color": 4, "cells": [[-7, 2], [-6, 1], [-5, 1], [-4, 0], [-3, 0], [-2, -1]] },
+        { "id": 37, "q": -6, "r": 3, "color": 4, "cells": [[-6, 3], [-5, 2], [-4, 2], [-3, 1], [-2, 1], [-1, 0]] }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 4, 3, 0],
+      "falsehood": false,
+      "count": 6,
+      "valid": true,
+      "group": [0, 0, 0, 18]
+    },
+    "1f4d0451d4595158b8f1fa93": {
+      "id": "1f4d0451d4595158b8f1fa93",
+      "recipe": 9,
+      "base_id": 9,
+      "name": "夏日的最后时光",
+      "power": 28306,
+      "fortitude": 28306,
+      "total": 56612,
+      "base_power": 5100,
+      "base_fortitude": 5100,
+      "colors": [1, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [1, 0, 6],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [1, 0, 3],
+      "placements": [
+        { "id": 12, "q": -1, "r": -1, "color": 4, "cells": [[-2, 0], [-1, -1], [0, -1]] },
+        { "id": 31, "q": 5, "r": 3, "color": 1, "cells": [[0, 5], [1, 5], [2, 4], [3, 4], [4, 3], [5, 3]] },
+        { "id": 31, "q": 5, "r": 4, "color": 1, "cells": [[0, 6], [1, 6], [2, 5], [3, 5], [4, 4], [5, 4]] },
+        { "id": 31, "q": 6, "r": 4, "color": 1, "cells": [[1, 6], [2, 6], [3, 5], [4, 5], [5, 4], [6, 4]] },
+        { "id": 33, "q": 0, "r": 5, "color": 2, "cells": [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5]] },
+        { "id": 37, "q": -7, "r": 2, "color": 4, "cells": [[-7, 2], [-6, 1], [-5, 1], [-4, 0], [-3, 0], [-2, -1]] },
+        { "id": 37, "q": -6, "r": 3, "color": 4, "cells": [[-6, 3], [-5, 2], [-4, 2], [-3, 1], [-2, 1], [-1, 0]] }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 2,
+      "penalties": [0, 0, 2, 0],
+      "raw_penalties": [0, 4, 4, 0],
+      "falsehood": false,
+      "count": 7,
+      "valid": true,
+      "group": [0, 0, 0, 18]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T03:52:20.8208374+00:00"
+}

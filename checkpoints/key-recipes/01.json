@@ -1,0 +1,296 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [],
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 1,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "b498161242e1a8dede16e750",
+        "fortitude": "b498161242e1a8dede16e750",
+        "total": "b498161242e1a8dede16e750"
+      },
+      "total_best": ["b498161242e1a8dede16e750"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 32468,
+          "secondary_upper_bound": 32468,
+          "objective_complete": true,
+          "seconds": 0.0001017,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 32468,
+          "secondary_upper_bound": 32468,
+          "objective_complete": true,
+          "seconds": 8.95e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 64936,
+          "secondary_upper_bound": 32468,
+          "objective_complete": true,
+          "seconds": 6.6451888,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "d814d3678f052445547b3ee3",
+        "fortitude": "d814d3678f052445547b3ee3",
+        "total": "d814d3678f052445547b3ee3"
+      },
+      "total_best": ["d814d3678f052445547b3ee3"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 28860,
+          "secondary_upper_bound": 28860,
+          "objective_complete": true,
+          "seconds": 8.31e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 28860,
+          "secondary_upper_bound": 28860,
+          "objective_complete": true,
+          "seconds": 0.000104,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 57720,
+          "secondary_upper_bound": 28860,
+          "objective_complete": true,
+          "seconds": 0.0345284,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "372cbd0cc61e8e20ca3b9f19",
+        "fortitude": "372cbd0cc61e8e20ca3b9f19",
+        "total": "372cbd0cc61e8e20ca3b9f19"
+      },
+      "total_best": ["372cbd0cc61e8e20ca3b9f19"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 18038,
+          "secondary_upper_bound": 18038,
+          "objective_complete": true,
+          "seconds": 0.0001133,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 18038,
+          "secondary_upper_bound": 18038,
+          "objective_complete": true,
+          "seconds": 9.58e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 36076,
+          "secondary_upper_bound": 18038,
+          "objective_complete": true,
+          "seconds": 0.0441292,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "b498161242e1a8dede16e750": {
+      "id": "b498161242e1a8dede16e750",
+      "recipe": 1,
+      "base_id": 1,
+      "name": "找寻伙伴的温暖目光",
+      "power": 32468,
+      "fortitude": 32468,
+      "total": 64936,
+      "base_power": 3250,
+      "base_fortitude": 3250,
+      "colors": [3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 1, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 1, 3],
+      "placements": [
+        { "id": 4, "q": 5, "r": -3, "color": 2, "cells": [[5, -3]] },
+        { "id": 4, "q": 7, "r": -2, "color": 2, "cells": [[7, -2]] },
+        { "id": 7, "q": -7, "r": 5, "color": 3, "cells": [[-7, 5]] },
+        { "id": 9, "q": 1, "r": 1, "color": 3, "cells": [[0, 1], [1, 1], [2, 0]] },
+        { "id": 19, "q": 3, "r": -2, "color": 2, "cells": [[2, -2], [3, -3], [3, -2], [4, -3]] },
+        {
+          "id": 34,
+          "q": 4,
+          "r": -1,
+          "color": 2,
+          "cells": [[3, -1], [3, 0], [4, -2], [4, -1], [4, 0], [5, -2], [5, -1], [6, -2]]
+        },
+        { "id": 35, "q": -5, "r": 2, "color": 3, "cells": [[-5, 2], [-4, 2], [-3, 2], [-2, 2], [-1, 2], [0, 2]] },
+        {
+          "id": 36,
+          "q": -4,
+          "r": 3,
+          "color": 3,
+          "cells": [[-5, 3], [-5, 4], [-4, 2], [-4, 3], [-4, 4], [-3, 2], [-3, 3]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 1,
+          "color": 3,
+          "cells": [[-4, 1], [-4, 2], [-3, 0], [-3, 1], [-3, 2], [-2, 0], [-2, 1]]
+        },
+        { "id": 36, "q": 0, "r": 0, "color": 3, "cells": [[-1, 0], [-1, 1], [0, -1], [0, 0], [0, 1], [1, -1], [1, 0]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [0, 0, 0, 8]
+    },
+    "d814d3678f052445547b3ee3": {
+      "id": "d814d3678f052445547b3ee3",
+      "recipe": 1,
+      "base_id": 1,
+      "name": "找寻伙伴的温暖目光",
+      "power": 28860,
+      "fortitude": 28860,
+      "total": 57720,
+      "base_power": 3250,
+      "base_fortitude": 3250,
+      "colors": [3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 4, 3],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 4, "q": 5, "r": -2, "color": 2, "cells": [[5, -2]] },
+        { "id": 5, "q": 7, "r": -2, "color": 2, "cells": [[6, -2], [7, -2]] },
+        { "id": 9, "q": -6, "r": 5, "color": 3, "cells": [[-7, 5], [-6, 5], [-5, 4]] },
+        { "id": 19, "q": 4, "r": -2, "color": 2, "cells": [[3, -2], [4, -3], [4, -2], [5, -3]] },
+        { "id": 20, "q": 4, "r": -1, "color": 2, "cells": [[3, -1], [3, 0], [4, -1], [4, 0], [5, -1]] },
+        { "id": 23, "q": -3, "r": 2, "color": 3, "cells": [[-4, 1], [-4, 4], [-3, 1], [-3, 2], [-3, 3]] },
+        { "id": 24, "q": 1, "r": 1, "color": 3, "cells": [[1, 0], [1, 1], [1, 2], [2, 0], [2, 2]] },
+        { "id": 35, "q": 0, "r": -1, "color": 3, "cells": [[0, -1], [1, -1], [2, -1], [3, -1], [4, -1], [5, -1]] },
+        {
+          "id": 36,
+          "q": -5,
+          "r": 3,
+          "color": 3,
+          "cells": [[-6, 3], [-6, 4], [-5, 2], [-5, 3], [-5, 4], [-4, 2], [-4, 3]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 1,
+          "color": 3,
+          "cells": [[-2, 1], [-2, 2], [-1, 0], [-1, 1], [-1, 2], [0, 0], [0, 1]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5, 6],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 2, 4, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [0, 0, 0, 8]
+    },
+    "372cbd0cc61e8e20ca3b9f19": {
+      "id": "372cbd0cc61e8e20ca3b9f19",
+      "recipe": 1,
+      "base_id": 1,
+      "name": "找寻伙伴的温暖目光",
+      "power": 18038,
+      "fortitude": 18038,
+      "total": 36076,
+      "base_power": 3250,
+      "base_fortitude": 3250,
+      "colors": [3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 3, 3],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 4, "r": 0, "color": 2, "cells": [[3, 0], [4, 0]] },
+        { "id": 5, "q": 7, "r": -2, "color": 2, "cells": [[6, -2], [7, -2]] },
+        { "id": 6, "q": 5, "r": -1, "color": 2, "cells": [[5, -2], [5, -1], [6, -2]] },
+        { "id": 9, "q": -6, "r": 5, "color": 3, "cells": [[-7, 5], [-6, 5], [-5, 4]] },
+        { "id": 21, "q": 4, "r": -2, "color": 2, "cells": [[3, -2], [3, -1], [4, -3], [4, -2], [4, -1], [5, -3]] },
+        { "id": 23, "q": -3, "r": 2, "color": 3, "cells": [[-4, 1], [-4, 4], [-3, 1], [-3, 2], [-3, 3]] },
+        { "id": 24, "q": 1, "r": 1, "color": 3, "cells": [[1, 0], [1, 1], [1, 2], [2, 0], [2, 2]] },
+        { "id": 35, "q": 0, "r": -1, "color": 3, "cells": [[0, -1], [1, -1], [2, -1], [3, -1], [4, -1], [5, -1]] },
+        {
+          "id": 36,
+          "q": -5,
+          "r": 3,
+          "color": 3,
+          "cells": [[-6, 3], [-6, 4], [-5, 2], [-5, 3], [-5, 4], [-4, 2], [-4, 3]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 1,
+          "color": 3,
+          "cells": [[-2, 1], [-2, 2], [-1, 0], [-1, 1], [-1, 2], [0, 0], [0, 1]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5, 6],
+      "strikes": 2,
+      "penalties": [0, 0, 2, 0],
+      "raw_penalties": [0, 2, 5, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [0, 0, 0, 8]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T03:52:06.0388882+00:00"
+}

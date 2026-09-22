@@ -1,0 +1,145 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 60,
+  "groups": {
+    "1,0,0,32": {
+      "key": [1, 0, 0, 32],
+      "best": {
+        "inner:power": "8ade10cacfa8798f17f03371",
+        "inner:fortitude": "8ade10cacfa8798f17f03371",
+        "inner:total": "8ade10cacfa8798f17f03371",
+        "outer:power": "9b21ad6050c2ca1c405a0226",
+        "outer:fortitude": "9b21ad6050c2ca1c405a0226",
+        "outer:total": "9b21ad6050c2ca1c405a0226"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 1, "outer": 4 },
+  "cards": {
+    "8ade10cacfa8798f17f03371": {
+      "id": "8ade10cacfa8798f17f03371",
+      "recipe": 60,
+      "base_id": 60,
+      "name": "永远陪在你身旁",
+      "power": 26973,
+      "fortitude": 20979,
+      "total": 47952,
+      "base_power": 2700,
+      "base_fortitude": 2100,
+      "colors": [5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 6, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 5.9152000000000005,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 1, "q": -3, "r": -2, "color": 1, "cells": [[-3, -2]] },
+        { "id": 2, "q": -6, "r": 4, "color": 1, "cells": [[-6, 4], [-5, 3]] },
+        { "id": 14, "q": -3, "r": 3, "color": 5, "cells": [[-3, 3], [-2, 3]] },
+        { "id": 15, "q": 2, "r": 1, "color": 5, "cells": [[2, 0], [2, 1], [2, 2]] },
+        { "id": 18, "q": -4, "r": 3, "color": 1, "cells": [[-5, 4], [-4, 3], [-4, 4], [-3, 1], [-3, 2]] },
+        { "id": 21, "q": -4, "r": -1, "color": 2, "cells": [[-5, -1], [-5, 0], [-4, -2], [-4, -1], [-4, 0], [-3, -2]] },
+        { "id": 21, "q": -4, "r": 1, "color": 2, "cells": [[-5, 1], [-5, 2], [-4, 0], [-4, 1], [-4, 2], [-3, 0]] },
+        { "id": 28, "q": -1, "r": 2, "color": 5, "cells": [[-2, 1], [-2, 2], [-1, 1], [-1, 2], [0, 2]] },
+        { "id": 28, "q": 2, "r": -1, "color": 5, "cells": [[1, -2], [1, -1], [2, -2], [2, -1], [3, -1]] },
+        { "id": 28, "q": 3, "r": -3, "color": 5, "cells": [[2, -4], [2, -3], [3, -4], [3, -3], [4, -3]] },
+        {
+          "id": 32,
+          "q": -2,
+          "r": -1,
+          "color": 1,
+          "cells": [[-4, 0], [-3, -1], [-3, 0], [-2, -2], [-2, -1], [-2, 0], [-1, -2], [-1, -1]]
+        },
+        {
+          "id": 40,
+          "q": 0,
+          "r": -1,
+          "color": 5,
+          "cells": [[-1, 0], [0, -3], [0, -2], [0, -1], [0, 0], [0, 1], [1, -2]]
+        }
+      ],
+      "active": [0, 1, 4, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 4, 0],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 32],
+      "full_coverage": false
+    },
+    "9b21ad6050c2ca1c405a0226": {
+      "id": "9b21ad6050c2ca1c405a0226",
+      "recipe": 60,
+      "base_id": 60,
+      "name": "永远陪在你身旁",
+      "power": 38961,
+      "fortitude": 20979,
+      "total": 59940,
+      "base_power": 3900,
+      "base_fortitude": 2100,
+      "colors": [5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 3, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 7.114,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": -4, "r": 2, "color": 2, "cells": [[-5, 2], [-4, 2]] },
+        { "id": 14, "q": 0, "r": -2, "color": 5, "cells": [[0, -2], [1, -2]] },
+        { "id": 15, "q": 2, "r": -1, "color": 5, "cells": [[2, -2], [2, -1], [2, 0]] },
+        { "id": 15, "q": 3, "r": -3, "color": 5, "cells": [[3, -4], [3, -3], [3, -2]] },
+        { "id": 16, "q": -1, "r": 0, "color": 1, "cells": [[-3, 1], [-2, 1], [-1, -1], [-1, 0], [0, -2]] },
+        { "id": 17, "q": -5, "r": 4, "color": 1, "cells": [[-5, 3], [-5, 4], [-5, 5], [-4, 3], [-3, 2]] },
+        { "id": 21, "q": -4, "r": 0, "color": 2, "cells": [[-5, 0], [-5, 1], [-4, -1], [-4, 0], [-4, 1], [-3, -1]] },
+        { "id": 31, "q": 2, "r": -4, "color": 1, "cells": [[-3, -2], [-2, -2], [-1, -3], [0, -3], [1, -4], [2, -4]] },
+        { "id": 31, "q": 2, "r": -3, "color": 1, "cells": [[-3, -1], [-2, -1], [-1, -2], [0, -2], [1, -3], [2, -3]] },
+        {
+          "id": 32,
+          "q": 4,
+          "r": -6,
+          "color": 1,
+          "cells": [[2, -5], [3, -6], [3, -5], [4, -7], [4, -6], [4, -5], [5, -7], [5, -6]]
+        },
+        { "id": 39, "q": -4, "r": 4, "color": 5, "cells": [[-4, 4], [-3, 3], [-2, 2], [-1, 1], [0, 0], [1, -1]] }
+      ],
+      "active": [0, 1, 4, 6, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 2, 0],
+      "falsehood": false,
+      "count": 11,
+      "valid": true,
+      "group": [1, 0, 0, 32],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:04.1401775+00:00",
+  "solve_seconds": 0.0027555
+}

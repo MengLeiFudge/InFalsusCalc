@@ -1,0 +1,166 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 19,
+  "groups": {
+    "1,2,2,48": {
+      "key": [1, 2, 2, 48],
+      "best": {
+        "inner:power": "381e038c686ed74a9a35a7c3",
+        "inner:fortitude": "381e038c686ed74a9a35a7c3",
+        "inner:total": "381e038c686ed74a9a35a7c3"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    },
+    "1,0,0,32": {
+      "key": [1, 0, 0, 32],
+      "best": {
+        "outer:power": "6803016a26b6452b935ede6a",
+        "outer:fortitude": "6803016a26b6452b935ede6a",
+        "outer:total": "6803016a26b6452b935ede6a"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 5, "outer": 4 },
+  "cards": {
+    "381e038c686ed74a9a35a7c3": {
+      "id": "381e038c686ed74a9a35a7c3",
+      "recipe": 19,
+      "base_id": 19,
+      "name": "不毛之处",
+      "power": 29970,
+      "fortitude": 7992,
+      "total": 37962,
+      "base_power": 3000,
+      "base_fortitude": 800,
+      "colors": [4, 5],
+      "slots": 1,
+      "left": 2,
+      "right": 2,
+      "tier_counts": [5, 8, 7],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 5,
+      "outer_structure": 0,
+      "heuristic_score": 6.4462,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 1, "q": -11, "r": 12, "color": 1, "cells": [[-11, 12]] },
+        { "id": 8, "q": -1, "r": 3, "color": 3, "cells": [[-1, 3], [-1, 4]] },
+        { "id": 11, "q": 2, "r": 6, "color": 4, "cells": [[2, 5], [2, 6]] },
+        { "id": 12, "q": 3, "r": -2, "color": 4, "cells": [[2, -1], [3, -2], [4, -2]] },
+        { "id": 12, "q": 4, "r": -4, "color": 4, "cells": [[3, -3], [4, -4], [5, -4]] },
+        { "id": 16, "q": -8, "r": 10, "color": 1, "cells": [[-10, 11], [-9, 11], [-8, 9], [-8, 10], [-7, 8]] },
+        { "id": 17, "q": 1, "r": -5, "color": 1, "cells": [[1, -6], [1, -5], [1, -4], [2, -6], [3, -7]] },
+        { "id": 18, "q": -9, "r": 9, "color": 1, "cells": [[-10, 10], [-9, 9], [-9, 10], [-8, 7], [-8, 8]] },
+        { "id": 18, "q": -6, "r": 8, "color": 1, "cells": [[-7, 9], [-6, 8], [-6, 9], [-5, 6], [-5, 7]] },
+        { "id": 27, "q": 1, "r": 2, "color": 4, "cells": [[0, 2], [1, 0], [1, 2], [2, 0], [2, 1], [3, 0]] },
+        { "id": 27, "q": 4, "r": -1, "color": 4, "cells": [[3, -1], [4, -3], [4, -1], [5, -3], [5, -2], [6, -3]] },
+        { "id": 29, "q": -4, "r": 2, "color": 5, "cells": [[-6, 3], [-5, 3], [-4, 2], [-3, 1], [-2, 1]] },
+        { "id": 29, "q": -2, "r": 2, "color": 5, "cells": [[-4, 3], [-3, 3], [-2, 2], [-1, 1], [0, 1]] },
+        { "id": 33, "q": 0, "r": -3, "color": 2, "cells": [[0, -8], [0, -7], [0, -6], [0, -5], [0, -4], [0, -3]] },
+        {
+          "id": 36,
+          "q": -2,
+          "r": 6,
+          "color": 3,
+          "cells": [[-3, 6], [-3, 7], [-2, 5], [-2, 6], [-2, 7], [-1, 5], [-1, 6]]
+        },
+        { "id": 36, "q": 0, "r": 7, "color": 3, "cells": [[-1, 7], [-1, 8], [0, 6], [0, 7], [0, 8], [1, 6], [1, 7]] },
+        { "id": 36, "q": 1, "r": 4, "color": 3, "cells": [[0, 4], [0, 5], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4]] },
+        { "id": 38, "q": 1, "r": -2, "color": 4, "cells": [[0, -2], [0, -1], [1, -3], [1, -1], [2, -3], [2, -2]] },
+        { "id": 39, "q": -6, "r": 3, "color": 5, "cells": [[-6, 3], [-5, 2], [-4, 1], [-3, 0], [-2, -1], [-1, -2]] },
+        {
+          "id": 40,
+          "q": -2,
+          "r": 1,
+          "color": 5,
+          "cells": [[-3, 2], [-2, -1], [-2, 0], [-2, 1], [-2, 2], [-2, 3], [-1, 0]]
+        }
+      ],
+      "active": [0, 1, 4, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 0, 4, 1],
+      "falsehood": false,
+      "count": 20,
+      "valid": true,
+      "group": [1, 2, 2, 48],
+      "full_coverage": false
+    },
+    "6803016a26b6452b935ede6a": {
+      "id": "6803016a26b6452b935ede6a",
+      "recipe": 19,
+      "base_id": 19,
+      "name": "不毛之处",
+      "power": 10490,
+      "fortitude": 10490,
+      "total": 20980,
+      "base_power": 1050,
+      "base_fortitude": 1050,
+      "colors": [5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [0, 1, 5],
+      "available_traits": [4, 7, 10, 15, 24, 27, 30, 35, 36, 39, 42, 45, 48, 51],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 3.218,
+      "retained_percent": 100,
+      "carriers": [0, 1, 3],
+      "placements": [
+        { "id": 22, "q": -2, "r": 5, "color": 3, "cells": [[-2, 5], [-2, 6], [-1, 4], [-1, 5]] },
+        {
+          "id": 36,
+          "q": -1,
+          "r": -4,
+          "color": 3,
+          "cells": [[-2, -4], [-2, -3], [-1, -5], [-1, -4], [-1, -3], [0, -5], [0, -4]]
+        },
+        {
+          "id": 36,
+          "q": 0,
+          "r": -7,
+          "color": 3,
+          "cells": [[-1, -7], [-1, -6], [0, -8], [0, -7], [0, -6], [1, -8], [1, -7]]
+        },
+        { "id": 36, "q": 0, "r": 6, "color": 3, "cells": [[-1, 6], [-1, 7], [0, 5], [0, 6], [0, 7], [1, 5], [1, 6]] },
+        {
+          "id": 36,
+          "q": 1,
+          "r": -5,
+          "color": 3,
+          "cells": [[0, -5], [0, -4], [1, -6], [1, -5], [1, -4], [2, -6], [2, -5]]
+        },
+        { "id": 36, "q": 1, "r": 4, "color": 3, "cells": [[0, 4], [0, 5], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4]] }
+      ],
+      "active": [0, 2, 3, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 0, 4, 1],
+      "falsehood": false,
+      "count": 6,
+      "valid": true,
+      "group": [1, 0, 0, 32],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.8595657+00:00",
+  "solve_seconds": 0.0013185
+}

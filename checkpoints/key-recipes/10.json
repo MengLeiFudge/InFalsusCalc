@@ -1,0 +1,334 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [],
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 10,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "88d7d195c72e9a0d7934812b",
+        "fortitude": "88d7d195c72e9a0d7934812b",
+        "total": "88d7d195c72e9a0d7934812b"
+      },
+      "total_best": ["88d7d195c72e9a0d7934812b"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 50949,
+          "secondary_upper_bound": 50949,
+          "objective_complete": true,
+          "seconds": 3.07e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 50949,
+          "secondary_upper_bound": 50949,
+          "objective_complete": true,
+          "seconds": 2.81e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 101898,
+          "secondary_upper_bound": 50949,
+          "objective_complete": true,
+          "seconds": 0.6210159,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "87d94a677170b26a482a406b",
+        "fortitude": "87d94a677170b26a482a406b",
+        "total": "87d94a677170b26a482a406b"
+      },
+      "total_best": ["87d94a677170b26a482a406b"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 45288,
+          "secondary_upper_bound": 45288,
+          "objective_complete": true,
+          "seconds": 1.77e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 45288,
+          "secondary_upper_bound": 45288,
+          "objective_complete": true,
+          "seconds": 3.81e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 90576,
+          "secondary_upper_bound": 45288,
+          "objective_complete": true,
+          "seconds": 0.0911103,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "a0657a93d3e12f97b55ba540",
+        "fortitude": "a0657a93d3e12f97b55ba540",
+        "total": "a0657a93d3e12f97b55ba540"
+      },
+      "total_best": ["a0657a93d3e12f97b55ba540"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 28306,
+          "secondary_upper_bound": 28306,
+          "objective_complete": true,
+          "seconds": 3.15e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 28306,
+          "secondary_upper_bound": 28306,
+          "objective_complete": true,
+          "seconds": 3.48e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 56612,
+          "secondary_upper_bound": 28306,
+          "objective_complete": true,
+          "seconds": 0.0897551,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "88d7d195c72e9a0d7934812b": {
+      "id": "88d7d195c72e9a0d7934812b",
+      "recipe": 10,
+      "base_id": 10,
+      "name": "新朋友",
+      "power": 50949,
+      "fortitude": 50949,
+      "total": 101898,
+      "base_power": 5100,
+      "base_fortitude": 5100,
+      "colors": [1, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 4, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 1, "q": 6, "r": -6, "color": 1, "cells": [[6, -6]] },
+        { "id": 11, "q": -6, "r": -4, "color": 4, "cells": [[-6, -5], [-6, -4]] },
+        { "id": 14, "q": 1, "r": -6, "color": 5, "cells": [[1, -6], [2, -6]] },
+        { "id": 15, "q": 0, "r": -5, "color": 5, "cells": [[0, -6], [0, -5], [0, -4]] },
+        { "id": 16, "q": 6, "r": -4, "color": 1, "cells": [[4, -3], [5, -3], [6, -5], [6, -4], [7, -6]] },
+        { "id": 17, "q": 8, "r": -6, "color": 1, "cells": [[8, -7], [8, -6], [8, -5], [9, -7], [10, -8]] },
+        { "id": 25, "q": -1, "r": -9, "color": 4, "cells": [[-2, -9], [-2, -8], [-1, -9], [0, -10]] },
+        { "id": 28, "q": 2, "r": -4, "color": 5, "cells": [[1, -5], [1, -4], [2, -5], [2, -4], [3, -4]] },
+        { "id": 31, "q": 9, "r": -4, "color": 1, "cells": [[4, -2], [5, -2], [6, -3], [7, -3], [8, -4], [9, -4]] },
+        {
+          "id": 32,
+          "q": 2,
+          "r": 0,
+          "color": 1,
+          "cells": [[0, 1], [1, 0], [1, 1], [2, -1], [2, 0], [2, 1], [3, -1], [3, 0]]
+        },
+        {
+          "id": 37,
+          "q": -8,
+          "r": -2,
+          "color": 4,
+          "cells": [[-8, -2], [-7, -3], [-6, -3], [-5, -4], [-4, -4], [-3, -5]]
+        },
+        {
+          "id": 38,
+          "q": 0,
+          "r": -10,
+          "color": 4,
+          "cells": [[-1, -10], [-1, -9], [0, -11], [0, -9], [1, -11], [1, -10]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 3],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [0, 0, 0, 18]
+    },
+    "87d94a677170b26a482a406b": {
+      "id": "87d94a677170b26a482a406b",
+      "recipe": 10,
+      "base_id": 10,
+      "name": "新朋友",
+      "power": 45288,
+      "fortitude": 45288,
+      "total": 90576,
+      "base_power": 5100,
+      "base_fortitude": 5100,
+      "colors": [1, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 4, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 3, "q": 6, "r": -6, "color": 1, "cells": [[6, -7], [6, -6], [7, -6]] },
+        { "id": 11, "q": 0, "r": -9, "color": 4, "cells": [[0, -10], [0, -9]] },
+        { "id": 12, "q": -5, "r": -4, "color": 4, "cells": [[-6, -3], [-5, -4], [-4, -4]] },
+        { "id": 14, "q": 1, "r": -6, "color": 5, "cells": [[1, -6], [2, -6]] },
+        { "id": 15, "q": 0, "r": -5, "color": 5, "cells": [[0, -6], [0, -5], [0, -4]] },
+        { "id": 16, "q": 5, "r": -3, "color": 1, "cells": [[3, -2], [4, -2], [5, -4], [5, -3], [6, -5]] },
+        { "id": 17, "q": 8, "r": -6, "color": 1, "cells": [[8, -7], [8, -6], [8, -5], [9, -7], [10, -8]] },
+        { "id": 25, "q": -7, "r": -3, "color": 4, "cells": [[-8, -3], [-8, -2], [-7, -3], [-6, -4]] },
+        { "id": 28, "q": 2, "r": -4, "color": 5, "cells": [[1, -5], [1, -4], [2, -5], [2, -4], [3, -4]] },
+        {
+          "id": 32,
+          "q": 2,
+          "r": 0,
+          "color": 1,
+          "cells": [[0, 1], [1, 0], [1, 1], [2, -1], [2, 0], [2, 1], [3, -1], [3, 0]]
+        },
+        {
+          "id": 37,
+          "q": -7,
+          "r": -4,
+          "color": 4,
+          "cells": [[-7, -4], [-6, -5], [-5, -5], [-4, -6], [-3, -6], [-2, -7]]
+        },
+        {
+          "id": 37,
+          "q": -5,
+          "r": -6,
+          "color": 4,
+          "cells": [[-5, -6], [-4, -7], [-3, -7], [-2, -8], [-1, -8], [0, -9]]
+        },
+        {
+          "id": 38,
+          "q": 0,
+          "r": -10,
+          "color": 4,
+          "cells": [[-1, -10], [-1, -9], [0, -11], [0, -9], [1, -11], [1, -10]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 1,
+      "penalties": [1, 0, 0, 0],
+      "raw_penalties": [1, 1, 1, 2],
+      "falsehood": false,
+      "count": 13,
+      "valid": true,
+      "group": [0, 0, 0, 18]
+    },
+    "a0657a93d3e12f97b55ba540": {
+      "id": "a0657a93d3e12f97b55ba540",
+      "recipe": 10,
+      "base_id": 10,
+      "name": "新朋友",
+      "power": 28306,
+      "fortitude": 28306,
+      "total": 56612,
+      "base_power": 5100,
+      "base_fortitude": 5100,
+      "colors": [1, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 4, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 11, "q": 0, "r": -9, "color": 4, "cells": [[0, -10], [0, -9]] },
+        { "id": 12, "q": -5, "r": -4, "color": 4, "cells": [[-6, -3], [-5, -4], [-4, -4]] },
+        { "id": 14, "q": 1, "r": -6, "color": 5, "cells": [[1, -6], [2, -6]] },
+        { "id": 15, "q": 0, "r": -5, "color": 5, "cells": [[0, -6], [0, -5], [0, -4]] },
+        { "id": 16, "q": 5, "r": -3, "color": 1, "cells": [[3, -2], [4, -2], [5, -4], [5, -3], [6, -5]] },
+        { "id": 17, "q": 8, "r": -6, "color": 1, "cells": [[8, -7], [8, -6], [8, -5], [9, -7], [10, -8]] },
+        { "id": 25, "q": -7, "r": -3, "color": 4, "cells": [[-8, -3], [-8, -2], [-7, -3], [-6, -4]] },
+        { "id": 28, "q": 2, "r": -4, "color": 5, "cells": [[1, -5], [1, -4], [2, -5], [2, -4], [3, -4]] },
+        {
+          "id": 32,
+          "q": 2,
+          "r": 0,
+          "color": 1,
+          "cells": [[0, 1], [1, 0], [1, 1], [2, -1], [2, 0], [2, 1], [3, -1], [3, 0]]
+        },
+        {
+          "id": 32,
+          "q": 6,
+          "r": -6,
+          "color": 1,
+          "cells": [[4, -5], [5, -6], [5, -5], [6, -7], [6, -6], [6, -5], [7, -7], [7, -6]]
+        },
+        {
+          "id": 37,
+          "q": -7,
+          "r": -4,
+          "color": 4,
+          "cells": [[-7, -4], [-6, -5], [-5, -5], [-4, -6], [-3, -6], [-2, -7]]
+        },
+        {
+          "id": 37,
+          "q": -5,
+          "r": -6,
+          "color": 4,
+          "cells": [[-5, -6], [-4, -7], [-3, -7], [-2, -8], [-1, -8], [0, -9]]
+        },
+        {
+          "id": 38,
+          "q": 0,
+          "r": -10,
+          "color": 4,
+          "cells": [[-1, -10], [-1, -9], [0, -11], [0, -9], [1, -11], [1, -10]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 2,
+      "penalties": [1, 0, 1, 0],
+      "raw_penalties": [1, 1, 2, 1],
+      "falsehood": false,
+      "count": 13,
+      "valid": true,
+      "group": [0, 0, 0, 18]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T03:52:00.6514642+00:00"
+}

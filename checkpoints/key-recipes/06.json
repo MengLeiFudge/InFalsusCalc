@@ -1,0 +1,814 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [],
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 6,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "a52787d6c31bef016a847da5",
+        "fortitude": "a52787d6c31bef016a847da5",
+        "total": "a52787d6c31bef016a847da5"
+      },
+      "total_best": ["a52787d6c31bef016a847da5"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 41958,
+          "secondary_upper_bound": 41958,
+          "objective_complete": true,
+          "seconds": 5.47e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 41958,
+          "secondary_upper_bound": 41958,
+          "objective_complete": true,
+          "seconds": 0.0001513,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 83916,
+          "secondary_upper_bound": 41958,
+          "objective_complete": true,
+          "seconds": 0.1806534,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0": {
+      "key": [1, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "9e8831ade54afe1beddbacf0",
+        "fortitude": "3ed7c3a9de56a086f5054a50",
+        "total": "04ac6b3ccccfbf8e2c55106c"
+      },
+      "total_best": ["04ac6b3ccccfbf8e2c55106c"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 39960,
+          "secondary_upper_bound": 21978,
+          "objective_complete": true,
+          "seconds": 4.19e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 39960,
+          "secondary_upper_bound": 21978,
+          "objective_complete": true,
+          "seconds": 4.26e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 70930,
+          "secondary_upper_bound": 35465,
+          "objective_complete": true,
+          "seconds": 0.6785775,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p1": {
+      "key": [1, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "2da4faff108bb7070f488155",
+        "fortitude": "9fce25fceb0d2578896e826b",
+        "total": "e5d6a1fe25cbf9b5ebd262c1"
+      },
+      "total_best": ["e5d6a1fe25cbf9b5ebd262c1"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 35520,
+          "secondary_upper_bound": 19536,
+          "objective_complete": true,
+          "seconds": 5.52e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 35520,
+          "secondary_upper_bound": 19536,
+          "objective_complete": true,
+          "seconds": 4.46e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 69264,
+          "secondary_upper_bound": 34632,
+          "objective_complete": true,
+          "seconds": 0.1112994,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "93e82204f9d988fc12860f68",
+        "fortitude": "93e82204f9d988fc12860f68",
+        "total": "93e82204f9d988fc12860f68"
+      },
+      "total_best": ["93e82204f9d988fc12860f68"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 37296,
+          "secondary_upper_bound": 37296,
+          "objective_complete": true,
+          "seconds": 7.32e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 37296,
+          "secondary_upper_bound": 37296,
+          "objective_complete": true,
+          "seconds": 4.24e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 74592,
+          "secondary_upper_bound": 37296,
+          "objective_complete": true,
+          "seconds": 0.1033879,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p2": {
+      "key": [1, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "9f1f339b669433bb1e7781e3",
+        "fortitude": "9f1f339b669433bb1e7781e3",
+        "total": "9f1f339b669433bb1e7781e3"
+      },
+      "total_best": ["9f1f339b669433bb1e7781e3"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 23311,
+          "secondary_upper_bound": 23311,
+          "objective_complete": true,
+          "seconds": 4.43e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 23311,
+          "secondary_upper_bound": 23311,
+          "objective_complete": true,
+          "seconds": 5.39e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 46622,
+          "secondary_upper_bound": 23311,
+          "objective_complete": true,
+          "seconds": 0.1209034,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "3459069abab7eafacbe05cb3",
+        "fortitude": "3459069abab7eafacbe05cb3",
+        "total": "3459069abab7eafacbe05cb3"
+      },
+      "total_best": ["3459069abab7eafacbe05cb3"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 23311,
+          "secondary_upper_bound": 23311,
+          "objective_complete": true,
+          "seconds": 4.74e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 23311,
+          "secondary_upper_bound": 23311,
+          "objective_complete": true,
+          "seconds": 4.26e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 46622,
+          "secondary_upper_bound": 23311,
+          "objective_complete": true,
+          "seconds": 0.0450921,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "a52787d6c31bef016a847da5": {
+      "id": "a52787d6c31bef016a847da5",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 41958,
+      "fortitude": 41958,
+      "total": 83916,
+      "base_power": 4200,
+      "base_fortitude": 4200,
+      "colors": [1],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 5, 1],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 3, 1],
+      "placements": [
+        { "id": 1, "q": 2, "r": 0, "color": 1, "cells": [[2, 0]] },
+        { "id": 6, "q": -4, "r": -3, "color": 2, "cells": [[-4, -4], [-4, -3], [-3, -4]] },
+        { "id": 7, "q": 4, "r": -11, "color": 3, "cells": [[4, -11]] },
+        { "id": 7, "q": 4, "r": -7, "color": 3, "cells": [[4, -7]] },
+        { "id": 9, "q": 2, "r": -9, "color": 3, "cells": [[1, -9], [2, -9], [3, -10]] },
+        { "id": 13, "q": 0, "r": 1, "color": 5, "cells": [[0, 1]] },
+        { "id": 16, "q": -1, "r": 1, "color": 1, "cells": [[-3, 2], [-2, 2], [-1, 0], [-1, 1], [0, -1]] },
+        { "id": 17, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-2, 1], [-1, -1], [0, -2]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 20, "q": -3, "r": -7, "color": 2, "cells": [[-4, -7], [-4, -6], [-3, -7], [-3, -6], [-2, -7]] },
+        { "id": 24, "q": 2, "r": -8, "color": 3, "cells": [[2, -9], [2, -8], [2, -7], [3, -9], [3, -7]] },
+        {
+          "id": 34,
+          "q": -1,
+          "r": -6,
+          "color": 2,
+          "cells": [[-2, -6], [-2, -5], [-1, -7], [-1, -6], [-1, -5], [0, -7], [0, -6], [1, -7]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [0, 0, 0, 2]
+    },
+    "9e8831ade54afe1beddbacf0": {
+      "id": "9e8831ade54afe1beddbacf0",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 39960,
+      "fortitude": 21978,
+      "total": 61938,
+      "base_power": 4000,
+      "base_fortitude": 2200,
+      "colors": [1],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 4, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 1, "r": 0, "color": 1, "cells": [[1, -1], [1, 0], [2, 0]] },
+        { "id": 4, "q": -4, "r": -7, "color": 2, "cells": [[-4, -7]] },
+        { "id": 13, "q": 0, "r": 1, "color": 5, "cells": [[0, 1]] },
+        { "id": 13, "q": 2, "r": -11, "color": 5, "cells": [[2, -11]] },
+        { "id": 15, "q": 0, "r": -7, "color": 5, "cells": [[0, -8], [0, -7], [0, -6]] },
+        { "id": 17, "q": -2, "r": 2, "color": 1, "cells": [[-2, 1], [-2, 2], [-2, 3], [-1, 1], [0, 0]] },
+        {
+          "id": 21,
+          "q": -3,
+          "r": -4,
+          "color": 2,
+          "cells": [[-4, -4], [-4, -3], [-3, -5], [-3, -4], [-3, -3], [-2, -5]]
+        },
+        {
+          "id": 21,
+          "q": -2,
+          "r": -7,
+          "color": 2,
+          "cells": [[-3, -7], [-3, -6], [-2, -8], [-2, -7], [-2, -6], [-1, -8]]
+        },
+        { "id": 30, "q": -1, "r": -9, "color": 5, "cells": [[-3, -8], [-2, -9], [-1, -9], [0, -9], [1, -10]] },
+        {
+          "id": 32,
+          "q": 1,
+          "r": -2,
+          "color": 1,
+          "cells": [[-1, -1], [0, -2], [0, -1], [1, -3], [1, -2], [1, -1], [2, -3], [2, -2]]
+        },
+        {
+          "id": 33,
+          "q": -1,
+          "r": -2,
+          "color": 2,
+          "cells": [[-1, -7], [-1, -6], [-1, -5], [-1, -4], [-1, -3], [-1, -2]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 0],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 2]
+    },
+    "3ed7c3a9de56a086f5054a50": {
+      "id": "3ed7c3a9de56a086f5054a50",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 21978,
+      "fortitude": 39960,
+      "total": 61938,
+      "base_power": 2200,
+      "base_fortitude": 4000,
+      "colors": [1],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 4, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 1, "q": 2, "r": 0, "color": 1, "cells": [[2, 0]] },
+        { "id": 2, "q": -2, "r": 0, "color": 1, "cells": [[-2, 0], [-1, -1]] },
+        { "id": 9, "q": 3, "r": -10, "color": 3, "cells": [[2, -10], [3, -10], [4, -11]] },
+        { "id": 13, "q": 0, "r": 1, "color": 5, "cells": [[0, 1]] },
+        { "id": 14, "q": 2, "r": -11, "color": 5, "cells": [[2, -11], [3, -11]] },
+        { "id": 15, "q": 0, "r": -7, "color": 5, "cells": [[0, -8], [0, -7], [0, -6]] },
+        { "id": 17, "q": -2, "r": 2, "color": 1, "cells": [[-2, 1], [-2, 2], [-2, 3], [-1, 1], [0, 0]] },
+        { "id": 22, "q": 3, "r": -7, "color": 3, "cells": [[3, -7], [3, -6], [4, -8], [4, -7]] },
+        { "id": 23, "q": 2, "r": -8, "color": 3, "cells": [[1, -9], [1, -6], [2, -9], [2, -8], [2, -7]] },
+        { "id": 30, "q": -1, "r": -9, "color": 5, "cells": [[-3, -8], [-2, -9], [-1, -9], [0, -9], [1, -10]] },
+        { "id": 31, "q": 2, "r": -3, "color": 1, "cells": [[-3, -1], [-2, -1], [-1, -2], [0, -2], [1, -3], [2, -3]] },
+        {
+          "id": 32,
+          "q": 1,
+          "r": -1,
+          "color": 1,
+          "cells": [[-1, 0], [0, -1], [0, 0], [1, -2], [1, -1], [1, 0], [2, -2], [2, -1]]
+        }
+      ],
+      "active": [1, 2, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 2]
+    },
+    "04ac6b3ccccfbf8e2c55106c": {
+      "id": "04ac6b3ccccfbf8e2c55106c",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 35465,
+      "fortitude": 35465,
+      "total": 70930,
+      "base_power": 3550,
+      "base_fortitude": 3550,
+      "colors": [1],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 7, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 1],
+      "placements": [
+        { "id": 5, "q": -1, "r": -6, "color": 2, "cells": [[-2, -6], [-1, -6]] },
+        { "id": 9, "q": 3, "r": -10, "color": 3, "cells": [[2, -10], [3, -10], [4, -11]] },
+        { "id": 14, "q": 2, "r": -11, "color": 5, "cells": [[2, -11], [3, -11]] },
+        { "id": 15, "q": 0, "r": -7, "color": 5, "cells": [[0, -8], [0, -7], [0, -6]] },
+        { "id": 17, "q": -2, "r": 2, "color": 1, "cells": [[-2, 1], [-2, 2], [-2, 3], [-1, 1], [0, 0]] },
+        { "id": 17, "q": 0, "r": -1, "color": 1, "cells": [[0, -2], [0, -1], [0, 0], [1, -2], [2, -3]] },
+        { "id": 20, "q": -3, "r": -7, "color": 2, "cells": [[-4, -7], [-4, -6], [-3, -7], [-3, -6], [-2, -7]] },
+        {
+          "id": 21,
+          "q": -3,
+          "r": -4,
+          "color": 2,
+          "cells": [[-4, -4], [-4, -3], [-3, -5], [-3, -4], [-3, -3], [-2, -5]]
+        },
+        { "id": 22, "q": 3, "r": -7, "color": 3, "cells": [[3, -7], [3, -6], [4, -8], [4, -7]] },
+        { "id": 23, "q": 2, "r": -8, "color": 3, "cells": [[1, -9], [1, -6], [2, -9], [2, -8], [2, -7]] },
+        { "id": 30, "q": -1, "r": -9, "color": 5, "cells": [[-3, -8], [-2, -9], [-1, -9], [0, -9], [1, -10]] },
+        {
+          "id": 32,
+          "q": 2,
+          "r": -1,
+          "color": 1,
+          "cells": [[0, 0], [1, -1], [1, 0], [2, -2], [2, -1], [2, 0], [3, -2], [3, -1]]
+        }
+      ],
+      "active": [0, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 2]
+    },
+    "93e82204f9d988fc12860f68": {
+      "id": "93e82204f9d988fc12860f68",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 37296,
+      "fortitude": 37296,
+      "total": 74592,
+      "base_power": 4200,
+      "base_fortitude": 4200,
+      "colors": [1],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 4, 3],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 1, "q": -2, "r": -1, "color": 1, "cells": [[-2, -1]] },
+        { "id": 3, "q": -2, "r": 1, "color": 1, "cells": [[-2, 0], [-2, 1], [-1, 1]] },
+        { "id": 5, "q": -1, "r": -6, "color": 2, "cells": [[-2, -6], [-1, -6]] },
+        { "id": 7, "q": 2, "r": -8, "color": 3, "cells": [[2, -8]] },
+        { "id": 13, "q": 0, "r": 1, "color": 5, "cells": [[0, 1]] },
+        { "id": 16, "q": 3, "r": -1, "color": 1, "cells": [[1, 0], [2, 0], [3, -2], [3, -1], [4, -3]] },
+        { "id": 17, "q": -2, "r": 2, "color": 1, "cells": [[-2, 1], [-2, 2], [-2, 3], [-1, 1], [0, 0]] },
+        { "id": 20, "q": -3, "r": -7, "color": 2, "cells": [[-4, -7], [-4, -6], [-3, -7], [-3, -6], [-2, -7]] },
+        {
+          "id": 21,
+          "q": -3,
+          "r": -4,
+          "color": 2,
+          "cells": [[-4, -4], [-4, -3], [-3, -5], [-3, -4], [-3, -3], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 1,
+          "r": -2,
+          "color": 1,
+          "cells": [[-1, -1], [0, -2], [0, -1], [1, -3], [1, -2], [1, -1], [2, -3], [2, -2]]
+        },
+        { "id": 35, "q": -1, "r": -7, "color": 3, "cells": [[-1, -7], [0, -7], [1, -7], [2, -7], [3, -7], [4, -7]] },
+        {
+          "id": 36,
+          "q": 3,
+          "r": -10,
+          "color": 3,
+          "cells": [[2, -10], [2, -9], [3, -11], [3, -10], [3, -9], [4, -11], [4, -10]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 6],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 1, 2, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [0, 0, 0, 2]
+    },
+    "3459069abab7eafacbe05cb3": {
+      "id": "3459069abab7eafacbe05cb3",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 23311,
+      "fortitude": 23311,
+      "total": 46622,
+      "base_power": 4200,
+      "base_fortitude": 4200,
+      "colors": [1],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 3, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 1, "q": -2, "r": -1, "color": 1, "cells": [[-2, -1]] },
+        { "id": 2, "q": -2, "r": 2, "color": 1, "cells": [[-2, 2], [-1, 1]] },
+        { "id": 3, "q": 1, "r": 0, "color": 1, "cells": [[1, -1], [1, 0], [2, 0]] },
+        { "id": 5, "q": -1, "r": -6, "color": 2, "cells": [[-2, -6], [-1, -6]] },
+        { "id": 7, "q": 2, "r": -8, "color": 3, "cells": [[2, -8]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 20, "q": -3, "r": -7, "color": 2, "cells": [[-4, -7], [-4, -6], [-3, -7], [-3, -6], [-2, -7]] },
+        {
+          "id": 21,
+          "q": -3,
+          "r": -4,
+          "color": 2,
+          "cells": [[-4, -4], [-4, -3], [-3, -5], [-3, -4], [-3, -3], [-2, -5]]
+        },
+        {
+          "id": 32,
+          "q": 0,
+          "r": -1,
+          "color": 1,
+          "cells": [[-2, 0], [-1, -1], [-1, 0], [0, -2], [0, -1], [0, 0], [1, -2], [1, -1]]
+        },
+        { "id": 35, "q": -1, "r": -7, "color": 3, "cells": [[-1, -7], [0, -7], [1, -7], [2, -7], [3, -7], [4, -7]] },
+        {
+          "id": 36,
+          "q": 3,
+          "r": -10,
+          "color": 3,
+          "cells": [[2, -10], [2, -9], [3, -11], [3, -10], [3, -9], [4, -11], [4, -10]]
+        },
+        { "id": 39, "q": -3, "r": 4, "color": 5, "cells": [[-3, 4], [-2, 3], [-1, 2], [0, 1], [1, 0], [2, -1]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 6],
+      "strikes": 2,
+      "penalties": [0, 0, 2, 0],
+      "raw_penalties": [0, 1, 3, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [0, 0, 0, 2]
+    },
+    "2da4faff108bb7070f488155": {
+      "id": "2da4faff108bb7070f488155",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 35520,
+      "fortitude": 19536,
+      "total": 55056,
+      "base_power": 4000,
+      "base_fortitude": 2200,
+      "colors": [1],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 5, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 1],
+      "placements": [
+        { "id": 1, "q": -2, "r": -1, "color": 1, "cells": [[-2, -1]] },
+        { "id": 3, "q": -2, "r": 1, "color": 1, "cells": [[-2, 0], [-2, 1], [-1, 1]] },
+        { "id": 5, "q": -1, "r": -6, "color": 2, "cells": [[-2, -6], [-1, -6]] },
+        { "id": 13, "q": 0, "r": 1, "color": 5, "cells": [[0, 1]] },
+        { "id": 14, "q": 2, "r": -11, "color": 5, "cells": [[2, -11], [3, -11]] },
+        { "id": 15, "q": 0, "r": -7, "color": 5, "cells": [[0, -8], [0, -7], [0, -6]] },
+        { "id": 16, "q": 3, "r": -1, "color": 1, "cells": [[1, 0], [2, 0], [3, -2], [3, -1], [4, -3]] },
+        { "id": 17, "q": -2, "r": 2, "color": 1, "cells": [[-2, 1], [-2, 2], [-2, 3], [-1, 1], [0, 0]] },
+        { "id": 20, "q": -3, "r": -7, "color": 2, "cells": [[-4, -7], [-4, -6], [-3, -7], [-3, -6], [-2, -7]] },
+        {
+          "id": 21,
+          "q": -3,
+          "r": -4,
+          "color": 2,
+          "cells": [[-4, -4], [-4, -3], [-3, -5], [-3, -4], [-3, -3], [-2, -5]]
+        },
+        { "id": 30, "q": -1, "r": -9, "color": 5, "cells": [[-3, -8], [-2, -9], [-1, -9], [0, -9], [1, -10]] },
+        {
+          "id": 32,
+          "q": 1,
+          "r": -2,
+          "color": 1,
+          "cells": [[-1, -1], [0, -2], [0, -1], [1, -3], [1, -2], [1, -1], [2, -3], [2, -2]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 1, 2, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 2]
+    },
+    "9fce25fceb0d2578896e826b": {
+      "id": "9fce25fceb0d2578896e826b",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 19536,
+      "fortitude": 35520,
+      "total": 55056,
+      "base_power": 2200,
+      "base_fortitude": 4000,
+      "colors": [1],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 4, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 1, "q": -2, "r": -1, "color": 1, "cells": [[-2, -1]] },
+        { "id": 3, "q": -2, "r": 1, "color": 1, "cells": [[-2, 0], [-2, 1], [-1, 1]] },
+        { "id": 8, "q": 2, "r": -8, "color": 3, "cells": [[2, -8], [2, -7]] },
+        { "id": 13, "q": 0, "r": 1, "color": 5, "cells": [[0, 1]] },
+        { "id": 13, "q": 2, "r": -11, "color": 5, "cells": [[2, -11]] },
+        { "id": 15, "q": 0, "r": -7, "color": 5, "cells": [[0, -8], [0, -7], [0, -6]] },
+        { "id": 16, "q": 3, "r": -1, "color": 1, "cells": [[1, 0], [2, 0], [3, -2], [3, -1], [4, -3]] },
+        { "id": 17, "q": -2, "r": 2, "color": 1, "cells": [[-2, 1], [-2, 2], [-2, 3], [-1, 1], [0, 0]] },
+        { "id": 22, "q": 3, "r": -7, "color": 3, "cells": [[3, -7], [3, -6], [4, -8], [4, -7]] },
+        { "id": 30, "q": -1, "r": -9, "color": 5, "cells": [[-3, -8], [-2, -9], [-1, -9], [0, -9], [1, -10]] },
+        {
+          "id": 32,
+          "q": 1,
+          "r": -2,
+          "color": 1,
+          "cells": [[-1, -1], [0, -2], [0, -1], [1, -3], [1, -2], [1, -1], [2, -3], [2, -2]]
+        },
+        {
+          "id": 36,
+          "q": 3,
+          "r": -10,
+          "color": 3,
+          "cells": [[2, -10], [2, -9], [3, -11], [3, -10], [3, -9], [4, -11], [4, -10]]
+        }
+      ],
+      "active": [1, 2, 3, 4, 5, 6],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 1, 2, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 2]
+    },
+    "e5d6a1fe25cbf9b5ebd262c1": {
+      "id": "e5d6a1fe25cbf9b5ebd262c1",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 34632,
+      "fortitude": 34632,
+      "total": 69264,
+      "base_power": 3900,
+      "base_fortitude": 3900,
+      "colors": [1],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 5, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 6, "q": -4, "r": -3, "color": 2, "cells": [[-4, -4], [-4, -3], [-3, -4]] },
+        { "id": 6, "q": -2, "r": -5, "color": 2, "cells": [[-2, -6], [-2, -5], [-1, -6]] },
+        { "id": 9, "q": 3, "r": -10, "color": 3, "cells": [[2, -10], [3, -10], [4, -11]] },
+        { "id": 13, "q": -2, "r": -9, "color": 5, "cells": [[-2, -9]] },
+        { "id": 15, "q": 0, "r": -7, "color": 5, "cells": [[0, -8], [0, -7], [0, -6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 20, "q": -3, "r": -7, "color": 2, "cells": [[-4, -7], [-4, -6], [-3, -7], [-3, -6], [-2, -7]] },
+        { "id": 22, "q": 3, "r": -7, "color": 3, "cells": [[3, -7], [3, -6], [4, -8], [4, -7]] },
+        { "id": 23, "q": 2, "r": -8, "color": 3, "cells": [[1, -9], [1, -6], [2, -9], [2, -8], [2, -7]] },
+        { "id": 29, "q": 1, "r": -10, "color": 5, "cells": [[-1, -9], [0, -9], [1, -10], [2, -11], [3, -11]] },
+        { "id": 31, "q": 2, "r": 0, "color": 1, "cells": [[-3, 2], [-2, 2], [-1, 1], [0, 1], [1, 0], [2, 0]] },
+        {
+          "id": 32,
+          "q": -1,
+          "r": -1,
+          "color": 1,
+          "cells": [[-3, 0], [-2, -1], [-2, 0], [-1, -2], [-1, -1], [-1, 0], [0, -2], [0, -1]]
+        }
+      ],
+      "active": [0, 1, 3, 4, 5, 6],
+      "strikes": 1,
+      "penalties": [0, 1, 0, 0],
+      "raw_penalties": [0, 2, 1, 1],
+      "falsehood": false,
+      "count": 12,
+      "valid": true,
+      "group": [1, 0, 0, 2]
+    },
+    "9f1f339b669433bb1e7781e3": {
+      "id": "9f1f339b669433bb1e7781e3",
+      "recipe": 6,
+      "base_id": 6,
+      "name": "脱离常轨的自由",
+      "power": 23311,
+      "fortitude": 23311,
+      "total": 46622,
+      "base_power": 4200,
+      "base_fortitude": 4200,
+      "colors": [1],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 7, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 1],
+      "placements": [
+        { "id": 1, "q": 2, "r": -3, "color": 1, "cells": [[2, -3]] },
+        { "id": 4, "q": -2, "r": -6, "color": 2, "cells": [[-2, -6]] },
+        { "id": 9, "q": 3, "r": -10, "color": 3, "cells": [[2, -10], [3, -10], [4, -11]] },
+        { "id": 13, "q": 0, "r": 1, "color": 5, "cells": [[0, 1]] },
+        { "id": 14, "q": 2, "r": -11, "color": 5, "cells": [[2, -11], [3, -11]] },
+        { "id": 15, "q": 0, "r": -7, "color": 5, "cells": [[0, -8], [0, -7], [0, -6]] },
+        { "id": 17, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-2, 1], [-1, -1], [0, -2]] },
+        { "id": 17, "q": 0, "r": 0, "color": 1, "cells": [[0, -1], [0, 0], [0, 1], [1, -1], [2, -2]] },
+        { "id": 20, "q": -3, "r": -7, "color": 2, "cells": [[-4, -7], [-4, -6], [-3, -7], [-3, -6], [-2, -7]] },
+        {
+          "id": 21,
+          "q": -3,
+          "r": -4,
+          "color": 2,
+          "cells": [[-4, -4], [-4, -3], [-3, -5], [-3, -4], [-3, -3], [-2, -5]]
+        },
+        { "id": 22, "q": 3, "r": -7, "color": 3, "cells": [[3, -7], [3, -6], [4, -8], [4, -7]] },
+        { "id": 23, "q": 2, "r": -8, "color": 3, "cells": [[1, -9], [1, -6], [2, -9], [2, -8], [2, -7]] },
+        { "id": 30, "q": -1, "r": -9, "color": 5, "cells": [[-3, -8], [-2, -9], [-1, -9], [0, -9], [1, -10]] },
+        { "id": 31, "q": 2, "r": 0, "color": 1, "cells": [[-3, 2], [-2, 2], [-1, 1], [0, 1], [1, 0], [2, 0]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5, 6],
+      "strikes": 2,
+      "penalties": [2, 0, 0, 0],
+      "raw_penalties": [2, 1, 1, 1],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [1, 0, 0, 2]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T03:52:01.0575976+00:00"
+}

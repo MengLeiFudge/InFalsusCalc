@@ -1,0 +1,139 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 7,
+  "groups": {
+    "0,0,0,12": {
+      "key": [0, 0, 0, 12],
+      "best": {
+        "inner:power": "95eb74cfe985fc22ff1d07d9",
+        "inner:fortitude": "95eb74cfe985fc22ff1d07d9",
+        "inner:total": "95eb74cfe985fc22ff1d07d9"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    },
+    "0,0,0,8": {
+      "key": [0, 0, 0, 8],
+      "best": {
+        "outer:power": "f002b60abf47a72237056bf9",
+        "outer:fortitude": "f002b60abf47a72237056bf9",
+        "outer:total": "f002b60abf47a72237056bf9"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 0, "outer": 0 },
+  "cards": {
+    "95eb74cfe985fc22ff1d07d9": {
+      "id": "95eb74cfe985fc22ff1d07d9",
+      "recipe": 7,
+      "base_id": 7,
+      "name": "班花",
+      "power": 29970,
+      "fortitude": 29970,
+      "total": 59940,
+      "base_power": 3000,
+      "base_fortitude": 3000,
+      "colors": [2, 3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [1, 1, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "heuristic_score": 5.994,
+      "retained_percent": 100,
+      "carriers": [1, 1, 3],
+      "placements": [
+        { "id": 15, "q": 4, "r": -1, "color": 5, "cells": [[4, -2], [4, -1], [4, 0]] },
+        { "id": 21, "q": 7, "r": 0, "color": 2, "cells": [[6, 0], [6, 1], [7, -1], [7, 0], [7, 1], [8, -1]] },
+        {
+          "id": 34,
+          "q": 7,
+          "r": -2,
+          "color": 2,
+          "cells": [[6, -2], [6, -1], [7, -3], [7, -2], [7, -1], [8, -3], [8, -2], [9, -3]]
+        },
+        {
+          "id": 36,
+          "q": 0,
+          "r": -1,
+          "color": 3,
+          "cells": [[-1, -1], [-1, 0], [0, -2], [0, -1], [0, 0], [1, -2], [1, -1]]
+        },
+        { "id": 36, "q": 0, "r": 1, "color": 3, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0], [1, 1]] },
+        { "id": 40, "q": 5, "r": 0, "color": 5, "cells": [[4, 1], [5, -2], [5, -1], [5, 0], [5, 1], [5, 2], [6, -1]] }
+      ],
+      "active": [0, 2, 3],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 1],
+      "falsehood": false,
+      "count": 6,
+      "valid": true,
+      "group": [0, 0, 0, 12],
+      "full_coverage": false
+    },
+    "f002b60abf47a72237056bf9": {
+      "id": "f002b60abf47a72237056bf9",
+      "recipe": 7,
+      "base_id": 7,
+      "name": "班花",
+      "power": 17982,
+      "fortitude": 43956,
+      "total": 61938,
+      "base_power": 1800,
+      "base_fortitude": 4400,
+      "colors": [3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [8, 3, 2],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "heuristic_score": 6.1938,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 7, "q": 1, "r": 0, "color": 3, "cells": [[1, 0]] },
+        { "id": 7, "q": 13, "r": 3, "color": 3, "cells": [[13, 3]] },
+        { "id": 7, "q": 14, "r": -2, "color": 3, "cells": [[14, -2]] },
+        { "id": 7, "q": 14, "r": 1, "color": 3, "cells": [[14, 1]] },
+        { "id": 7, "q": 14, "r": 2, "color": 3, "cells": [[14, 2]] },
+        { "id": 8, "q": 14, "r": -1, "color": 3, "cells": [[14, -1], [14, 0]] },
+        { "id": 8, "q": 15, "r": -2, "color": 3, "cells": [[15, -2], [15, -1]] },
+        { "id": 8, "q": 15, "r": 0, "color": 3, "cells": [[15, 0], [15, 1]] },
+        { "id": 22, "q": 0, "r": -2, "color": 3, "cells": [[0, -2], [0, -1], [1, -3], [1, -2]] },
+        { "id": 28, "q": 3, "r": -2, "color": 5, "cells": [[2, -3], [2, -2], [3, -3], [3, -2], [4, -2]] },
+        { "id": 28, "q": 4, "r": 0, "color": 5, "cells": [[3, -1], [3, 0], [4, -1], [4, 0], [5, 0]] },
+        { "id": 36, "q": 1, "r": 0, "color": 3, "cells": [[0, 0], [0, 1], [1, -1], [1, 0], [1, 1], [2, -1], [2, 0]] },
+        { "id": 40, "q": 5, "r": 0, "color": 5, "cells": [[4, 1], [5, -2], [5, -1], [5, 0], [5, 1], [5, 2], [6, -1]] }
+      ],
+      "active": [0, 2, 5],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 2, 1],
+      "falsehood": false,
+      "count": 13,
+      "valid": true,
+      "group": [0, 0, 0, 8],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.6208859+00:00",
+  "solve_seconds": 0.0013232
+}

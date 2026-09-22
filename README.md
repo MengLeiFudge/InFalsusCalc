@@ -2,21 +2,23 @@
 
 《In Falsus》的离线配方计算、回想配队和遭遇分复算工具。项目使用 C# / .NET 10 和 Google OR-Tools，生产计算不启动游戏、不读取玩家存档，也不依赖 Python 或网络服务。
 
-## 直接使用
+## 直接查看
 
-在 GitHub Releases 下载 `InFalsusCalc-win-x64.zip`，解压后直接运行：
+打开 [GitHub Pages](https://mengleifudge.github.io/InFalsusCalc/)，即可查询卡牌和回想配队，无需下载或运行计算器。
 
-```bat
-InFalsusCalc.exe
-```
+项目分为两部分：`Calculator/` 中的 C# 程序只计算并输出 JSON；`docs/` 中的静态网页读取已发布的 JSON 和图片。网页不会触发求解。后续不再制作 Release，历史 Release 保留为旧版本下载。
 
-程序会依次完成制卡、允许罚分 0/1/2 的配队、谱面等级复算和独立 HTML。完成后打开：
+网页资源采用独立文件，需通过 GitHub Pages 或静态网站服务访问，不支持双击 HTML 离线打开。首批数据只有卡牌摘要和文件索引；点击卡牌后才加载拼法，进入回想页才加载当前回想，展开阶段或特性明细才加载对应等级的详情。读取过的数据会复用缓存，相同内容的数据块共享文件。
 
-```text
-docs\index.html
-```
+立绘保留 512×1024 分辨率，以质量 85 编码为 WebP；卡框和图标使用无损 WebP，全部图片保留透明通道。立绘按需加载，浏览器可以独立缓存图片。
 
-该文件也是 GitHub Pages 发布的完整成果页，内嵌全部数据、样式和脚本，可直接离线打开。
+## 本地预览
+
+在项目根目录双击 `预览网页.cmd`，会启动仅供本机访问的静态服务，并自动打开浏览器。需要 Node.js 22 或更新版本，不需要重新计算或发布到 GitHub。
+
+预览时保留终端窗口；结束后按 `Ctrl+C` 或关闭窗口即可停止。若浏览器没有自动打开，复制窗口显示的 `http://127.0.0.1:端口/` 地址访问。直接打开 `docs/index.html` 会显示操作指引，因为浏览器的文件协议不能读取本页所需的模块和 JSON。
+
+也可在终端执行 `node scripts/preview-site.mjs`，然后访问它打印的本地网址。
 
 ## 主要功能
 
@@ -42,21 +44,39 @@ docs\index.html
 普通构建输出：
 
 ```text
-bin\Release\net10.0\win-x64\InFalsusCalc.exe
+Calculator\bin\Release\net10.0\win-x64\InFalsusCalc.exe
 ```
 
-生成自包含 Windows x64 包：
+在仓库中运行构建后的程序，会自动定位仓库根目录。计算输入仅来自 `Calculator/Data/`，不会读取网页或图片。完整结果写入 `results/report.json`。
 
-```bat
-"C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin\MSBuild.exe" InFalsusCalc.csproj /restore /t:Publish /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /p:PublishDir=.release\InFalsusCalc-win-x64\
+## 更新 Pages 与备份进度
+
+网页数据构建需要 Node.js 22 或更新版本，无需安装 npm 依赖。在仓库根目录使用 Windows PowerShell 执行：
+
+```powershell
+# 保存完整报告，并构建 docs/data/ 下精简、紧凑的网页数据
+.\scripts\Publish-Results.ps1
+
+# 计算停止后，将有效本地进度保存到 checkpoints/
+.\scripts\Save-Checkpoints.ps1
 ```
+
+两个脚本只准备本地文件，不自动提交或推送。检查改动后按需提交；推送后由仓库的 GitHub Pages（`main` 分支的 `/docs`）发布。只修改网页样式或脚本时，直接修改 `docs/`，无需重新计算。
+
+`Publish-Results.ps1` 默认优先读取 `results/report.json`；没有新的计算输出时，使用仓库的 `reports/report.json` 重建网页数据。也可用 `-InputFile <路径>` 指定完整结果。构建会保留格式化的完整报告，只向 `docs/data/` 写入实际展示字段，去除计算内部状态、重复战斗结果和多余棋盘属性。生成的数据使用紧凑 JSON，文件名由内容哈希决定，全部构建成功后再替换目录。完整报告和检查点不属于 Pages 站点。
+
+也可直接运行 `node scripts/build-site.mjs` 从仓库报告构建，或传入完整结果文件路径。`docs/data/` 是生成物，不应手动编辑或格式化；Biome 配置已排除该目录，`reports/` 和其他仓库 JSON 继续格式化维护。
+
+`Save-Checkpoints.ps1 -ReportFile <路径>` 可指定保留哪个结果对应的配队缓存，默认优先本地结果，其次仓库完整报告。它同时保存尚未完成的卡牌计算目标，便于后续续算。
+
+首次开始计算时，程序持有计算锁后从 `checkpoints/` 补齐本地 `state/` 缺失的检查点，不覆盖本地已有进度。资源快照与算法策略必须兼容；恢复的是已保存的布局、目标状态、上下界和配队结果，不包含原生求解器内存中的完整搜索树。快照保留当前卡牌进度、选定结果的配队库，以及仍供候选恢复使用的旧布局；历史配队库、进程状态、停止标记、锁、临时文件和日志不提交。
 
 ## 命令
 
 普通使用不需要参数：
 
 ```bat
-:: 完整执行：制卡 → 三档允许罚分配队 → 独立 HTML
+:: 完整执行：制卡 → 三档允许罚分配队 → 完整结果JSON
 InFalsusCalc.exe
 
 :: 不限总时长公平续算制卡CONFIDENCE：每个目标按相同墙钟量子循环轮转，直到全部闭合或stop
@@ -83,7 +103,7 @@ InFalsusCalc.exe debug run --encounter 105 --threads 20
 InFalsusCalc.exe debug confidence
 ```
 
-其他调试参数包括 `--goal`、`--output`、`--slice-seconds` 和 `--recipe-seconds`。`--output`仅在需要临时成果副本时覆盖默认的`docs/index.html`；制卡定位参数只影响制卡阶段，`--encounter`只影响配队阶段；只有31个回想在允许罚分0、1、2下的93套配队全部齐全后，程序才会替换最终HTML。
+其他调试参数包括 `--goal`、`--output`、`--slice-seconds` 和 `--recipe-seconds`。`--output` 覆盖默认结果路径 `results/report.json`，输出内容始终是 JSON。制卡定位参数只影响制卡阶段，`--encounter` 只影响配队阶段；只有31个回想在允许罚分0、1、2下的93套配队全部齐全后，程序才会替换完整结果。网页数据由发布准备脚本另行更新，计算暂停不会覆盖当前页面。
 
 ## 计算范围
 
@@ -102,12 +122,13 @@ InFalsusCalc.exe debug confidence
 
 ## 数据与目录
 
-- `Data/catalog.json`：当前兼容的求解资源快照；制卡和配队的材料来源只使用其中 `shapes.sources` 的最高效能材料回想。
-- `Data/encounter-loot.json`：从同版本游戏资源提取的31个回想完整掉落表，只用于成果页展示，不参与求解。
-- `Data/Seeds`：制卡求解的布局种子。
-- `Evidence`：原生规则静态分析证据，不作为旧候选输入。
-- `src`：制卡、配队、战斗和报告生成代码。
-- `Web`：独立成果页模板，以及从当前游戏资源提取的技能图标、卡牌立绘与卡面图层。
-- `docs/index.html`：当前已发布的静态成果页。
+- `Calculator/InFalsusCalc.csproj`、`Calculator/src/`：计算工程、制卡、配队、战斗和结果导出代码。
+- `Calculator/Data/catalog.json`：当前兼容的求解资源快照；材料来源使用其中 `shapes.sources` 的最高效能材料回想。
+- `Calculator/Data/encounter-loot.json`：同版本31个回想完整掉落表，用于导出展示数据，不参与求解。
+- `docs/`：网页源码及 Pages 站点；`data/index.json` 为最小列表索引，`data/chunks/` 为按需加载、按内容去重的紧凑 JSON，`assets/` 为 WebP 图片。
+- `reports/`：仅供仓库使用的格式化发布输入；`report.json` 是完整报告，也供计算器复用旧配队，`assets.json` 为完整图片清单。
+- `checkpoints/`：可提交的计算进度快照；`key-recipes/` 为当前制卡进度，`decks/` 为选定的配队库，`recipes/` 为仍供恢复逻辑使用的旧布局。
+- `scripts/`：静态网页数据构建脚本、Windows PowerShell 入口和检查点备份脚本。
+- `Evidence/`：原生规则的静态分析证据，保留作为算法依据。
 
-运行时产生的 `state`、`logs`、求解检查点和本地缓存不会提交到仓库。
+`results/`、`state/`、`logs/`、`output/`（调试分析报告）、构建输出和依赖缓存均不提交。清理时退役的历史产物保存在本地 `.codex/trash/`，不参与构建、计算或发布。

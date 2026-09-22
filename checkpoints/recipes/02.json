@@ -1,0 +1,132 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 2,
+  "groups": {
+    "0,0,0,4": {
+      "key": [0, 0, 0, 4],
+      "best": {
+        "inner:power": "6ee7742a57022f52bf644ce3",
+        "inner:fortitude": "6ee7742a57022f52bf644ce3",
+        "inner:total": "6ee7742a57022f52bf644ce3",
+        "outer:power": "74a28a9999b10c5bbc88eebf",
+        "outer:fortitude": "74a28a9999b10c5bbc88eebf",
+        "outer:total": "74a28a9999b10c5bbc88eebf"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 0, "outer": 0 },
+  "cards": {
+    "6ee7742a57022f52bf644ce3": {
+      "id": "6ee7742a57022f52bf644ce3",
+      "recipe": 2,
+      "base_id": 2,
+      "name": "冷酷的督导",
+      "power": 29970,
+      "fortitude": 29970,
+      "total": 59940,
+      "base_power": 3000,
+      "base_fortitude": 3000,
+      "colors": [2],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 3, 1],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "heuristic_score": 5.994,
+      "retained_percent": 100,
+      "carriers": [3, 3, 1],
+      "placements": [
+        { "id": 2, "q": -6, "r": 10, "color": 1, "cells": [[-6, 10], [-5, 9]] },
+        { "id": 3, "q": 5, "r": 4, "color": 1, "cells": [[5, 3], [5, 4], [6, 4]] },
+        { "id": 6, "q": -4, "r": 4, "color": 2, "cells": [[-4, 3], [-4, 4], [-3, 3]] },
+        { "id": 19, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [0, 0], [0, 1], [1, 0]] },
+        { "id": 20, "q": 3, "r": -1, "color": 2, "cells": [[2, -1], [2, 0], [3, -1], [3, 0], [4, -1]] },
+        { "id": 21, "q": -1, "r": 4, "color": 2, "cells": [[-2, 4], [-2, 5], [-1, 3], [-1, 4], [-1, 5], [0, 3]] },
+        {
+          "id": 34,
+          "q": 1,
+          "r": 3,
+          "color": 2,
+          "cells": [[0, 3], [0, 4], [1, 2], [1, 3], [1, 4], [2, 2], [2, 3], [3, 2]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 4],
+      "falsehood": false,
+      "count": 7,
+      "valid": true,
+      "group": [0, 0, 0, 4],
+      "full_coverage": true
+    },
+    "74a28a9999b10c5bbc88eebf": {
+      "id": "74a28a9999b10c5bbc88eebf",
+      "recipe": 2,
+      "base_id": 2,
+      "name": "冷酷的督导",
+      "power": 29970,
+      "fortitude": 29970,
+      "total": 59940,
+      "base_power": 3000,
+      "base_fortitude": 3000,
+      "colors": [2],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 3, 2],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "heuristic_score": 5.994,
+      "retained_percent": 100,
+      "carriers": [2, 3, 2],
+      "placements": [
+        { "id": 2, "q": -6, "r": 10, "color": 1, "cells": [[-6, 10], [-5, 9]] },
+        { "id": 3, "q": 5, "r": 4, "color": 1, "cells": [[5, 3], [5, 4], [6, 4]] },
+        { "id": 19, "q": 0, "r": 1, "color": 2, "cells": [[-1, 1], [0, 0], [0, 1], [1, 0]] },
+        { "id": 20, "q": 4, "r": -1, "color": 2, "cells": [[3, -1], [3, 0], [4, -1], [4, 0], [5, -1]] },
+        { "id": 21, "q": -1, "r": 4, "color": 2, "cells": [[-2, 4], [-2, 5], [-1, 3], [-1, 4], [-1, 5], [0, 3]] },
+        {
+          "id": 34,
+          "q": -4,
+          "r": 2,
+          "color": 2,
+          "cells": [[-5, 2], [-5, 3], [-4, 1], [-4, 2], [-4, 3], [-3, 1], [-3, 2], [-2, 1]]
+        },
+        {
+          "id": 34,
+          "q": 1,
+          "r": 3,
+          "color": 2,
+          "cells": [[0, 3], [0, 4], [1, 2], [1, 3], [1, 4], [2, 2], [2, 3], [3, 2]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 3, 1, 4],
+      "falsehood": false,
+      "count": 7,
+      "valid": true,
+      "group": [0, 0, 0, 4],
+      "full_coverage": true
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.5042201+00:00",
+  "solve_seconds": 0.0014927
+}

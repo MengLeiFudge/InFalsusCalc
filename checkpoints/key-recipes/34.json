@@ -1,0 +1,1854 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [191, 207, 222, 223, 231, 237, 238, 239, 246, 252, 253, 254, 255],
+  "infeasible_region_layers": {
+    "0": [191, 207, 222, 223, 231, 237, 238, 239, 246, 252, 253, 254, 255],
+    "2": [239, 254]
+  },
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 34,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "8b54ab599ff6aebd62713fc6",
+        "fortitude": "8b54ab599ff6aebd62713fc6",
+        "total": "8b54ab599ff6aebd62713fc6"
+      },
+      "total_best": ["8b54ab599ff6aebd62713fc6"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 24975,
+          "secondary_upper_bound": null,
+          "objective_complete": false,
+          "seconds": 0.0873955,
+          "geometry_queries": 4
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 66933,
+          "secondary_upper_bound": null,
+          "objective_complete": false,
+          "seconds": 0.0755426,
+          "geometry_queries": 4
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 91908,
+          "secondary_upper_bound": null,
+          "objective_complete": false,
+          "seconds": 5.8685453,
+          "geometry_queries": 4
+        }
+      }
+    },
+    "1,0,0": {
+      "key": [1, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "e9a47c68cc454253d7878fcb",
+        "fortitude": "1944bce70c6136acac615610",
+        "total": "1944bce70c6136acac615610"
+      },
+      "total_best": ["1944bce70c6136acac615610"],
+      "goals": {
+        "power": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 20979,
+          "secondary_upper_bound": 51948,
+          "objective_complete": false,
+          "seconds": 120.6527481,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 62937,
+          "secondary_upper_bound": 9990,
+          "objective_complete": true,
+          "seconds": 0.0459874,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 72927,
+          "secondary_upper_bound": 20979,
+          "objective_complete": false,
+          "seconds": 121.1366547,
+          "geometry_queries": 1
+        }
+      }
+    },
+    "1,0,1": {
+      "key": [1, 0, 1],
+      "strikes": 0,
+      "best": {
+        "power": "8ecc7bb5eeb252f7318d31e8",
+        "fortitude": "c899cdd7b1ee61bd2a49b5bf",
+        "total": "8ecc7bb5eeb252f7318d31e8"
+      },
+      "total_best": ["8ecc7bb5eeb252f7318d31e8"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 20979,
+          "secondary_upper_bound": 46953,
+          "objective_complete": true,
+          "seconds": 39.2727179,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 55944,
+          "secondary_upper_bound": 9990,
+          "objective_complete": true,
+          "seconds": 0.0660565,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 67932,
+          "secondary_upper_bound": 16983,
+          "objective_complete": true,
+          "seconds": 89.2878166,
+          "geometry_queries": 1
+        }
+      }
+    },
+    "1,1,0": {
+      "key": [1, 1, 0],
+      "strikes": 0,
+      "best": {
+        "power": "7f7a50f4ca089bd2a16d5cc1",
+        "fortitude": "ad910d10bd98afc7333f86ae",
+        "total": "7f7a50f4ca089bd2a16d5cc1"
+      },
+      "total_best": ["7f7a50f4ca089bd2a16d5cc1"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 24975,
+          "secondary_upper_bound": 42957,
+          "objective_complete": true,
+          "seconds": 41.1845125,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 51948,
+          "secondary_upper_bound": 13986,
+          "objective_complete": true,
+          "seconds": 0.0626742,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 67932,
+          "secondary_upper_bound": 20979,
+          "objective_complete": true,
+          "seconds": 50.0636826,
+          "geometry_queries": 1
+        }
+      }
+    },
+    "1,1,1": {
+      "key": [1, 1, 1],
+      "strikes": 0,
+      "best": {
+        "power": "3675f351ca8584ab22fed4a5",
+        "fortitude": "a985774a050e9a8b365cfee7",
+        "total": "a985774a050e9a8b365cfee7"
+      },
+      "total_best": ["a985774a050e9a8b365cfee7"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 24975,
+          "secondary_upper_bound": 35964,
+          "objective_complete": true,
+          "seconds": 5.3699415,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 55944,
+          "secondary_upper_bound": 13986,
+          "objective_complete": true,
+          "seconds": 0.0788697,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 69930,
+          "secondary_upper_bound": 18981,
+          "objective_complete": false,
+          "seconds": 121.5344558,
+          "geometry_queries": 1
+        }
+      }
+    },
+    "1,1,1/p1": {
+      "key": [1, 1, 1],
+      "strikes": 1,
+      "best": {
+        "power": "71f62348a921a5a82c3f76c0",
+        "fortitude": "afc0300b01f006094b3c8b0c",
+        "total": "71f62348a921a5a82c3f76c0"
+      },
+      "total_best": ["71f62348a921a5a82c3f76c0", "afc0300b01f006094b3c8b0c"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 22200,
+          "secondary_upper_bound": 49728,
+          "objective_complete": true,
+          "seconds": 0.1358283,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 59496,
+          "secondary_upper_bound": 12432,
+          "objective_complete": true,
+          "seconds": 0.054042,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 71928,
+          "secondary_upper_bound": 12432,
+          "objective_complete": true,
+          "seconds": 0.024497,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,1/p1": {
+      "key": [1, 0, 1],
+      "strikes": 1,
+      "best": {
+        "power": "ba96daf24a916787dfad2205",
+        "fortitude": "e0a25f6a1f030a10a8fcb5a3",
+        "total": "ba96daf24a916787dfad2205"
+      },
+      "total_best": ["ba96daf24a916787dfad2205", "e0a25f6a1f030a10a8fcb5a3"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 18648,
+          "secondary_upper_bound": 49728,
+          "objective_complete": true,
+          "seconds": 0.0268028,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 59496,
+          "secondary_upper_bound": 8880,
+          "objective_complete": true,
+          "seconds": 0.0411662,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 68376,
+          "secondary_upper_bound": 8880,
+          "objective_complete": true,
+          "seconds": 9.5686696,
+          "geometry_queries": 2
+        }
+      }
+    },
+    "1,1,0/p1": {
+      "key": [1, 1, 0],
+      "strikes": 1,
+      "best": {
+        "power": "556419b1d2ba3ff5ec8bd036",
+        "fortitude": "564ae180070cf2a45cd0a4c6",
+        "total": "556419b1d2ba3ff5ec8bd036"
+      },
+      "total_best": ["556419b1d2ba3ff5ec8bd036", "564ae180070cf2a45cd0a4c6"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 22200,
+          "secondary_upper_bound": 46176,
+          "objective_complete": true,
+          "seconds": 0.0251996,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 55944,
+          "secondary_upper_bound": 12432,
+          "objective_complete": true,
+          "seconds": 0.0270504,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 68376,
+          "secondary_upper_bound": 12432,
+          "objective_complete": true,
+          "seconds": 9.0210973,
+          "geometry_queries": 2
+        }
+      }
+    },
+    "1,0,0/p1": {
+      "key": [1, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "0810ea6bc5ee9568d0d5881c",
+        "fortitude": "22fcc25fda1416777efe1995",
+        "total": "0810ea6bc5ee9568d0d5881c"
+      },
+      "total_best": ["0810ea6bc5ee9568d0d5881c", "22fcc25fda1416777efe1995"],
+      "goals": {
+        "power": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 18648,
+          "secondary_upper_bound": 55944,
+          "objective_complete": false,
+          "seconds": 122.414493,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 55944,
+          "secondary_upper_bound": 18648,
+          "objective_complete": false,
+          "seconds": 121.6032947,
+          "geometry_queries": 1
+        },
+        "total": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 74592,
+          "secondary_upper_bound": 18648,
+          "objective_complete": false,
+          "seconds": 121.7573627,
+          "geometry_queries": 1
+        }
+      }
+    },
+    "1,1,1/p2": {
+      "key": [1, 1, 1],
+      "strikes": 2,
+      "best": {
+        "power": "a96f4592b474ae341ddd3895",
+        "fortitude": "04a676e3c583f5989dc7a445",
+        "total": "a96f4592b474ae341ddd3895"
+      },
+      "total_best": ["a96f4592b474ae341ddd3895", "04a676e3c583f5989dc7a445"],
+      "goals": {
+        "power": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 13876,
+          "secondary_upper_bound": 37186,
+          "objective_complete": false,
+          "seconds": 120.5615984,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 37186,
+          "secondary_upper_bound": 13876,
+          "objective_complete": false,
+          "seconds": 120.8255483,
+          "geometry_queries": 1
+        },
+        "total": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 51062,
+          "secondary_upper_bound": 13876,
+          "objective_complete": false,
+          "seconds": 126.3897809,
+          "geometry_queries": 1
+        }
+      }
+    },
+    "1,0,1/p2": {
+      "key": [1, 0, 1],
+      "strikes": 2,
+      "best": {
+        "power": "e8006dbe5857722d0e513ab9",
+        "fortitude": "2745cffcc5e74085c3a83e10",
+        "total": "e8006dbe5857722d0e513ab9"
+      },
+      "total_best": ["e8006dbe5857722d0e513ab9", "2745cffcc5e74085c3a83e10"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 11656,
+          "secondary_upper_bound": 31081,
+          "objective_complete": true,
+          "seconds": 99.1291637,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 37186,
+          "secondary_upper_bound": 5551,
+          "objective_complete": true,
+          "seconds": 0.011248,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 42737,
+          "secondary_upper_bound": 5551,
+          "objective_complete": true,
+          "seconds": 0.0159269,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,1,0/p2": {
+      "key": [1, 1, 0],
+      "strikes": 2,
+      "best": {
+        "power": "1803349a49600b1d25d83726",
+        "fortitude": "77f18b27a1280f2f1eebe8af",
+        "total": "1803349a49600b1d25d83726"
+      },
+      "total_best": ["1803349a49600b1d25d83726", "77f18b27a1280f2f1eebe8af"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 13876,
+          "secondary_upper_bound": 28861,
+          "objective_complete": true,
+          "seconds": 0.0146299,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 34966,
+          "secondary_upper_bound": 7771,
+          "objective_complete": true,
+          "seconds": 0.0129721,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 42737,
+          "secondary_upper_bound": 7771,
+          "objective_complete": true,
+          "seconds": 76.2529999,
+          "geometry_queries": 1
+        }
+      }
+    },
+    "1,0,0/p2": {
+      "key": [1, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "3ed0ce8dfc67d536a91ae79f",
+        "fortitude": "f37ae2e44aa56ee52c7e5ff6",
+        "total": "3ed0ce8dfc67d536a91ae79f"
+      },
+      "total_best": ["3ed0ce8dfc67d536a91ae79f", "f37ae2e44aa56ee52c7e5ff6"],
+      "goals": {
+        "power": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 11656,
+          "secondary_upper_bound": 34966,
+          "objective_complete": false,
+          "seconds": 120.8802579,
+          "geometry_queries": 1
+        },
+        "fortitude": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 34966,
+          "secondary_upper_bound": 11656,
+          "objective_complete": false,
+          "seconds": 120.6628836,
+          "geometry_queries": 1
+        },
+        "total": {
+          "status": "CONFIDENCE",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 46622,
+          "secondary_upper_bound": 11656,
+          "objective_complete": false,
+          "seconds": 120.6992205,
+          "geometry_queries": 1
+        }
+      }
+    }
+  },
+  "cards": {
+    "8b54ab599ff6aebd62713fc6": {
+      "id": "8b54ab599ff6aebd62713fc6",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 24975,
+      "fortitude": 66933,
+      "total": 91908,
+      "base_power": 2500,
+      "base_fortitude": 6700,
+      "colors": [2, 4],
+      "slots": 0,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [2, 3, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 8, "q": 0, "r": 5, "color": 3, "cells": [[0, 5], [0, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        { "id": 33, "q": 4, "r": 2, "color": 2, "cells": [[4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2]] },
+        { "id": 33, "q": 5, "r": 4, "color": 2, "cells": [[5, -1], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        { "id": 38, "q": 7, "r": -3, "color": 4, "cells": [[6, -3], [6, -2], [7, -4], [7, -2], [8, -4], [8, -3]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 2, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [0, 0, 0, 20]
+    },
+    "1944bce70c6136acac615610": {
+      "id": "1944bce70c6136acac615610",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 9990,
+      "fortitude": 62937,
+      "total": 72927,
+      "base_power": 1000,
+      "base_fortitude": 6300,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 1, 6],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 1, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 8, "q": 0, "r": 5, "color": 3, "cells": [[0, 5], [0, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        { "id": 33, "q": 4, "r": 2, "color": 2, "cells": [[4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [4, 2]] },
+        { "id": 33, "q": 5, "r": 2, "color": 2, "cells": [[5, -3], [5, -2], [5, -1], [5, 0], [5, 1], [5, 2]] },
+        { "id": 37, "q": -2, "r": 2, "color": 4, "cells": [[-2, 2], [-1, 1], [0, 1], [1, 0], [2, 0], [3, -1]] },
+        { "id": 38, "q": -4, "r": 4, "color": 4, "cells": [[-5, 4], [-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4]] },
+        { "id": 38, "q": 7, "r": -3, "color": 4, "cells": [[6, -3], [6, -2], [7, -4], [7, -2], [8, -4], [8, -3]] }
+      ],
+      "active": [1, 2, 3, 6, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 1, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 0, 20]
+    },
+    "3675f351ca8584ab22fed4a5": {
+      "id": "3675f351ca8584ab22fed4a5",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 24975,
+      "fortitude": 35964,
+      "total": 60939,
+      "base_power": 2500,
+      "base_fortitude": 3600,
+      "colors": [4],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [2, 7, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 100,
+      "carriers": [2, 3, 1],
+      "placements": [
+        { "id": 1, "q": 2, "r": -3, "color": 1, "cells": [[2, -3]] },
+        { "id": 2, "q": -6, "r": 2, "color": 1, "cells": [[-6, 2], [-5, 1]] },
+        { "id": 21, "q": -7, "r": 4, "color": 2, "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 26, "q": -3, "r": 6, "color": 4, "cells": [[-4, 5], [-4, 6], [-3, 6], [-2, 4], [-2, 5]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] }
+      ],
+      "active": [0, 2, 3, 4, 5, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 2, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 1, 16]
+    },
+    "a985774a050e9a8b365cfee7": {
+      "id": "a985774a050e9a8b365cfee7",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 13986,
+      "fortitude": 55944,
+      "total": 69930,
+      "base_power": 1400,
+      "base_fortitude": 5600,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [3, 5, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 1, "q": -1, "r": 0, "color": 1, "cells": [[-1, 0]] },
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        }
+      ],
+      "active": [0, 2, 3, 4, 6, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 1, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 1, 20]
+    },
+    "c899cdd7b1ee61bd2a49b5bf": {
+      "id": "c899cdd7b1ee61bd2a49b5bf",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 9990,
+      "fortitude": 55944,
+      "total": 65934,
+      "base_power": 1000,
+      "base_fortitude": 5600,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 1,
+      "tier_counts": [3, 4, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 8, "q": 0, "r": 5, "color": 3, "cells": [[0, 5], [0, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 20, "q": 5, "r": 1, "color": 2, "cells": [[4, 1], [4, 2], [5, 1], [5, 2], [6, 1]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 1,
+          "color": 3,
+          "cells": [[-2, 1], [-2, 2], [-1, 0], [-1, 1], [-1, 2], [0, 0], [0, 1]]
+        }
+      ],
+      "active": [0, 2, 3, 6, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 2, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 1, 20]
+    },
+    "8ecc7bb5eeb252f7318d31e8": {
+      "id": "8ecc7bb5eeb252f7318d31e8",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 20979,
+      "fortitude": 46953,
+      "total": 67932,
+      "base_power": 2100,
+      "base_fortitude": 4700,
+      "colors": [4],
+      "slots": 1,
+      "left": 0,
+      "right": 1,
+      "tier_counts": [3, 5, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 8, "q": 0, "r": 5, "color": 3, "cells": [[0, 5], [0, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 16, "q": -1, "r": 1, "color": 1, "cells": [[-3, 2], [-2, 2], [-1, 0], [-1, 1], [0, -1]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 5, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 0, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 1, 16]
+    },
+    "ad910d10bd98afc7333f86ae": {
+      "id": "ad910d10bd98afc7333f86ae",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 13986,
+      "fortitude": 51948,
+      "total": 65934,
+      "base_power": 1400,
+      "base_fortitude": 5200,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 0,
+      "tier_counts": [3, 5, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 5, "q": 5, "r": -1, "color": 2, "cells": [[4, -1], [5, -1]] },
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 1,
+          "color": 2,
+          "cells": [[2, 1], [2, 2], [3, 0], [3, 1], [3, 2], [4, 0], [4, 1], [5, 0]]
+        }
+      ],
+      "active": [2, 3, 4, 6, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 1, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 0, 20]
+    },
+    "afc0300b01f006094b3c8b0c": {
+      "id": "afc0300b01f006094b3c8b0c",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 12432,
+      "fortitude": 59496,
+      "total": 71928,
+      "base_power": 1400,
+      "base_fortitude": 6700,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [2, 6, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 88.88888888888889,
+      "carriers": [2, 3, 2],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 0, 0, 1],
+      "raw_penalties": [0, 4, 1, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 1, 20]
+    },
+    "e0a25f6a1f030a10a8fcb5a3": {
+      "id": "e0a25f6a1f030a10a8fcb5a3",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 8880,
+      "fortitude": 59496,
+      "total": 68376,
+      "base_power": 1000,
+      "base_fortitude": 6700,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 1,
+      "tier_counts": [3, 4, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 0, 0, 1],
+      "raw_penalties": [0, 4, 0, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 1, 20]
+    },
+    "564ae180070cf2a45cd0a4c6": {
+      "id": "564ae180070cf2a45cd0a4c6",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 12432,
+      "fortitude": 55944,
+      "total": 68376,
+      "base_power": 1400,
+      "base_fortitude": 6300,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 0,
+      "tier_counts": [3, 5, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 5, "q": 5, "r": -1, "color": 2, "cells": [[4, -1], [5, -1]] },
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 1,
+          "color": 2,
+          "cells": [[2, 1], [2, 2], [3, 0], [3, 1], [3, 2], [4, 0], [4, 1], [5, 0]]
+        }
+      ],
+      "active": [1, 2, 3, 4, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 0, 0, 1],
+      "raw_penalties": [0, 4, 1, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 0, 20]
+    },
+    "22fcc25fda1416777efe1995": {
+      "id": "22fcc25fda1416777efe1995",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 8880,
+      "fortitude": 55944,
+      "total": 64824,
+      "base_power": 1000,
+      "base_fortitude": 6300,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 3, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": -1, "color": 2, "cells": [[4, -1], [5, -1]] },
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 1,
+          "color": 2,
+          "cells": [[2, 1], [2, 2], [3, 0], [3, 1], [3, 2], [4, 0], [4, 1], [5, 0]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [1, 2, 3, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 0, 0, 1],
+      "raw_penalties": [0, 4, 0, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 0, 20]
+    },
+    "04a676e3c583f5989dc7a445": {
+      "id": "04a676e3c583f5989dc7a445",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 7771,
+      "fortitude": 37186,
+      "total": 44957,
+      "base_power": 1400,
+      "base_fortitude": 6700,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [3, 5, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 6, 7],
+      "strikes": 2,
+      "penalties": [1, 0, 0, 1],
+      "raw_penalties": [1, 4, 0, 1],
+      "falsehood": false,
+      "count": 11,
+      "valid": true,
+      "group": [1, 1, 1, 20]
+    },
+    "2745cffcc5e74085c3a83e10": {
+      "id": "2745cffcc5e74085c3a83e10",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 5551,
+      "fortitude": 37186,
+      "total": 42737,
+      "base_power": 1000,
+      "base_fortitude": 6700,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 1,
+      "tier_counts": [3, 5, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 6, 7],
+      "strikes": 2,
+      "penalties": [1, 1, 0, 0],
+      "raw_penalties": [1, 5, 1, 0],
+      "falsehood": false,
+      "count": 11,
+      "valid": true,
+      "group": [1, 0, 1, 20]
+    },
+    "77f18b27a1280f2f1eebe8af": {
+      "id": "77f18b27a1280f2f1eebe8af",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 7771,
+      "fortitude": 34966,
+      "total": 42737,
+      "base_power": 1400,
+      "base_fortitude": 6300,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 0,
+      "tier_counts": [2, 4, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 55.55555555555556,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 3,
+          "color": 2,
+          "cells": [[2, 3], [2, 4], [3, 2], [3, 3], [3, 4], [4, 2], [4, 3], [5, 2]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [1, 2, 3, 4, 6, 7],
+      "strikes": 2,
+      "penalties": [0, 1, 0, 1],
+      "raw_penalties": [0, 5, 0, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 0, 20]
+    },
+    "f37ae2e44aa56ee52c7e5ff6": {
+      "id": "f37ae2e44aa56ee52c7e5ff6",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 5551,
+      "fortitude": 34966,
+      "total": 40517,
+      "base_power": 1000,
+      "base_fortitude": 6300,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 4, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 55.55555555555556,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 3,
+          "color": 2,
+          "cells": [[2, 3], [2, 4], [3, 2], [3, 3], [3, 4], [4, 2], [4, 3], [5, 2]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [1, 2, 3, 6, 7],
+      "strikes": 2,
+      "penalties": [0, 2, 0, 0],
+      "raw_penalties": [0, 6, 0, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 0, 20]
+    },
+    "7f7a50f4ca089bd2a16d5cc1": {
+      "id": "7f7a50f4ca089bd2a16d5cc1",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 24975,
+      "fortitude": 42957,
+      "total": 67932,
+      "base_power": 2500,
+      "base_fortitude": 4300,
+      "colors": [4],
+      "slots": 1,
+      "left": 1,
+      "right": 0,
+      "tier_counts": [3, 3, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 8, "q": 0, "r": 5, "color": 3, "cells": [[0, 5], [0, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 21, "q": -7, "r": 4, "color": 2, "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        { "id": 37, "q": 0, "r": 0, "color": 4, "cells": [[0, 0], [1, -1], [2, -1], [3, -2], [4, -2], [5, -3]] },
+        { "id": 38, "q": -4, "r": 4, "color": 4, "cells": [[-5, 4], [-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4]] },
+        { "id": 38, "q": 7, "r": -3, "color": 4, "cells": [[6, -3], [6, -2], [7, -4], [7, -2], [8, -4], [8, -3]] }
+      ],
+      "active": [1, 2, 3, 4, 5, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 0, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 0, 16]
+    },
+    "71f62348a921a5a82c3f76c0": {
+      "id": "71f62348a921a5a82c3f76c0",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 22200,
+      "fortitude": 49728,
+      "total": 71928,
+      "base_power": 2500,
+      "base_fortitude": 5600,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [2, 4, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 88.88888888888889,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        { "id": 36, "q": 0, "r": 6, "color": 3, "cells": [[-1, 6], [-1, 7], [0, 5], [0, 6], [0, 7], [1, 5], [1, 6]] }
+      ],
+      "active": [0, 2, 3, 4, 5, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 0, 0, 1],
+      "raw_penalties": [0, 4, 1, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 1, 20]
+    },
+    "ba96daf24a916787dfad2205": {
+      "id": "ba96daf24a916787dfad2205",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 18648,
+      "fortitude": 49728,
+      "total": 68376,
+      "base_power": 2100,
+      "base_fortitude": 5600,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 1,
+      "tier_counts": [2, 5, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 88.88888888888889,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": -1, "r": 1, "color": 1, "cells": [[-2, 2], [-1, 1], [-1, 2], [0, -1], [0, 0]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        }
+      ],
+      "active": [0, 2, 3, 5, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 1, 0, 0],
+      "raw_penalties": [0, 5, 1, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 1, 20]
+    },
+    "556419b1d2ba3ff5ec8bd036": {
+      "id": "556419b1d2ba3ff5ec8bd036",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 22200,
+      "fortitude": 46176,
+      "total": 68376,
+      "base_power": 2500,
+      "base_fortitude": 5200,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 0,
+      "tier_counts": [3, 4, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": -1, "color": 2, "cells": [[4, -1], [5, -1]] },
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 1,
+          "color": 2,
+          "cells": [[2, 1], [2, 2], [3, 0], [3, 1], [3, 2], [4, 0], [4, 1], [5, 0]]
+        }
+      ],
+      "active": [2, 3, 4, 5, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 0, 0, 1],
+      "raw_penalties": [0, 4, 2, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 0, 20]
+    },
+    "e9a47c68cc454253d7878fcb": {
+      "id": "e9a47c68cc454253d7878fcb",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 20979,
+      "fortitude": 42957,
+      "total": 63936,
+      "base_power": 2100,
+      "base_fortitude": 4300,
+      "colors": [4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 4, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 8, "q": 0, "r": 5, "color": 3, "cells": [[0, 5], [0, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 16, "q": -1, "r": 1, "color": 1, "cells": [[-3, 2], [-2, 2], [-1, 0], [-1, 1], [0, -1]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 27, "q": 7, "r": -2, "color": 4, "cells": [[6, -2], [7, -4], [7, -2], [8, -4], [8, -3], [9, -4]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        { "id": 37, "q": 0, "r": 1, "color": 4, "cells": [[0, 1], [1, 0], [2, 0], [3, -1], [4, -1], [5, -2]] }
+      ],
+      "active": [1, 2, 3, 5, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 4, 1, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 0, 16]
+    },
+    "0810ea6bc5ee9568d0d5881c": {
+      "id": "0810ea6bc5ee9568d0d5881c",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 18648,
+      "fortitude": 46176,
+      "total": 64824,
+      "base_power": 2100,
+      "base_fortitude": 5200,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 5, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 2, "q": 2, "r": 0, "color": 1, "cells": [[2, 0], [3, -1]] },
+        { "id": 5, "q": 5, "r": -1, "color": 2, "cells": [[4, -1], [5, -1]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 16, "q": -1, "r": 1, "color": 1, "cells": [[-3, 2], [-2, 2], [-1, 0], [-1, 1], [0, -1]] },
+        { "id": 21, "q": 5, "r": 1, "color": 2, "cells": [[4, 1], [4, 2], [5, 0], [5, 1], [5, 2], [6, 0]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 31, "q": 3, "r": -3, "color": 1, "cells": [[-2, -1], [-1, -1], [0, -2], [1, -2], [2, -3], [3, -3]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        }
+      ],
+      "active": [2, 3, 5, 6, 7],
+      "strikes": 1,
+      "penalties": [0, 1, 0, 0],
+      "raw_penalties": [0, 5, 1, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 0, 20]
+    },
+    "a96f4592b474ae341ddd3895": {
+      "id": "a96f4592b474ae341ddd3895",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 13876,
+      "fortitude": 31081,
+      "total": 44957,
+      "base_power": 2500,
+      "base_fortitude": 5600,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 1,
+      "tier_counts": [2, 5, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 3,
+      "outer_structure": 2,
+      "retained_percent": 55.55555555555556,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        { "id": 36, "q": 0, "r": 6, "color": 3, "cells": [[-1, 6], [-1, 7], [0, 5], [0, 6], [0, 7], [1, 5], [1, 6]] }
+      ],
+      "active": [0, 2, 3, 4, 5, 6, 7],
+      "strikes": 2,
+      "penalties": [1, 1, 0, 0],
+      "raw_penalties": [1, 5, 2, 0],
+      "falsehood": false,
+      "count": 11,
+      "valid": true,
+      "group": [1, 1, 1, 20]
+    },
+    "e8006dbe5857722d0e513ab9": {
+      "id": "e8006dbe5857722d0e513ab9",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 11656,
+      "fortitude": 31081,
+      "total": 42737,
+      "base_power": 2100,
+      "base_fortitude": 5600,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 1,
+      "tier_counts": [3, 4, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 5, "r": 2, "color": 2, "cells": [[4, 2], [5, 2]] },
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 29, "q": 3, "r": -1, "color": 5, "cells": [[1, 0], [2, 0], [3, -1], [4, -2], [5, -2]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [0, 2, 3, 5, 6, 7],
+      "strikes": 2,
+      "penalties": [1, 1, 0, 0],
+      "raw_penalties": [1, 5, 1, 0],
+      "falsehood": false,
+      "count": 11,
+      "valid": true,
+      "group": [1, 0, 1, 20]
+    },
+    "1803349a49600b1d25d83726": {
+      "id": "1803349a49600b1d25d83726",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 13876,
+      "fortitude": 28861,
+      "total": 42737,
+      "base_power": 2500,
+      "base_fortitude": 5200,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 1,
+      "right": 0,
+      "tier_counts": [1, 5, 4],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 2,
+      "outer_structure": 3,
+      "retained_percent": 55.55555555555556,
+      "carriers": [1, 3, 3],
+      "placements": [
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 24, "q": 0, "r": 5, "color": 3, "cells": [[0, 4], [0, 5], [0, 6], [1, 4], [1, 6]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 30, "q": -3, "r": 2, "color": 5, "cells": [[-5, 3], [-4, 2], [-3, 2], [-2, 2], [-1, 1]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 3,
+          "color": 2,
+          "cells": [[2, 3], [2, 4], [3, 2], [3, 3], [3, 4], [4, 2], [4, 3], [5, 2]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        }
+      ],
+      "active": [2, 3, 4, 5, 6, 7],
+      "strikes": 2,
+      "penalties": [0, 2, 0, 0],
+      "raw_penalties": [0, 6, 2, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 1, 0, 20]
+    },
+    "3ed0ce8dfc67d536a91ae79f": {
+      "id": "3ed0ce8dfc67d536a91ae79f",
+      "recipe": 34,
+      "base_id": 34,
+      "name": "片刻的安宁",
+      "power": 11656,
+      "fortitude": 28861,
+      "total": 40517,
+      "base_power": 2100,
+      "base_fortitude": 5200,
+      "colors": [2, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 3, 5],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 55.55555555555556,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 6, "color": 3, "cells": [[1, 6]] },
+        { "id": 12, "q": -4, "r": 6, "color": 4, "cells": [[-5, 7], [-4, 6], [-3, 6]] },
+        { "id": 18, "q": 1, "r": -1, "color": 1, "cells": [[0, 0], [1, -1], [1, 0], [2, -3], [2, -2]] },
+        { "id": 23, "q": 1, "r": 2, "color": 3, "cells": [[0, 1], [0, 4], [1, 1], [1, 2], [1, 3]] },
+        { "id": 27, "q": -4, "r": 5, "color": 4, "cells": [[-5, 5], [-4, 3], [-4, 5], [-3, 3], [-3, 4], [-2, 3]] },
+        { "id": 31, "q": 1, "r": -2, "color": 1, "cells": [[-4, 0], [-3, 0], [-2, -1], [-1, -1], [0, -2], [1, -2]] },
+        {
+          "id": 34,
+          "q": -7,
+          "r": 4,
+          "color": 2,
+          "cells": [[-8, 4], [-8, 5], [-7, 3], [-7, 4], [-7, 5], [-6, 3], [-6, 4], [-5, 3]]
+        },
+        {
+          "id": 34,
+          "q": 3,
+          "r": 3,
+          "color": 2,
+          "cells": [[2, 3], [2, 4], [3, 2], [3, 3], [3, 4], [4, 2], [4, 3], [5, 2]]
+        },
+        {
+          "id": 34,
+          "q": 4,
+          "r": 0,
+          "color": 2,
+          "cells": [[3, 0], [3, 1], [4, -1], [4, 0], [4, 1], [5, -1], [5, 0], [6, -1]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 6,
+          "color": 3,
+          "cells": [[-2, 6], [-2, 7], [-1, 5], [-1, 6], [-1, 7], [0, 5], [0, 6]]
+        }
+      ],
+      "active": [2, 3, 5, 6, 7],
+      "strikes": 2,
+      "penalties": [0, 2, 0, 0],
+      "raw_penalties": [0, 6, 0, 0],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 0, 20]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T22:49:11.176387+00:00"
+}

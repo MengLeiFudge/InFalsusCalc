@@ -1,0 +1,152 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 1,
+  "groups": {
+    "0,0,0,8": {
+      "key": [0, 0, 0, 8],
+      "best": {
+        "inner:power": "590031e29c96552605d4b8c2",
+        "inner:fortitude": "590031e29c96552605d4b8c2",
+        "inner:total": "590031e29c96552605d4b8c2",
+        "outer:power": "8eb631f9d61f72e629ce4203",
+        "outer:fortitude": "8eb631f9d61f72e629ce4203",
+        "outer:total": "8eb631f9d61f72e629ce4203"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 0, "outer": 0 },
+  "cards": {
+    "590031e29c96552605d4b8c2": {
+      "id": "590031e29c96552605d4b8c2",
+      "recipe": 1,
+      "base_id": 1,
+      "name": "找寻伙伴的温暖目光",
+      "power": 32468,
+      "fortitude": 32468,
+      "total": 64936,
+      "base_power": 3250,
+      "base_fortitude": 3250,
+      "colors": [3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 3, 3],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "heuristic_score": 6.4936,
+      "retained_percent": 100,
+      "carriers": [2, 3, 3],
+      "placements": [
+        { "id": 9, "q": -6, "r": 5, "color": 3, "cells": [[-7, 5], [-6, 5], [-5, 4]] },
+        { "id": 9, "q": -4, "r": 4, "color": 3, "cells": [[-5, 4], [-4, 4], [-3, 3]] },
+        { "id": 20, "q": 4, "r": -3, "color": 2, "cells": [[3, -3], [3, -2], [4, -3], [4, -2], [5, -3]] },
+        { "id": 21, "q": 3, "r": -1, "color": 2, "cells": [[2, -1], [2, 0], [3, -2], [3, -1], [3, 0], [4, -2]] },
+        { "id": 23, "q": 1, "r": 0, "color": 3, "cells": [[0, -1], [0, 2], [1, -1], [1, 0], [1, 1]] },
+        {
+          "id": 34,
+          "q": 5,
+          "r": -1,
+          "color": 2,
+          "cells": [[4, -1], [4, 0], [5, -2], [5, -1], [5, 0], [6, -2], [6, -1], [7, -2]]
+        },
+        {
+          "id": 36,
+          "q": -4,
+          "r": 2,
+          "color": 3,
+          "cells": [[-5, 2], [-5, 3], [-4, 1], [-4, 2], [-4, 3], [-3, 1], [-3, 2]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 1,
+          "color": 3,
+          "cells": [[-2, 1], [-2, 2], [-1, 0], [-1, 1], [-1, 2], [0, 0], [0, 1]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 0],
+      "falsehood": false,
+      "count": 8,
+      "valid": true,
+      "group": [0, 0, 0, 8],
+      "full_coverage": true
+    },
+    "8eb631f9d61f72e629ce4203": {
+      "id": "8eb631f9d61f72e629ce4203",
+      "recipe": 1,
+      "base_id": 1,
+      "name": "找寻伙伴的温暖目光",
+      "power": 32468,
+      "fortitude": 32468,
+      "total": 64936,
+      "base_power": 3250,
+      "base_fortitude": 3250,
+      "colors": [3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 1, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "heuristic_score": 6.4936,
+      "retained_percent": 100,
+      "carriers": [3, 1, 3],
+      "placements": [
+        { "id": 6, "q": 3, "r": 0, "color": 2, "cells": [[3, -1], [3, 0], [4, -1]] },
+        { "id": 7, "q": -7, "r": 5, "color": 3, "cells": [[-7, 5]] },
+        { "id": 9, "q": -4, "r": 4, "color": 3, "cells": [[-5, 4], [-4, 4], [-3, 3]] },
+        { "id": 19, "q": 4, "r": -2, "color": 2, "cells": [[3, -2], [4, -3], [4, -2], [5, -3]] },
+        {
+          "id": 34,
+          "q": 5,
+          "r": -1,
+          "color": 2,
+          "cells": [[4, -1], [4, 0], [5, -2], [5, -1], [5, 0], [6, -2], [6, -1], [7, -2]]
+        },
+        {
+          "id": 36,
+          "q": -4,
+          "r": 2,
+          "color": 3,
+          "cells": [[-5, 2], [-5, 3], [-4, 1], [-4, 2], [-4, 3], [-3, 1], [-3, 2]]
+        },
+        {
+          "id": 36,
+          "q": 0,
+          "r": -1,
+          "color": 3,
+          "cells": [[-1, -1], [-1, 0], [0, -2], [0, -1], [0, 0], [1, -2], [1, -1]]
+        },
+        { "id": 36, "q": 0, "r": 1, "color": 3, "cells": [[-1, 1], [-1, 2], [0, 0], [0, 1], [0, 2], [1, 0], [1, 1]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 2, 3],
+      "falsehood": false,
+      "count": 8,
+      "valid": true,
+      "group": [0, 0, 0, 8],
+      "full_coverage": true
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.4644243+00:00",
+  "solve_seconds": 0.1152974
+}

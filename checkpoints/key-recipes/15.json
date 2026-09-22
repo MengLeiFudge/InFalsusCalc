@@ -1,0 +1,803 @@
+{
+  "policy": "key-regions-v2/excluded-v1-8",
+  "infeasible_regions": [503],
+  "excluded_areas": [3],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 15,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "fortitude": "b30da433fc71f7f1d3fa9539",
+        "total": "b30da433fc71f7f1d3fa9539",
+        "power": "b30da433fc71f7f1d3fa9539"
+      },
+      "total_best": ["b30da433fc71f7f1d3fa9539"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 26973,
+          "secondary_upper_bound": 91908,
+          "objective_complete": true,
+          "seconds": 9.42e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 91908,
+          "secondary_upper_bound": 26973,
+          "objective_complete": true,
+          "seconds": 0.0001244,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 118881,
+          "secondary_upper_bound": 26973,
+          "objective_complete": true,
+          "seconds": 0.0815247,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0": {
+      "key": [1, 0, 0],
+      "strikes": 0,
+      "best": {
+        "fortitude": "3487dfaec488ecc8b73dff5f",
+        "total": "3487dfaec488ecc8b73dff5f",
+        "power": "6bc60794ab85dcfcdbbf0549"
+      },
+      "total_best": ["3487dfaec488ecc8b73dff5f"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 26973,
+          "secondary_upper_bound": 77922,
+          "objective_complete": true,
+          "seconds": 16.8117516,
+          "geometry_queries": 2
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 91908,
+          "secondary_upper_bound": 19980,
+          "objective_complete": true,
+          "seconds": 0.1074189,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 111888,
+          "secondary_upper_bound": 19980,
+          "objective_complete": true,
+          "seconds": 16.797111,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p1": {
+      "key": [1, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "569efb6c307640dacbf65909",
+        "fortitude": "ef0eee90f282152cf21ab061",
+        "total": "ef0eee90f282152cf21ab061"
+      },
+      "total_best": ["ef0eee90f282152cf21ab061"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 23976,
+          "secondary_upper_bound": 69264,
+          "objective_complete": true,
+          "seconds": 2.2203649,
+          "geometry_queries": 2
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 81696,
+          "secondary_upper_bound": 17760,
+          "objective_complete": true,
+          "seconds": 0.1196738,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 99456,
+          "secondary_upper_bound": 17760,
+          "objective_complete": true,
+          "seconds": 0.0732806,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "7069d10dde8e335b8011d70d",
+        "fortitude": "7069d10dde8e335b8011d70d",
+        "total": "7069d10dde8e335b8011d70d"
+      },
+      "total_best": ["7069d10dde8e335b8011d70d"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 23976,
+          "secondary_upper_bound": 81696,
+          "objective_complete": true,
+          "seconds": 0.0001319,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 81696,
+          "secondary_upper_bound": 23976,
+          "objective_complete": true,
+          "seconds": 9.14e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 105672,
+          "secondary_upper_bound": 23976,
+          "objective_complete": true,
+          "seconds": 0.239687,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p2": {
+      "key": [1, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "0608d7899dc3ff815960cd9c",
+        "fortitude": "0608d7899dc3ff815960cd9c",
+        "total": "0608d7899dc3ff815960cd9c"
+      },
+      "total_best": ["0608d7899dc3ff815960cd9c"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 14986,
+          "secondary_upper_bound": 51061,
+          "objective_complete": true,
+          "seconds": 0.0001684,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 51061,
+          "secondary_upper_bound": 14986,
+          "objective_complete": true,
+          "seconds": 0.0001106,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 66047,
+          "secondary_upper_bound": 14986,
+          "objective_complete": true,
+          "seconds": 0.1241194,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "be7897a35befbd014d555611",
+        "fortitude": "be7897a35befbd014d555611",
+        "total": "be7897a35befbd014d555611"
+      },
+      "total_best": ["be7897a35befbd014d555611"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 14986,
+          "secondary_upper_bound": 51061,
+          "objective_complete": true,
+          "seconds": 0.0001221,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 51061,
+          "secondary_upper_bound": 14986,
+          "objective_complete": true,
+          "seconds": 0.0001045,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2/excluded-v1-8",
+          "upper_bound": 66047,
+          "secondary_upper_bound": 14986,
+          "objective_complete": true,
+          "seconds": 0.1075783,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "b30da433fc71f7f1d3fa9539": {
+      "id": "b30da433fc71f7f1d3fa9539",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 26973,
+      "fortitude": 91908,
+      "total": 118881,
+      "base_power": 2700,
+      "base_fortitude": 9200,
+      "colors": [3, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [7, 6, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 4, "q": -1, "r": -3, "color": 2, "cells": [[-1, -3]] },
+        { "id": 5, "q": 3, "r": -3, "color": 2, "cells": [[2, -3], [3, -3]] },
+        { "id": 6, "q": 0, "r": -2, "color": 2, "cells": [[0, -3], [0, -2], [1, -3]] },
+        { "id": 13, "q": -9, "r": 11, "color": 5, "cells": [[-9, 11]] },
+        { "id": 14, "q": 8, "r": 3, "color": 5, "cells": [[8, 3], [9, 3]] },
+        { "id": 14, "q": 9, "r": 2, "color": 5, "cells": [[9, 2], [10, 2]] },
+        { "id": 14, "q": 10, "r": 1, "color": 5, "cells": [[10, 1], [11, 1]] },
+        { "id": 19, "q": -3, "r": -2, "color": 2, "cells": [[-4, -2], [-3, -3], [-3, -2], [-2, -3]] },
+        { "id": 20, "q": -8, "r": 7, "color": 2, "cells": [[-9, 7], [-9, 8], [-8, 7], [-8, 8], [-7, 7]] },
+        { "id": 21, "q": 8, "r": 2, "color": 2, "cells": [[7, 2], [7, 3], [8, 1], [8, 2], [8, 3], [9, 1]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": -9, "r": 10, "color": 5, "cells": [[-11, 11], [-10, 11], [-9, 10], [-8, 9], [-7, 9]] },
+        {
+          "id": 34,
+          "q": -11,
+          "r": 10,
+          "color": 2,
+          "cells": [[-12, 10], [-12, 11], [-11, 9], [-11, 10], [-11, 11], [-10, 9], [-10, 10], [-9, 9]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 0,
+          "color": 3,
+          "cells": [[-2, 0], [-2, 1], [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 0]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 2, 4, 5, 6, 8],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 2],
+      "falsehood": false,
+      "count": 17,
+      "valid": true,
+      "group": [0, 0, 0, 24]
+    },
+    "3487dfaec488ecc8b73dff5f": {
+      "id": "3487dfaec488ecc8b73dff5f",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 19980,
+      "fortitude": 91908,
+      "total": 111888,
+      "base_power": 2000,
+      "base_fortitude": 9200,
+      "colors": [3, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 6, 5],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 4, "q": 3, "r": -3, "color": 2, "cells": [[3, -3]] },
+        { "id": 5, "q": 0, "r": -3, "color": 2, "cells": [[-1, -3], [0, -3]] },
+        { "id": 5, "q": 2, "r": -3, "color": 2, "cells": [[1, -3], [2, -3]] },
+        { "id": 14, "q": -8, "r": 9, "color": 5, "cells": [[-8, 9], [-7, 9]] },
+        { "id": 14, "q": -4, "r": 4, "color": 5, "cells": [[-4, 4], [-3, 4]] },
+        { "id": 15, "q": -9, "r": 10, "color": 5, "cells": [[-9, 9], [-9, 10], [-9, 11]] },
+        { "id": 19, "q": -3, "r": -2, "color": 2, "cells": [[-4, -2], [-3, -3], [-3, -2], [-2, -3]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": -1, "r": 4, "color": 5, "cells": [[-2, 3], [-2, 4], [-1, 3], [-1, 4], [0, 4]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": 9, "r": 2, "color": 5, "cells": [[7, 3], [8, 3], [9, 2], [10, 1], [11, 1]] },
+        { "id": 30, "q": 2, "r": 4, "color": 5, "cells": [[0, 5], [1, 4], [2, 4], [3, 4], [4, 3]] },
+        {
+          "id": 34,
+          "q": -11,
+          "r": 10,
+          "color": 2,
+          "cells": [[-12, 10], [-12, 11], [-11, 9], [-11, 10], [-11, 11], [-10, 9], [-10, 10], [-9, 9]]
+        },
+        {
+          "id": 34,
+          "q": -9,
+          "r": 8,
+          "color": 2,
+          "cells": [[-10, 8], [-10, 9], [-9, 7], [-9, 8], [-9, 9], [-8, 7], [-8, 8], [-7, 7]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 0,
+          "color": 3,
+          "cells": [[-2, 0], [-2, 1], [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 0]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 2, 4, 5, 7, 8],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 2],
+      "falsehood": false,
+      "count": 17,
+      "valid": true,
+      "group": [1, 0, 0, 24]
+    },
+    "ef0eee90f282152cf21ab061": {
+      "id": "ef0eee90f282152cf21ab061",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 17760,
+      "fortitude": 81696,
+      "total": 99456,
+      "base_power": 2000,
+      "base_fortitude": 9200,
+      "colors": [3, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 9, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 3, "r": -3, "color": 2, "cells": [[2, -3], [3, -3]] },
+        { "id": 9, "q": -1, "r": 1, "color": 3, "cells": [[-2, 1], [-1, 1], [0, 0]] },
+        { "id": 9, "q": 0, "r": -1, "color": 3, "cells": [[-1, -1], [0, -1], [1, -2]] },
+        { "id": 14, "q": -8, "r": 9, "color": 5, "cells": [[-8, 9], [-7, 9]] },
+        { "id": 15, "q": -9, "r": 10, "color": 5, "cells": [[-9, 9], [-9, 10], [-9, 11]] },
+        { "id": 19, "q": -3, "r": -2, "color": 2, "cells": [[-4, -2], [-3, -3], [-3, -2], [-2, -3]] },
+        { "id": 20, "q": -8, "r": 7, "color": 2, "cells": [[-9, 7], [-9, 8], [-8, 7], [-8, 8], [-7, 7]] },
+        { "id": 20, "q": 0, "r": -3, "color": 2, "cells": [[-1, -3], [-1, -2], [0, -3], [0, -2], [1, -3]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": -1, "r": 4, "color": 5, "cells": [[-2, 3], [-2, 4], [-1, 3], [-1, 4], [0, 4]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": -2, "r": 3, "color": 5, "cells": [[-4, 4], [-3, 4], [-2, 3], [-1, 2], [0, 2]] },
+        { "id": 29, "q": 9, "r": 2, "color": 5, "cells": [[7, 3], [8, 3], [9, 2], [10, 1], [11, 1]] },
+        { "id": 30, "q": 2, "r": 4, "color": 5, "cells": [[0, 5], [1, 4], [2, 4], [3, 4], [4, 3]] },
+        {
+          "id": 34,
+          "q": -11,
+          "r": 10,
+          "color": 2,
+          "cells": [[-12, 10], [-12, 11], [-11, 9], [-11, 10], [-11, 11], [-10, 9], [-10, 10], [-9, 9]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 2, 4, 5, 7, 8],
+      "strikes": 1,
+      "penalties": [0, 1, 0, 0],
+      "raw_penalties": [0, 3, 3, 2],
+      "falsehood": false,
+      "count": 17,
+      "valid": true,
+      "group": [1, 0, 0, 24]
+    },
+    "7069d10dde8e335b8011d70d": {
+      "id": "7069d10dde8e335b8011d70d",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 23976,
+      "fortitude": 81696,
+      "total": 105672,
+      "base_power": 2700,
+      "base_fortitude": 9200,
+      "colors": [3, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 7, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 4, "q": 1, "r": -3, "color": 2, "cells": [[1, -3]] },
+        { "id": 5, "q": 0, "r": -3, "color": 2, "cells": [[-1, -3], [0, -3]] },
+        { "id": 5, "q": 3, "r": -3, "color": 2, "cells": [[2, -3], [3, -3]] },
+        { "id": 14, "q": -8, "r": 9, "color": 5, "cells": [[-8, 9], [-7, 9]] },
+        { "id": 15, "q": -9, "r": 10, "color": 5, "cells": [[-9, 9], [-9, 10], [-9, 11]] },
+        { "id": 20, "q": -8, "r": 7, "color": 2, "cells": [[-9, 7], [-9, 8], [-8, 7], [-8, 8], [-7, 7]] },
+        {
+          "id": 21,
+          "q": -3,
+          "r": -2,
+          "color": 2,
+          "cells": [[-4, -2], [-4, -1], [-3, -3], [-3, -2], [-3, -1], [-2, -3]]
+        },
+        { "id": 21, "q": 8, "r": 2, "color": 2, "cells": [[7, 2], [7, 3], [8, 1], [8, 2], [8, 3], [9, 1]] },
+        { "id": 23, "q": -1, "r": 2, "color": 3, "cells": [[-2, 1], [-2, 4], [-1, 1], [-1, 2], [-1, 3]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": 9, "r": 2, "color": 5, "cells": [[7, 3], [8, 3], [9, 2], [10, 1], [11, 1]] },
+        {
+          "id": 34,
+          "q": -11,
+          "r": 10,
+          "color": 2,
+          "cells": [[-12, 10], [-12, 11], [-11, 9], [-11, 10], [-11, 11], [-10, 9], [-10, 10], [-9, 9]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        {
+          "id": 36,
+          "q": 0,
+          "r": -1,
+          "color": 3,
+          "cells": [[-1, -1], [-1, 0], [0, -2], [0, -1], [0, 0], [1, -2], [1, -1]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 2, 4, 5, 6, 8],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 2, 4, 2],
+      "falsehood": false,
+      "count": 16,
+      "valid": true,
+      "group": [0, 0, 0, 24]
+    },
+    "be7897a35befbd014d555611": {
+      "id": "be7897a35befbd014d555611",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 14986,
+      "fortitude": 51061,
+      "total": 66047,
+      "base_power": 2700,
+      "base_fortitude": 9200,
+      "colors": [3, 4],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 8, 4],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 5, "q": 0, "r": -3, "color": 2, "cells": [[-1, -3], [0, -3]] },
+        { "id": 14, "q": -8, "r": 9, "color": 5, "cells": [[-8, 9], [-7, 9]] },
+        { "id": 15, "q": -9, "r": 10, "color": 5, "cells": [[-9, 9], [-9, 10], [-9, 11]] },
+        { "id": 19, "q": -3, "r": -2, "color": 2, "cells": [[-4, -2], [-3, -3], [-3, -2], [-2, -3]] },
+        { "id": 20, "q": -8, "r": 7, "color": 2, "cells": [[-9, 7], [-9, 8], [-8, 7], [-8, 8], [-7, 7]] },
+        { "id": 20, "q": 2, "r": -3, "color": 2, "cells": [[1, -3], [1, -2], [2, -3], [2, -2], [3, -3]] },
+        { "id": 21, "q": 8, "r": 2, "color": 2, "cells": [[7, 2], [7, 3], [8, 1], [8, 2], [8, 3], [9, 1]] },
+        { "id": 23, "q": -1, "r": 2, "color": 3, "cells": [[-2, 1], [-2, 4], [-1, 1], [-1, 2], [-1, 3]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": 9, "r": 2, "color": 5, "cells": [[7, 3], [8, 3], [9, 2], [10, 1], [11, 1]] },
+        {
+          "id": 34,
+          "q": -11,
+          "r": 10,
+          "color": 2,
+          "cells": [[-12, 10], [-12, 11], [-11, 9], [-11, 10], [-11, 11], [-10, 9], [-10, 10], [-9, 9]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        {
+          "id": 36,
+          "q": 0,
+          "r": -1,
+          "color": 3,
+          "cells": [[-1, -1], [-1, 0], [0, -2], [0, -1], [0, 0], [1, -2], [1, -1]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 2, 4, 5, 6, 8],
+      "strikes": 2,
+      "penalties": [0, 1, 1, 0],
+      "raw_penalties": [0, 3, 4, 2],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [0, 0, 0, 24]
+    },
+    "0608d7899dc3ff815960cd9c": {
+      "id": "0608d7899dc3ff815960cd9c",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 14986,
+      "fortitude": 51061,
+      "total": 66047,
+      "base_power": 2700,
+      "base_fortitude": 9200,
+      "colors": [3, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [7, 7, 5],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 4, "q": -11, "r": 9, "color": 2, "cells": [[-11, 9]] },
+        { "id": 4, "q": 1, "r": -3, "color": 2, "cells": [[1, -3]] },
+        { "id": 5, "q": 0, "r": -3, "color": 2, "cells": [[-1, -3], [0, -3]] },
+        { "id": 5, "q": 3, "r": -3, "color": 2, "cells": [[2, -3], [3, -3]] },
+        { "id": 6, "q": -11, "r": 11, "color": 2, "cells": [[-11, 10], [-11, 11], [-10, 10]] },
+        { "id": 13, "q": -9, "r": 11, "color": 5, "cells": [[-9, 11]] },
+        { "id": 14, "q": -4, "r": 4, "color": 5, "cells": [[-4, 4], [-3, 4]] },
+        { "id": 19, "q": -3, "r": -2, "color": 2, "cells": [[-4, -2], [-3, -3], [-3, -2], [-2, -3]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": -1, "r": 4, "color": 5, "cells": [[-2, 3], [-2, 4], [-1, 3], [-1, 4], [0, 4]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": -9, "r": 10, "color": 5, "cells": [[-11, 11], [-10, 11], [-9, 10], [-8, 9], [-7, 9]] },
+        { "id": 29, "q": 9, "r": 2, "color": 5, "cells": [[7, 3], [8, 3], [9, 2], [10, 1], [11, 1]] },
+        { "id": 30, "q": 2, "r": 4, "color": 5, "cells": [[0, 5], [1, 4], [2, 4], [3, 4], [4, 3]] },
+        {
+          "id": 34,
+          "q": -9,
+          "r": 8,
+          "color": 2,
+          "cells": [[-10, 8], [-10, 9], [-9, 7], [-9, 8], [-9, 9], [-8, 7], [-8, 8], [-7, 7]]
+        },
+        {
+          "id": 34,
+          "q": 7,
+          "r": 2,
+          "color": 2,
+          "cells": [[6, 2], [6, 3], [7, 1], [7, 2], [7, 3], [8, 1], [8, 2], [9, 1]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 0,
+          "color": 3,
+          "cells": [[-2, 0], [-2, 1], [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 0]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 2, 4, 5, 6, 7, 8],
+      "strikes": 2,
+      "penalties": [2, 0, 0, 0],
+      "raw_penalties": [2, 2, 3, 2],
+      "falsehood": false,
+      "count": 19,
+      "valid": true,
+      "group": [1, 0, 0, 24]
+    },
+    "6bc60794ab85dcfcdbbf0549": {
+      "id": "6bc60794ab85dcfcdbbf0549",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 26973,
+      "fortitude": 77922,
+      "total": 104895,
+      "base_power": 2700,
+      "base_fortitude": 7800,
+      "colors": [3, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 9, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 4, "q": -11, "r": 9, "color": 2, "cells": [[-11, 9]] },
+        { "id": 4, "q": 1, "r": -3, "color": 2, "cells": [[1, -3]] },
+        { "id": 5, "q": 0, "r": -3, "color": 2, "cells": [[-1, -3], [0, -3]] },
+        { "id": 5, "q": 3, "r": -3, "color": 2, "cells": [[2, -3], [3, -3]] },
+        { "id": 14, "q": -4, "r": 4, "color": 5, "cells": [[-4, 4], [-3, 4]] },
+        { "id": 19, "q": -3, "r": -2, "color": 2, "cells": [[-4, -2], [-3, -3], [-3, -2], [-2, -3]] },
+        { "id": 20, "q": -8, "r": 7, "color": 2, "cells": [[-9, 7], [-9, 8], [-8, 7], [-8, 8], [-7, 7]] },
+        {
+          "id": 21,
+          "q": -10,
+          "r": 10,
+          "color": 2,
+          "cells": [[-11, 10], [-11, 11], [-10, 9], [-10, 10], [-10, 11], [-9, 9]]
+        },
+        { "id": 21, "q": 8, "r": 2, "color": 2, "cells": [[7, 2], [7, 3], [8, 1], [8, 2], [8, 3], [9, 1]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": -1, "r": 4, "color": 5, "cells": [[-2, 3], [-2, 4], [-1, 3], [-1, 4], [0, 4]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": 9, "r": 2, "color": 5, "cells": [[7, 3], [8, 3], [9, 2], [10, 1], [11, 1]] },
+        { "id": 30, "q": 2, "r": 4, "color": 5, "cells": [[0, 5], [1, 4], [2, 4], [3, 4], [4, 3]] },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 0,
+          "color": 3,
+          "cells": [[-2, 0], [-2, 1], [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 0]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 4, 5, 6, 7, 8],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 2],
+      "falsehood": false,
+      "count": 17,
+      "valid": true,
+      "group": [1, 0, 0, 24]
+    },
+    "569efb6c307640dacbf65909": {
+      "id": "569efb6c307640dacbf65909",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 23976,
+      "fortitude": 69264,
+      "total": 93240,
+      "base_power": 2700,
+      "base_fortitude": 7800,
+      "colors": [3, 4],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 6, 5],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 4, "q": 1, "r": -3, "color": 2, "cells": [[1, -3]] },
+        { "id": 5, "q": 0, "r": -3, "color": 2, "cells": [[-1, -3], [0, -3]] },
+        { "id": 5, "q": 3, "r": -3, "color": 2, "cells": [[2, -3], [3, -3]] },
+        { "id": 9, "q": -1, "r": 1, "color": 3, "cells": [[-2, 1], [-1, 1], [0, 0]] },
+        { "id": 9, "q": 0, "r": -1, "color": 3, "cells": [[-1, -1], [0, -1], [1, -2]] },
+        { "id": 14, "q": -4, "r": 4, "color": 5, "cells": [[-4, 4], [-3, 4]] },
+        { "id": 19, "q": -3, "r": -2, "color": 2, "cells": [[-4, -2], [-3, -3], [-3, -2], [-2, -3]] },
+        { "id": 27, "q": 3, "r": 2, "color": 4, "cells": [[2, 2], [3, 0], [3, 2], [4, 0], [4, 1], [5, 0]] },
+        { "id": 28, "q": -1, "r": 4, "color": 5, "cells": [[-2, 3], [-2, 4], [-1, 3], [-1, 4], [0, 4]] },
+        { "id": 28, "q": 8, "r": 5, "color": 5, "cells": [[7, 4], [7, 5], [8, 4], [8, 5], [9, 5]] },
+        { "id": 29, "q": 9, "r": 2, "color": 5, "cells": [[7, 3], [8, 3], [9, 2], [10, 1], [11, 1]] },
+        { "id": 30, "q": 2, "r": 4, "color": 5, "cells": [[0, 5], [1, 4], [2, 4], [3, 4], [4, 3]] },
+        {
+          "id": 34,
+          "q": -11,
+          "r": 10,
+          "color": 2,
+          "cells": [[-12, 10], [-12, 11], [-11, 9], [-11, 10], [-11, 11], [-10, 9], [-10, 10], [-9, 9]]
+        },
+        {
+          "id": 34,
+          "q": -9,
+          "r": 8,
+          "color": 2,
+          "cells": [[-10, 8], [-10, 9], [-9, 7], [-9, 8], [-9, 9], [-8, 7], [-8, 8], [-7, 7]]
+        },
+        {
+          "id": 34,
+          "q": 7,
+          "r": 2,
+          "color": 2,
+          "cells": [[6, 2], [6, 3], [7, 1], [7, 2], [7, 3], [8, 1], [8, 2], [9, 1]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        { "id": 38, "q": 1, "r": 1, "color": 4, "cells": [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]] }
+      ],
+      "active": [0, 1, 4, 5, 6, 7, 8],
+      "strikes": 1,
+      "penalties": [0, 1, 0, 0],
+      "raw_penalties": [0, 3, 3, 2],
+      "falsehood": false,
+      "count": 17,
+      "valid": true,
+      "group": [1, 0, 0, 24]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T04:50:57.3379197+00:00"
+}

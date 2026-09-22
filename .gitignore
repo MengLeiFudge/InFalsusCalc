@@ -2,10 +2,11 @@ bin/
 obj/
 .packages/
 state/
-output/
+results/
 logs/
 .codex/
 .idea/
 .release/
+output/
 *.user
 *.tmp

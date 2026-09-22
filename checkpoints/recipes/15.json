@@ -1,0 +1,139 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 15,
+  "groups": {
+    "1,0,0,8": {
+      "key": [1, 0, 0, 8],
+      "best": {
+        "inner:power": "808b27ac9e945e4f2f34c940",
+        "inner:fortitude": "808b27ac9e945e4f2f34c940",
+        "inner:total": "808b27ac9e945e4f2f34c940",
+        "outer:power": "472dfc98851c81bde5b7ba77",
+        "outer:fortitude": "472dfc98851c81bde5b7ba77",
+        "outer:total": "472dfc98851c81bde5b7ba77"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 1, "outer": 4 },
+  "cards": {
+    "808b27ac9e945e4f2f34c940": {
+      "id": "808b27ac9e945e4f2f34c940",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 8991,
+      "fortitude": 17982,
+      "total": 26973,
+      "base_power": 900,
+      "base_fortitude": 1800,
+      "colors": [3],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 2, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 3.8173,
+      "retained_percent": 100,
+      "carriers": [3, 2, 3],
+      "placements": [
+        { "id": 1, "q": 3, "r": 3, "color": 1, "cells": [[3, 3]] },
+        { "id": 4, "q": 8, "r": 2, "color": 2, "cells": [[8, 2]] },
+        { "id": 5, "q": 8, "r": 3, "color": 2, "cells": [[7, 3], [8, 3]] },
+        { "id": 5, "q": 10, "r": 1, "color": 2, "cells": [[9, 1], [10, 1]] },
+        { "id": 14, "q": -4, "r": 4, "color": 5, "cells": [[-4, 4], [-3, 4]] },
+        { "id": 28, "q": -1, "r": 4, "color": 5, "cells": [[-2, 3], [-2, 4], [-1, 3], [-1, 4], [0, 4]] },
+        { "id": 30, "q": 2, "r": 4, "color": 5, "cells": [[0, 5], [1, 4], [2, 4], [3, 4], [4, 3]] },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 0,
+          "color": 3,
+          "cells": [[-4, 0], [-4, 1], [-3, -1], [-3, 0], [-3, 1], [-2, -1], [-2, 0]]
+        },
+        {
+          "id": 36,
+          "q": -3,
+          "r": 2,
+          "color": 3,
+          "cells": [[-4, 2], [-4, 3], [-3, 1], [-3, 2], [-3, 3], [-2, 1], [-2, 2]]
+        },
+        {
+          "id": 36,
+          "q": -1,
+          "r": 0,
+          "color": 3,
+          "cells": [[-2, 0], [-2, 1], [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 0]]
+        }
+      ],
+      "active": [1, 6, 7],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 1],
+      "falsehood": false,
+      "count": 10,
+      "valid": true,
+      "group": [1, 0, 0, 8],
+      "full_coverage": false
+    },
+    "472dfc98851c81bde5b7ba77": {
+      "id": "472dfc98851c81bde5b7ba77",
+      "recipe": 15,
+      "base_id": 15,
+      "name": "穿行于城市中",
+      "power": 17982,
+      "fortitude": 3996,
+      "total": 21978,
+      "base_power": 1800,
+      "base_fortitude": 400,
+      "colors": [3],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 3, 0],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 3.3178,
+      "retained_percent": 100,
+      "carriers": [3, 3, 0],
+      "placements": [
+        { "id": 4, "q": -4, "r": -2, "color": 2, "cells": [[-4, -2]] },
+        { "id": 5, "q": 1, "r": -3, "color": 2, "cells": [[0, -3], [1, -3]] },
+        { "id": 5, "q": 3, "r": -3, "color": 2, "cells": [[2, -3], [3, -3]] },
+        { "id": 14, "q": -4, "r": 4, "color": 5, "cells": [[-4, 4], [-3, 4]] },
+        { "id": 20, "q": -2, "r": -3, "color": 2, "cells": [[-3, -3], [-3, -2], [-2, -3], [-2, -2], [-1, -3]] },
+        { "id": 28, "q": -1, "r": 4, "color": 5, "cells": [[-2, 3], [-2, 4], [-1, 3], [-1, 4], [0, 4]] },
+        { "id": 30, "q": 2, "r": 4, "color": 5, "cells": [[0, 5], [1, 4], [2, 4], [3, 4], [4, 3]] }
+      ],
+      "active": [7, 8],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 0, 1],
+      "falsehood": false,
+      "count": 7,
+      "valid": true,
+      "group": [1, 0, 0, 8],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.7729045+00:00",
+  "solve_seconds": 0.0016059
+}

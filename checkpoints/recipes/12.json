@@ -1,0 +1,140 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 12,
+  "groups": {
+    "1,0,0,8": {
+      "key": [1, 0, 0, 8],
+      "best": {
+        "inner:power": "4326f24ad25d3b630c86c241",
+        "inner:fortitude": "4326f24ad25d3b630c86c241",
+        "inner:total": "4326f24ad25d3b630c86c241"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    },
+    "1,0,0,40": {
+      "key": [1, 0, 0, 40],
+      "best": {
+        "outer:power": "0602ca54903e94c539239532",
+        "outer:fortitude": "0602ca54903e94c539239532",
+        "outer:total": "0602ca54903e94c539239532"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 1, "outer": 4 },
+  "cards": {
+    "4326f24ad25d3b630c86c241": {
+      "id": "4326f24ad25d3b630c86c241",
+      "recipe": 12,
+      "base_id": 12,
+      "name": "心中的疑虑",
+      "power": 6993,
+      "fortitude": 14985,
+      "total": 21978,
+      "base_power": 700,
+      "base_fortitude": 1500,
+      "colors": [3],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [8, 3, 0],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 3.3178,
+      "retained_percent": 100,
+      "carriers": [3, 3, 0],
+      "placements": [
+        { "id": 4, "q": -7, "r": 11, "color": 2, "cells": [[-7, 11]] },
+        { "id": 4, "q": -6, "r": 9, "color": 2, "cells": [[-6, 9]] },
+        { "id": 4, "q": -5, "r": 8, "color": 2, "cells": [[-5, 8]] },
+        { "id": 4, "q": -5, "r": 11, "color": 2, "cells": [[-5, 11]] },
+        { "id": 5, "q": -7, "r": 9, "color": 2, "cells": [[-8, 9], [-7, 9]] },
+        { "id": 5, "q": -6, "r": 12, "color": 2, "cells": [[-7, 12], [-6, 12]] },
+        { "id": 5, "q": -5, "r": 10, "color": 2, "cells": [[-6, 10], [-5, 10]] },
+        { "id": 9, "q": 0, "r": 1, "color": 3, "cells": [[-1, 1], [0, 1], [1, 0]] },
+        { "id": 22, "q": 0, "r": -1, "color": 3, "cells": [[0, -1], [0, 0], [1, -2], [1, -1]] },
+        { "id": 24, "q": -1, "r": -1, "color": 3, "cells": [[-1, -2], [-1, -1], [-1, 0], [0, -2], [0, 0]] },
+        { "id": 25, "q": -8, "r": 12, "color": 4, "cells": [[-9, 12], [-9, 13], [-8, 12], [-7, 11]] }
+      ],
+      "active": [1, 6],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 2, 1],
+      "falsehood": false,
+      "count": 11,
+      "valid": true,
+      "group": [1, 0, 0, 8],
+      "full_coverage": false
+    },
+    "0602ca54903e94c539239532": {
+      "id": "0602ca54903e94c539239532",
+      "recipe": 12,
+      "base_id": 12,
+      "name": "心中的疑虑",
+      "power": 19481,
+      "fortitude": 3497,
+      "total": 22978,
+      "base_power": 1950,
+      "base_fortitude": 350,
+      "colors": [3, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [9, 1, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 3.4178,
+      "retained_percent": 100,
+      "carriers": [3, 1, 1],
+      "placements": [
+        { "id": 4, "q": -1, "r": -7, "color": 2, "cells": [[-1, -7]] },
+        { "id": 4, "q": 0, "r": -8, "color": 2, "cells": [[0, -8]] },
+        { "id": 4, "q": 1, "r": -9, "color": 2, "cells": [[1, -9]] },
+        { "id": 5, "q": -7, "r": 9, "color": 2, "cells": [[-8, 9], [-7, 9]] },
+        { "id": 6, "q": -6, "r": 9, "color": 2, "cells": [[-6, 8], [-6, 9], [-5, 8]] },
+        { "id": 12, "q": -7, "r": 10, "color": 4, "cells": [[-8, 11], [-7, 10], [-6, 10]] },
+        { "id": 13, "q": -1, "r": -5, "color": 5, "cells": [[-1, -5]] },
+        { "id": 13, "q": 0, "r": -6, "color": 5, "cells": [[0, -6]] },
+        { "id": 13, "q": 1, "r": -7, "color": 5, "cells": [[1, -7]] },
+        { "id": 18, "q": 0, "r": -7, "color": 1, "cells": [[-1, -6], [0, -7], [0, -6], [1, -9], [1, -8]] },
+        {
+          "id": 34,
+          "q": -6,
+          "r": 11,
+          "color": 2,
+          "cells": [[-7, 11], [-7, 12], [-6, 10], [-6, 11], [-6, 12], [-5, 10], [-5, 11], [-4, 10]]
+        }
+      ],
+      "active": [0, 1, 4, 5],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 1],
+      "falsehood": false,
+      "count": 11,
+      "valid": true,
+      "group": [1, 0, 0, 40],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.7070669+00:00",
+  "solve_seconds": 0.0015086
+}

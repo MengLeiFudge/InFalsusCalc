@@ -1,0 +1,308 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [],
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 7,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "8558f724265e53e7091524b2",
+        "fortitude": "8558f724265e53e7091524b2",
+        "total": "8558f724265e53e7091524b2"
+      },
+      "total_best": ["8558f724265e53e7091524b2"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 54945,
+          "secondary_upper_bound": 70929,
+          "objective_complete": true,
+          "seconds": 6.06e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 70929,
+          "secondary_upper_bound": 54945,
+          "objective_complete": true,
+          "seconds": 6.64e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 125874,
+          "secondary_upper_bound": 54945,
+          "objective_complete": true,
+          "seconds": 12.3083216,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "ad8e99ea08f85a52ffd3cb4f",
+        "fortitude": "ad8e99ea08f85a52ffd3cb4f",
+        "total": "ad8e99ea08f85a52ffd3cb4f"
+      },
+      "total_best": ["ad8e99ea08f85a52ffd3cb4f"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 48840,
+          "secondary_upper_bound": 63048,
+          "objective_complete": true,
+          "seconds": 0.0001025,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 63048,
+          "secondary_upper_bound": 48840,
+          "objective_complete": true,
+          "seconds": 5.06e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 111888,
+          "secondary_upper_bound": 48840,
+          "objective_complete": true,
+          "seconds": 0.0354283,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "6e5493ef0bf05f766c7f2592",
+        "fortitude": "6e5493ef0bf05f766c7f2592",
+        "total": "6e5493ef0bf05f766c7f2592"
+      },
+      "total_best": ["6e5493ef0bf05f766c7f2592"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 30526,
+          "secondary_upper_bound": 39406,
+          "objective_complete": true,
+          "seconds": 6.35e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 39406,
+          "secondary_upper_bound": 30526,
+          "objective_complete": true,
+          "seconds": 6.37e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 69932,
+          "secondary_upper_bound": 30526,
+          "objective_complete": true,
+          "seconds": 0.047599,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "8558f724265e53e7091524b2": {
+      "id": "8558f724265e53e7091524b2",
+      "recipe": 7,
+      "base_id": 7,
+      "name": "班花",
+      "power": 54945,
+      "fortitude": 70929,
+      "total": 125874,
+      "base_power": 5500,
+      "base_fortitude": 7100,
+      "colors": [2, 3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 3, 7],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 1, "q": 9, "r": 0, "color": 1, "cells": [[9, 0]] },
+        { "id": 3, "q": 8, "r": 1, "color": 1, "cells": [[8, 0], [8, 1], [9, 1]] },
+        { "id": 11, "q": 11, "r": 1, "color": 4, "cells": [[11, 0], [11, 1]] },
+        { "id": 15, "q": 5, "r": 0, "color": 5, "cells": [[5, -1], [5, 0], [5, 1]] },
+        { "id": 22, "q": 0, "r": -2, "color": 3, "cells": [[0, -2], [0, -1], [1, -3], [1, -2]] },
+        { "id": 22, "q": 14, "r": 1, "color": 3, "cells": [[14, 1], [14, 2], [15, 0], [15, 1]] },
+        { "id": 25, "q": 11, "r": -2, "color": 4, "cells": [[10, -2], [10, -1], [11, -2], [12, -3]] },
+        {
+          "id": 32,
+          "q": 9,
+          "r": -2,
+          "color": 1,
+          "cells": [[7, -1], [8, -2], [8, -1], [9, -3], [9, -2], [9, -1], [10, -3], [10, -2]]
+        },
+        { "id": 33, "q": 6, "r": 2, "color": 2, "cells": [[6, -3], [6, -2], [6, -1], [6, 0], [6, 1], [6, 2]] },
+        { "id": 33, "q": 7, "r": 2, "color": 2, "cells": [[7, -3], [7, -2], [7, -1], [7, 0], [7, 1], [7, 2]] },
+        { "id": 36, "q": 1, "r": 0, "color": 3, "cells": [[0, 0], [0, 1], [1, -1], [1, 0], [1, 1], [2, -1], [2, 0]] },
+        {
+          "id": 36,
+          "q": 14,
+          "r": -1,
+          "color": 3,
+          "cells": [[13, -1], [13, 0], [14, -2], [14, -1], [14, 0], [15, -2], [15, -1]]
+        },
+        { "id": 38, "q": 11, "r": 0, "color": 4, "cells": [[10, 0], [10, 1], [11, -1], [11, 1], [12, -1], [12, 0]] },
+        { "id": 40, "q": 4, "r": -1, "color": 5, "cells": [[3, 0], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [5, -2]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 2, 3, 0],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [0, 0, 0, 12]
+    },
+    "ad8e99ea08f85a52ffd3cb4f": {
+      "id": "ad8e99ea08f85a52ffd3cb4f",
+      "recipe": 7,
+      "base_id": 7,
+      "name": "班花",
+      "power": 48840,
+      "fortitude": 63048,
+      "total": 111888,
+      "base_power": 5500,
+      "base_fortitude": 7100,
+      "colors": [2, 3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [4, 4, 6],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 6, "q": 6, "r": -1, "color": 2, "cells": [[6, -2], [6, -1], [7, -2]] },
+        { "id": 7, "q": 1, "r": 0, "color": 3, "cells": [[1, 0]] },
+        { "id": 10, "q": 11, "r": 0, "color": 4, "cells": [[11, 0]] },
+        { "id": 15, "q": 5, "r": 0, "color": 5, "cells": [[5, -1], [5, 0], [5, 1]] },
+        { "id": 21, "q": 7, "r": 0, "color": 2, "cells": [[6, 0], [6, 1], [7, -1], [7, 0], [7, 1], [8, -1]] },
+        { "id": 22, "q": 14, "r": 1, "color": 3, "cells": [[14, 1], [14, 2], [15, 0], [15, 1]] },
+        { "id": 24, "q": 0, "r": 0, "color": 3, "cells": [[0, -1], [0, 0], [0, 1], [1, -1], [1, 1]] },
+        { "id": 25, "q": 11, "r": -2, "color": 4, "cells": [[10, -2], [10, -1], [11, -2], [12, -3]] },
+        {
+          "id": 32,
+          "q": 8,
+          "r": 1,
+          "color": 1,
+          "cells": [[6, 2], [7, 1], [7, 2], [8, 0], [8, 1], [8, 2], [9, 0], [9, 1]]
+        },
+        {
+          "id": 32,
+          "q": 9,
+          "r": -2,
+          "color": 1,
+          "cells": [[7, -1], [8, -2], [8, -1], [9, -3], [9, -2], [9, -1], [10, -3], [10, -2]]
+        },
+        { "id": 35, "q": -2, "r": -2, "color": 3, "cells": [[-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2], [3, -2]] },
+        {
+          "id": 36,
+          "q": 14,
+          "r": -1,
+          "color": 3,
+          "cells": [[13, -1], [13, 0], [14, -2], [14, -1], [14, 0], [15, -2], [15, -1]]
+        },
+        { "id": 38, "q": 11, "r": 0, "color": 4, "cells": [[10, 0], [10, 1], [11, -1], [11, 1], [12, -1], [12, 0]] },
+        { "id": 40, "q": 4, "r": -1, "color": 5, "cells": [[3, 0], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [5, -2]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 1,
+      "penalties": [0, 0, 1, 0],
+      "raw_penalties": [0, 2, 4, 0],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [0, 0, 0, 12]
+    },
+    "6e5493ef0bf05f766c7f2592": {
+      "id": "6e5493ef0bf05f766c7f2592",
+      "recipe": 7,
+      "base_id": 7,
+      "name": "班花",
+      "power": 30526,
+      "fortitude": 39406,
+      "total": 69932,
+      "base_power": 5500,
+      "base_fortitude": 7100,
+      "colors": [2, 3],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [3, 4, 7],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 7, "q": 1, "r": 0, "color": 3, "cells": [[1, 0]] },
+        { "id": 10, "q": 11, "r": 0, "color": 4, "cells": [[11, 0]] },
+        { "id": 15, "q": 5, "r": 0, "color": 5, "cells": [[5, -1], [5, 0], [5, 1]] },
+        { "id": 18, "q": 9, "r": 0, "color": 1, "cells": [[8, 1], [9, 0], [9, 1], [10, -2], [10, -1]] },
+        { "id": 22, "q": 14, "r": 1, "color": 3, "cells": [[14, 1], [14, 2], [15, 0], [15, 1]] },
+        { "id": 24, "q": 0, "r": 0, "color": 3, "cells": [[0, -1], [0, 0], [0, 1], [1, -1], [1, 1]] },
+        { "id": 25, "q": 11, "r": -2, "color": 4, "cells": [[10, -2], [10, -1], [11, -2], [12, -3]] },
+        {
+          "id": 32,
+          "q": 8,
+          "r": -1,
+          "color": 1,
+          "cells": [[6, 0], [7, -1], [7, 0], [8, -2], [8, -1], [8, 0], [9, -2], [9, -1]]
+        },
+        { "id": 33, "q": 6, "r": 2, "color": 2, "cells": [[6, -3], [6, -2], [6, -1], [6, 0], [6, 1], [6, 2]] },
+        { "id": 33, "q": 7, "r": 2, "color": 2, "cells": [[7, -3], [7, -2], [7, -1], [7, 0], [7, 1], [7, 2]] },
+        { "id": 35, "q": -2, "r": -2, "color": 3, "cells": [[-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2], [3, -2]] },
+        {
+          "id": 36,
+          "q": 14,
+          "r": -1,
+          "color": 3,
+          "cells": [[13, -1], [13, 0], [14, -2], [14, -1], [14, 0], [15, -2], [15, -1]]
+        },
+        { "id": 38, "q": 11, "r": 0, "color": 4, "cells": [[10, 0], [10, 1], [11, -1], [11, 1], [12, -1], [12, 0]] },
+        { "id": 40, "q": 4, "r": -1, "color": 5, "cells": [[3, 0], [4, -3], [4, -2], [4, -1], [4, 0], [4, 1], [5, -2]] }
+      ],
+      "active": [0, 1, 2, 3, 4, 5],
+      "strikes": 2,
+      "penalties": [0, 0, 2, 0],
+      "raw_penalties": [0, 2, 5, 0],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [0, 0, 0, 12]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T03:52:12.5022601+00:00"
+}

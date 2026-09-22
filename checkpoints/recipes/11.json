@@ -1,0 +1,114 @@
+{
+  "policy": "csharp-region-structure-v2",
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 11,
+  "groups": {
+    "1,0,0,32": {
+      "key": [1, 0, 0, 32],
+      "best": {
+        "inner:power": "3eaed45c1b2120b999343ace",
+        "inner:fortitude": "3eaed45c1b2120b999343ace",
+        "inner:total": "3eaed45c1b2120b999343ace",
+        "outer:power": "5e6a989d8057d7f3f4fc5e1d",
+        "outer:fortitude": "5e6a989d8057d7f3f4fc5e1d",
+        "outer:total": "5e6a989d8057d7f3f4fc5e1d"
+      },
+      "cases": {},
+      "complete": true,
+      "infeasible": false
+    }
+  },
+  "structure_scores": { "inner": 1, "outer": 4 },
+  "cards": {
+    "3eaed45c1b2120b999343ace": {
+      "id": "3eaed45c1b2120b999343ace",
+      "recipe": 11,
+      "base_id": 11,
+      "name": "混浊的大海",
+      "power": 5994,
+      "fortitude": 3996,
+      "total": 9990,
+      "base_power": 600,
+      "base_fortitude": 400,
+      "colors": [5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 2, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 2.119,
+      "retained_percent": 100,
+      "carriers": [2, 2, 1],
+      "placements": [
+        { "id": 10, "q": 0, "r": -2, "color": 4, "cells": [[0, -2]] },
+        { "id": 15, "q": 0, "r": 4, "color": 5, "cells": [[0, 3], [0, 4], [0, 5]] },
+        { "id": 21, "q": -5, "r": 9, "color": 2, "cells": [[-6, 9], [-6, 10], [-5, 8], [-5, 9], [-5, 10], [-4, 8]] },
+        { "id": 29, "q": 0, "r": 1, "color": 5, "cells": [[-2, 2], [-1, 2], [0, 1], [1, 0], [2, 0]] },
+        { "id": 40, "q": 0, "r": 0, "color": 5, "cells": [[-1, 1], [0, -2], [0, -1], [0, 0], [0, 1], [0, 2], [1, -1]] }
+      ],
+      "active": [2, 3, 4],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 2, 1],
+      "falsehood": false,
+      "count": 5,
+      "valid": true,
+      "group": [1, 0, 0, 32],
+      "full_coverage": false
+    },
+    "5e6a989d8057d7f3f4fc5e1d": {
+      "id": "5e6a989d8057d7f3f4fc5e1d",
+      "recipe": 11,
+      "base_id": 11,
+      "name": "混浊的大海",
+      "power": 5994,
+      "fortitude": 3996,
+      "total": 9990,
+      "base_power": 600,
+      "base_fortitude": 400,
+      "colors": [5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [2, 2, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "heuristic_score": 2.119,
+      "retained_percent": 100,
+      "carriers": [2, 2, 1],
+      "placements": [
+        { "id": 11, "q": 0, "r": -1, "color": 4, "cells": [[0, -2], [0, -1]] },
+        { "id": 15, "q": 0, "r": 4, "color": 5, "cells": [[0, 3], [0, 4], [0, 5]] },
+        { "id": 20, "q": -5, "r": 9, "color": 2, "cells": [[-6, 9], [-6, 10], [-5, 9], [-5, 10], [-4, 9]] },
+        { "id": 29, "q": 0, "r": 1, "color": 5, "cells": [[-2, 2], [-1, 2], [0, 1], [1, 0], [2, 0]] },
+        { "id": 40, "q": 0, "r": 0, "color": 5, "cells": [[-1, 1], [0, -2], [0, -1], [0, 0], [0, 1], [0, 2], [1, -1]] }
+      ],
+      "active": [2, 3, 4],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 0, 3, 1],
+      "falsehood": false,
+      "count": 5,
+      "valid": true,
+      "group": [1, 0, 0, 32],
+      "full_coverage": false
+    }
+  },
+  "full_cover": null,
+  "full_cases": {},
+  "full_infeasible": false,
+  "bounded_finalized": true,
+  "selection_scope": "from_scratch_cpsat_inner_outer_total",
+  "round": 0,
+  "cursor": 0,
+  "complete": true,
+  "updated": "2026-09-19T15:04:03.6858585+00:00",
+  "solve_seconds": 0.0013557
+}

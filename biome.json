@@ -1,0 +1,44 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
+  "files": {
+    "maxSize": 104857600,
+    "includes": [
+      "Calculator/Data/**/*.json",
+      "checkpoints/**/*.json",
+      "reports/**/*.json",
+      "scripts/**/*.mjs",
+      "docs/**/*.js",
+      "docs/**/*.css",
+      "docs/**/*.html",
+      "global.json",
+      "biome.json"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "quoteProperties": "preserve",
+      "trailingCommas": "none"
+    }
+  },
+  "json": {
+    "formatter": {
+      "expand": "auto"
+    }
+  },
+  "html": {
+    "formatter": {
+      "enabled": true,
+      "whitespaceSensitivity": "strict"
+    }
+  },
+  "linter": { "enabled": false },
+  "assist": { "enabled": false }
+}

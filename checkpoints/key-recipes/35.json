@@ -1,0 +1,686 @@
+{
+  "policy": "key-regions-v2",
+  "infeasible_regions": [],
+  "excluded_areas": [],
+  "snapshot": "e32417bd7fa5886ce5fd6345",
+  "recipe": 35,
+  "groups": {
+    "0,0,0": {
+      "key": [0, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "60a5d0b9073708a56bbcaa29",
+        "fortitude": "60a5d0b9073708a56bbcaa29",
+        "total": "60a5d0b9073708a56bbcaa29"
+      },
+      "total_best": ["60a5d0b9073708a56bbcaa29"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 72428,
+          "secondary_upper_bound": 30470,
+          "objective_complete": true,
+          "seconds": 2.55e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 30470,
+          "secondary_upper_bound": 72428,
+          "objective_complete": true,
+          "seconds": 2.29e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 102898,
+          "secondary_upper_bound": 72428,
+          "objective_complete": true,
+          "seconds": 0.0445554,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0": {
+      "key": [1, 0, 0],
+      "strikes": 0,
+      "best": {
+        "power": "ad472d86f0105b64eb3ae009",
+        "fortitude": "382fb641a580dd4b12451db9",
+        "total": "ad472d86f0105b64eb3ae009"
+      },
+      "total_best": ["ad472d86f0105b64eb3ae009", "382fb641a580dd4b12451db9"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 62438,
+          "secondary_upper_bound": 20480,
+          "objective_complete": true,
+          "seconds": 2.68e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 25475,
+          "secondary_upper_bound": 57443,
+          "objective_complete": true,
+          "seconds": 1.99e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 82918,
+          "secondary_upper_bound": 57443,
+          "objective_complete": true,
+          "seconds": 2.8877893,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p1": {
+      "key": [1, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "7ab0fabddee9b83178753f07",
+        "fortitude": "7ab0fabddee9b83178753f07",
+        "total": "7ab0fabddee9b83178753f07"
+      },
+      "total_best": ["7ab0fabddee9b83178753f07"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 64380,
+          "secondary_upper_bound": 27084,
+          "objective_complete": true,
+          "seconds": 2.09e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 27084,
+          "secondary_upper_bound": 64380,
+          "objective_complete": true,
+          "seconds": 2.21e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 91464,
+          "secondary_upper_bound": 64380,
+          "objective_complete": true,
+          "seconds": 0.0418577,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p1": {
+      "key": [0, 0, 0],
+      "strikes": 1,
+      "best": {
+        "power": "10f00cd2eed9398da9565ff3",
+        "fortitude": "10f00cd2eed9398da9565ff3",
+        "total": "10f00cd2eed9398da9565ff3"
+      },
+      "total_best": ["10f00cd2eed9398da9565ff3"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 64380,
+          "secondary_upper_bound": 27084,
+          "objective_complete": true,
+          "seconds": 2.11e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 27084,
+          "secondary_upper_bound": 64380,
+          "objective_complete": true,
+          "seconds": 1.98e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 91464,
+          "secondary_upper_bound": 64380,
+          "objective_complete": true,
+          "seconds": 0.0445344,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "1,0,0/p2": {
+      "key": [1, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "fb1a140623aa62e484ea98cd",
+        "fortitude": "fb1a140623aa62e484ea98cd",
+        "total": "fb1a140623aa62e484ea98cd"
+      },
+      "total_best": ["fb1a140623aa62e484ea98cd"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 40238,
+          "secondary_upper_bound": 16928,
+          "objective_complete": true,
+          "seconds": 9.6e-6,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 16928,
+          "secondary_upper_bound": 40238,
+          "objective_complete": true,
+          "seconds": 2.27e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 57166,
+          "secondary_upper_bound": 40238,
+          "objective_complete": true,
+          "seconds": 0.0545965,
+          "geometry_queries": 0
+        }
+      }
+    },
+    "0,0,0/p2": {
+      "key": [0, 0, 0],
+      "strikes": 2,
+      "best": {
+        "power": "bc71d974fdbca115d2f23e7d",
+        "fortitude": "bc71d974fdbca115d2f23e7d",
+        "total": "bc71d974fdbca115d2f23e7d"
+      },
+      "total_best": ["bc71d974fdbca115d2f23e7d"],
+      "goals": {
+        "power": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 40238,
+          "secondary_upper_bound": 16928,
+          "objective_complete": true,
+          "seconds": 2.25e-5,
+          "geometry_queries": 0
+        },
+        "fortitude": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 16928,
+          "secondary_upper_bound": 40238,
+          "objective_complete": true,
+          "seconds": 2.5e-5,
+          "geometry_queries": 0
+        },
+        "total": {
+          "status": "OPTIMAL",
+          "search_policy": "key-regions-v2",
+          "upper_bound": 57166,
+          "secondary_upper_bound": 40238,
+          "objective_complete": true,
+          "seconds": 0.0638231,
+          "geometry_queries": 0
+        }
+      }
+    }
+  },
+  "cards": {
+    "60a5d0b9073708a56bbcaa29": {
+      "id": "60a5d0b9073708a56bbcaa29",
+      "recipe": 35,
+      "base_id": 35,
+      "name": "通往现实之路",
+      "power": 72428,
+      "fortitude": 30470,
+      "total": 102898,
+      "base_power": 7250,
+      "base_fortitude": 3050,
+      "colors": [1],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [9, 3, 2],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 1, "q": -3, "r": -1, "color": 1, "cells": [[-3, -1]] },
+        { "id": 1, "q": 2, "r": -2, "color": 1, "cells": [[2, -2]] },
+        { "id": 1, "q": 4, "r": 0, "color": 1, "cells": [[4, 0]] },
+        { "id": 3, "q": -4, "r": -2, "color": 1, "cells": [[-4, -3], [-4, -2], [-3, -2]] },
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 1, "r": -3, "color": 1, "cells": [[1, -4], [1, -3], [2, -3]] },
+        { "id": 3, "q": 3, "r": -1, "color": 1, "cells": [[3, -2], [3, -1], [4, -1]] },
+        { "id": 7, "q": -6, "r": -7, "color": 3, "cells": [[-6, -7]] },
+        { "id": 9, "q": -4, "r": -8, "color": 3, "cells": [[-5, -8], [-4, -8], [-3, -9]] },
+        { "id": 17, "q": -4, "r": 3, "color": 1, "cells": [[-4, 2], [-4, 3], [-4, 4], [-3, 2], [-2, 1]] },
+        { "id": 18, "q": 3, "r": -5, "color": 1, "cells": [[2, -4], [3, -5], [3, -4], [4, -7], [4, -6]] },
+        {
+          "id": 27,
+          "q": 5,
+          "r": -10,
+          "color": 4,
+          "cells": [[4, -10], [5, -12], [5, -10], [6, -12], [6, -11], [7, -12]]
+        },
+        {
+          "id": 36,
+          "q": -5,
+          "r": -6,
+          "color": 3,
+          "cells": [[-6, -6], [-6, -5], [-5, -7], [-5, -6], [-5, -5], [-4, -7], [-4, -6]]
+        },
+        {
+          "id": 38,
+          "q": 5,
+          "r": -12,
+          "color": 4,
+          "cells": [[4, -12], [4, -11], [5, -13], [5, -11], [6, -13], [6, -12]]
+        }
+      ],
+      "active": [0, 1, 2, 4],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 3],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [0, 0, 0, 2]
+    },
+    "ad472d86f0105b64eb3ae009": {
+      "id": "ad472d86f0105b64eb3ae009",
+      "recipe": 35,
+      "base_id": 35,
+      "name": "通往现实之路",
+      "power": 62438,
+      "fortitude": 20480,
+      "total": 82918,
+      "base_power": 6250,
+      "base_fortitude": 2050,
+      "colors": [1, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [10, 3, 1],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 1],
+      "placements": [
+        { "id": 1, "q": -3, "r": -1, "color": 1, "cells": [[-3, -1]] },
+        { "id": 1, "q": 2, "r": -2, "color": 1, "cells": [[2, -2]] },
+        { "id": 1, "q": 4, "r": 0, "color": 1, "cells": [[4, 0]] },
+        { "id": 3, "q": -4, "r": -2, "color": 1, "cells": [[-4, -3], [-4, -2], [-3, -2]] },
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 1, "r": -3, "color": 1, "cells": [[1, -4], [1, -3], [2, -3]] },
+        { "id": 3, "q": 3, "r": -1, "color": 1, "cells": [[3, -2], [3, -1], [4, -1]] },
+        { "id": 15, "q": -1, "r": -9, "color": 5, "cells": [[-1, -10], [-1, -9], [-1, -8]] },
+        { "id": 15, "q": 0, "r": -9, "color": 5, "cells": [[0, -10], [0, -9], [0, -8]] },
+        { "id": 15, "q": 1, "r": -10, "color": 5, "cells": [[1, -11], [1, -10], [1, -9]] },
+        { "id": 17, "q": -4, "r": 3, "color": 1, "cells": [[-4, 2], [-4, 3], [-4, 4], [-3, 2], [-2, 1]] },
+        { "id": 18, "q": 3, "r": -5, "color": 1, "cells": [[2, -4], [3, -5], [3, -4], [4, -7], [4, -6]] },
+        {
+          "id": 27,
+          "q": 5,
+          "r": -10,
+          "color": 4,
+          "cells": [[4, -10], [5, -12], [5, -10], [6, -12], [6, -11], [7, -12]]
+        },
+        {
+          "id": 38,
+          "q": 5,
+          "r": -12,
+          "color": 4,
+          "cells": [[4, -12], [4, -11], [5, -13], [5, -11], [6, -13], [6, -12]]
+        }
+      ],
+      "active": [0, 1, 2, 3],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 3],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [1, 0, 0, 34]
+    },
+    "382fb641a580dd4b12451db9": {
+      "id": "382fb641a580dd4b12451db9",
+      "recipe": 35,
+      "base_id": 35,
+      "name": "通往现实之路",
+      "power": 57443,
+      "fortitude": 25475,
+      "total": 82918,
+      "base_power": 5750,
+      "base_fortitude": 2550,
+      "colors": [1, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [8, 4, 2],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 100,
+      "carriers": [3, 3, 2],
+      "placements": [
+        { "id": 1, "q": -3, "r": -1, "color": 1, "cells": [[-3, -1]] },
+        { "id": 1, "q": 2, "r": -2, "color": 1, "cells": [[2, -2]] },
+        { "id": 1, "q": 4, "r": 0, "color": 1, "cells": [[4, 0]] },
+        { "id": 3, "q": -4, "r": -2, "color": 1, "cells": [[-4, -3], [-4, -2], [-3, -2]] },
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 1, "r": -3, "color": 1, "cells": [[1, -4], [1, -3], [2, -3]] },
+        { "id": 3, "q": 3, "r": -1, "color": 1, "cells": [[3, -2], [3, -1], [4, -1]] },
+        { "id": 14, "q": -1, "r": -8, "color": 5, "cells": [[-1, -8], [0, -8]] },
+        { "id": 17, "q": -4, "r": 3, "color": 1, "cells": [[-4, 2], [-4, 3], [-4, 4], [-3, 2], [-2, 1]] },
+        { "id": 18, "q": 3, "r": -5, "color": 1, "cells": [[2, -4], [3, -5], [3, -4], [4, -7], [4, -6]] },
+        { "id": 28, "q": 0, "r": -9, "color": 5, "cells": [[-1, -10], [-1, -9], [0, -10], [0, -9], [1, -9]] },
+        { "id": 28, "q": 2, "r": -10, "color": 5, "cells": [[1, -11], [1, -10], [2, -11], [2, -10], [3, -10]] },
+        {
+          "id": 36,
+          "q": -5,
+          "r": -8,
+          "color": 3,
+          "cells": [[-6, -8], [-6, -7], [-5, -9], [-5, -8], [-5, -7], [-4, -9], [-4, -8]]
+        },
+        {
+          "id": 36,
+          "q": -5,
+          "r": -6,
+          "color": 3,
+          "cells": [[-6, -6], [-6, -5], [-5, -7], [-5, -6], [-5, -5], [-4, -7], [-4, -6]]
+        }
+      ],
+      "active": [0, 2, 3, 4],
+      "strikes": 0,
+      "penalties": [0, 0, 0, 0],
+      "raw_penalties": [0, 1, 1, 3],
+      "falsehood": false,
+      "count": 14,
+      "valid": true,
+      "group": [1, 0, 0, 34]
+    },
+    "7ab0fabddee9b83178753f07": {
+      "id": "7ab0fabddee9b83178753f07",
+      "recipe": 35,
+      "base_id": 35,
+      "name": "通往现实之路",
+      "power": 64380,
+      "fortitude": 27084,
+      "total": 91464,
+      "base_power": 7250,
+      "base_fortitude": 3050,
+      "colors": [1, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 5, 5],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 3, "q": -4, "r": -2, "color": 1, "cells": [[-4, -3], [-4, -2], [-3, -2]] },
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 2, "r": -2, "color": 1, "cells": [[2, -3], [2, -2], [3, -2]] },
+        { "id": 9, "q": -5, "r": -5, "color": 3, "cells": [[-6, -5], [-5, -5], [-4, -6]] },
+        { "id": 10, "q": 5, "r": -12, "color": 4, "cells": [[5, -12]] },
+        { "id": 17, "q": -4, "r": 3, "color": 1, "cells": [[-4, 2], [-4, 3], [-4, 4], [-3, 2], [-2, 1]] },
+        { "id": 18, "q": 3, "r": -5, "color": 1, "cells": [[2, -4], [3, -5], [3, -4], [4, -7], [4, -6]] },
+        { "id": 28, "q": 0, "r": -9, "color": 5, "cells": [[-1, -10], [-1, -9], [0, -10], [0, -9], [1, -9]] },
+        { "id": 28, "q": 2, "r": -10, "color": 5, "cells": [[1, -11], [1, -10], [2, -11], [2, -10], [3, -10]] },
+        { "id": 29, "q": -2, "r": -7, "color": 5, "cells": [[-4, -6], [-3, -6], [-2, -7], [-1, -8], [0, -8]] },
+        { "id": 31, "q": 1, "r": -3, "color": 1, "cells": [[-4, -1], [-3, -1], [-2, -2], [-1, -2], [0, -3], [1, -3]] },
+        {
+          "id": 32,
+          "q": 3,
+          "r": 0,
+          "color": 1,
+          "cells": [[1, 1], [2, 0], [2, 1], [3, -1], [3, 0], [3, 1], [4, -1], [4, 0]]
+        },
+        {
+          "id": 36,
+          "q": -5,
+          "r": -7,
+          "color": 3,
+          "cells": [[-6, -7], [-6, -6], [-5, -8], [-5, -7], [-5, -6], [-4, -8], [-4, -7]]
+        },
+        { "id": 37, "q": 1, "r": -8, "color": 4, "cells": [[1, -8], [2, -9], [3, -9], [4, -10], [5, -10], [6, -11]] },
+        {
+          "id": 38,
+          "q": 5,
+          "r": -12,
+          "color": 4,
+          "cells": [[4, -12], [4, -11], [5, -13], [5, -11], [6, -13], [6, -12]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 1,
+      "penalties": [0, 1, 0, 0],
+      "raw_penalties": [0, 2, 1, 1],
+      "falsehood": false,
+      "count": 15,
+      "valid": true,
+      "group": [1, 0, 0, 34]
+    },
+    "10f00cd2eed9398da9565ff3": {
+      "id": "10f00cd2eed9398da9565ff3",
+      "recipe": 35,
+      "base_id": 35,
+      "name": "通往现实之路",
+      "power": 64380,
+      "fortitude": 27084,
+      "total": 91464,
+      "base_power": 7250,
+      "base_fortitude": 3050,
+      "colors": [1],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [6, 2, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 88.88888888888889,
+      "carriers": [3, 2, 3],
+      "placements": [
+        { "id": 1, "q": 4, "r": 0, "color": 1, "cells": [[4, 0]] },
+        { "id": 3, "q": -4, "r": -2, "color": 1, "cells": [[-4, -3], [-4, -2], [-3, -2]] },
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 3, "r": -1, "color": 1, "cells": [[3, -2], [3, -1], [4, -1]] },
+        { "id": 9, "q": -5, "r": -5, "color": 3, "cells": [[-6, -5], [-5, -5], [-4, -6]] },
+        { "id": 10, "q": 5, "r": -12, "color": 4, "cells": [[5, -12]] },
+        { "id": 17, "q": -4, "r": 3, "color": 1, "cells": [[-4, 2], [-4, 3], [-4, 4], [-3, 2], [-2, 1]] },
+        { "id": 18, "q": 3, "r": -5, "color": 1, "cells": [[2, -4], [3, -5], [3, -4], [4, -7], [4, -6]] },
+        { "id": 31, "q": 1, "r": -3, "color": 1, "cells": [[-4, -1], [-3, -1], [-2, -2], [-1, -2], [0, -3], [1, -3]] },
+        {
+          "id": 32,
+          "q": 1,
+          "r": -2,
+          "color": 1,
+          "cells": [[-1, -1], [0, -2], [0, -1], [1, -3], [1, -2], [1, -1], [2, -3], [2, -2]]
+        },
+        {
+          "id": 36,
+          "q": -5,
+          "r": -7,
+          "color": 3,
+          "cells": [[-6, -7], [-6, -6], [-5, -8], [-5, -7], [-5, -6], [-4, -8], [-4, -7]]
+        },
+        { "id": 37, "q": 1, "r": -8, "color": 4, "cells": [[1, -8], [2, -9], [3, -9], [4, -10], [5, -10], [6, -11]] },
+        {
+          "id": 38,
+          "q": 5,
+          "r": -12,
+          "color": 4,
+          "cells": [[4, -12], [4, -11], [5, -13], [5, -11], [6, -13], [6, -12]]
+        }
+      ],
+      "active": [0, 1, 2, 4],
+      "strikes": 1,
+      "penalties": [0, 1, 0, 0],
+      "raw_penalties": [0, 2, 1, 2],
+      "falsehood": false,
+      "count": 13,
+      "valid": true,
+      "group": [0, 0, 0, 2]
+    },
+    "bc71d974fdbca115d2f23e7d": {
+      "id": "bc71d974fdbca115d2f23e7d",
+      "recipe": 35,
+      "base_id": 35,
+      "name": "通往现实之路",
+      "power": 40238,
+      "fortitude": 16928,
+      "total": 57166,
+      "base_power": 7250,
+      "base_fortitude": 3050,
+      "colors": [1],
+      "slots": 0,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [5, 3, 5],
+      "available_traits": [],
+      "inner_structure": 0,
+      "outer_structure": 0,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 3, "q": -4, "r": -2, "color": 1, "cells": [[-4, -3], [-4, -2], [-3, -2]] },
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 2, "r": -2, "color": 1, "cells": [[2, -3], [2, -2], [3, -2]] },
+        { "id": 9, "q": -5, "r": -5, "color": 3, "cells": [[-6, -5], [-5, -5], [-4, -6]] },
+        { "id": 10, "q": 5, "r": -12, "color": 4, "cells": [[5, -12]] },
+        { "id": 17, "q": -4, "r": 3, "color": 1, "cells": [[-4, 2], [-4, 3], [-4, 4], [-3, 2], [-2, 1]] },
+        { "id": 18, "q": 0, "r": -2, "color": 1, "cells": [[-1, -1], [0, -2], [0, -1], [1, -4], [1, -3]] },
+        { "id": 18, "q": 3, "r": -5, "color": 1, "cells": [[2, -4], [3, -5], [3, -4], [4, -7], [4, -6]] },
+        { "id": 31, "q": 1, "r": -3, "color": 1, "cells": [[-4, -1], [-3, -1], [-2, -2], [-1, -2], [0, -3], [1, -3]] },
+        {
+          "id": 32,
+          "q": 3,
+          "r": 0,
+          "color": 1,
+          "cells": [[1, 1], [2, 0], [2, 1], [3, -1], [3, 0], [3, 1], [4, -1], [4, 0]]
+        },
+        {
+          "id": 36,
+          "q": -5,
+          "r": -7,
+          "color": 3,
+          "cells": [[-6, -7], [-6, -6], [-5, -8], [-5, -7], [-5, -6], [-4, -8], [-4, -7]]
+        },
+        { "id": 37, "q": 1, "r": -8, "color": 4, "cells": [[1, -8], [2, -9], [3, -9], [4, -10], [5, -10], [6, -11]] },
+        {
+          "id": 38,
+          "q": 5,
+          "r": -12,
+          "color": 4,
+          "cells": [[4, -12], [4, -11], [5, -13], [5, -11], [6, -13], [6, -12]]
+        }
+      ],
+      "active": [0, 1, 2, 4],
+      "strikes": 2,
+      "penalties": [0, 2, 0, 0],
+      "raw_penalties": [0, 3, 1, 2],
+      "falsehood": false,
+      "count": 13,
+      "valid": true,
+      "group": [0, 0, 0, 2]
+    },
+    "fb1a140623aa62e484ea98cd": {
+      "id": "fb1a140623aa62e484ea98cd",
+      "recipe": 35,
+      "base_id": 35,
+      "name": "通往现实之路",
+      "power": 40238,
+      "fortitude": 16928,
+      "total": 57166,
+      "base_power": 7250,
+      "base_fortitude": 3050,
+      "colors": [1, 5],
+      "slots": 1,
+      "left": 0,
+      "right": 0,
+      "tier_counts": [10, 3, 3],
+      "available_traits": [
+        4, 7, 10, 11, 12, 15, 16, 18, 19, 20, 21, 24, 27, 30, 31, 32, 35, 36, 37, 38, 39, 42, 45, 48, 51, 63
+      ],
+      "inner_structure": 1,
+      "outer_structure": 4,
+      "retained_percent": 55.55555555555556,
+      "carriers": [3, 3, 3],
+      "placements": [
+        { "id": 1, "q": -3, "r": -1, "color": 1, "cells": [[-3, -1]] },
+        { "id": 1, "q": 1, "r": -3, "color": 1, "cells": [[1, -3]] },
+        { "id": 3, "q": -4, "r": -2, "color": 1, "cells": [[-4, -3], [-4, -2], [-3, -2]] },
+        { "id": 3, "q": -2, "r": 0, "color": 1, "cells": [[-2, -1], [-2, 0], [-1, 0]] },
+        { "id": 3, "q": 2, "r": -2, "color": 1, "cells": [[2, -3], [2, -2], [3, -2]] },
+        { "id": 9, "q": -5, "r": -5, "color": 3, "cells": [[-6, -5], [-5, -5], [-4, -6]] },
+        { "id": 10, "q": 5, "r": -11, "color": 4, "cells": [[5, -11]] },
+        { "id": 12, "q": 5, "r": -13, "color": 4, "cells": [[4, -12], [5, -13], [6, -13]] },
+        { "id": 14, "q": -1, "r": -10, "color": 5, "cells": [[-1, -10], [0, -10]] },
+        { "id": 15, "q": 1, "r": -10, "color": 5, "cells": [[1, -11], [1, -10], [1, -9]] },
+        { "id": 17, "q": -4, "r": 3, "color": 1, "cells": [[-4, 2], [-4, 3], [-4, 4], [-3, 2], [-2, 1]] },
+        { "id": 18, "q": 3, "r": -5, "color": 1, "cells": [[2, -4], [3, -5], [3, -4], [4, -7], [4, -6]] },
+        { "id": 28, "q": 0, "r": -8, "color": 5, "cells": [[-1, -9], [-1, -8], [0, -9], [0, -8], [1, -8]] },
+        {
+          "id": 32,
+          "q": 3,
+          "r": 0,
+          "color": 1,
+          "cells": [[1, 1], [2, 0], [2, 1], [3, -1], [3, 0], [3, 1], [4, -1], [4, 0]]
+        },
+        {
+          "id": 36,
+          "q": -5,
+          "r": -7,
+          "color": 3,
+          "cells": [[-6, -7], [-6, -6], [-5, -8], [-5, -7], [-5, -6], [-4, -8], [-4, -7]]
+        },
+        {
+          "id": 38,
+          "q": 5,
+          "r": -11,
+          "color": 4,
+          "cells": [[4, -11], [4, -10], [5, -12], [5, -10], [6, -12], [6, -11]]
+        }
+      ],
+      "active": [0, 1, 2, 3, 4],
+      "strikes": 2,
+      "penalties": [1, 0, 0, 1],
+      "raw_penalties": [1, 1, 0, 4],
+      "falsehood": false,
+      "count": 16,
+      "valid": true,
+      "group": [1, 0, 0, 34]
+    }
+  },
+  "selection_scope": "confidence-key-penalty-v3",
+  "complete": true,
+  "updated": "2026-09-21T03:52:05.2174801+00:00"
+}
