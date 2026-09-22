@@ -13,10 +13,10 @@ InFalsusCalc.exe
 程序会依次完成制卡、允许罚分 0/1/2 的配队、谱面等级复算和独立 HTML。完成后打开：
 
 ```text
-output\配方与回想成果.html
+docs\index.html
 ```
 
-仓库中的 `docs/index.html` 是已经计算完成的独立成果页。它内嵌全部数据、样式和脚本，可直接离线打开。
+该文件也是 GitHub Pages 发布的完整成果页，内嵌全部数据、样式和脚本，可直接离线打开。
 
 ## 主要功能
 
@@ -83,7 +83,7 @@ InFalsusCalc.exe debug run --encounter 105 --threads 20
 InFalsusCalc.exe debug confidence
 ```
 
-其他调试参数包括 `--goal`、`--output`、`--slice-seconds` 和 `--recipe-seconds`。制卡定位参数只影响制卡阶段，`--encounter`只影响配队阶段；只有31个回想在允许罚分0、1、2下的93套配队全部齐全后，程序才会替换最终HTML。
+其他调试参数包括 `--goal`、`--output`、`--slice-seconds` 和 `--recipe-seconds`。`--output`仅在需要临时成果副本时覆盖默认的`docs/index.html`；制卡定位参数只影响制卡阶段，`--encounter`只影响配队阶段；只有31个回想在允许罚分0、1、2下的93套配队全部齐全后，程序才会替换最终HTML。
 
 ## 计算范围
 
@@ -110,4 +110,4 @@ InFalsusCalc.exe debug confidence
 - `Web`：独立成果页模板，以及从当前游戏资源提取的技能图标、卡牌立绘与卡面图层。
 - `docs/index.html`：当前已发布的静态成果页。
 
-运行时产生的 `state`、`logs`、`output`、求解检查点和本地缓存不会提交到仓库。
+运行时产生的 `state`、`logs`、求解检查点和本地缓存不会提交到仓库。

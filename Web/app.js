@@ -189,7 +189,7 @@ function cardVisual(card,color,traits=[],interactive=false){
 /** 卡牌一览按当前颜色条件选取一种可用颜色，点击卡面打开详情。 */
 function libraryCard(card){
   const color=[...state.colors].sort().find(value=>card.colors.includes(value))||card.colors[0];
-  return `<div class="player-card library-card">${cardVisual(card,color,[],true)}<p class="card-meta">${colorNames[color]} · ${card.slots}槽 · 左${card.left}右${card.right}</p></div>`;
+  return `<div class="player-card library-card">${cardVisual(card,color,[],true)}</div>`;
 }
 
 /** 推荐配队复用卡牌一览的卡面，敌方卡保持紧凑信息布局。 */

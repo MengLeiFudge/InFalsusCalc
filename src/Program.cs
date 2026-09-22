@@ -413,7 +413,7 @@ internal static class Program
     private sealed class Options
     {
         /// <summary>完整成果的发布位置。</summary>
-        public string Output { get; set; } = Path.Combine(Storage.Root, "output", "配方与回想成果.html");
+        public string Output { get; set; } = Path.Combine(Storage.Root, "docs", "index.html");
         /// <summary>默认使用本机可用的全部逻辑CPU。</summary>
         public int Threads { get; set; } = Environment.ProcessorCount;
         /// <summary>仅计算指定配方；为空时生成完整成果。</summary>
