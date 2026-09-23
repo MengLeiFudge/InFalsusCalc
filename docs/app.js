@@ -97,17 +97,82 @@ const palette = (mask) =>
 const trait = (id) => DATA.catalog.traits.find((t) => t.id === id);
 const traitName = (id) => trait(id)?.name || `特性${id}`;
 
-/** 复用原生技能图层及完整说明，按展示场景选择是否显示阶级。 */
+/** 按原生比例合成技能图标；浮窗可复用图像而不创建第二个交互入口。 */
+function traitPicture(item, showTier = true) {
+  if (!item?.icon) return "";
+  const tierIcon = showTier && DATA.catalog.trait_tiers[String(item.tier)];
+  return `<span class="trait-icon"><img class="trait-frame" src="${item.frame}" alt=""><img class="trait-effect" src="${item.icon}" alt="">${tierIcon ? `<img class="trait-tier" src="${tierIcon}" alt="">` : ""}</span>`;
+}
+
+/** 技能入口通过统一顶层浮窗显示名称与精确效果说明。 */
 function traitTag(id, iconOnly = false, { showTier = true } = {}) {
-  const item = trait(id),
-    icon = item?.icon,
-    frame = item?.frame;
-  const tierIcon = showTier && item && DATA.catalog.trait_tiers[String(item.tier)];
-  const details = item?.description ? plain(item.description) : "没有可用的效果说明。";
-  const picture = icon
-    ? `<span class="trait-icon"><img class="trait-frame" src="${frame}" alt=""><img class="trait-effect" src="${icon}" alt="">${tierIcon ? `<img class="trait-tier" src="${tierIcon}" alt="">` : ""}</span>`
-    : "";
-  return `<span class="trait-tag${iconOnly ? " icon-only" : ""}" tabindex="0">${picture}<span class="trait-label">${esc(traitName(id))}</span><span class="trait-tooltip" role="tooltip"><strong>${esc(traitName(id))}</strong>${showTier && item?.tier ? `<small>技能等级 ${item.tier}</small>` : ""}<span>${esc(details)}</span></span></span>`;
+  return `<span class="trait-tag${iconOnly ? " icon-only" : ""}" data-trait="${id}" tabindex="0">${traitPicture(trait(id), showTier)}<span class="trait-label">${esc(traitName(id))}</span></span>`;
+}
+
+/** 当前顶层技能提示对应的入口，关闭或入口移除后释放。 */
+let traitAnchor = null;
+
+/** 关闭共享技能提示并移除入口上的无障碍关联。 */
+function hideTraitTooltip() {
+  traitAnchor?.removeAttribute("aria-describedby");
+  traitAnchor = null;
+  const tooltip = $("trait-tooltip");
+  if (tooltip.matches(":popover-open")) tooltip.hidePopover();
+}
+
+/** 优先放在入口右侧，空间不足时改左侧，并保持浮窗在视口内。 */
+function positionTraitTooltip() {
+  if (!traitAnchor) return;
+  if (!traitAnchor.isConnected) return hideTraitTooltip();
+  const rect = traitAnchor.getBoundingClientRect();
+  if (
+    !rect.width ||
+    !rect.height ||
+    rect.bottom <= 0 ||
+    rect.top >= innerHeight ||
+    rect.right <= 0 ||
+    rect.left >= innerWidth
+  )
+    return hideTraitTooltip();
+  const tooltip = $("trait-tooltip"),
+    box = tooltip.getBoundingClientRect();
+  let x = rect.right + 10;
+  if (x + box.width > innerWidth - 8) x = rect.left - box.width - 10;
+  tooltip.style.left = `${Math.max(8, Math.min(x, innerWidth - box.width - 8))}px`;
+  tooltip.style.top = `${Math.max(8, Math.min(rect.top + (rect.height - box.height) / 2, innerHeight - box.height - 8))}px`;
+}
+
+/** 原生popover进入顶层绘制，避免被技能所在的dialog及滚动容器裁切。 */
+function showTraitTooltip(anchor) {
+  if (traitAnchor === anchor) return;
+  hideTraitTooltip();
+  const item = trait(Number(anchor.dataset.trait));
+  if (!item) return;
+  const tooltip = $("trait-tooltip");
+  const tiers = [...new Set(item.drop_sources.flatMap((source) => source.tiers))].sort((a, b) => a - b);
+  const sources = item.drop_sources
+    .map(
+      (source) =>
+        `<span>${esc(DATA.catalog.encounters.find((encounter) => encounter.id === source.encounter).name)}</span>`
+    )
+    .join("");
+  // 阶数优先，每阶按红、黄、蓝、绿、紫排列，与颜色枚举中的绿蓝顺序不同。
+  const particles = tiers
+    .flatMap((tier) =>
+      [1, 2, 4, 3, 5].map(
+        (color) =>
+          `<img src="${DATA.catalog.particle_icons[color][tier]}" alt="${colorNames[color]}色${tier}阶粒子" width="50" height="45">`
+      )
+    )
+    .join("");
+  const origin = tiers.length
+    ? `<div class="trait-particle-icons">${particles}</div>${sources}`
+    : "<span>最后四个回想无掉落</span>";
+  tooltip.innerHTML = `${traitPicture(item, false)}<div class="trait-tooltip-copy"><strong>${esc(item.name)}</strong><span>${esc(plain(item.description) || "没有可用的效果说明。")}</span><div class="trait-tooltip-sources">${origin}</div></div>`;
+  traitAnchor = anchor;
+  anchor.setAttribute("aria-describedby", "trait-tooltip");
+  tooltip.showPopover();
+  positionTraitTooltip();
 }
 
 /** 按游戏六边坐标绘制掉落粒子的固定形状缩略图。 */
@@ -300,6 +365,7 @@ function sortLibraryCards(cards, recipeMap) {
 
 /** 只创建当前页卡面，避免大结果集同步解码数千个图片节点。 */
 function renderLibraryPage() {
+  hideTraitTooltip();
   const size = Number($("library-page-size").value),
     total = state.libraryResults.length,
     pages = Math.max(1, Math.ceil(total / size));
@@ -371,7 +437,7 @@ function clearLibraryFilters() {
 }
 
 /** 用同一套游戏资源合成玩家卡面；技能数组为空时保留空槽。 */
-function cardVisual(card, color, traits = [], { interactive = false, showChanges = false } = {}) {
+function cardVisual(card, color, traits = [], { interactive = false, showChanges = false, playerSlot = null } = {}) {
   const recipe = DATA.catalog.recipes.find((item) => item.id === card.recipe),
     sr = recipe?.is_sr ? 1 : 0,
     slots = Math.max(1, Math.min(3, card.slots));
@@ -380,12 +446,15 @@ function cardVisual(card, color, traits = [], { interactive = false, showChanges
     assetKey = `${color}-${sr}`,
     frame = assets.frames[`${assetKey}-${slots}`];
   const behavior = interactive
-    ? ` role="button" tabindex="0" data-library-layout="${card.id}" aria-label="查看${esc(card.name)}详情与拼法"`
+    ? ` role="button" tabindex="0" ${playerSlot === null ? `data-library-layout="${card.id}"` : `data-player-layout="${playerSlot}"`} aria-label="查看${esc(card.name)}详情与拼法"`
     : "";
   const otherColors = showChanges ? card.colors.filter((value) => value !== recipe.color).sort((a, b) => a - b) : [];
-  const changeIcons = otherColors.length
-    ? `<img class="card-change-backing" src="${assets.changes.backing}" alt="">${otherColors.map((value, index) => `<img class="card-change-icon" data-slot="${index}" src="${assets.changes[value]}" alt="可变为${colorNames[value]}色" title="可变为${colorNames[value]}色">`).join("")}`
-    : "";
+  const changeIcons = otherColors
+    .map(
+      (value, index) =>
+        `<img class="card-change-icon" data-slot="${index}" src="${assets.changes[value]}" alt="可变为${colorNames[value]}色" title="可变为${colorNames[value]}色">`
+    )
+    .join("");
   const slotsHtml = Array.from({ length: card.slots }, (_, index) =>
     traits[index]
       ? traitTag(traits[index], true)
@@ -410,7 +479,7 @@ function gameCard(card, slot, player = false) {
   const skills = card.traits.filter((id) => id > 1);
   if (!player)
     return `<article class="game-card enemy-card" style="--card-color:${colors[card.color]}"><div class="slot">第${slot + 1}槽 · ${colorNames[card.color]}</div><h4>${esc(card.name)}</h4><div class="stat"><small>卡牌攻击</small><span>${num(card.power)}</span></div><div class="stat"><small>卡牌防御</small><span>${num(card.fortitude)}</span></div><p class="range">左${card.left} · 右${card.right}</p><ul>${skills.length ? skills.map((id) => `<li>${traitTag(id)}</li>`).join("") : "<li>无特性</li>"}</ul></article>`;
-  return `<div class="player-card"><div class="player-slot">第${slot + 1}槽 · ${colorNames[card.color]} · 罚分${card.strikes}</div>${cardVisual(card, card.color, skills)}<p class="card-meta">${card.slots ? `${card.slots}槽 · 左${card.left}右${card.right}` : "0槽 · 范围无效"} · 内${num(card.inner_structure)} / 外${num(card.outer_structure)}</p><button class="secondary" data-player-layout="${slot}">查看拼法</button></div>`;
+  return `<div class="player-card">${cardVisual(card, card.color, skills, { interactive: true, playerSlot: slot })}</div>`;
 }
 
 /** 结算条显示真实数值，超过100%的击破进度仍保留数值，只将条形长度封顶。 */
@@ -420,6 +489,7 @@ function gauge(caption, value, left, right, enemy = false) {
 
 /** 进入回想页或切换条件时读取当前回想，旧请求完成后不得覆盖新选择。 */
 async function selectEncounter() {
+  hideTraitTooltip();
   const request = ++state.encounterRequest;
   const eid = Number($("encounter-select").value),
     maxStrikes = Number($("encounter-strikes").value),
@@ -451,7 +521,7 @@ async function selectEncounter() {
       `${encounter.chapter} · ${encounter.name} · ${encounter.mode === "connect" ? "连接" : "映像"}`;
     encounterDrops(encounter);
     $("battle-condition").textContent =
-      `允许罚分${maxStrikes} · 谱面等级${rating} · 配队搜索等级10 · 联觉开启 · 25个代表性全EXACT键 · 初始HP100`;
+      `允许总惩罚${maxStrikes} · 谱面等级${rating} · 配队搜索等级10 · 联觉开启 · 25个代表性全EXACT键 · 初始HP100`;
     $("battle-status").textContent = b.passed ? "可通关" : "此推荐尚未通关";
     $("battle-status").className = `badge ${b.passed ? "good" : "bad"}`;
     $("encounter-score").innerHTML =
@@ -548,6 +618,7 @@ async function loadBattleDetails() {
 
 /** 读取卡牌拼法并忽略失效请求；配队入口携带成品颜色与技能，一览入口使用本色。 */
 async function showLayout(identity, assignment = null, showGoals = true, craftedCard = null) {
+  hideTraitTooltip();
   const request = ++state.layoutRequest;
   const summary = DATA.templates[identity];
   state.layout = null;
@@ -613,7 +684,7 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
       })
       .join("");
     $("layout-card-details").innerHTML =
-      `<div><span>粒子实际用量</span><strong>Ⅰ ${card.tier_counts[0]} · Ⅱ ${card.tier_counts[1]} · Ⅲ ${card.tier_counts[2]}</strong></div><div><span>粒子总数</span><strong>${card.count}/${card.particle_limit}</strong></div>${strikeRows}<div><span>实际罚分</span><strong>${card.strikes}分（${num(card.retained_percent, card.strikes ? 2 : 0)}%）</strong></div>`;
+      `<div><span>粒子实际用量</span><strong>Ⅰ ${card.tier_counts[0]} · Ⅱ ${card.tier_counts[1]} · Ⅲ ${card.tier_counts[2]}</strong></div><div><span>粒子总数</span><strong>${card.count}/${card.particle_limit}</strong></div>${strikeRows}<div><span>总惩罚</span><strong>${card.strikes}分（${num(card.retained_percent, card.strikes ? 2 : 0)}%）</strong></div>`;
     $("layout-traits").innerHTML = traitList(card);
     drawLayout();
     $("save-svg").disabled = false;
@@ -685,7 +756,7 @@ function drawLayout() {
         h = Math.max(...points.map((c) => c[1])) - y0 + 1.2;
       const material = state.assignment?.find((m) => m.piece === i + 1),
         skills = material ? ` · ${material.traits.map(traitName).join("、")}` : "";
-      return `<button class="${state.piece === i + 1 ? "selected" : ""}" data-piece="${i + 1}" title="${shape.tier}阶 · Q=${p.q}, R=${p.r}${esc(skills)}">${i + 1}<svg viewBox="${x0} ${y0} ${w} ${h}">${points.map(([x, y]) => `<polygon points="${hexPoints(x, y)}" fill="${colors[p.color]}" stroke="#172933" stroke-width=".08"/>`).join("")}</svg><span>${p.q},${p.r}${material ? " · 带特性" : ""}</span></button>`;
+      return `<button class="${state.piece === i + 1 ? "selected" : ""}" data-piece="${i + 1}" title="${shape.tier}阶 · Q=${p.q}, R=${p.r}${esc(skills)}">${i + 1}<svg viewBox="${x0} ${y0} ${w} ${h}">${points.map(([x, y]) => `<polygon points="${hexPoints(x, y)}" fill="${colors[p.color]}" stroke="#172933" stroke-width=".08"/>`).join("")}</svg><span>${p.q},${p.r}</span></button>`;
     })
     .join("");
 }
@@ -896,6 +967,31 @@ function boot() {
       state.layout = null;
     }
   });
+  document.addEventListener("pointerover", (event) => {
+    const anchor = event.target.closest("[data-trait]");
+    if (anchor) showTraitTooltip(anchor);
+  });
+  document.addEventListener("pointerout", (event) => {
+    const anchor = event.target.closest("[data-trait]");
+    if (
+      anchor &&
+      anchor === traitAnchor &&
+      !anchor.contains(event.relatedTarget) &&
+      !anchor.contains(document.activeElement)
+    )
+      hideTraitTooltip();
+  });
+  document.addEventListener("focusin", (event) => {
+    const anchor = event.target.closest("[data-trait]");
+    if (anchor) showTraitTooltip(anchor);
+    else hideTraitTooltip();
+  });
+  document.addEventListener("focusout", (event) => {
+    if (traitAnchor && !traitAnchor.contains(event.relatedTarget)) hideTraitTooltip();
+  });
+  document.addEventListener("close", hideTraitTooltip, true);
+  document.addEventListener("scroll", positionTraitTooltip, true);
+  window.addEventListener("resize", positionTraitTooltip);
   const layoutBoard = $("layout-board");
   layoutBoard.addEventListener("wheel", zoomLayout, { passive: false });
   layoutBoard.addEventListener("pointerdown", startLayoutPan);
@@ -903,11 +999,12 @@ function boot() {
   layoutBoard.addEventListener("pointerup", endLayoutPan);
   layoutBoard.addEventListener("pointercancel", endLayoutPan);
   $("save-svg").addEventListener("click", saveSvg);
-  $("results").addEventListener("keydown", (event) => {
-    const card = event.target.closest("[data-library-layout]");
-    if (card && (event.key === "Enter" || event.key === " ")) {
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") hideTraitTooltip();
+    const card = event.target.closest("[data-library-layout], [data-player-layout]");
+    if (card && !event.target.closest("[data-trait]") && (event.key === "Enter" || event.key === " ")) {
       event.preventDefault();
-      showLayout(card.dataset.libraryLayout, null, false);
+      card.click();
     }
   });
   document.addEventListener("click", (event) => {
@@ -917,12 +1014,14 @@ function boot() {
       showLayout(libraryCard.dataset.libraryLayout, null, false);
       return;
     }
+    const playerCard = event.target.closest("[data-player-layout]");
+    if (playerCard && state.result) {
+      const card = state.result.cards[Number(playerCard.dataset.playerLayout)];
+      showLayout(card.template, card.materials, false, card);
+      return;
+    }
     const button = event.target.closest("button");
     if (!button) return;
-    if (button.dataset.playerLayout !== undefined && state.result) {
-      const card = state.result.cards[Number(button.dataset.playerLayout)];
-      showLayout(card.template, card.materials, true, card);
-    }
     if (button.dataset.piece) {
       state.piece = state.piece === Number(button.dataset.piece) ? 0 : Number(button.dataset.piece);
       drawLayout();

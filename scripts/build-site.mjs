@@ -139,11 +139,31 @@ function chunk(value) {
   return path;
 }
 
+/** 效能999的特性来源只看游戏顺序最后四个回想，粒子须有正权重且能抽取特性。 */
+const traitDrops = report.catalog.encounters
+  .toSorted((a, b) => a.order - b.order)
+  .slice(-4)
+  .map((encounter) => ({
+    encounter: encounter.id,
+    traits: encounter.drops.traits.filter((trait) => trait.weight > 0).map((trait) => trait.id),
+    tiers: [
+      ...new Set(
+        encounter.drops.items
+          .filter(
+            (drop) => drop.weight > 0 && drop.trait_rolls > 0 && drop.min_potency <= 999 && drop.max_potency >= 999
+          )
+          .map((drop) => drop.tier)
+      )
+    ].sort((a, b) => a - b)
+  }));
 const common = chunk({
   // 图像按原生TraitSpecification.Icon与主动/被动材质选择，不使用报告中的效果归类推测。
   traits: report.catalog.traits.map((trait) => ({
     ...pick(trait, ["id", "name", "description", "tier"]),
-    ...pick(traitVisuals.traits[trait.id], ["icon", "frame"])
+    ...pick(traitVisuals.traits[trait.id], ["icon", "frame"]),
+    drop_sources: traitDrops
+      .filter((drop) => drop.tiers.length && drop.traits.includes(trait.id))
+      .map((drop) => pick(drop, ["encounter", "tiers"]))
   })),
   shapes: report.catalog.shapes.map((shape) => ({
     id: shape.Id.Value,
@@ -152,7 +172,7 @@ const common = chunk({
     cells: shape.Segments.map((cell) => [cell.Q, cell.R])
   })),
   strike_names: craftingUi.names.slice(0, 4),
-  ...pick(assets, ["trait_border", "trait_tiers", "strike_icons"])
+  ...pick(assets, ["trait_border", "trait_tiers", "strike_icons", "particle_icons"])
 });
 /** 投影当前拼法的容忍及可用粒子上限；与报告中的净罚分核对，避免重复计算或展示过期规则。 */
 function craftingDetails(card, board) {
