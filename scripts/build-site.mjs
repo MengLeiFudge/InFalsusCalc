@@ -279,7 +279,17 @@ for (const encounter of report.catalog.encounters) {
   });
 }
 const cardAssets = {
-  ...pick(assets.card_assets, ["art", "frames", "stat_icons", "tiers", "levels", "icons", "ranks", "changes"]),
+  ...pick(assets.card_assets, [
+    "art",
+    "enemy_art",
+    "frames",
+    "stat_icons",
+    "tiers",
+    "levels",
+    "icons",
+    "ranks",
+    "changes"
+  ]),
   common: pick(assets.card_assets.common, [
     "art-frame",
     "connector-top",

@@ -1101,6 +1101,12 @@ summary {
   isolation: isolate;
   filter: drop-shadow(0 9px 10px #0008);
 }
+/* 无色敌卡没有原生中型卡框，只将框饰和属性符号去色。 */
+.game-card-visual.neutral .card-frame,
+.game-card-visual.neutral .card-tier-backing,
+.game-card-visual.neutral .card-stats img {
+  filter: grayscale(1);
+}
 .card-art {
   position: absolute;
   z-index: 1;

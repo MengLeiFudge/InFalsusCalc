@@ -436,14 +436,14 @@ function clearLibraryFilters() {
   filterLibrary();
 }
 
-/** 用同一套游戏资源合成玩家卡面；技能数组为空时保留空槽。 */
+/** 玩家与敌方复用游戏卡面；无配方的敌方使用封面且不显示等级图案。 */
 function cardVisual(card, color, traits = [], { interactive = false, showChanges = false, playerSlot = null } = {}) {
   const recipe = DATA.catalog.recipes.find((item) => item.id === card.recipe),
     sr = recipe?.is_sr ? 1 : 0,
     slots = Math.max(1, Math.min(3, card.slots));
   const assets = DATA.catalog.card_assets,
-    rank = assets.ranks[String(recipe.tier)],
-    assetKey = `${color}-${sr}`,
+    rank = recipe ? assets.ranks[String(recipe.tier)] : null,
+    assetKey = `${color || 1}-${sr}`,
     frame = assets.frames[`${assetKey}-${slots}`];
   const behavior = interactive
     ? ` role="button" tabindex="0" ${playerSlot === null ? `data-library-layout="${card.id}"` : `data-player-layout="${playerSlot}"`} aria-label="查看${esc(card.name)}详情与拼法"`
@@ -465,7 +465,10 @@ function cardVisual(card, color, traits = [], { interactive = false, showChanges
   // 游戏leftRangePips从靠近中心的一格开始，向左依次展开。
   const leftPips = [34.48, 30.5, 26.53, 22.55].map((x, index) => pip("left", index, x, card.left)).join("");
   const rightPips = [54.36, 58.34, 62.31, 66.3].map((x, index) => pip("right", index, x, card.right)).join("");
-  return `<article class="game-card-visual${interactive ? " interactive" : ""}" style="--card-color:${colors[color]}"${behavior}><img class="card-art" loading="lazy" decoding="async" src="${assets.art[card.recipe]}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt=""><img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色"><img class="card-level-icon" style="height:${(rank.height / 820) * 100}%" src="${rank.image}" alt="等级${recipe.tier}"><img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt="">${changeIcons}<img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4><div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div></article>`;
+  const levelIcon = rank
+    ? `<img class="card-level-icon" style="height:${(rank.height / 820) * 100}%" src="${rank.image}" alt="等级${recipe.tier}">`
+    : "";
+  return `<article class="game-card-visual${interactive ? " interactive" : ""}${color === 0 ? " neutral" : ""}" style="--card-color:${colors[color]}"${behavior}><img class="card-art" loading="lazy" decoding="async" src="${recipe ? assets.art[card.recipe] : assets.enemy_art}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt="">${color ? `<img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色">` : ""}${levelIcon}<img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt="">${changeIcons}<img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4><div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div></article>`;
 }
 
 /** 一览始终显示本色，其他可用颜色由卡面侧边的原生标记表达。 */
@@ -474,11 +477,11 @@ function libraryCard(card) {
   return `<div class="player-card library-card">${cardVisual(card, color, [], { interactive: true, showChanges: true })}</div>`;
 }
 
-/** 推荐配队复用卡牌一览的卡面，敌方卡保持紧凑信息布局。 */
+/** 两方均使用同一卡面；敌方按位置命名，只有推荐配队提供拼法入口。 */
 function gameCard(card, slot, player = false) {
   const skills = card.traits.filter((id) => id > 1);
   if (!player)
-    return `<article class="game-card enemy-card" style="--card-color:${colors[card.color]}"><div class="slot">第${slot + 1}槽 · ${colorNames[card.color]}</div><h4>${esc(card.name)}</h4><div class="stat"><small>卡牌攻击</small><span>${num(card.power)}</span></div><div class="stat"><small>卡牌防御</small><span>${num(card.fortitude)}</span></div><p class="range">左${card.left} · 右${card.right}</p><ul>${skills.length ? skills.map((id) => `<li>${traitTag(id)}</li>`).join("") : "<li>无特性</li>"}</ul></article>`;
+    return `<div class="player-card">${cardVisual({ ...card, name: `卡牌${slot + 1}`, slots: skills.length }, card.color, skills)}</div>`;
   return `<div class="player-card">${cardVisual(card, card.color, skills, { interactive: true, playerSlot: slot })}</div>`;
 }
 

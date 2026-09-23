@@ -63,6 +63,7 @@
     "3": "assets/traits/tiers/3.webp"
   },
   "card_assets": {
+    "enemy_art": "assets/cards/enemy-cover.webp",
     "art": {
       "1": "assets/cards/art/1.webp",
       "2": "assets/cards/art/2.webp",
