@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "catalog_id": "e32417bd7fa5886ce5fd6345",
+  "source": "当前版本角色全解锁容忍，与Calculator/src/Craft.cs的Craft.Skills一致；名称来自游戏StringsMapping的41至45。",
+  "names": ["粒子过载", "粒子超界", "粒子重叠", "粒子乖离", "虚伪错误"],
+  "character_capacity": [15, 10, 17, 15, 20],
+  "character_tolerances": [[0, 1, 1, 3], [0, 4, 2, 0], [0, 2, 3, 3], [0, 3, 1, 4], [0, 1, 4, 1]]
+}

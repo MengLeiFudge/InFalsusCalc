@@ -12,6 +12,7 @@ const source = readFileSync(input, "utf8").replace(/^\uFEFF/, "");
 const report = JSON.parse(source);
 const catalog = JSON.parse(readFileSync(join(root, "Calculator/Data/catalog.json"), "utf8"));
 const assets = JSON.parse(readFileSync(join(root, "reports/assets.json"), "utf8"));
+const craftingUi = JSON.parse(readFileSync(join(root, "reports/crafting-ui.json"), "utf8"));
 
 /** 按网页消费字段显式投影；缺失字段阻止发布，避免生成不完整页面。 */
 function pick(value, fields) {
@@ -30,6 +31,8 @@ function sameIds(actual, expected) {
 
 if (
   report.schema !== 14 ||
+  craftingUi.schema !== 1 ||
+  craftingUi.catalog_id !== catalog.id ||
   report.catalog.id !== catalog.id ||
   !sameIds(
     report.catalog.recipes.map((r) => r.id),
@@ -41,6 +44,10 @@ if (
   )
 ) {
   throw new Error("结果版本或资源范围不兼容，网页数据未更新。");
+}
+for (const recipe of report.catalog.recipes) {
+  const order = report.recipes[recipe.id]?.ChronologicalIndex;
+  if (!Number.isInteger(order) || order < 0) throw new Error(`卡牌 ${recipe.id} 缺少有效的游戏默认顺序。`);
 }
 for (const encounter of report.catalog.encounters) {
   for (let limit = 0; limit <= 2; limit++) {
@@ -102,6 +109,7 @@ const detailFields = [
   "base_fortitude",
   "retained_percent",
   "penalties",
+  "raw_penalties",
   "tier_counts",
   "count",
   "available_traits",
@@ -135,8 +143,38 @@ const common = chunk({
     tier: shape.Tier,
     cells: shape.Segments.map((cell) => [cell.Q, cell.R])
   })),
-  ...pick(assets, ["trait_icons", "trait_border", "trait_frames", "trait_tiers"])
+  strike_names: craftingUi.names.slice(0, 4),
+  ...pick(assets, ["trait_icons", "trait_border", "trait_frames", "trait_tiers", "strike_icons"])
 });
+/** 投影当前拼法的容忍及可用粒子上限；与报告中的净罚分核对，避免重复计算或展示过期规则。 */
+function craftingDetails(card, board) {
+  const base = craftingUi.character_tolerances[board.Character];
+  const capacity = craftingUi.character_capacity[board.Character];
+  if (!base || base.length !== 4 || !Number.isInteger(capacity) || capacity < 0)
+    throw new Error(`配方 ${card.recipe} 缺少角色制卡上限。`);
+  const limits = [...base];
+  let particleLimit = Math.min(capacity, board.MaxIota);
+  for (const index of card.active) {
+    for (const effect of board.BonusAreas[index].BonusEffects) {
+      if (effect.EffectType >= 9 && effect.EffectType <= 11)
+        limits[effect.EffectType - 8] += effect.Parameters[0].IntValue;
+      if (effect.EffectType === 15) particleLimit -= effect.Parameters[0].IntValue;
+    }
+  }
+  if (
+    !Number.isInteger(particleLimit) ||
+    particleLimit < 0 ||
+    Math.max(0, card.count - particleLimit) !== card.raw_penalties[0] ||
+    limits.some(
+      (limit, index) =>
+        !Number.isInteger(limit) ||
+        limit < 0 ||
+        Math.max(0, card.raw_penalties[index] - limit) !== card.penalties[index]
+    )
+  )
+    throw new Error(`模板 ${card.id} 的罚分容忍与计算结果不一致。`);
+  return { strike_tolerances: limits, particle_limit: particleLimit };
+}
 const recipes = {};
 for (const recipe of report.catalog.recipes) {
   const cards = published.filter((card) => card.recipe === recipe.id && needed.has(card.id));
@@ -153,6 +191,7 @@ for (const recipe of report.catalog.recipes) {
         card.id,
         {
           ...pick(card, detailFields),
+          ...craftingDetails(card, board),
           placements: card.placements.map((piece) => pick(piece, ["id", "q", "r", "color", "cells"]))
         }
       ])
@@ -212,7 +251,7 @@ for (const encounter of report.catalog.encounters) {
   });
 }
 const cardAssets = {
-  ...pick(assets.card_assets, ["art", "frames", "stat_icons", "tiers", "levels", "icons"]),
+  ...pick(assets.card_assets, ["art", "frames", "stat_icons", "tiers", "levels", "icons", "ranks", "changes"]),
   common: pick(assets.card_assets.common, [
     "art-frame",
     "connector-top",
@@ -228,7 +267,10 @@ const index = {
   common,
   recipes,
   catalog: {
-    recipes: report.catalog.recipes.map((recipe) => pick(recipe, ["id", "name", "tier", "is_sr"])),
+    // 前端以此数组的顺序作为“卡牌默认顺序”，使用游戏序号而非配方编号。
+    recipes: report.catalog.recipes
+      .toSorted((a, b) => report.recipes[a.id].ChronologicalIndex - report.recipes[b.id].ChronologicalIndex)
+      .map((recipe) => pick(recipe, ["id", "name", "tier", "color", "is_sr"])),
     encounters,
     card_assets: cardAssets,
     trait_border: assets.trait_border

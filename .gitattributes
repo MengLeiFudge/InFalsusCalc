@@ -8,6 +8,7 @@
 *.html text eol=lf
 *.json text eol=lf
 *.asm text eol=lf
+*.ico binary
 *.png binary
 *.webp binary
 *.ps1 text eol=crlf

@@ -1,4 +1,9 @@
 {
+  "strike_icons": {
+    "excess": "assets/cards/strikes/excess.webp",
+    "used": "assets/cards/strikes/used.webp",
+    "unused": "assets/cards/strikes/unused.webp"
+  },
   "trait_icons": {
     "burst": "assets/traits/burst.webp",
     "recover": "assets/traits/recover.webp",
@@ -166,6 +171,21 @@
       "range-3": "assets/cards/common/range-3.webp",
       "range-4": "assets/cards/common/range-4.webp",
       "range-center": "assets/cards/common/range-center.webp"
+    },
+    "changes": {
+      "1": "assets/cards/changes/1.webp",
+      "2": "assets/cards/changes/2.webp",
+      "3": "assets/cards/changes/3.webp",
+      "4": "assets/cards/changes/4.webp",
+      "5": "assets/cards/changes/5.webp",
+      "backing": "assets/cards/changes/backing.webp"
+    },
+    "ranks": {
+      "1": { "image": "assets/cards/ranks/1.webp", "height": 14 },
+      "2": { "image": "assets/cards/ranks/2.webp", "height": 23 },
+      "3": { "image": "assets/cards/ranks/3.webp", "height": 32 },
+      "4": { "image": "assets/cards/ranks/4.webp", "height": 43 },
+      "5": { "image": "assets/cards/ranks/5.webp", "height": 48 }
     },
     "levels": {
       "1": "assets/cards/levels/1.webp",

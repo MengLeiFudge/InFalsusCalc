@@ -3,34 +3,39 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>In Falsus · 配方与回想成果</title>
+    <title>In Falsus 制卡配队计算器</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" sizes="32x32">
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
     <header class="topbar"
       ><div
-        ><p class="eyebrow">IN FALSUS / COLLECTION</p><h1>配方与回想成果</h1
-        ><p class="subtitle">只查询已经计算并保存的配方与回想成果。</p></div
+        ><p class="eyebrow">IN FALSUS / COLLECTION</p>
+        <div class="title-row"
+          ><h1>In Falsus 制卡配队计算器</h1>
+          <button
+            id="show-conditions"
+            class="secondary"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="conditions-dialog"
+            >前置条件一览</button
+          >
+        </div></div
       ><div class="header-meta"
         ><span id="summary" class="badge"></span><span id="created" class="help"></span></div
       ></header
     >
     <main>
-      <div class="conditions"
-        ><span>完全探索</span><span>角色技能全解锁</span><span>效能999</span><span>材料充足</span
-        ><span>全EXACT · 25代表键</span><span>配队按谱面等级10搜索 · 可切换1-20级</span><span>联觉开启</span
-        ><span>初始HP100</span></div
-      >
       <div id="notice" class="notice" hidden></div>
       <nav class="tabs" aria-label="成果分类"
         ><button class="tab active" data-tab="recipes" type="button">卡牌一览</button
         ><button class="tab" data-tab="encounters" type="button">回想配队</button></nav
       >
       <section id="recipes-tab" class="tab-content">
-        <div class="panel card-library-filters">
-          <div class="filter-heading"
-            ><h2>卡牌筛选</h2><button id="clear-recipe-filters" class="secondary" type="button">全部重置</button></div
-          >
+        <details class="panel library-controls card-library-filters" open>
+          <summary><h2>卡牌筛选</h2></summary>
+          <button id="clear-recipe-filters" class="secondary filter-reset" type="button">全部重置</button>
           <div class="base-filter-grid">
             <section class="visual-filter-block level-filter"
               ><h3>等级</h3
@@ -43,6 +48,7 @@
                 id="include-chromatic"
                 type="button"
                 class="filter-tile chromatic-filter-tile"
+                title="仅在选择颜色时生效：关闭只匹配本色，开启也匹配可变颜色。"
                 aria-pressed="false"
                 >包含可变更色彩的卡牌</button
               ></section
@@ -71,116 +77,113 @@
               ></div
             >
           </div>
-          <details class="advanced-filters" open
-            ><summary>进阶条件</summary
-            ><div class="advanced-filter-grid">
-              <label class="number-filter"
-                >槽位<span
-                  ><select id="slots-op" aria-label="槽位比较方式"
-                    ><option value="">不限</option><option value="eq">等于</option><option value="gt">大于</option
-                    ><option value="gte">大于等于</option><option value="lt">小于</option
-                    ><option value="lte">小于等于</option></select
-                  ><select id="slots-value" aria-label="槽位数值"
-                    ><option value="0">0</option><option value="1">1</option><option value="2">2</option
-                    ><option value="3">3</option></select
-                  ></span
-                ></label
-              >
-              <label class="number-filter"
-                >左范围<span
-                  ><select id="left-op" aria-label="左范围比较方式"
-                    ><option value="">不限</option><option value="eq">等于</option><option value="gt">大于</option
-                    ><option value="gte">大于等于</option><option value="lt">小于</option
-                    ><option value="lte">小于等于</option></select
-                  ><select id="left-value" aria-label="左范围数值"
-                    ><option value="0">0</option><option value="1">1</option><option value="2">2</option
-                    ><option value="3">3</option><option value="4">4</option></select
-                  ></span
-                ></label
-              >
-              <label class="number-filter"
-                >右范围<span
-                  ><select id="right-op" aria-label="右范围比较方式"
-                    ><option value="">不限</option><option value="eq">等于</option><option value="gt">大于</option
-                    ><option value="gte">大于等于</option><option value="lt">小于</option
-                    ><option value="lte">小于等于</option></select
-                  ><select id="right-value" aria-label="右范围数值"
-                    ><option value="0">0</option><option value="1">1</option><option value="2">2</option
-                    ><option value="3">3</option><option value="4">4</option></select
-                  ></span
-                ></label
-              >
-              <label class="number-filter"
-                >罚分<span
-                  ><select id="strikes-op" aria-label="罚分比较方式"
-                    ><option value="">不限</option><option value="eq">等于</option><option value="gt">大于</option
-                    ><option value="gte">大于等于</option><option value="lt">小于</option
-                    ><option value="lte">小于等于</option></select
-                  ><select id="strikes-value" aria-label="罚分数值"
-                    ><option value="0">0</option><option value="1">1</option><option value="2">2</option></select
-                  ></span
-                ></label
-              >
-            </div></details
+          <div class="advanced-filter-grid">
+            <label class="number-filter"
+              >槽位<span
+                ><select id="slots-op" aria-label="槽位比较方式"
+                  ><option value="">不限</option><option value="eq">=</option><option value="gt">&gt;</option
+                  ><option value="gte">&gt;=</option><option value="lt">&lt;</option
+                  ><option value="lte">&lt;=</option></select
+                ><select id="slots-value" aria-label="槽位数值"
+                  ><option value="0">0</option><option value="1">1</option><option value="2">2</option
+                  ><option value="3">3</option></select
+                ></span
+              ></label
+            >
+            <label class="number-filter"
+              >左范围<span
+                ><select id="left-op" aria-label="左范围比较方式"
+                  ><option value="">不限</option><option value="eq">=</option><option value="gt">&gt;</option
+                  ><option value="gte">&gt;=</option><option value="lt">&lt;</option
+                  ><option value="lte">&lt;=</option></select
+                ><select id="left-value" aria-label="左范围数值"
+                  ><option value="0">0</option><option value="1">1</option><option value="2">2</option
+                  ><option value="3">3</option><option value="4">4</option></select
+                ></span
+              ></label
+            >
+            <label class="number-filter"
+              >右范围<span
+                ><select id="right-op" aria-label="右范围比较方式"
+                  ><option value="">不限</option><option value="eq">=</option><option value="gt">&gt;</option
+                  ><option value="gte">&gt;=</option><option value="lt">&lt;</option
+                  ><option value="lte">&lt;=</option></select
+                ><select id="right-value" aria-label="右范围数值"
+                  ><option value="0">0</option><option value="1">1</option><option value="2">2</option
+                  ><option value="3">3</option><option value="4">4</option></select
+                ></span
+              ></label
+            >
+            <label class="number-filter"
+              >罚分<span
+                ><select id="strikes-op" aria-label="罚分比较方式"
+                  ><option value="">不限</option><option value="eq">=</option><option value="gt">&gt;</option
+                  ><option value="gte">&gt;=</option><option value="lt">&lt;</option
+                  ><option value="lte">&lt;=</option></select
+                ><select id="strikes-value" aria-label="罚分数值"
+                  ><option value="0">0</option><option value="1">1</option><option value="2">2</option></select
+                ></span
+              ></label
+            >
+          </div>
+        </details>
+        <details class="panel library-controls" open>
+          <summary><h2>卡牌排序</h2><span id="recipe-count" class="badge"></span></summary>
+          <div class="sort-controls"
+            ><label
+              >条件1<span
+                ><select id="sort-field-1"
+                  ><option value="order" selected>卡牌默认顺序</option><option value="power">卡牌攻击</option
+                  ><option value="fortitude">卡牌防御</option><option value="total">攻防之和</option
+                  ><option value="range">范围总和</option><option value="left">左范围</option
+                  ><option value="right">右范围</option><option value="slots">槽位数</option
+                  ><option value="strikes">总罚分</option><option value="tier">等级</option
+                  ><option value="name">名称</option></select
+                ><select id="sort-direction-1" aria-label="条件1方向"
+                  ><option value="desc">降序</option><option value="asc" selected>升序</option></select
+                ></span
+              ></label
+            ><label
+              >条件2<span
+                ><select id="sort-field-2"
+                  ><option value="" selected>不设置</option><option value="order">卡牌默认顺序</option
+                  ><option value="power">卡牌攻击</option><option value="fortitude">卡牌防御</option
+                  ><option value="total">攻防之和</option><option value="range">范围总和</option
+                  ><option value="left">左范围</option><option value="right">右范围</option
+                  ><option value="slots">槽位数</option><option value="strikes">总罚分</option
+                  ><option value="tier">等级</option><option value="name">名称</option></select
+                ><select id="sort-direction-2" aria-label="条件2方向"
+                  ><option value="desc">降序</option><option value="asc">升序</option></select
+                ></span
+              ></label
+            ><label
+              >条件3<span
+                ><select id="sort-field-3"
+                  ><option value="" selected>不设置</option><option value="order">卡牌默认顺序</option
+                  ><option value="power">卡牌攻击</option><option value="fortitude">卡牌防御</option
+                  ><option value="total">攻防之和</option><option value="range">范围总和</option
+                  ><option value="left">左范围</option><option value="right">右范围</option
+                  ><option value="slots">槽位数</option><option value="strikes">总罚分</option
+                  ><option value="tier">等级</option><option value="name">名称</option></select
+                ><select id="sort-direction-3" aria-label="条件3方向"
+                  ><option value="desc">降序</option><option value="asc">升序</option></select
+                ></span
+              ></label
+            ></div
           >
-        </div>
-        <div class="section-intro"><h2>卡牌筛选结果</h2><span id="recipe-count" class="badge"></span></div>
-        <div class="sort-controls panel"
-          ><label
-            >条件1<span
-              ><select id="sort-field-1"
-                ><option value="order" selected>卡牌默认顺序</option><option value="power">卡牌攻击</option
-                ><option value="fortitude">卡牌防御</option><option value="total">攻防之和</option
-                ><option value="range">范围总和</option><option value="left">左范围</option
-                ><option value="right">右范围</option><option value="slots">槽位数</option
-                ><option value="strikes">总罚分</option><option value="tier">等级</option
-                ><option value="name">名称</option></select
-              ><select id="sort-direction-1" aria-label="条件1方向"
-                ><option value="desc">降序</option><option value="asc" selected>升序</option></select
-              ></span
-            ></label
-          ><label
-            >条件2<span
-              ><select id="sort-field-2"
-                ><option value="" selected>不设置</option><option value="order">卡牌默认顺序</option
-                ><option value="power">卡牌攻击</option><option value="fortitude">卡牌防御</option
-                ><option value="total">攻防之和</option><option value="range">范围总和</option
-                ><option value="left">左范围</option><option value="right">右范围</option
-                ><option value="slots">槽位数</option><option value="strikes">总罚分</option
-                ><option value="tier">等级</option><option value="name">名称</option></select
-              ><select id="sort-direction-2" aria-label="条件2方向"
-                ><option value="desc">降序</option><option value="asc">升序</option></select
-              ></span
-            ></label
-          ><label
-            >条件3<span
-              ><select id="sort-field-3"
-                ><option value="" selected>不设置</option><option value="order">卡牌默认顺序</option
-                ><option value="power">卡牌攻击</option><option value="fortitude">卡牌防御</option
-                ><option value="total">攻防之和</option><option value="range">范围总和</option
-                ><option value="left">左范围</option><option value="right">右范围</option
-                ><option value="slots">槽位数</option><option value="strikes">总罚分</option
-                ><option value="tier">等级</option><option value="name">名称</option></select
-              ><select id="sort-direction-3" aria-label="条件3方向"
-                ><option value="desc">降序</option><option value="asc">升序</option></select
-              ></span
-            ></label
-          ></div
-        >
+        </details>
         <div id="results" class="card-strip library-card-grid"></div>
         <nav id="library-pagination" class="library-pagination" aria-label="卡牌结果分页"
           ><label
             >每页<select id="library-page-size"
-              ><option value="20" selected>20张</option><option value="50">50张</option></select
+              ><option value="10">10张</option><option value="20" selected>20张</option>
+              <option value="30">30张</option><option value="50">50张</option><option value="100">100张</option></select
             ></label
           ><button id="library-page-prev" type="button" class="secondary" title="上一页" aria-label="上一页">←</button
           ><span id="library-page-status"></span
           ><button id="library-page-next" type="button" class="secondary" title="下一页" aria-label="下一页"
             >→</button
           ></nav
-        >
-        <p class="help explanation"
-          >结果来自当前统一最终卡牌模板库。先按等级、最终颜色和“包含可变更色彩的卡牌”确定基础范围，再搜索并选择一个或多个基础卡，最后叠加槽位、左范围、右范围和罚分条件；不同维度以AND关系组合，同一多选维度内部为OR。</p
         >
       </section>
       <section id="encounters-tab" class="tab-content" hidden>
@@ -236,24 +239,62 @@
         </div>
       </section>
     </main>
-    <dialog id="layout-dialog"
-      ><div class="dialog-header"
-        ><div
-          ><p id="layout-goals" class="eyebrow"></p><h2 id="layout-title">卡牌详情</h2
-          ><p id="layout-stats" class="help"></p></div
-        ><button id="close-layout" class="secondary" type="button">关闭</button></div
-      ><div id="layout-card-details" class="layout-card-details"></div
-      ><div class="layout-tools"
-        ><label class="check"><input id="layout-flip" type="checkbox">上下翻转</label
-        ><button id="save-svg" class="secondary" type="button">保存拼法SVG</button></div
-      ><div id="layout-board" class="layout-board"></div><div id="piece-list" class="piece-list"></div
-      ><p class="help">编号对应一块粒子；同格多个编号表示重叠。点击粒子清单高亮整块。坐标使用游戏Q、R轴。</p
-      ><details
-        ><summary>这张卡可以选择的特性</summary><div id="layout-traits" class="trait-list"></div></details
-      ></dialog
-    >
+    <dialog id="conditions-dialog" aria-labelledby="conditions-title">
+      <div class="dialog-header">
+        <h2 id="conditions-title">前置条件一览</h2>
+        <button id="close-conditions" class="secondary" type="button">关闭</button>
+      </div>
+      <ul class="conditions-list">
+        <li>完全探索</li>
+        <li>角色技能全解锁</li>
+        <li>效能999</li>
+        <li>材料充足</li>
+        <li>全EXACT · 25代表键</li>
+        <li>配队按谱面等级10搜索 · 可切换1-20级</li>
+        <li>联觉开启</li>
+        <li>初始HP100</li>
+      </ul>
+    </dialog>
+    <dialog id="layout-dialog">
+      <div class="dialog-header">
+        <div
+          ><p id="layout-goals" class="eyebrow"></p><h2 id="layout-title">卡牌详情</h2></div
+        >
+        <div class="dialog-actions">
+          <button
+            id="show-traits"
+            class="secondary"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="traits-dialog"
+            disabled
+            >可用特性一览</button
+          >
+          <button id="save-svg" class="secondary" type="button">保存拼法SVG</button>
+          <button id="close-layout" class="secondary" type="button">关闭</button>
+        </div>
+      </div>
+      <div class="layout-content">
+        <aside class="layout-overview">
+          <div id="layout-card"></div>
+          <p id="layout-stats" class="help"></p>
+          <div id="layout-card-details" class="layout-card-details"></div>
+        </aside>
+        <div class="layout-workspace">
+          <p class="help layout-instructions">左键移动，滚轮缩放，点击粒子清单可高亮显示对应粒子。</p>
+          <div id="layout-board" class="layout-board"></div>
+          <div id="piece-list" class="piece-list"></div>
+        </div>
+      </div>
+    </dialog>
+    <dialog id="traits-dialog" aria-labelledby="traits-title">
+      <div class="dialog-header">
+        <h2 id="traits-title">可用特性一览</h2>
+        <button id="close-traits" class="secondary" type="button">关闭</button>
+      </div>
+      <div id="layout-traits" class="trait-list"></div>
+    </dialog>
     <div id="toast" role="status" hidden></div>
-    <footer>本页只展示预先计算的结果，不在浏览器中运行求解。游戏规则来自安装资源与原生代码静态分析。</footer>
     <script>
     const notice = document.getElementById("notice");
     if (location.protocol === "file:") {

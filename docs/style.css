@@ -1,4 +1,5 @@
 :root {
+  --min-font-size: 12px;
   color-scheme: dark;
   --bg: #0e151d;
   --panel: #18222c;
@@ -102,7 +103,7 @@ p {
   gap: 22px;
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: var(--min-font-size);
   letter-spacing: 2.6px;
   color: var(--accent);
   margin: 0;
@@ -119,7 +120,7 @@ p {
   align-items: flex-end;
 }
 .badge {
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: #b7c9d7;
   border: 1px solid var(--line);
   padding: 5px 11px;
@@ -134,23 +135,33 @@ p {
   color: var(--red);
   border-color: #855555;
 }
+small {
+  font-size: var(--min-font-size);
+}
 .help {
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--min-font-size);
 }
-.conditions {
+.title-row {
   display: flex;
-  gap: 8px;
+  align-items: center;
   flex-wrap: wrap;
-  padding-bottom: 20px;
+  gap: 10px 20px;
 }
-.conditions span {
-  font-size: 11px;
-  color: #a7becb;
-  background: #192832;
-  border: 1px solid #2b424e;
-  padding: 3px 10px;
-  border-radius: 4px;
+.title-row h1 {
+  margin: 0;
+}
+.title-row button {
+  flex-shrink: 0;
+}
+#conditions-dialog {
+  width: min(560px, 94vw);
+}
+.conditions-list {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding-left: 20px;
 }
 main {
   max-width: 1500px;
@@ -225,33 +236,79 @@ main {
   flex: 0 0 100px;
   height: 41px;
 }
-.card-library-filters {
-  margin-bottom: 20px;
+.tab-content > details.library-controls {
+  margin: 0 0 16px;
 }
-.filter-heading {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 18px;
+.library-controls > summary {
+  min-height: 36px;
+  line-height: 36px;
 }
-.filter-heading h2,
-.filter-heading p {
+.library-controls[open] > summary {
+  margin-bottom: 12px;
+}
+.library-controls > summary h2 {
+  display: inline;
   margin: 0;
+  font-size: 16px;
+  color: var(--text);
+}
+.library-controls > summary .badge {
+  float: right;
+  margin-top: 2px;
+  line-height: 20px;
+}
+.card-library-filters {
+  position: relative;
+}
+.card-library-filters > summary {
+  padding-right: 110px;
+}
+.filter-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 36px;
+  padding: 0 15px;
 }
 .base-filter-grid {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.8fr) minmax(480px, 1.2fr);
-  gap: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
   align-items: start;
+}
+.color-filter-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+.base-filter-grid .color-filter-block h3 {
+  flex-basis: 100%;
+  margin-bottom: 0;
+}
+.color-filter-block .filter-tiles {
+  flex: 0 0 auto;
+  max-width: 100%;
 }
 .recipe-picker {
   position: relative;
-  grid-column: 1 / -1;
+  flex-basis: 100%;
   min-width: 0;
 }
 .recipe-picker > label {
   margin-bottom: 6px;
+}
+.recipe-picker > label,
+.visual-filter-block h3,
+.chromatic-filter-tile,
+.filter-reset {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.65;
 }
 .multi-select {
   position: relative;
@@ -282,7 +339,7 @@ main {
   background: #263641;
   border-color: #405662;
   color: var(--text);
-  font-size: 11px;
+  font-size: var(--min-font-size);
   font-weight: 500;
 }
 .multi-select-chip span {
@@ -344,7 +401,7 @@ main {
   flex-direction: column;
 }
 .multi-select-option small {
-  font-size: 10px;
+  font-size: var(--min-font-size);
   font-weight: 400;
   color: var(--muted);
 }
@@ -358,7 +415,7 @@ main {
 .multi-select-empty {
   margin: 0;
   padding: 10px;
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .visual-filter-block {
@@ -366,29 +423,30 @@ main {
 }
 .visual-filter-block h3 {
   margin-bottom: 9px;
-  font-size: 12px;
   color: #b8cbd9;
 }
 .filter-tiles {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   min-width: 0;
   margin: 0;
   padding: 0;
   gap: 8px;
   border: 0;
 }
-.level-tiles,
-.color-tiles {
-  grid-template-columns: repeat(5, minmax(64px, 1fr));
+.filter-tiles .filter-tile {
+  flex: 0 0 44px;
+  width: 44px;
+  overflow: hidden;
+  padding: 0;
 }
 .filter-tile {
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  height: 122px;
-  padding: 8px;
+  gap: 6px;
+  height: 40px;
+  padding: 8px 12px;
   background: #101b24;
   border: 1px solid #415563;
   border-radius: 5px;
@@ -396,11 +454,15 @@ main {
 }
 .filter-tile img {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 88px;
-  max-height: 88px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
+}
+.level-tiles .filter-tile img {
+  /* 等级纹理带大幅透明留白，保留中部图案的可读尺寸，留白由按钮边界裁去。 */
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
 }
 .color-tiles .filter-tile img {
   transform: scaleY(1.09);
@@ -412,21 +474,8 @@ main {
   box-shadow: inset 0 0 0 1px #8ddbc066;
 }
 .chromatic-filter-tile {
-  width: min(100%, 310px);
-  height: 49px;
-  margin: 12px auto 0;
-  flex-direction: row;
-  font-size: 13px;
-}
-.advanced-filters {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-}
-.advanced-filters > summary {
-  font-size: 13px;
-  font-weight: 600;
-  color: #cfe2eb;
+  max-width: 100%;
+  margin: 0;
 }
 .advanced-filter-grid {
   display: grid;
@@ -472,8 +521,6 @@ main {
   grid-template-columns: repeat(3, minmax(220px, 1fr));
   align-items: end;
   gap: 14px;
-  margin-bottom: 20px;
-  padding: 14px 16px;
 }
 .sort-controls label > span {
   display: grid;
@@ -577,7 +624,7 @@ main {
 .recipe-art figcaption,
 .recipe-area p {
   margin: 8px 0 0;
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .recipe-area h3 {
@@ -603,7 +650,7 @@ main {
   border-bottom: 1px solid var(--line);
 }
 .recipe-facts dt {
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .recipe-facts dd {
@@ -629,7 +676,7 @@ main {
   color: #cfe2eb;
 }
 .result-group-heading span {
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .result-cards {
@@ -662,7 +709,7 @@ main {
 }
 .result-card-head p {
   margin: 2px 0 0;
-  font-size: 10px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .result-card-head .badge {
@@ -690,7 +737,7 @@ main {
   margin-bottom: 18px;
 }
 .goal {
-  font-size: 11px;
+  font-size: var(--min-font-size);
   padding: 3px 8px;
   color: #9fe3cb;
   background: #203b35;
@@ -704,7 +751,7 @@ main {
   margin-bottom: 20px;
 }
 .stat-grid .label {
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .stat-grid .value {
@@ -769,7 +816,7 @@ summary {
   border: 1px solid #29414f;
   border-radius: 5px;
   padding: 4px 8px;
-  font-size: 11px;
+  font-size: var(--min-font-size);
   line-height: 1.35;
   color: #afcbd9;
 }
@@ -885,7 +932,7 @@ summary {
 .score-summary span {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--min-font-size);
 }
 .score-summary strong {
   display: block;
@@ -905,7 +952,7 @@ summary {
   border-color: #614651;
 }
 .gauge .caption {
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: #9fbdc6;
   letter-spacing: 1px;
 }
@@ -939,7 +986,7 @@ summary {
   justify-content: space-between;
   gap: 15px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--min-font-size);
 }
 .deck-heading {
   display: flex;
@@ -963,7 +1010,7 @@ summary {
   min-width: 0;
 }
 .game-card .slot {
-  font-size: 10px;
+  font-size: var(--min-font-size);
   color: var(--muted);
   margin-bottom: 9px;
 }
@@ -980,11 +1027,11 @@ summary {
   font-variant-numeric: tabular-nums;
 }
 .game-card .stat small {
-  font-size: 10px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .game-card .range {
-  font-size: 11px;
+  font-size: var(--min-font-size);
   color: var(--muted);
   margin: 10px 0;
 }
@@ -993,7 +1040,7 @@ summary {
   padding: 0;
   margin: 0;
   color: #b5cfda;
-  font-size: 11px;
+  font-size: var(--min-font-size);
 }
 .game-card li {
   padding: 3px 0;
@@ -1019,7 +1066,7 @@ summary {
   min-height: 24px;
   margin-bottom: 7px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--min-font-size);
 }
 .game-card-visual {
   position: relative;
@@ -1072,38 +1119,76 @@ summary {
   top: 4.95%;
 }
 .card-bottom-connector {
-  left: 42.33%;
-  top: 96.23%;
-  transform: scaleY(-1);
+  /* CardMedium：主框500×820，RangeContainer(0,-365) + connector(0,-21)，42×8。 */
+  left: 50%;
+  top: 97.073171%;
+  width: 8.4%;
+  height: 0.97561%;
+  transform: translate(-50%, -50%) scaleY(-1);
 }
 .card-color-icon {
   position: absolute;
   z-index: 6;
-  left: 2.3%;
-  top: 7.67%;
-  width: 18.68%;
-  height: 12.43%;
+  /* TopLeftContainer(-196,355.532837)，徽章偏移(15,-55)，165×180再乘0.65。 */
+  left: 3.075%;
+  top: 6.215508%;
+  width: 21.45%;
+  height: 14.268293%;
   object-fit: fill;
   filter: drop-shadow(0 2px 3px #000b);
 }
 .card-level-icon {
   position: absolute;
   z-index: 7;
-  left: 9.94%;
-  top: 21.14%;
-  width: 3.56%;
-  height: 5.8%;
+  /* 原生rankIcon顶端锚点：容器偏移 + (15.765616,-114.508133)，宽18；高度按等级表。 */
+  left: 13.953123%;
+  top: 20.606743%;
+  width: 3.6%;
+  transform: translateX(-50%);
   object-fit: fill;
   pointer-events: none;
 }
 .card-tier-backing {
   position: absolute;
   z-index: 4;
-  left: 9.15%;
-  top: 7.14%;
-  width: 5.95%;
-  height: 22.87%;
+  /* 同一TopLeftContainer的左上锚点底纹，原生尺寸30×189。 */
+  left: 10.8%;
+  top: 6.642337%;
+  width: 6%;
+  height: 23.04878%;
   object-fit: fill;
+}
+/* KnownTypeChangesContainer：以游戏840×1420配方卡为基准换算位置，保留纹理留白。 */
+.card-change-backing {
+  position: absolute;
+  z-index: 5;
+  left: 13.976132%;
+  top: 31.619718%;
+  width: 4.761905%;
+  height: 22.676056%;
+  object-fit: fill;
+  pointer-events: none;
+}
+.card-change-icon {
+  position: absolute;
+  z-index: 7;
+  left: 13.809524%;
+  width: 15.252976%;
+  height: 10.34331%;
+  transform: translate(-50%, -50%);
+  object-fit: fill;
+}
+.card-change-icon[data-slot="0"] {
+  top: 37.676056%;
+}
+.card-change-icon[data-slot="1"] {
+  top: 42.560507%;
+}
+.card-change-icon[data-slot="2"] {
+  top: 47.235312%;
+}
+.card-change-icon[data-slot="3"] {
+  top: 52.05144%;
 }
 .card-bottom-drawer {
   position: absolute;
@@ -1240,12 +1325,12 @@ summary {
   min-height: 37px;
   margin: 8px 0 5px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--min-font-size);
   line-height: 1.5;
 }
 .player-card > button {
   width: min(100%, 230px);
-  font-size: 11px;
+  font-size: var(--min-font-size);
   padding: 7px;
 }
 .enemy-panel .card-strip {
@@ -1282,7 +1367,7 @@ td {
 th {
   background: #13212b;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--min-font-size);
   font-weight: 500;
 }
 .materials-group {
@@ -1321,7 +1406,7 @@ th {
 }
 .loot-pool p {
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--min-font-size);
 }
 .loot-traits {
   display: grid;
@@ -1336,7 +1421,7 @@ th {
 }
 .loot-trait small {
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--min-font-size);
   white-space: nowrap;
 }
 .loot-empty {
@@ -1346,7 +1431,7 @@ th {
   border: 1px dashed #50606b;
   border-radius: 5px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--min-font-size);
 }
 .drop-group {
   padding: 16px 0;
@@ -1365,7 +1450,7 @@ th {
   font-size: 12px;
 }
 .drop-group-title span {
-  font-size: 10px;
+  font-size: var(--min-font-size);
   color: var(--muted);
 }
 .drop-shapes {
@@ -1384,7 +1469,7 @@ th {
   border: 1px solid #29414f;
   border-radius: 5px;
   color: #afcbd9;
-  font-size: 10px;
+  font-size: var(--min-font-size);
 }
 .shape-picture svg {
   display: block;
@@ -1394,7 +1479,7 @@ th {
 .drop-shape small {
   display: block;
   color: #78909e;
-  font-size: 9px;
+  font-size: var(--min-font-size);
 }
 .event-list {
   max-height: 370px;
@@ -1444,34 +1529,109 @@ dialog::backdrop {
 .dialog-header h2 {
   margin-top: 8px;
 }
+.dialog-actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 8px;
+}
+#traits-dialog {
+  width: min(900px, 94vw);
+}
+#layout-traits {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+#layout-traits .trait-tag {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: start;
+  gap: 10px;
+  padding: 12px;
+  text-align: center;
+}
+#layout-traits .trait-icon {
+  width: 60px;
+  height: 60px;
+}
+.layout-instructions {
+  margin-bottom: 8px;
+}
+.layout-content {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 24px;
+  margin: 16px 0;
+  align-items: start;
+}
+.layout-overview,
+.layout-workspace {
+  min-width: 0;
+}
+#layout-card .game-card-visual {
+  margin: 0 auto 12px;
+}
 .layout-card-details {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 20px;
-  margin: 14px 0;
+  grid-template-columns: 1fr;
+  gap: 0 8px;
+  margin: 6px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 .layout-card-details > div {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
-  font-size: 11px;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: var(--min-font-size);
 }
 .layout-card-details span {
   color: var(--muted);
 }
-.layout-card-details strong {
-  text-align: right;
-  font-weight: 500;
+.strike-row {
+  align-items: center;
 }
-.layout-tools {
+.strike-row > span:first-child {
+  flex-shrink: 0;
+}
+.strike-marks {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 20px;
-  margin: 8px 0 15px;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-height: 17px;
+}
+.strike-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+  height: 17px;
+}
+.strike-marks img {
+  display: block;
+  flex-shrink: 0;
+  object-fit: fill;
+}
+/* 原生方块的设计尺寸按1/4显示：红60×60、实心64×68、空心48×40。 */
+.strike-excess {
+  width: 15px;
+  height: 15px;
+}
+.strike-used {
+  width: 16px;
+  height: 17px;
+}
+.strike-unused {
+  width: 12px;
+  height: 10px;
+}
+.layout-card-details strong {
+  text-align: right;
+  font-weight: 500;
 }
 .layout-board {
   position: relative;
@@ -1490,10 +1650,9 @@ dialog::backdrop {
 }
 .layout-board svg {
   display: block;
-  width: 100%;
-  height: 100%;
-  transform-origin: center;
-  will-change: transform;
+  position: absolute;
+  max-width: none;
+  transform: translate(-50%, -50%);
 }
 .piece-list {
   display: flex;
@@ -1508,7 +1667,7 @@ dialog::backdrop {
   background: #11202a;
   color: var(--text);
   border-color: var(--line);
-  font-size: 11px;
+  font-size: var(--min-font-size);
   padding: 6px 9px;
 }
 .piece-list button.selected {
@@ -1551,7 +1710,7 @@ footer {
   padding: 0 25px 25px;
   text-align: center;
   color: #778e9e;
-  font-size: 10px;
+  font-size: var(--min-font-size);
 }
 [hidden] {
   display: none !important;
@@ -1562,9 +1721,6 @@ footer {
   }
   .topbar {
     padding: 26px 24px;
-  }
-  .base-filter-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .advanced-filter-grid {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
@@ -1597,14 +1753,14 @@ footer {
     font-size: 22px;
   }
   .subtitle {
-    font-size: 11px;
+    font-size: var(--min-font-size);
   }
   .header-meta {
     max-width: 130px;
   }
   .header-meta .badge {
     white-space: normal;
-    font-size: 10px;
+    font-size: var(--min-font-size);
   }
   .filters {
     flex-wrap: wrap;
@@ -1619,23 +1775,15 @@ footer {
   .filters label.wide {
     flex: 1 1 100%;
   }
-  .base-filter-grid,
+  .base-filter-grid {
+    gap: 13px;
+  }
   .advanced-filter-grid {
     grid-template-columns: 1fr;
     gap: 13px;
   }
   .filter-tiles {
     gap: 6px;
-  }
-  .filter-tile {
-    height: 84px;
-  }
-  .filter-tile img {
-    max-width: 62px;
-    max-height: 62px;
-  }
-  .chromatic-filter-tile {
-    height: 45px;
   }
   .filters #encounter-rating,
   .filters #encounter-strikes {
@@ -1654,7 +1802,7 @@ footer {
     align-items: start;
   }
   .section-intro .badge {
-    font-size: 10px;
+    font-size: var(--min-font-size);
   }
   .result-cards {
     grid-template-columns: 1fr;
@@ -1711,21 +1859,18 @@ footer {
   .panel {
     padding: 16px;
   }
-  .layout-tools {
+  .layout-content {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .dialog-header {
     flex-wrap: wrap;
-    gap: 13px;
+    gap: 12px;
   }
   dialog {
     padding: 16px;
   }
-  .conditions {
-    gap: 5px;
-  }
-  .conditions span {
-    font-size: 10px;
-    padding: 2px 7px;
-  }
   .deck-heading .help {
-    font-size: 10px;
+    font-size: var(--min-font-size);
   }
 }

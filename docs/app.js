@@ -68,6 +68,7 @@ const state = {
   libraryPage: 0,
   result: null,
   layout: null,
+  layoutSize: null,
   piece: 0,
   layoutScale: 1,
   layoutX: 0,
@@ -96,18 +97,18 @@ const palette = (mask) =>
 const trait = (id) => DATA.catalog.traits.find((t) => t.id === id);
 const traitName = (id) => trait(id)?.name || `特性${id}`;
 
-/** 所有技能入口共用游戏原始触发外框、效果图形和阶级标记，并显示完整说明。 */
-function traitTag(id, iconOnly = false) {
+/** 复用原生技能图层及完整说明，按展示场景选择是否显示阶级。 */
+function traitTag(id, iconOnly = false, { showTier = true } = {}) {
   const item = trait(id),
     icon = item && DATA.catalog.trait_icons[item.icon],
     border = DATA.catalog.trait_border;
   const frame = item && DATA.catalog.trait_frames[String(item.condition)],
-    tierIcon = item && DATA.catalog.trait_tiers[String(item.tier)];
+    tierIcon = showTier && item && DATA.catalog.trait_tiers[String(item.tier)];
   const details = item?.description ? plain(item.description) : "没有可用的效果说明。";
   const picture = icon
     ? `<span class="trait-icon"><img class="trait-border" src="${border}" alt="">${frame ? `<img class="trait-frame" src="${frame}" alt="">` : ""}<img class="trait-effect" src="${icon}" alt="">${tierIcon ? `<img class="trait-tier" src="${tierIcon}" alt="">` : ""}</span>`
     : "";
-  return `<span class="trait-tag${iconOnly ? " icon-only" : ""}" tabindex="0">${picture}<span class="trait-label">${esc(traitName(id))}</span><span class="trait-tooltip" role="tooltip"><strong>${esc(traitName(id))}</strong>${item?.tier ? `<small>技能等级 ${item.tier}</small>` : ""}<span>${esc(details)}</span></span></span>`;
+  return `<span class="trait-tag${iconOnly ? " icon-only" : ""}" tabindex="0">${picture}<span class="trait-label">${esc(traitName(id))}</span><span class="trait-tooltip" role="tooltip"><strong>${esc(traitName(id))}</strong>${showTier && item?.tier ? `<small>技能等级 ${item.tier}</small>` : ""}<span>${esc(details)}</span></span></span>`;
 }
 
 /** 按游戏六边坐标绘制掉落粒子的固定形状缩略图。 */
@@ -154,7 +155,10 @@ function encounterDrops(encounter) {
 /** 展示当前材料能提供的技能，并用游戏描述解释触发条件。 */
 function traitList(card) {
   if (!card.slots) return '<p class="help">没有特性槽。</p>';
-  return `<div class="trait-list">${card.available_traits.map(traitTag).join("")}</div><p class="help" style="margin-top:10px">最多装备${card.slots}项；具体组合还须由实际粒子同时提供，配队结果已处理该约束。</p>`;
+  return (
+    card.available_traits.map((id) => traitTag(id, false, { showTier: false })).join("") ||
+    '<p class="help">暂无可用特性。</p>'
+  );
 }
 
 /** 忽略大小写与空白后，名称包含关键词或按顺序出现全部关键词字符即视为匹配。 */
@@ -171,11 +175,11 @@ function fuzzyMatch(name, query) {
   return true;
 }
 
-/** 第一层等级、最终颜色和变色开关共同限定可选基础卡。 */
+/** 未选颜色时忽略变色开关；选颜色后匹配本色，或允许变色时匹配可用颜色。 */
 function matchesPrimary(card, recipe) {
   if (state.tiers.size && !state.tiers.has(recipe.tier)) return false;
-  if (!state.includeChromatic && card.colors.length > 1) return false;
-  return !state.colors.size || card.colors.some((color) => state.colors.has(color));
+  if (!state.colors.size) return true;
+  return state.includeChromatic ? card.colors.some((color) => state.colors.has(color)) : state.colors.has(recipe.color);
 }
 
 /** 名称搜索只在第一层范围内收窄指定卡牌候选。 */
@@ -368,15 +372,20 @@ function clearLibraryFilters() {
 }
 
 /** 用同一套游戏资源合成玩家卡面；技能数组为空时保留空槽。 */
-function cardVisual(card, color, traits = [], interactive = false) {
+function cardVisual(card, color, traits = [], { interactive = false, showChanges = false } = {}) {
   const recipe = DATA.catalog.recipes.find((item) => item.id === card.recipe),
     sr = recipe?.is_sr ? 1 : 0,
     slots = Math.max(1, Math.min(3, card.slots));
   const assets = DATA.catalog.card_assets,
+    rank = assets.ranks[String(recipe.tier)],
     assetKey = `${color}-${sr}`,
     frame = assets.frames[`${assetKey}-${slots}`];
   const behavior = interactive
     ? ` role="button" tabindex="0" data-library-layout="${card.id}" aria-label="查看${esc(card.name)}详情与拼法"`
+    : "";
+  const otherColors = showChanges ? card.colors.filter((value) => value !== recipe.color).sort((a, b) => a - b) : [];
+  const changeIcons = otherColors.length
+    ? `<img class="card-change-backing" src="${assets.changes.backing}" alt="">${otherColors.map((value, index) => `<img class="card-change-icon" data-slot="${index}" src="${assets.changes[value]}" alt="可变为${colorNames[value]}色" title="可变为${colorNames[value]}色">`).join("")}`
     : "";
   const slotsHtml = Array.from({ length: card.slots }, (_, index) =>
     traits[index]
@@ -385,15 +394,16 @@ function cardVisual(card, color, traits = [], interactive = false) {
   ).join("");
   const pip = (side, index, x, value) =>
     `<img class="range-pip ${side}" style="left:${x}%" src="${assets.common[index < value ? "medium-range-active" : "medium-range-inactive"]}" alt="">`;
-  const leftPips = [22.55, 26.53, 30.5, 34.48].map((x, index) => pip("left", index, x, card.left)).join("");
+  // 游戏leftRangePips从靠近中心的一格开始，向左依次展开。
+  const leftPips = [34.48, 30.5, 26.53, 22.55].map((x, index) => pip("left", index, x, card.left)).join("");
   const rightPips = [54.36, 58.34, 62.31, 66.3].map((x, index) => pip("right", index, x, card.right)).join("");
-  return `<article class="game-card-visual${interactive ? " interactive" : ""}" style="--card-color:${colors[color]}"${behavior}><img class="card-art" loading="lazy" decoding="async" src="${assets.art[card.recipe]}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt=""><img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色"><img class="card-level-icon" src="${assets.levels[String(recipe.tier)]}" alt="等级${recipe.tier}"><img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt=""><img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4><div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div></article>`;
+  return `<article class="game-card-visual${interactive ? " interactive" : ""}" style="--card-color:${colors[color]}"${behavior}><img class="card-art" loading="lazy" decoding="async" src="${assets.art[card.recipe]}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt=""><img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色"><img class="card-level-icon" style="height:${(rank.height / 820) * 100}%" src="${rank.image}" alt="等级${recipe.tier}"><img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt="">${changeIcons}<img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4><div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div></article>`;
 }
 
-/** 卡牌一览按当前颜色条件选取一种可用颜色，点击卡面打开详情。 */
+/** 一览始终显示本色，其他可用颜色由卡面侧边的原生标记表达。 */
 function libraryCard(card) {
-  const color = [...state.colors].sort().find((value) => card.colors.includes(value)) || card.colors[0];
-  return `<div class="player-card library-card">${cardVisual(card, color, [], true)}</div>`;
+  const color = DATA.catalog.recipes.find((recipe) => recipe.id === card.recipe).color;
+  return `<div class="player-card library-card">${cardVisual(card, color, [], { interactive: true, showChanges: true })}</div>`;
 }
 
 /** 推荐配队复用卡牌一览的卡面，敌方卡保持紧凑信息布局。 */
@@ -537,19 +547,21 @@ async function loadBattleDetails() {
   }
 }
 
-/** 点击卡牌后读取该基础卡的布局；关闭弹窗或选择另一张卡会使旧请求失效。 */
-async function showLayout(identity, assignment = null, showGoals = true) {
+/** 读取卡牌拼法并忽略失效请求；配队入口携带成品颜色与技能，一览入口使用本色。 */
+async function showLayout(identity, assignment = null, showGoals = true, craftedCard = null) {
   const request = ++state.layoutRequest;
   const summary = DATA.templates[identity];
   state.layout = null;
+  state.layoutSize = null;
   state.board = null;
   $("layout-title").textContent = summary.name;
   $("layout-goals").textContent = "";
   $("layout-stats").textContent = "";
-  for (const id of ["layout-card-details", "piece-list", "layout-traits"]) $(id).textContent = "";
+  for (const id of ["layout-card", "layout-card-details", "piece-list", "layout-traits"]) $(id).textContent = "";
   $("layout-board").textContent = "正在加载卡牌详情…";
-  $("layout-flip").disabled = true;
   $("save-svg").disabled = true;
+  $("show-traits").disabled = true;
+  $("show-traits").hidden = !summary.slots;
   if (!$("layout-dialog").open) $("layout-dialog").showModal();
   try {
     const [detail] = await Promise.all([loadJson(`./data/${DATA.recipes[summary.recipe]}`), loadCommon()]);
@@ -568,29 +580,56 @@ async function showLayout(identity, assignment = null, showGoals = true) {
     $("layout-goals").textContent = goalText;
     $("layout-goals").hidden = !goalText;
     $("layout-title").textContent = card.name;
-    $("layout-stats").textContent =
-      `原始攻击 ${num(card.base_power)} · 原始防御 ${num(card.base_fortitude)} ｜ 卡牌攻击 ${num(card.power)} · 卡牌防御 ${num(card.fortitude)}`;
-    const penaltyNames = ["数量超限", "越界", "重叠", "断连"],
-      penaltyText =
-        penaltyNames
-          .map((name, index) => [name, card.penalties[index]])
-          .filter(([, value]) => value > 0)
-          .map(([name, value]) => `${name}${value}`)
-          .join(" · ") || "无";
+    const recipe = DATA.catalog.recipes.find((item) => item.id === card.recipe);
+    $("layout-card").innerHTML = cardVisual(
+      card,
+      craftedCard?.color ?? recipe.color,
+      craftedCard?.traits.filter((id) => id > 1) ?? [],
+      { showChanges: !craftedCard }
+    );
+    $("layout-stats").textContent = `原始攻击 ${num(card.base_power)} · 原始防御 ${num(card.base_fortitude)}`;
+    const amounts = card.raw_penalties,
+      allowances = card.strike_tolerances;
+    const strikeRows = DATA.catalog.strike_names
+      .map((name, index) => {
+        const amount = amounts[index],
+          allowance = allowances[index];
+        const used = Math.min(amount, allowance),
+          excess = Math.max(0, amount - allowance);
+        const description = `${name}：发生${amount}次，容许${allowance}次，超出${excess}次`;
+        const marks = [
+          ["excess", excess],
+          ["unused", allowance - used],
+          ["used", used]
+        ]
+          .map(([kind, count]) =>
+            Array.from(
+              { length: count },
+              () =>
+                `<span class="strike-slot"><img class="strike-${kind}" src="${DATA.catalog.strike_icons[kind]}" alt=""></span>`
+            ).join("")
+          )
+          .join("");
+        return `<div class="strike-row"><span>${name}</span><span class="strike-marks" role="img" aria-label="${description}" title="${description}">${marks || "—"}</span></div>`;
+      })
+      .join("");
     $("layout-card-details").innerHTML =
-      `<div><span>颜色</span><strong>${card.colors.map((color) => colorNames[color]).join("、")}</strong></div><div><span>范围与槽位</span><strong>左${card.left} · 右${card.right} · ${card.slots}槽</strong></div><div><span>总罚分</span><strong>${card.strikes} · 保留${num(card.retained_percent, card.strikes ? 2 : 0)}%</strong></div><div><span>实际罚分</span><strong>${penaltyText}</strong></div><div><span>粒子实际用量</span><strong>Ⅰ ${card.tier_counts[0]} · Ⅱ ${card.tier_counts[1]} · Ⅲ ${card.tier_counts[2]}</strong></div><div><span>粒子总数</span><strong>${card.count}块</strong></div>`;
-    $("layout-flip").checked = false;
+      `<div><span>粒子实际用量</span><strong>Ⅰ ${card.tier_counts[0]} · Ⅱ ${card.tier_counts[1]} · Ⅲ ${card.tier_counts[2]}</strong></div><div><span>粒子总数</span><strong>${card.count}/${card.particle_limit}</strong></div>${strikeRows}<div><span>实际罚分</span><strong>${card.strikes}分（${num(card.retained_percent, card.strikes ? 2 : 0)}%）</strong></div>`;
     $("layout-traits").innerHTML = traitList(card);
     drawLayout();
-    $("layout-flip").disabled = false;
     $("save-svg").disabled = false;
+    $("show-traits").hidden = !card.slots;
+    $("show-traits").disabled = !card.slots;
   } catch (error) {
     if (request !== state.layoutRequest || !$("layout-dialog").open) return;
     $("layout-board").textContent = `加载失败，关闭后再次点击卡牌可重试。${error.message}`;
   }
 }
 
-/** 按游戏Q、R坐标绘制平顶六边格，翻转只改变阅读方向。 */
+/** 六边格外接圆半径，单位为CSS像素；所有卡牌的初始画布和导出共享此尺寸。 */
+const layoutCellRadius = 24;
+
+/** 按游戏Q、R坐标绘制平顶六边格。 */
 function hexPoints(x, y) {
   return Array.from(
     { length: 6 },
@@ -602,9 +641,8 @@ function hexPoints(x, y) {
 function drawLayout() {
   if (!state.layout) return;
   const card = state.layout,
-    recipe = state.board,
-    flip = $("layout-flip").checked ? 1 : -1;
-  const xy = (q, r) => [1.5 * q, flip * Math.sqrt(3) * (r + q / 2)];
+    recipe = state.board;
+  const xy = (q, r) => [1.5 * q, -Math.sqrt(3) * (r + q / 2)];
   const safe = new Set(recipe.safe.map(([q, r]) => `${q},${r}`));
   const occupied = new Map();
   card.placements.forEach((p, i) => {
@@ -631,11 +669,12 @@ function drawLayout() {
     const dim = state.piece && !pieces.includes(state.piece),
       high = state.piece && pieces.includes(state.piece);
     cells.push(
-      `<g class="layout-cell ${dim ? "dim" : ""} ${high ? "highlight" : ""}"><title>Q=${q}, R=${r}${pieces.length ? ` · 粒子${pieces.join("、")}` : ""}</title><polygon points="${hexPoints(x, y)}" fill="${fill}" fill-opacity="${pieces.length ? 0.86 : target ? 0.23 : 0.45}" stroke="${safe.has(key) ? "#657b8b" : "#2a3b49"}" stroke-width=".045" ${safe.has(key) ? "" : 'stroke-dasharray=".13 .1"'}/>${pieces.length ? `<text x="${x}" y="${y + 0.16}" text-anchor="middle" font-size="${pieces.length > 2 ? 0.34 : 0.48}" font-family="sans-serif" font-weight="600" fill="#10202a">${pieces.join("/")}</text>` : ""}</g>`
+      `<g class="layout-cell ${dim ? "dim" : ""} ${high ? "highlight" : ""}"><title>Q=${q}, R=${r}${pieces.length ? ` · 粒子${pieces.join("、")}` : ""}</title><polygon points="${hexPoints(x, y)}" fill="${fill}" fill-opacity="${pieces.length ? 0.86 : target ? 0.23 : 0.45}" stroke="${safe.has(key) ? "#657b8b" : "#2a3b49"}" stroke-width=".045" ${safe.has(key) ? "" : 'stroke-dasharray=".13 .1"'}/>${pieces.length ? `<text x="${x}" y="${y + 0.16}" text-anchor="middle" font-size="0.5" font-family="sans-serif" font-weight="600" fill="#10202a">${pieces.join("/")}</text>` : ""}</g>`
     );
   }
+  state.layoutSize = { width: (maxX - minX) * layoutCellRadius, height: (maxY - minY) * layoutCellRadius };
   $("layout-board").innerHTML =
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}"><rect x="${minX}" y="${minY}" width="${maxX - minX}" height="${maxY - minY}" fill="#0c151d"/>${cells.join("")}</svg>`;
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${state.layoutSize.width}" height="${state.layoutSize.height}" viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}"><rect x="${minX}" y="${minY}" width="${maxX - minX}" height="${maxY - minY}" fill="#0c151d"/>${cells.join("")}</svg>`;
   applyLayoutView();
   $("piece-list").innerHTML = card.placements
     .map((p, i) => {
@@ -652,10 +691,14 @@ function drawLayout() {
     .join("");
 }
 
-/** 将独立视图状态应用到拼法SVG，不改变导出的坐标和内容。 */
+/** 改变SVG实际视口尺寸以触发矢量重绘，不用CSS scale放大缓存图层。 */
 function applyLayoutView() {
   const svg = $("layout-board").querySelector("svg");
-  if (svg) svg.style.transform = `translate(${state.layoutX}px, ${state.layoutY}px) scale(${state.layoutScale})`;
+  if (!svg) return;
+  svg.setAttribute("width", state.layoutSize.width * state.layoutScale);
+  svg.setAttribute("height", state.layoutSize.height * state.layoutScale);
+  svg.style.left = `calc(50% + ${state.layoutX}px)`;
+  svg.style.top = `calc(50% + ${state.layoutY}px)`;
 }
 
 /** 鼠标滚轮以指针位置为中心缩放拼法画布。 */
@@ -664,7 +707,7 @@ function zoomLayout(event) {
   const board = $("layout-board"),
     bounds = board.getBoundingClientRect(),
     oldScale = state.layoutScale;
-  const nextScale = Math.max(0.5, Math.min(4, oldScale * Math.exp(-event.deltaY * 0.001))),
+  const nextScale = Math.max(0.1, Math.min(8, oldScale * Math.exp(-event.deltaY * 0.001))),
     ratio = nextScale / oldScale;
   const x = event.clientX - bounds.left - bounds.width / 2,
     y = event.clientY - bounds.top - bounds.height / 2;
@@ -703,7 +746,9 @@ function saveSvg() {
   const source = $("layout-board").querySelector("svg");
   if (!source) return;
   const svg = source.cloneNode(true);
-  svg.style.removeProperty("transform");
+  svg.removeAttribute("style");
+  svg.setAttribute("width", state.layoutSize.width);
+  svg.setAttribute("height", state.layoutSize.height);
   const content = new XMLSerializer().serializeToString(svg),
     url = URL.createObjectURL(new Blob([content], { type: "image/svg+xml" })),
     link = document.createElement("a");
@@ -726,7 +771,7 @@ function toast(message) {
 /** 连接纯查询控件；成果页没有请求服务端计算的入口。 */
 function boot() {
   $("summary").textContent =
-    `${DATA.catalog.recipes.length}张基础卡 · ${libraryCards.length}张最终卡 · ${DATA.catalog.encounters.length}个回想`;
+    `配方${DATA.catalog.recipes.length} · 卡牌${libraryCards.length} · 回想${DATA.catalog.encounters.length}`;
   $("created").textContent = `生成于 ${new Date(DATA.created * 1000).toLocaleString("zh-CN")}`;
   $("encounter-select").innerHTML = DATA.catalog.encounters
     .map(
@@ -840,9 +885,14 @@ function boot() {
   $("encounter-rating").addEventListener("input", selectEncounter);
   $("phase-details").addEventListener("toggle", loadBattleDetails);
   $("event-details").addEventListener("toggle", loadBattleDetails);
+  $("show-conditions").addEventListener("click", () => $("conditions-dialog").showModal());
+  $("close-conditions").addEventListener("click", () => $("conditions-dialog").close());
+  $("show-traits").addEventListener("click", () => $("traits-dialog").showModal());
+  $("close-traits").addEventListener("click", () => $("traits-dialog").close());
   $("close-layout").addEventListener("click", () => $("layout-dialog").close());
   $("layout-dialog").addEventListener("close", () => {
     if (!$("layout-dialog").open) {
+      if ($("traits-dialog").open) $("traits-dialog").close();
       state.layoutRequest++;
       state.layout = null;
     }
@@ -853,7 +903,6 @@ function boot() {
   layoutBoard.addEventListener("pointermove", moveLayoutPan);
   layoutBoard.addEventListener("pointerup", endLayoutPan);
   layoutBoard.addEventListener("pointercancel", endLayoutPan);
-  $("layout-flip").addEventListener("change", drawLayout);
   $("save-svg").addEventListener("click", saveSvg);
   $("results").addEventListener("keydown", (event) => {
     const card = event.target.closest("[data-library-layout]");
@@ -873,7 +922,7 @@ function boot() {
     if (!button) return;
     if (button.dataset.playerLayout !== undefined && state.result) {
       const card = state.result.cards[Number(button.dataset.playerLayout)];
-      showLayout(card.template, card.materials);
+      showLayout(card.template, card.materials, true, card);
     }
     if (button.dataset.piece) {
       state.piece = state.piece === Number(button.dataset.piece) ? 0 : Number(button.dataset.piece);
