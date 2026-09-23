@@ -172,7 +172,7 @@ const common = chunk({
     cells: shape.Segments.map((cell) => [cell.Q, cell.R])
   })),
   strike_names: craftingUi.names.slice(0, 4),
-  ...pick(assets, ["trait_border", "trait_tiers", "strike_icons", "particle_icons"])
+  ...pick(assets, ["trait_border", "trait_tiers", "strike_icons", "particle_icons", "matchup_assets"])
 });
 /** 投影当前拼法的容忍及可用粒子上限；与报告中的净罚分核对，避免重复计算或展示过期规则。 */
 function craftingDetails(card, board) {

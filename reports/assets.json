@@ -1,4 +1,18 @@
 {
+  "matchup_assets": {
+    "colors": {
+      "0": "assets/matchups/coloradvantage-neutral.webp",
+      "1": "assets/matchups/coloradvantage-red.webp",
+      "2": "assets/matchups/coloradvantage-yellow.webp",
+      "3": "assets/matchups/coloradvantage-green.webp",
+      "4": "assets/matchups/coloradvantage-blue.webp",
+      "5": "assets/matchups/coloradvantage-purple.webp"
+    },
+    "arrow": "assets/matchups/connectorline-pulse-v2.webp",
+    "arrow_negative": "assets/matchups/connectorline-pulse-negative-v2.webp",
+    "line": "assets/matchups/connectorline-active.webp",
+    "line_negative": "assets/matchups/connectorline-negative-active.webp"
+  },
   "particle_icons": {
     "1": {
       "1": "assets/particles/1-1.webp",

@@ -1018,11 +1018,19 @@ summary {
   color: var(--muted);
   font-size: var(--min-font-size);
 }
-.deck-heading {
+.deck-totals {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  margin: 16px 0;
+  color: var(--muted);
+}
+.deck-totals strong {
+  margin-left: 8px;
+  color: var(--text);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
 }
 .card-strip {
   display: grid;
@@ -1335,12 +1343,67 @@ summary {
 .card-traits .trait-label {
   display: none;
 }
-.enemy-panel .card-strip {
-  margin: 15px 0 0;
-  gap: 12px;
+.card-strip.battle-card-grid {
+  grid-template-columns: repeat(5, minmax(205px, 1fr));
+  overflow-x: auto;
+  padding: 6px;
+  margin-bottom: 0;
 }
-.enemy-panel .game-card {
-  background: #131f29;
+.matchup-column {
+  min-width: 0;
+}
+/* HandSelectCardColumnContainer的500宽卡列与190高连接区，保留原生素材比例。 */
+.card-matchup {
+  position: relative;
+  width: min(100%, 230px);
+  aspect-ratio: 500 / 190;
+  margin: 0 auto;
+}
+.card-matchup img {
+  position: absolute;
+  object-fit: fill;
+  pointer-events: none;
+}
+.matchup-line {
+  left: 42%;
+  top: 0;
+  width: 16%;
+  height: 100%;
+}
+.matchup-backing {
+  left: 14%;
+  top: 45.526316%;
+  width: 72%;
+  height: 42.631579%;
+}
+.matchup-arrow {
+  left: 45.7%;
+  top: 9.210526%;
+  width: 8.6%;
+  height: 34.210526%;
+}
+.matchup-label {
+  position: absolute;
+  left: 59.778342%;
+  top: 77.079745%;
+  transform: translateY(-50%);
+  color: #e2fcfe;
+  font-size: 13px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px #000;
+}
+.enemy-advantage .matchup-backing {
+  top: 6.052632%;
+  transform: scaleY(-1);
+}
+.enemy-advantage .matchup-arrow {
+  transform: scaleY(-1);
+}
+.enemy-advantage .matchup-label {
+  top: 26.793993%;
+}
+.no-advantage .matchup-line {
+  opacity: 0.3;
 }
 .tab-content > details {
   margin-top: 15px;
@@ -1868,8 +1931,5 @@ footer {
   }
   dialog {
     padding: 16px;
-  }
-  .deck-heading .help {
-    font-size: var(--min-font-size);
   }
 }

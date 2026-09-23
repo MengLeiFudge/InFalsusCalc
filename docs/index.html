@@ -209,11 +209,19 @@
             ><summary>对应粒子与技能</summary><div id="encounter-drops"></div></details
           >
           <div id="settlement" class="settlement"></div>
-          <div class="deck-heading"><h3>推荐配队</h3></div>
-          <div id="player-deck" class="card-strip"></div>
-          <section class="panel enemy-panel" aria-labelledby="enemy-deck-heading">
-            <h3 id="enemy-deck-heading">对方卡组</h3><div id="enemy-deck" class="card-strip"></div>
-          </section>
+          <div
+            id="enemy-totals"
+            class="deck-totals"
+            aria-label="对方总攻防"
+            title="开战前总攻防，包含对应位置的颜色克制，不包含阶段特性。"
+          ></div>
+          <div id="deck-matchups" class="card-strip battle-card-grid" aria-label="上方为对方卡牌，下方为我方卡牌"></div>
+          <div
+            id="player-totals"
+            class="deck-totals"
+            aria-label="我方总攻防"
+            title="开战前总攻防，包含颜色克制、联觉与谱面等级，不包含阶段特性。"
+          ></div>
           <details id="phase-details" class="panel"
             ><summary>逐阶段结果</summary
             ><div class="table-scroll"

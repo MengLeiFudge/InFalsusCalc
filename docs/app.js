@@ -105,8 +105,8 @@ function traitPicture(item, showTier = true) {
 }
 
 /** 技能入口通过统一顶层浮窗显示名称与精确效果说明。 */
-function traitTag(id, iconOnly = false, { showTier = true } = {}) {
-  return `<span class="trait-tag${iconOnly ? " icon-only" : ""}" data-trait="${id}" tabindex="0">${traitPicture(trait(id), showTier)}<span class="trait-label">${esc(traitName(id))}</span></span>`;
+function traitTag(id, iconOnly = false, { showTier = true, showSources = true } = {}) {
+  return `<span class="trait-tag${iconOnly ? " icon-only" : ""}" data-trait="${id}" data-trait-sources="${showSources}" tabindex="0">${traitPicture(trait(id), showTier)}<span class="trait-label">${esc(traitName(id))}</span></span>`;
 }
 
 /** 当前顶层技能提示对应的入口，关闭或入口移除后释放。 */
@@ -168,7 +168,8 @@ function showTraitTooltip(anchor) {
   const origin = tiers.length
     ? `<div class="trait-particle-icons">${particles}</div>${sources}`
     : "<span>最后四个回想无掉落</span>";
-  tooltip.innerHTML = `${traitPicture(item, false)}<div class="trait-tooltip-copy"><strong>${esc(item.name)}</strong><span>${esc(plain(item.description) || "没有可用的效果说明。")}</span><div class="trait-tooltip-sources">${origin}</div></div>`;
+  const showSources = anchor.dataset.traitSources !== "false";
+  tooltip.innerHTML = `${traitPicture(item, false)}<div class="trait-tooltip-copy"><strong>${esc(item.name)}</strong><span>${esc(plain(item.description) || "没有可用的效果说明。")}</span>${showSources ? `<div class="trait-tooltip-sources">${origin}</div>` : ""}</div>`;
   traitAnchor = anchor;
   anchor.setAttribute("aria-describedby", "trait-tooltip");
   tooltip.showPopover();
@@ -457,7 +458,7 @@ function cardVisual(card, color, traits = [], { interactive = false, showChanges
     .join("");
   const slotsHtml = Array.from({ length: card.slots }, (_, index) =>
     traits[index]
-      ? traitTag(traits[index], true)
+      ? traitTag(traits[index], true, { showSources: !!recipe })
       : `<span class="trait-empty"><img src="${DATA.catalog.trait_border}" alt="空技能槽"></span>`
   ).join("");
   const pip = (side, index, x, value) =>
@@ -483,6 +484,34 @@ function gameCard(card, slot, player = false) {
   if (!player)
     return `<div class="player-card">${cardVisual({ ...card, name: `卡牌${slot + 1}`, slots: skills.length }, card.color, skills)}</div>`;
   return `<div class="player-card">${cardVisual(card, card.color, skills, { interactive: true, playerSlot: slot })}</div>`;
+}
+
+/** 克制环与Battle.Advantage一致：红→绿→紫→黄→蓝→红；无色不参与克制。 */
+const advantage = [0, 3, 4, 5, 1, 2];
+
+/** 复用游戏选卡界面的连线、方向箭头和优势色底纹，标注优势方的攻防倍率。 */
+function matchupVisual(playerColor, enemyColor) {
+  const playerWins = playerColor !== 0 && advantage[playerColor] === enemyColor;
+  const enemyWins = enemyColor !== 0 && advantage[enemyColor] === playerColor;
+  const assets = DATA.catalog.matchup_assets;
+  const label = playerWins ? "我方颜色克制，攻防×1.25" : enemyWins ? "对方颜色克制，攻防×1.25" : "无颜色克制";
+  const detail =
+    playerWins || enemyWins
+      ? `<img class="matchup-backing" src="${assets.colors[playerWins ? playerColor : enemyColor]}" alt=""><img class="matchup-arrow" src="${enemyWins ? assets.arrow_negative : assets.arrow}" alt=""><span class="matchup-label">×1.25</span>`
+      : "";
+  return `<div class="card-matchup${enemyWins ? " enemy-advantage" : ""}${playerWins || enemyWins ? "" : " no-advantage"}" role="img" aria-label="${label}" title="${label}"><img class="matchup-line" src="${enemyWins ? assets.line_negative : assets.line}" alt="">${detail}</div>`;
+}
+
+/** 汇总开战前攻防，按对应位置应用克制；我方另传入联觉和谱面等级倍率，不计阶段技能。 */
+function deckTotals(cards, opponent, bonus = 1) {
+  let power = 0,
+    fortitude = 0;
+  cards.forEach((card, slot) => {
+    const multiplier = (card.color !== 0 && advantage[card.color] === opponent[slot].color ? 1.25 : 1) * bonus;
+    power += card.power * multiplier;
+    fortitude += card.fortitude * multiplier;
+  });
+  return `<span>总攻击 <strong>${num(power)}</strong></span><span>总防御 <strong>${num(fortitude)}</strong></span>`;
 }
 
 /** 结算条显示真实数值，超过100%的击破进度仍保留数值，只将条形长度封顶。 */
@@ -555,10 +584,20 @@ async function selectEncounter() {
           true
         );
     }
-    $("player-deck").innerHTML = result.cards
-      .map((c, i) => gameCard({ ...DATA.templates[c.template], color: c.color, traits: c.traits }, i, true))
+    const players = result.cards.map((card) => ({
+      ...DATA.templates[card.template],
+      color: card.color,
+      traits: card.traits
+    }));
+    $("deck-matchups").innerHTML = players
+      .map(
+        (card, slot) =>
+          `<div class="matchup-column">${gameCard(encounter.cards[slot], slot)}${matchupVisual(card.color, encounter.cards[slot].color)}${gameCard(card, slot, true)}</div>`
+      )
       .join("");
-    $("enemy-deck").innerHTML = encounter.cards.map((c, i) => gameCard(c, i)).join("");
+    const chromatic = 1 + 0.05 * new Set(players.map((card) => card.color).filter((color) => color !== 0)).size;
+    $("enemy-totals").innerHTML = deckTotals(encounter.cards, players);
+    $("player-totals").innerHTML = deckTotals(players, encounter.cards, chromatic * (1 + rating / 100));
 
     $("materials").innerHTML = result.cards
       .map(
@@ -607,7 +646,7 @@ async function loadBattleDetails() {
       ? details.events
           .map(
             (e) =>
-              `<div class="event-row"><span>代表键进度 ${e.at}/25 · ${e.side === 0 ? "己方" : "对方"}</span>${traitTag(e.trait)}<span>· ${e.kind === "heal" ? "有效回复" : "造成伤害"} ${num(e.amount, 4)}%</span></div>`
+              `<div class="event-row"><span>代表键进度 ${e.at}/25 · ${e.side === 0 ? "己方" : "对方"}</span>${traitTag(e.trait, false, { showSources: e.side === 0 })}<span>· ${e.kind === "heal" ? "有效回复" : "造成伤害"} ${num(e.amount, 4)}%</span></div>`
           )
           .join("")
       : '<p class="help">没有瞬时攻击或回复事件。</p>';
