@@ -841,13 +841,11 @@ summary {
   object-fit: contain;
 }
 .trait-icon .trait-effect {
+  /* 原生TraitIcon：效果层400×400居中于600×600外框。 */
   z-index: 3;
-  inset: 10%;
-  width: 80%;
-  height: 80%;
-}
-.trait-icon .trait-border {
-  z-index: 1;
+  inset: calc(100% / 6);
+  width: calc(200% / 3);
+  height: calc(200% / 3);
 }
 .trait-icon .trait-frame {
   z-index: 2;

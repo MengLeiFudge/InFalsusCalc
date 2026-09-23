@@ -1,0 +1,421 @@
+{
+  "schema": 1,
+  "catalog_id": "e32417bd7fa5886ce5fd6345",
+  "source": "TraitSpecification.Icon + TraitIconAssets；TraitIcon._qsA RVA0x506EF0，普通Small图层。",
+  "traits": {
+    "2": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "3": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "4": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "5": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Closing.webp"
+    },
+    "6": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Closing.webp"
+    },
+    "7": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Closing.webp"
+    },
+    "8": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-OnsetOpening.webp"
+    },
+    "9": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-OnsetOpening.webp"
+    },
+    "10": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-OnsetOpening.webp"
+    },
+    "11": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-RecurringOpening.webp"
+    },
+    "12": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-EchoingClosing.webp"
+    },
+    "13": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-LingeringClosing.webp"
+    },
+    "14": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-LingeringClosing.webp"
+    },
+    "15": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-LingeringClosing.webp"
+    },
+    "16": {
+      "native_icon": 5,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Distress-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "17": {
+      "native_icon": 5,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Distress-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "18": {
+      "native_icon": 11,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Vulnerable-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "19": {
+      "native_icon": 11,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Vulnerable-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "20": {
+      "native_icon": 12,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Weaken-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "21": {
+      "native_icon": 12,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Weaken-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "22": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "23": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "24": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "25": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Closing.webp"
+    },
+    "26": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Closing.webp"
+    },
+    "27": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Closing.webp"
+    },
+    "28": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-OnsetOpening.webp"
+    },
+    "29": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-OnsetOpening.webp"
+    },
+    "30": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-OnsetOpening.webp"
+    },
+    "31": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-RecurringOpening.webp"
+    },
+    "32": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-EchoingClosing.webp"
+    },
+    "33": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-LingeringClosing.webp"
+    },
+    "34": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-LingeringClosing.webp"
+    },
+    "35": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-LingeringClosing.webp"
+    },
+    "36": {
+      "native_icon": 2,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Amplification-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "37": {
+      "native_icon": 2,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Amplification-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Outer.webp"
+    },
+    "38": {
+      "native_icon": 2,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Amplification-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedOuter.webp"
+    },
+    "39": {
+      "native_icon": 2,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Amplification-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "40": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "41": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "42": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "43": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "44": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "45": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "46": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "47": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "48": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "49": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "50": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "51": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "52": {
+      "native_icon": 6,
+      "active": true,
+      "icon": "assets/traits/native/Icon-FullRecover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "53": {
+      "native_icon": 1,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Aegis-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "54": {
+      "native_icon": 10,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Turmoil-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "55": {
+      "native_icon": 3,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Burst-active.webp",
+      "frame": "assets/traits/native/Frame-small-Winged.webp"
+    },
+    "56": {
+      "native_icon": 3,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Burst-active.webp",
+      "frame": "assets/traits/native/Frame-small-Graceless.webp"
+    },
+    "63": {
+      "native_icon": 3,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Burst-active.webp",
+      "frame": "assets/traits/native/Frame-small-Winged.webp"
+    },
+    "64": {
+      "native_icon": 3,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Burst-active.webp",
+      "frame": "assets/traits/native/Frame-small-Winged.webp"
+    },
+    "65": {
+      "native_icon": 14,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Burst-active.webp",
+      "frame": "assets/traits/native/Frame-small-Closing.webp"
+    },
+    "66": {
+      "native_icon": 13,
+      "active": false,
+      "icon": "assets/traits/native/Icon-ChromaticIsolation.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    },
+    "67": {
+      "native_icon": 16,
+      "active": false,
+      "icon": "assets/traits/native/Icon-CriticalFocus-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "68": {
+      "native_icon": 15,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Impudence-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "69": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "70": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "71": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "72": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "73": {
+      "native_icon": 9,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Surge-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "74": {
+      "native_icon": 7,
+      "active": true,
+      "icon": "assets/traits/native/Icon-Recover-active.webp",
+      "frame": "assets/traits/native/Frame-small-Opening.webp"
+    },
+    "75": {
+      "native_icon": 4,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Concentration-passive.webp",
+      "frame": "assets/traits/native/Frame-small-Inner.webp"
+    },
+    "76": {
+      "native_icon": 8,
+      "active": false,
+      "icon": "assets/traits/native/Icon-Rigor-passive.webp",
+      "frame": "assets/traits/native/Frame-small-RangedInner.webp"
+    }
+  }
+}

@@ -100,13 +100,12 @@ const traitName = (id) => trait(id)?.name || `特性${id}`;
 /** 复用原生技能图层及完整说明，按展示场景选择是否显示阶级。 */
 function traitTag(id, iconOnly = false, { showTier = true } = {}) {
   const item = trait(id),
-    icon = item && DATA.catalog.trait_icons[item.icon],
-    border = DATA.catalog.trait_border;
-  const frame = item && DATA.catalog.trait_frames[String(item.condition)],
-    tierIcon = showTier && item && DATA.catalog.trait_tiers[String(item.tier)];
+    icon = item?.icon,
+    frame = item?.frame;
+  const tierIcon = showTier && item && DATA.catalog.trait_tiers[String(item.tier)];
   const details = item?.description ? plain(item.description) : "没有可用的效果说明。";
   const picture = icon
-    ? `<span class="trait-icon"><img class="trait-border" src="${border}" alt="">${frame ? `<img class="trait-frame" src="${frame}" alt="">` : ""}<img class="trait-effect" src="${icon}" alt="">${tierIcon ? `<img class="trait-tier" src="${tierIcon}" alt="">` : ""}</span>`
+    ? `<span class="trait-icon"><img class="trait-frame" src="${frame}" alt=""><img class="trait-effect" src="${icon}" alt="">${tierIcon ? `<img class="trait-tier" src="${tierIcon}" alt="">` : ""}</span>`
     : "";
   return `<span class="trait-tag${iconOnly ? " icon-only" : ""}" tabindex="0">${picture}<span class="trait-label">${esc(traitName(id))}</span><span class="trait-tooltip" role="tooltip"><strong>${esc(traitName(id))}</strong>${showTier && item?.tier ? `<small>技能等级 ${item.tier}</small>` : ""}<span>${esc(details)}</span></span></span>`;
 }

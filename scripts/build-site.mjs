@@ -13,6 +13,7 @@ const report = JSON.parse(source);
 const catalog = JSON.parse(readFileSync(join(root, "Calculator/Data/catalog.json"), "utf8"));
 const assets = JSON.parse(readFileSync(join(root, "reports/assets.json"), "utf8"));
 const craftingUi = JSON.parse(readFileSync(join(root, "reports/crafting-ui.json"), "utf8"));
+const traitVisuals = JSON.parse(readFileSync(join(root, "reports/trait-visuals.json"), "utf8"));
 
 /** 按网页消费字段显式投影；缺失字段阻止发布，避免生成不完整页面。 */
 function pick(value, fields) {
@@ -33,6 +34,12 @@ if (
   report.schema !== 14 ||
   craftingUi.schema !== 1 ||
   craftingUi.catalog_id !== catalog.id ||
+  traitVisuals.schema !== 1 ||
+  traitVisuals.catalog_id !== catalog.id ||
+  !sameIds(
+    report.catalog.traits.map((trait) => trait.id),
+    Object.keys(traitVisuals.traits).map(Number)
+  ) ||
   report.catalog.id !== catalog.id ||
   !sameIds(
     report.catalog.recipes.map((r) => r.id),
@@ -133,9 +140,10 @@ function chunk(value) {
 }
 
 const common = chunk({
+  // 图像按原生TraitSpecification.Icon与主动/被动材质选择，不使用报告中的效果归类推测。
   traits: report.catalog.traits.map((trait) => ({
-    ...pick(trait, ["id", "name", "description", "tier", "icon"]),
-    condition: trait.effects[0].TraitActivationCondition
+    ...pick(trait, ["id", "name", "description", "tier"]),
+    ...pick(traitVisuals.traits[trait.id], ["icon", "frame"])
   })),
   shapes: report.catalog.shapes.map((shape) => ({
     id: shape.Id.Value,
@@ -144,7 +152,7 @@ const common = chunk({
     cells: shape.Segments.map((cell) => [cell.Q, cell.R])
   })),
   strike_names: craftingUi.names.slice(0, 4),
-  ...pick(assets, ["trait_icons", "trait_border", "trait_frames", "trait_tiers", "strike_icons"])
+  ...pick(assets, ["trait_border", "trait_tiers", "strike_icons"])
 });
 /** 投影当前拼法的容忍及可用粒子上限；与报告中的净罚分核对，避免重复计算或展示过期规则。 */
 function craftingDetails(card, board) {
