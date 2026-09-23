@@ -246,7 +246,7 @@ internal static class Reporting
                 published_templates = templates.Count,
                 conditions = decks.Length,
                 deck_objective = $"encounter_score_capped_at_{Battle.MaxScore:0}_with_clear",
-                deck_optimality = "ordered_name_skeleton_beam",
+                deck_optimality = "best_found_with_score_cap_proofs",
                 recipe_selection = ConfidenceAnalysis.Scope,
                 deck_selection = DeckSearch.Policy,
                 confidence_targets = recipes.Sum(r => r.Groups.Values.SelectMany(g => g.Goals.Values).Count(v => v.Status == "CONFIDENCE"))

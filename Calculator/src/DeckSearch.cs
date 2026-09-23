@@ -79,6 +79,8 @@ internal sealed class DeckResult
     }
     /// <summary>以遭遇得分为目标的有限搜索结果。</summary>
     public string Optimality { get; init; } = "best_found";
+    /// <summary>完整单卡、固定五卡编排和双卡单技能邻域是否已收敛，不代表全局最优。</summary>
+    public bool NeighborhoodComplete { get; init; }
     /// <summary>公开的搜索范围说明。</summary>
     public string Method { get; init; } = "通关约束下按遭遇得分排序，多起点、整卡替换、位置交换与技能顺序搜索";
 }
@@ -86,10 +88,12 @@ internal sealed class DeckResult
 /// <summary>以真实遭遇得分选择通关队伍，失败方案只用于寻找可行起点。</summary>
 internal sealed class DeckSearch
 {
-    /// <summary>分罚分上限的多起点随机骨架和双卡邻域搜索版本。</summary>
-    public const string Policy = "opponent-neighborhood-v5";
+    /// <summary>启发式起点与完整单卡、固定五卡编排及双技能精化的搜索版本。</summary>
+    public const string Policy = "opponent-neighborhood-v6-complete-card-refinement";
     private readonly Catalog catalog;
     private readonly CardTemplate[] templates;
+    /// <summary>惩罚上限内的完整输入库，仅启发式起点使用另一份缩减池。</summary>
+    private readonly CardTemplate[] allTemplates;
     private readonly Encounter encounter;
     private readonly string library;
     private readonly int maxStrikes;
@@ -103,6 +107,8 @@ internal sealed class DeckSearch
     private DeckChoice[]? winner;
     private BattleResult? winningBattle;
     private long evaluated;
+    /// <summary>新增长邻域被取消时保留最高分，但不能把部分检查缓存成已完成。</summary>
+    private bool refinementComplete;
 
     /// <summary>为一个回想建立独立搜索缓存，允许不同回想并行计算。</summary>
     /// <param name="catalog">只读游戏资源。</param>
@@ -121,6 +127,7 @@ internal sealed class DeckSearch
         this.maxStrikes = maxStrikes;
         this.token = token;
         CardTemplate[] eligible = templates.Where(c => c.Strikes <= maxStrikes).ToArray();
+        allTemplates = eligible;
         if (eligible.Select(c => c.BaseId).Distinct().Count() < 5)
             throw new InvalidDataException($"允许罚分{maxStrikes}的模板不足五种不同名卡。");
         int maxPower = eligible.Max(c => c.Power), maxFortitude = eligible.Max(c => c.Fortitude), maxTotal = eligible.Max(c => c.Total);
@@ -593,6 +600,19 @@ internal sealed class DeckSearch
             foreach (DeckChoice[] skillSeed in SkillBeam(seed))
                 Improve(skillSeed);
         }
+        if (winner is not null)
+        {
+            DeckRefinement refinement = new(catalog, encounter, winner, token, allTemplates);
+            try { refinement.Run(includePairs: true); }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                // 先返回已通关的最高分供调用方落盘；未收敛标记会让下次运行继续精化。
+            }
+            winner = refinement.Team;
+            winningBattle = refinement.Battle;
+            evaluated += refinement.Evaluated;
+            refinementComplete = refinement.Completed;
+        }
         return Result(timer);
     }
 
@@ -624,14 +644,16 @@ internal sealed class DeckSearch
             RatingBattles = ratingBattles,
             Evaluated = evaluated,
             Seconds = timer.Elapsed.TotalSeconds,
-            Method = $"单卡允许罚分不超过{maxStrikes}；已验证基准与随机多起点、技能beam、单卡和前24双卡邻域、完整战斗复算"
+            Optimality = battle.Score >= Battle.MaxScore ? "optimal_by_score_cap" : "best_found",
+            NeighborhoodComplete = refinementComplete,
+            Method = $"单卡允许罚分不超过{maxStrikes}；已验证基准与随机多起点、技能beam、单卡和前24双卡邻域、完整单卡模板/颜色/技能及顺序、固定五卡全部位置/颜色编排与双卡单技能联合替换、逐判定战斗复算；邻域{(refinementComplete ? "已收敛" : "未完成")}"
         };
     }
 
-    /// <summary>最多三个技能的全部装备顺序；不改变技能集合或材料合法性。</summary>
-    /// <param name="values">当前不同技能。</param>
+    /// <summary>短数组的全部顺序，供最多三个技能或五个队伍位置使用。</summary>
+    /// <param name="values">互不相同的技能编号或位置索引。</param>
     /// <returns>每种顺序的独立数组。</returns>
-    private static IEnumerable<int[]> Permutations(int[] values)
+    internal static IEnumerable<int[]> Permutations(int[] values)
     {
         if (values.Length < 2)
         {

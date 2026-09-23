@@ -403,7 +403,7 @@ internal static class Program
                     throw new InvalidDataException($"配方{recipe.Id}的置信key尚未完成。");
                 results.Add(result);
             }
-            CardTemplate[] templates = results.Zip(selectedRecipes).SelectMany(p => ConfidenceAnalysis.SelectedCards(p.First, p.Second)).DistinctBy(c => c.Id).OrderBy(c => c.Id).ToArray();
+            CardTemplate[] templates = results.Zip(selectedRecipes).SelectMany(p => ConfidenceAnalysis.CandidateCards(p.First, p.Second)).DistinctBy(c => c.Id).OrderBy(c => c.Id).ToArray();
             if (templates.Select(c => c.BaseId).Distinct().Count() < 5)
                 throw new InvalidDataException("结果不足五种不同名卡。");
             Dictionary<(int Encounter, int MaxStrikes), DeckResult> incumbents = LoadIncumbents();
@@ -431,11 +431,12 @@ internal static class Program
                         && cached.Cards.All(c => byTemplate.TryGetValue(c.Template, out CardTemplate? card) && card.Strikes <= maxStrikes);
                     bool CachedBeatsLower() => lowerResult is null || cached!.Battle.Score > lowerResult.Battle.Score
                         || cached.Battle.Score == lowerResult.Battle.Score && cached.Battle.RawScore >= lowerResult.Battle.RawScore;
-                    if (cacheValid && CachedBeatsLower() && options.Encounter != encounter.Id)
+                    if (cacheValid && (cached!.NeighborhoodComplete || cached.Battle.Score >= Battle.MaxScore)
+                        && CachedBeatsLower() && options.Encounter != encounter.Id)
                     {
                         decks[(encounter.Id, maxStrikes)] = cached!;
                         lowerResult = cached;
-                        Console.WriteLine($"{encounter.Name}（允许罚分{maxStrikes}）：复用已完成配队，遭遇分{cached!.Battle.Score:N0}。");
+                        Console.WriteLine($"{encounter.Name}（允许罚分{maxStrikes}）：复用已有搜索结果，遭遇分{cached!.Battle.Score:N0}。");
                         SaveStatus();
                         continue;
                     }
@@ -517,34 +518,35 @@ internal static class Program
         finally { Console.CancelKeyPress -= handler; }
     }
 
-    /// <summary>读取本地完整结果或仓库完整报告中的旧配队，作为搜索起点和不降级回退。</summary>
+    /// <summary>合并本地结果与已发布报告的高分队伍，避免旧运行文件遮住更新的发布基准。</summary>
     /// <returns>按回想与允许罚分索引的已有配队。</returns>
     private static Dictionary<(int Encounter, int MaxStrikes), DeckResult> LoadIncumbents()
     {
-        string path = Path.Combine(Storage.Root, "results", "report.json");
-        if (!File.Exists(path))
-            path = Path.Combine(Storage.Root, "reports", "report.json");
-        if (!File.Exists(path))
-            return [];
-        using JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(path));
-        if (!document.RootElement.TryGetProperty("encounters", out JsonElement encounters))
-            return [];
         List<DeckResult> results = [];
-        foreach (JsonProperty encounter in encounters.EnumerateObject())
+        foreach (string directory in new[] { "results", "reports" })
         {
-            if (encounter.Value.TryGetProperty("cards", out _))
+            string path = Path.Combine(Storage.Root, directory, "report.json");
+            if (!File.Exists(path))
+                continue;
+            using JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(path));
+            if (!document.RootElement.TryGetProperty("encounters", out JsonElement encounters))
+                continue;
+            foreach (JsonProperty encounter in encounters.EnumerateObject())
             {
-                DeckResult? result = encounter.Value.Deserialize<DeckResult>(Storage.Json);
-                if (result is not null)
-                    results.Add(result);
-            }
-            else
-                foreach (JsonProperty tier in encounter.Value.EnumerateObject())
+                if (encounter.Value.TryGetProperty("cards", out _))
                 {
-                    DeckResult? result = tier.Value.Deserialize<DeckResult>(Storage.Json);
+                    DeckResult? result = encounter.Value.Deserialize<DeckResult>(Storage.Json);
                     if (result is not null)
                         results.Add(result);
                 }
+                else
+                    foreach (JsonProperty tier in encounter.Value.EnumerateObject())
+                    {
+                        DeckResult? result = tier.Value.Deserialize<DeckResult>(Storage.Json);
+                        if (result is not null)
+                            results.Add(result);
+                    }
+            }
         }
         return results.GroupBy(result => (result.Encounter, result.MaxStrikes))
             .ToDictionary(group => group.Key, group => group.MaxBy(result => result.Battle.Score)!);

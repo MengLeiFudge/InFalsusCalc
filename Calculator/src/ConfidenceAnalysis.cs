@@ -18,14 +18,26 @@ internal static class ConfidenceAnalysis
     private sealed record ConfidenceRecipe(int Recipe, string Name, ConfidenceKey[] Keys, string[] High, string[] Reserve, string[] Pruned,
         string[] AtLeastThree, string[] AtLeastFour);
 
-    /// <summary>只返回置信策略选中key的代表卡，不带入保留在文件中的低置信历史组。</summary>
+    /// <summary>供网页展示的面板代表；配队搜索不能使用这份仅按面板缩减的列表。</summary>
+    /// <param name="result">已完成的几何结果。</param>
+    /// <param name="recipe">当前配方。</param>
+    /// <returns>网页保留的面板代表。</returns>
     public static CardTemplate[] SelectedCards(RecipeResult result, Recipe recipe)
     {
+        CardTemplate[] cards = CandidateCards(result, recipe);
+        return cards.Where(card => !cards.Any(other => other.Id != card.Id && Dominates(other, card))).ToArray();
+    }
+
+    /// <summary>返回已选置信key和惩罚层内全部已算出的代表，保留颜色、材料能力及惩罚预算差异。</summary>
+    /// <param name="result">已完成的几何结果。</param>
+    /// <param name="recipe">当前配方。</param>
+    /// <returns>配队搜索可使用的完整已有代表库，不带低置信历史组。</returns>
+    public static CardTemplate[] CandidateCards(RecipeResult result, Recipe recipe)
+    {
         HashSet<string> keys = RetainedKeys(recipe).Select(Key).ToHashSet();
-        CardTemplate[] cards = result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes))
+        return result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes))
             .SelectMany(p => p.Value.Best.Values.Concat(p.Value.TotalBest)).Distinct()
             .Where(result.Cards.ContainsKey).Select(id => result.Cards[id]).ToArray();
-        return cards.Where(card => !cards.Any(other => other.Id != card.Id && Dominates(other, card))).ToArray();
     }
 
     /// <summary>同一卡同结构只保留最终攻防未被支配的候选。</summary>
