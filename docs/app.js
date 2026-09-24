@@ -437,6 +437,11 @@ function clearLibraryFilters() {
   filterLibrary();
 }
 
+/** 基础攻防沿用制卡区域求和值；特性种数表示材料可提供的选择，不是槽数或已装备数量。 */
+function cardFacts(card) {
+  return [`攻击 ${card.base_power}`, `防御 ${card.base_fortitude}`, `特性 ${card.available_trait_count} 种`];
+}
+
 /** 玩家与敌方复用游戏卡面；无配方的敌方使用封面且不显示等级图案。 */
 function cardVisual(card, color, traits = [], { interactive = false, showChanges = false, playerSlot = null } = {}) {
   const recipe = DATA.catalog.recipes.find((item) => item.id === card.recipe),
@@ -469,7 +474,12 @@ function cardVisual(card, color, traits = [], { interactive = false, showChanges
   const levelIcon = rank
     ? `<img class="card-level-icon" style="height:${(rank.height / 820) * 100}%" src="${rank.image}" alt="等级${recipe.tier}">`
     : "";
-  return `<article class="game-card-visual${interactive ? " interactive" : ""}${color === 0 ? " neutral" : ""}" style="--card-color:${colors[color]}"${behavior}><img class="card-art" loading="lazy" decoding="async" src="${recipe ? assets.art[card.recipe] : assets.enemy_art}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt="">${color ? `<img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色">` : ""}${levelIcon}<img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt="">${changeIcons}<img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4><div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div></article>`;
+  const facts = recipe
+    ? `<div class="card-facts">${cardFacts(card)
+        .map((text) => `<span>${esc(text)}</span>`)
+        .join(" · ")}</div>`
+    : "";
+  return `<article class="game-card-visual${interactive ? " interactive" : ""}${color === 0 ? " neutral" : ""}" style="--card-color:${colors[color]}"${behavior}><img class="card-art" loading="lazy" decoding="async" src="${recipe ? assets.art[card.recipe] : assets.enemy_art}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt="">${color ? `<img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色">` : ""}${levelIcon}<img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt="">${changeIcons}<img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4>${facts}<div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div></article>`;
 }
 
 /** 一览始终显示本色，其他可用颜色由卡面侧边的原生标记表达。 */
@@ -699,7 +709,7 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
       craftedCard?.traits.filter((id) => id > 1) ?? [],
       { showChanges: !craftedCard }
     );
-    $("layout-stats").textContent = `原始攻击 ${num(card.base_power)} · 原始防御 ${num(card.base_fortitude)}`;
+    $("layout-stats").textContent = cardFacts(card).join(" · ");
     const amounts = card.raw_penalties,
       allowances = card.strike_tolerances;
     const strikeRows = DATA.catalog.strike_names

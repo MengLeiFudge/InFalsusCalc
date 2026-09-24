@@ -1246,6 +1246,29 @@ summary {
   text-shadow: 0 2px 4px #000;
   overflow-wrap: anywhere;
 }
+.game-card-visual:has(> .card-facts) h4 {
+  top: 69.5%;
+}
+.card-facts {
+  position: absolute;
+  z-index: 5;
+  left: 8%;
+  top: 80.5%;
+  width: 84%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.15;
+  text-align: center;
+  text-wrap: balance;
+  text-shadow:
+    0 1px 3px #000,
+    0 0 5px #000;
+  pointer-events: none;
+}
+.card-facts > span {
+  white-space: nowrap;
+}
 .card-stats {
   position: absolute;
   z-index: 5;

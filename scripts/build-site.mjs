@@ -99,11 +99,11 @@ const summaryFields = [
   "slots",
   "left",
   "right",
-  "strikes"
+  "strikes",
+  "base_power",
+  "base_fortitude"
 ];
 const detailFields = [
-  "base_power",
-  "base_fortitude",
   "retained_percent",
   "penalties",
   "raw_penalties",
@@ -112,6 +112,10 @@ const detailFields = [
   "available_traits",
   "goals"
 ];
+/** 卡面摘要包含基础攻防与材料可提供的特性种数，不加载完整特性或拼法。 */
+function cardSummary(card) {
+  return { ...pick(card, summaryFields), available_trait_count: card.available_traits.length };
+}
 mkdirSync(join(root, ".codex"), { recursive: true });
 const stage = mkdtempSync(join(root, ".codex/site-stage-"));
 mkdirSync(join(stage, "chunks"));
@@ -249,11 +253,10 @@ for (const encounter of report.catalog.encounters) {
       ratings
     };
     for (const card of deck.cards) {
-      templates[card.template] = pick(report.templates[card.template], [
-        ...summaryFields,
-        "inner_structure",
-        "outer_structure"
-      ]);
+      templates[card.template] = {
+        ...cardSummary(report.templates[card.template]),
+        ...pick(report.templates[card.template], ["inner_structure", "outer_structure"])
+      };
     }
   }
   encounters.push({
@@ -303,7 +306,7 @@ const index = {
     card_assets: cardAssets,
     trait_border: assets.trait_border
   },
-  templates: Object.fromEntries(library.map((card) => [card.id, pick(card, summaryFields)])),
+  templates: Object.fromEntries(library.map((card) => [card.id, cardSummary(card)])),
   defaults: pick(report.defaults, ["search_rating"])
 };
 const indexText = JSON.stringify(index);
