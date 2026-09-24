@@ -576,9 +576,10 @@ main {
 }
 .game-card-visual.interactive:hover,
 .game-card-visual.interactive:focus-visible {
-  filter: drop-shadow(0 9px 10px #0008) brightness(1.08);
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  /* 按合成图层的透明轮廓发光，包含卡框及伸出的徽章，不绘制矩形外框。 */
+  filter: drop-shadow(0 0 3px var(--accent)) drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 50%, transparent))
+    brightness(1.08);
+  outline: none;
 }
 .color-dots {
   display: inline-flex;
@@ -1351,13 +1352,17 @@ summary {
 }
 .matchup-column {
   min-width: 0;
+  width: min(100%, 230px);
+  margin: 0 auto;
 }
 /* HandSelectCardColumnContainer的500宽卡列与190高连接区，保留原生素材比例。 */
 .card-matchup {
   position: relative;
   width: min(100%, 230px);
   aspect-ratio: 500 / 190;
-  margin: 0 auto;
+  /* 百分比边距以列宽为基准：扣除上卡底部连接口之后及下卡顶部连接口之前的留白。
+     使用卡高/卡宽=3.26682/1.99366，上卡口底97.560976%，下卡口顶4.95%。 */
+  margin: -3.996595% auto -8.111092%;
 }
 .card-matchup img {
   position: absolute;
@@ -1366,9 +1371,10 @@ summary {
 }
 .matchup-line {
   left: 42%;
-  top: 0;
+  /* 原图高128px，上下各4px透明；让中间120px覆盖整个连接区。 */
+  top: -3.333333%;
   width: 16%;
-  height: 100%;
+  height: 106.666667%;
 }
 .matchup-backing {
   left: 14%;
