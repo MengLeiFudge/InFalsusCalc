@@ -195,8 +195,21 @@
           ><label class="rating-control"
             >谱面等级 <output id="encounter-rating-value">10</output>
             <input id="encounter-rating" type="range" min="1" max="20" value="10" step="1"></label
+          ><label
+            >总判定数
+            <input
+              id="encounter-notes"
+              type="number"
+              min="25"
+              max="32767"
+              value="1000"
+              step="1"
+              required
+              aria-describedby="note-count-help"
+            ></label
           ></div
         >
+        <p id="note-count-help" class="help">填写结算页总判定数，包含长条判定；按全部EXACT实时计算。</p>
         <p id="encounter-loading" class="help" role="status">请选择回想。</p>
         <div id="encounter-content" hidden>
           <div class="section-intro"
@@ -228,8 +241,8 @@
               ><table id="phase-table"
                 ><thead
                   ><tr
-                    ><th>阶段</th><th>己方攻击／防御</th><th>对方攻击／防御</th><th>造成伤害</th><th>受到伤害</th
-                    ><th>己方HP</th><th>对方进度</th></tr
+                    ><th>阶段</th><th>判定数／暴击数</th><th>己方攻击／防御</th><th>对方攻击／防御</th><th>造成伤害</th
+                    ><th>受到伤害</th><th>己方HP</th><th>对方进度</th></tr
                   ></thead
                 ><tbody></tbody></table
               ></div
@@ -242,7 +255,7 @@
             ><summary>特性触发明细</summary><div id="events" class="event-list"></div></details
           >
           <p class="help explanation"
-            >推荐配队按所选允许总惩罚分别搜索，单张卡的总惩罚不会超过该上限。配队固定按谱面等级10、联觉开启、25个代表性全EXACT键（每阶段5键，最后一键为暴击）、初始HP100搜索。谱面等级1至20只复算同一配队的战斗结果，不改变卡牌、顺序、颜色或特性。推荐在从零生成的有限模板库内搜索，未声明穷举所有配队后的全局最优。</p
+            >推荐配队按所选允许总惩罚分别搜索，单张卡的总惩罚不会超过该上限。配队固定按谱面等级10、联觉开启、25个代表性全EXACT键（每阶段5键，最后一键为暴击）、初始HP100搜索。谱面等级和总判定数用于在网页实时计算同一推荐配队的战斗结果，不改变卡牌、顺序、颜色或特性。推荐在从零生成的有限模板库内搜索，未声明穷举所有配队后的全局最优。</p
           >
         </div>
       </section>
@@ -257,7 +270,7 @@
         <li>角色技能全解锁</li>
         <li>效能999</li>
         <li>材料充足</li>
-        <li>全EXACT · 25代表键</li>
+        <li>全EXACT · 总判定数可输入</li>
         <li>配队按谱面等级10搜索 · 可切换1-20级</li>
         <li>联觉开启</li>
         <li>初始HP100</li>

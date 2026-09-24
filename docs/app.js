@@ -1,5 +1,5 @@
-/* 成果页读取本站静态数据与图片，不发起求解或后台计算。 */
-"use strict";
+/* 成果页读取静态配队，在浏览器按当前谱面条件结算，不发起搜索。 */
+import { calculateBattle, roundEven } from "./battle.js";
 const $ = (id) => document.getElementById(id);
 /** 同一路径共享请求与已加载数据；失败后移除缓存，允许用户重新选择重试。 */
 const requests = new Map();
@@ -535,7 +535,8 @@ async function selectEncounter() {
   const request = ++state.encounterRequest;
   const eid = Number($("encounter-select").value),
     maxStrikes = Number($("encounter-strikes").value),
-    rating = Number($("encounter-rating").value) || DATA.defaults.search_rating;
+    rating = Number($("encounter-rating").value) || DATA.defaults.search_rating,
+    notes = $("encounter-notes").valueAsNumber;
   state.result = null;
   state.battle = null;
   state.details = null;
@@ -544,15 +545,24 @@ async function selectEncounter() {
   $("encounter-loading").textContent = "正在加载当前回想…";
   $("encounter-rating-value").textContent = rating;
   $("encounter-strikes-value").textContent = maxStrikes;
+  if (!Number.isInteger(notes) || notes < 25 || notes > 32767) {
+    $("encounter-loading").textContent = "请输入25至32767之间的整数总判定数（包含长条判定）。";
+    return;
+  }
   try {
     const entry = DATA.catalog.encounters.find((e) => e.id === eid);
     const [payload] = await Promise.all([loadJson(`./data/${entry.file}`), loadCommon()]);
     if (request !== state.encounterRequest) return;
     const encounter = { ...entry, ...payload };
     const result = payload.decks[maxStrikes];
-    const b = result?.ratings[rating];
-    if (!b) throw new Error("这个回想缺少所选条件的预计算成果。");
+    if (!result) throw new Error("这个回想缺少所选条件的推荐配队。");
     Object.assign(DATA.templates, payload.templates);
+    const players = result.cards.map((card) => ({
+      ...DATA.templates[card.template],
+      color: card.color,
+      traits: card.traits
+    }));
+    const b = calculateBattle(players, encounter, DATA.catalog.traits, rating, notes);
     state.result = result;
     state.battle = b;
     $("encounter-rating-value").value = rating;
@@ -563,11 +573,11 @@ async function selectEncounter() {
       `${encounter.chapter} · ${encounter.name} · ${encounter.mode === "connect" ? "连接" : "映像"}`;
     encounterDrops(encounter);
     $("battle-condition").textContent =
-      `允许总惩罚${maxStrikes} · 谱面等级${rating} · 配队搜索等级10 · 联觉开启 · 25个代表性全EXACT键 · 初始HP100`;
+      `允许总惩罚${maxStrikes} · 谱面等级${rating} · ${notes}个全EXACT判定 · 联觉开启 · 初始HP100`;
     $("battle-status").textContent = b.passed ? "可通关" : "此推荐尚未通关";
     $("battle-status").className = `badge ${b.passed ? "good" : "bad"}`;
     $("encounter-score").innerHTML =
-      `<div><span>遭遇总分</span><strong>${num(b.score)}</strong></div><div><span>进攻分</span><strong>${num(b.offensive_score)}</strong></div><div><span>防守分</span><strong>${num(b.defensive_score)}</strong></div>`;
+      `<div><span>遭遇总分</span><strong>${num(roundEven(b.score))}</strong></div><div><span>进攻分</span><strong>${num(b.offensive_score)}</strong></div><div><span>防守分</span><strong>${num(b.defensive_score)}</strong></div>`;
     if (encounter.mode === "connect") {
       $("settlement").innerHTML =
         gauge(
@@ -594,11 +604,6 @@ async function selectEncounter() {
           true
         );
     }
-    const players = result.cards.map((card) => ({
-      ...DATA.templates[card.template],
-      color: card.color,
-      traits: card.traits
-    }));
     $("deck-matchups").innerHTML = players
       .map(
         (card, slot) =>
@@ -628,8 +633,8 @@ async function selectEncounter() {
   }
 }
 
-/** 阶段或特性明细展开后才读取所选等级的详情，重复查看复用缓存。 */
-async function loadBattleDetails() {
+/** 展开时显示当前本地结算的阶段及特性明细，与总判定数输入保持一致。 */
+function loadBattleDetails() {
   if (
     !state.battle ||
     state.details ||
@@ -637,35 +642,23 @@ async function loadBattleDetails() {
     (!$("phase-details").open && !$("event-details").open)
   )
     return;
-  const request = state.encounterRequest;
-  const battle = state.battle;
+  const details = state.battle;
   const body = $("phase-table").querySelector("tbody");
-  body.innerHTML = '<tr><td colspan="7">正在加载阶段明细…</td></tr>';
-  $("events").textContent = "正在加载特性明细…";
-  try {
-    const details = await loadJson(`./data/${battle.details}`);
-    if (request !== state.encounterRequest) return;
-    state.details = details;
-    body.innerHTML = details.phases
-      .map(
-        (p) =>
-          `<tr><td>${p.phase}</td><td>${num(p.attack[0])}／${num(p.defense[0])}</td><td>${num(p.attack[1])}／${num(p.defense[1])}</td><td>${num(p.damage[1], 2)}%</td><td>${num(p.damage[0], 2)}%</td><td>${num(Math.max(0, p.after[0]), 2)}%</td><td>${num(100 - p.after[1], 2)}%</td></tr>`
-      )
-      .join("");
-    $("events").innerHTML = details.events.length
-      ? details.events
-          .map(
-            (e) =>
-              `<div class="event-row"><span>代表键进度 ${e.at}/25 · ${e.side === 0 ? "己方" : "对方"}</span>${traitTag(e.trait, false, { showSources: e.side === 0 })}<span>· ${e.kind === "heal" ? "有效回复" : "造成伤害"} ${num(e.amount, 4)}%</span></div>`
-          )
-          .join("")
-      : '<p class="help">没有瞬时攻击或回复事件。</p>';
-  } catch (error) {
-    if (request !== state.encounterRequest) return;
-    const message = `明细加载失败，收起后重新展开可重试。${error.message}`;
-    body.innerHTML = `<tr><td colspan="7">${esc(message)}</td></tr>`;
-    $("events").textContent = message;
-  }
+  state.details = details;
+  body.innerHTML = details.phases
+    .map(
+      (p) =>
+        `<tr><td>${p.phase}</td><td>${p.notes}／${p.notes - p.charge}</td><td>${num(p.attack[0])}／${num(p.defense[0])}</td><td>${num(p.attack[1])}／${num(p.defense[1])}</td><td>${num(p.damage[1], 2)}%</td><td>${num(p.damage[0], 2)}%</td><td>${num(Math.max(0, p.after[0]), 2)}%</td><td>${num(100 - p.after[1], 2)}%</td></tr>`
+    )
+    .join("");
+  $("events").innerHTML = details.events.length
+    ? details.events
+        .map(
+          (e) =>
+            `<div class="event-row"><span>判定进度 ${e.at}/${details.notes} · ${e.side === 0 ? "己方" : "对方"}</span>${traitTag(e.trait, false, { showSources: e.side === 0 })}<span>· ${e.kind === "heal" ? "有效回复" : "造成伤害"} ${num(e.amount, 4)}%</span></div>`
+        )
+        .join("")
+    : '<p class="help">没有瞬时攻击或回复事件。</p>';
 }
 
 /** 读取卡牌拼法并忽略失效请求；配队入口携带成品颜色与技能，一览入口使用本色。 */
@@ -1005,6 +998,7 @@ function boot() {
   $("encounter-select").addEventListener("change", selectEncounter);
   $("encounter-strikes").addEventListener("input", selectEncounter);
   $("encounter-rating").addEventListener("input", selectEncounter);
+  $("encounter-notes").addEventListener("input", selectEncounter);
   $("phase-details").addEventListener("toggle", loadBattleDetails);
   $("event-details").addEventListener("toggle", loadBattleDetails);
   $("show-conditions").addEventListener("click", () => $("conditions-dialog").showModal());

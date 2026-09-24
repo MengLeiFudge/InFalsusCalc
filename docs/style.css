@@ -212,11 +212,11 @@ main {
 }
 .encounter-filters {
   display: grid;
-  grid-template-columns: minmax(320px, 1.7fr) minmax(180px, 1fr) minmax(260px, 1fr);
+  grid-template-columns: minmax(240px, 1.7fr) minmax(160px, 1fr) minmax(200px, 1fr) minmax(140px, 0.7fr);
   align-items: start;
 }
 .encounter-filters select,
-.encounter-filters input[type="range"] {
+.encounter-filters input {
   height: 41px;
 }
 .penalty-control output,
@@ -1815,6 +1815,9 @@ footer {
   }
   .topbar {
     padding: 26px 24px;
+  }
+  .encounter-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .advanced-filter-grid {
     grid-template-columns: repeat(2, minmax(150px, 1fr));

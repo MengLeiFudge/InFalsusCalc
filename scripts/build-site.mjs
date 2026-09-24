@@ -153,7 +153,7 @@ const traitDrops = report.catalog.encounters
 const common = chunk({
   // 图像按原生TraitSpecification.Icon与主动/被动材质选择，不使用报告中的效果归类推测。
   traits: report.catalog.traits.map((trait) => ({
-    ...pick(trait, ["id", "name", "description", "tier"]),
+    ...pick(trait, ["id", "name", "description", "tier", "effects"]),
     ...pick(traitVisuals.traits[trait.id], ["icon", "frame"]),
     drop_sources: traitDrops
       .filter((drop) => drop.tiers.length && drop.traits.includes(trait.id))
