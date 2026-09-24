@@ -403,7 +403,7 @@ internal static class Program
                     throw new InvalidDataException($"配方{recipe.Id}的置信key尚未完成。");
                 results.Add(result);
             }
-            CardTemplate[] templates = results.Zip(selectedRecipes).SelectMany(p => ConfidenceAnalysis.CandidateCards(p.First, p.Second)).DistinctBy(c => c.Id).OrderBy(c => c.Id).ToArray();
+            CardTemplate[] templates = results.Zip(selectedRecipes).SelectMany(p => ConfidenceAnalysis.SelectedCards(p.First, p.Second, catalog.Data.Profiles)).DistinctBy(c => c.Id).OrderBy(c => c.Id).ToArray();
             if (templates.Select(c => c.BaseId).Distinct().Count() < 5)
                 throw new InvalidDataException("结果不足五种不同名卡。");
             Dictionary<(int Encounter, int MaxStrikes), DeckResult> incumbents = LoadIncumbents();

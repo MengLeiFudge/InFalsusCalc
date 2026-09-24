@@ -18,35 +18,75 @@ internal static class ConfidenceAnalysis
     private sealed record ConfidenceRecipe(int Recipe, string Name, ConfidenceKey[] Keys, string[] High, string[] Reserve, string[] Pruned,
         string[] AtLeastThree, string[] AtLeastFour);
 
-    /// <summary>供网页展示的面板代表；配队搜索不能使用这份仅按面板缩减的列表。</summary>
+    /// <summary>按完整替代关系保留同名卡代表，网页与配队使用同一份有效卡库。</summary>
     /// <param name="result">已完成的几何结果。</param>
     /// <param name="recipe">当前配方。</param>
-    /// <returns>网页保留的面板代表。</returns>
-    public static CardTemplate[] SelectedCards(RecipeResult result, Recipe recipe)
-    {
-        CardTemplate[] cards = CandidateCards(result, recipe);
-        return cards.Where(card => !cards.Any(other => other.Id != card.Id && Dominates(other, card))).ToArray();
-    }
-
-    /// <summary>返回已选置信key和惩罚层内全部已算出的代表，保留颜色、材料能力及惩罚预算差异。</summary>
-    /// <param name="result">已完成的几何结果。</param>
-    /// <param name="recipe">当前配方。</param>
-    /// <returns>配队搜索可使用的完整已有代表库，不带低置信历史组。</returns>
-    public static CardTemplate[] CandidateCards(RecipeResult result, Recipe recipe)
+    /// <param name="profiles">当前版本的材料能力，判断技能组合是否能同时装备。</param>
+    /// <returns>没有被其他同名制卡结果完全替代的代表。</returns>
+    public static CardTemplate[] SelectedCards(RecipeResult result, Recipe recipe, MaterialProfile[] profiles)
     {
         HashSet<string> keys = RetainedKeys(recipe).Select(Key).ToHashSet();
-        return result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes))
+        CardTemplate[] cards = result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes))
             .SelectMany(p => p.Value.Best.Values.Concat(p.Value.TotalBest)).Distinct()
             .Where(result.Cards.ContainsKey).Select(id => result.Cards[id]).ToArray();
+        Dictionary<string, HashSet<string>> abilities = [];
+        Dictionary<string, HashSet<string>> byCard = [];
+        foreach (CardTemplate card in cards)
+        {
+            string key = $"{card.Slots}:{string.Join(',', card.AvailableTraits.Order())}:{string.Join(',', card.Carriers)}";
+            if (!abilities.TryGetValue(key, out HashSet<string>? sets))
+                abilities[key] = sets = LegalSkillSets(card, profiles);
+            byCard[card.Id] = sets;
+        }
+        return cards.Where(card => !cards.Any(other => other.Id != card.Id
+            && Dominates(other, card, byCard[other.Id], byCard[card.Id]))).ToArray();
     }
 
-    /// <summary>同一卡同结构只保留最终攻防未被支配的候选。</summary>
-    private static bool Dominates(CardTemplate candidate, CardTemplate other)
+    /// <summary>枚举材料实际能同时承载的技能集合；顺序可任意装备，因此包含集合即可保留全部顺序。</summary>
+    /// <param name="card">槽数及载体能力所属的制卡结果。</param>
+    /// <param name="profiles">材料能力表。</param>
+    /// <returns>包括空集及未满槽配置的合法集合。</returns>
+    private static HashSet<string> LegalSkillSets(CardTemplate card, MaterialProfile[] profiles)
     {
-        bool sameStructure = candidate.Slots == other.Slots && candidate.Left == other.Left && candidate.Right == other.Right;
-        bool noWorse = candidate.Power >= other.Power && candidate.Fortitude >= other.Fortitude;
-        bool strict = candidate.Power > other.Power || candidate.Fortitude > other.Fortitude;
-        return sameStructure && noWorse && strict;
+        HashSet<string> sets = [];
+        int[] available = card.AvailableTraits.Where(t => t > 1).Distinct().Order().ToArray();
+        List<int> selected = [];
+        Expand(0);
+        return sets;
+
+        void Expand(int start)
+        {
+            if (!Craft.CanAssign(profiles, card.Carriers, selected.ToArray()))
+                return; // 非法集合的超集也无法由同一批材料承载。
+            sets.Add(string.Join(',', selected));
+            if (selected.Count >= card.Slots)
+                return;
+            for (int i = start; i < available.Length; i++)
+            {
+                selected.Add(available[i]);
+                Expand(i + 1);
+                selected.RemoveAt(selected.Count - 1);
+            }
+        }
+    }
+
+    /// <summary>仅在同名、同范围下比较完整能力；相互等价时按ID打破平局，避免双方都被删除。</summary>
+    /// <param name="candidate">拟保留的结果。</param>
+    /// <param name="other">拟删除的结果。</param>
+    /// <param name="a">拟保留结果的全部合法技能集合。</param>
+    /// <param name="b">拟删除结果的全部合法技能集合。</param>
+    /// <returns>任意预算和原有颜色、技能选择下，前者是否可替代后者。</returns>
+    private static bool Dominates(CardTemplate candidate, CardTemplate other, HashSet<string> a, HashSet<string> b)
+    {
+        if (candidate.BaseId != other.BaseId || candidate.Left != other.Left || candidate.Right != other.Right
+            || candidate.Slots < other.Slots || candidate.Strikes > other.Strikes
+            || candidate.Power < other.Power || candidate.Fortitude < other.Fortitude
+            || other.Colors.Except(candidate.Colors).Any() || !a.IsSupersetOf(b))
+            return false;
+        bool strict = candidate.Power > other.Power || candidate.Fortitude > other.Fortitude
+            || candidate.Strikes < other.Strikes || candidate.Slots > other.Slots
+            || candidate.Colors.Except(other.Colors).Any() || a.Count > b.Count;
+        return strict || string.CompareOrdinal(candidate.Id, other.Id) < 0;
     }
 
     /// <summary>按70%底线保留，若不足3种则按置信度补齐；返回顺序即计算优先级。</summary>

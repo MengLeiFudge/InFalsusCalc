@@ -151,7 +151,7 @@ internal static class Reporting
         foreach (RecipeResult recipe in recipes)
         {
             Recipe definition = catalog.Data.Recipes.Single(r => r.Id == recipe.Recipe);
-            CardTemplate[] selected = ConfidenceAnalysis.SelectedCards(recipe, definition);
+            CardTemplate[] selected = ConfidenceAnalysis.SelectedCards(recipe, definition, catalog.Data.Profiles);
             HashSet<string> retained = ConfidenceAnalysis.RetainedKeys(definition).Select(k => string.Join(',', k)).ToHashSet();
             GroupState[] retainedGroups = recipe.Groups.Values.Where(g => retained.Contains(string.Join(',', g.Key))).ToArray();
             string[] visibleIds = retainedGroups.SelectMany(g => GoalRepresentatives(recipe, g).Select(item => item.Value)).Distinct().ToArray();
@@ -185,9 +185,10 @@ internal static class Reporting
             }
             groups[recipe.Recipe] = visible.ToArray();
         }
-        if (decks.SelectMany(deck => deck.Cards.Select(card => (deck, card))).Any(item => !templates.TryGetValue(item.card.Template, out JsonObject? template)
+        if (decks.SelectMany(deck => deck.Cards.Select(card => (deck, card))).Any(item => !libraryTemplates.ContainsKey(item.card.Template)
+            || !templates.TryGetValue(item.card.Template, out JsonObject? template)
             || template["strikes"]!.GetValue<int>() > item.deck.MaxStrikes))
-            throw new InvalidDataException("配队引用了网页选择范围之外或超过允许罚分的卡牌。");
+            throw new InvalidDataException("配队引用了有效卡库之外或超过允许罚分的卡牌。");
         JsonElement raw = catalog.Raw;
         IReadOnlyDictionary<int, EncounterLoot> loot = EncounterLoot(catalog);
         var report = new

@@ -77,26 +77,16 @@ for (const encounter of report.catalog.encounters) {
 }
 
 const published = Object.values(report.templates);
-// 旧完整报告没有单独的最终卡库时，保持原网页同卡同结构面板支配筛选的结果。
-const library = report.library_templates
-  ? Object.values(report.library_templates)
-  : published.filter(
-      (card) =>
-        !published.some(
-          (other) =>
-            other.id !== card.id &&
-            other.recipe === card.recipe &&
-            other.slots === card.slots &&
-            other.left === card.left &&
-            other.right === card.right &&
-            other.power >= card.power &&
-            other.fortitude >= card.fortitude &&
-            (other.power > card.power || other.fortitude > card.fortitude)
-        )
-    );
-const needed = new Set(library.map((card) => card.id));
+// 卡库由计算器的完整替代判定生成，构建阶段不再另按面板删除候选。
+if (!report.library_templates) throw new Error("完整报告缺少有效卡库，请使用计算器重新导出报告。");
+const library = Object.values(report.library_templates);
+const effective = new Set(library.map((card) => card.id));
 for (const tiers of Object.values(report.encounters)) {
-  for (const deck of Object.values(tiers)) for (const card of deck.cards) needed.add(card.template);
+  for (const deck of Object.values(tiers)) {
+    for (const card of deck.cards) {
+      if (!effective.has(card.template)) throw new Error(`配队模板 ${card.template} 不在有效卡库中，请重新导出配队。`);
+    }
+  }
 }
 const summaryFields = [
   "id",
@@ -205,7 +195,7 @@ function craftingDetails(card, board) {
 }
 const recipes = {};
 for (const recipe of report.catalog.recipes) {
-  const cards = published.filter((card) => card.recipe === recipe.id && needed.has(card.id));
+  const cards = published.filter((card) => card.recipe === recipe.id && effective.has(card.id));
   if (!cards.length) continue;
   const board = report.recipes[recipe.id];
   recipes[recipe.id] = chunk({
