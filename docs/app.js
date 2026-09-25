@@ -1,5 +1,6 @@
 /* 成果页读取静态配队，在浏览器按当前谱面条件结算，不发起搜索。 */
-import { calculateBattle, roundEven } from "./battle.js";
+import { calculateBattle } from "./battle.js";
+import { renderBattleProcess } from "./battle-view.js";
 const $ = (id) => document.getElementById(id);
 /** 同一路径共享请求与已加载数据；失败后移除缓存，允许用户重新选择重试。 */
 const requests = new Map();
@@ -77,8 +78,7 @@ const state = {
   layoutRequest: 0,
   encounterRequest: 0,
   board: null,
-  battle: null,
-  details: null
+  battle: null
 };
 const libraryCards = Object.values(DATA.templates);
 const recipeOrder = new Map(DATA.catalog.recipes.map((recipe, index) => [recipe.id, index]));
@@ -201,20 +201,20 @@ function encounterDrops(encounter) {
   const pool = loot.traits
     .map(
       (item) =>
-        `<span class="loot-trait">${traitTag(item.id)}<small>权重 ${item.weight} · ${num((item.weight / loot.trait_total_weight) * 100, 2)}%</small></span>`
+        `<span class="loot-trait">${traitTag(item.id)}<small>单次技能抽取 ${num((item.weight / loot.trait_total_weight) * 100, 2)}% · 权重 ${item.weight}</small></span>`
     )
     .join("");
   const noTrait = loot.no_trait_weight
-    ? `<span class="loot-empty">无技能结果 · 权重 ${loot.no_trait_weight} · ${num((loot.no_trait_weight / loot.trait_total_weight) * 100, 2)}%</span>`
+    ? `<span class="loot-empty">单次抽到无技能 ${num((loot.no_trait_weight / loot.trait_total_weight) * 100, 2)}% · 权重 ${loot.no_trait_weight}</span>`
     : "";
   const content = [...groups.values()]
     .map(
       (group) =>
-        `<div class="drop-group"><div class="drop-group-title"><strong>效能 ${group.min_potency}-${group.max_potency}</strong><span>${group.trait_rolls ? `抽取技能 ${group.trait_rolls} 次` : "不抽取技能"}</span></div><div class="drop-shapes">${group.drops.map((drop) => `<span class="drop-shape" title="粒子${drop.shape} · ${colorNames[drop.color]} · ${drop.tier}阶 · ${drop.size}格"><span class="shape-picture">${shapeIcon(drop.shape)}</span><span>${colorNames[drop.color]} ${drop.tier}阶 · ${drop.size}格<small>权重 ${drop.weight} · ${num((drop.weight / loot.total_weight) * 100, 2)}%</small></span></span>`).join("")}</div></div>`
+        `<div class="drop-group"><div class="drop-group-title"><strong>粒子效能 ${group.min_potency}-${group.max_potency}</strong><span>${group.trait_rolls ? `每个粒子最多抽取技能 ${group.trait_rolls} 次` : "这些粒子不抽取技能"} · 本组总概率 ${num((group.drops.reduce((sum, drop) => sum + drop.weight, 0) / loot.total_weight) * 100, 2)}%</span></div><div class="drop-shapes">${group.drops.map((drop) => `<span class="drop-shape" title="粒子${drop.shape} · ${colorNames[drop.color]} · ${drop.tier}阶 · ${drop.size}格"><span class="shape-picture">${shapeIcon(drop.shape)}</span><span>${colorNames[drop.color]} ${drop.tier}阶 · ${drop.size}格<small>粒子配置概率 ${num((drop.weight / loot.total_weight) * 100, 2)}% · 权重 ${drop.weight}</small></span></span>`).join("")}</div></div>`
     )
     .join("");
   $("encounter-drops").innerHTML =
-    `<div class="encounter-chapter"><span class="badge">${esc(encounter.chapter)}</span><span>掉落表 ${loot.table} · ${loot.items.length} 项粒子配置 · 总权重 ${loot.total_weight}</span></div><section class="loot-pool"><h4>对应技能池</h4><p>每次技能抽取独立按总权重 ${loot.trait_total_weight} 结算。</p><div class="loot-traits">${pool}${noTrait}</div></section>${content}`;
+    `<ol class="loot-flow"><li><strong>抽粒子配置</strong><p>每生成一个粒子，从下方全部配置中按权重抽取一项，确定形状、颜色、阶数、效能范围和技能抽取次数。分组仅便于阅读，概率均以全部配置为分母。</p></li><li><strong>生成效能与技能</strong><p>按命中配置生成效能；有技能抽取次数的配置会从所绑定的技能池逐次抽取。抽中的技能属于这颗粒子，不另行分配给其他粒子。</p></li><li><strong>用于制卡</strong><p>粒子最多携带3种不同技能；空结果或重复结果不增加新的技能。制卡时由实际放入的粒子提供可选技能，卡牌可装备数量由技能槽决定。</p></li></ol><section class="loot-pool"><h4>粒子配置</h4><p class="help">${loot.items.length}项配置 · 总权重${loot.total_weight}。各组列出效能范围与该粒子的技能抽取次数。</p>${content}</section><section class="loot-pool"><h4>本回想已发布的技能池汇总</h4><p class="help">报告所列总权重${loot.trait_total_weight}；百分比按该汇总表计算单次抽取权重，不代表指定粒子最终携带技能的概率。最多保留3种不同技能。</p><div class="loot-traits">${pool}${noTrait}</div></section>`;
 }
 
 /** 展示当前材料能提供的技能，并用游戏描述解释触发条件。 */
@@ -439,7 +439,7 @@ function clearLibraryFilters() {
 
 /** 基础攻防沿用制卡区域求和值；特性种数表示材料可提供的选择，不是槽数或已装备数量。 */
 function cardFacts(card) {
-  return [`攻击 ${card.base_power}`, `防御 ${card.base_fortitude}`, `特性 ${card.available_trait_count} 种`];
+  return [`攻 ${card.base_power}`, `防 ${card.base_fortitude}`, `特性 ${card.available_trait_count}`];
 }
 
 /** 玩家与敌方复用游戏卡面；无配方的敌方使用封面且不显示等级图案。 */
@@ -524,11 +524,6 @@ function deckTotals(cards, opponent, bonus = 1) {
   return `<span>总攻击 <strong>${num(power)}</strong></span><span>总防御 <strong>${num(fortitude)}</strong></span>`;
 }
 
-/** 结算条显示真实数值，超过100%的击破进度仍保留数值，只将条形长度封顶。 */
-function gauge(caption, value, left, right, enemy = false) {
-  return `<div class="gauge ${enemy ? "enemy" : ""}"><div class="caption">${esc(caption)}</div><div class="percent">${num(value, 2)}%</div><div class="bar"><div class="fill" style="width:${Math.max(0, Math.min(100, value))}%"></div></div><div class="details"><span>${esc(left)}</span><span>${esc(right)}</span></div></div>`;
-}
-
 /** 进入回想页或切换条件时读取当前回想，旧请求完成后不得覆盖新选择。 */
 async function selectEncounter() {
   hideTraitTooltip();
@@ -539,7 +534,9 @@ async function selectEncounter() {
     notes = $("encounter-notes").valueAsNumber;
   state.result = null;
   state.battle = null;
-  state.details = null;
+  const oldTooltip = $("battle-process").querySelector(".battle-node-tooltip");
+  if (oldTooltip?.matches(":popover-open")) oldTooltip.hidePopover();
+  $("battle-process").replaceChildren();
   $("encounter-content").hidden = true;
   $("encounter-loading").hidden = false;
   $("encounter-loading").textContent = "正在加载当前回想…";
@@ -576,34 +573,6 @@ async function selectEncounter() {
       `允许总惩罚${maxStrikes} · 谱面等级${rating} · ${notes}个全EXACT判定 · 联觉开启 · 初始HP100`;
     $("battle-status").textContent = b.passed ? "可通关" : "此推荐尚未通关";
     $("battle-status").className = `badge ${b.passed ? "good" : "bad"}`;
-    $("encounter-score").innerHTML =
-      `<div><span>遭遇总分</span><strong>${num(roundEven(b.score))}</strong></div><div><span>进攻分</span><strong>${num(b.offensive_score)}</strong></div><div><span>防守分</span><strong>${num(b.defensive_score)}</strong></div>`;
-    if (encounter.mode === "connect") {
-      $("settlement").innerHTML =
-        gauge(
-          "己方剩余HP",
-          b.player_remaining,
-          `全程最低 ${num(Math.max(0, b.minimum_hp), 2)}%`,
-          b.broken[0] ? "曾破损" : "全程未破损"
-        ) +
-        gauge(
-          "对方击破进度",
-          b.enemy_progress,
-          `剩余HP ${num(b.enemy_remaining, 2)}%`,
-          b.broken[1] ? `已击破 · 超额 ${num(Math.max(0, b.enemy_progress - 100), 2)}%` : "尚未击破",
-          true
-        );
-    } else {
-      $("settlement").innerHTML =
-        gauge("映像净推进", b.progress, "目标 100%", `超过目标 ${num(b.progress - 100, 2)}%`) +
-        gauge(
-          "对方净受伤",
-          b.enemy_progress,
-          `己方净受伤 ${num(100 - b.hp[0], 2)}%`,
-          "净推进＝对方净受伤－己方净受伤",
-          true
-        );
-    }
     $("deck-matchups").innerHTML = players
       .map(
         (card, slot) =>
@@ -614,51 +583,18 @@ async function selectEncounter() {
     $("enemy-totals").innerHTML = deckTotals(encounter.cards, players);
     $("player-totals").innerHTML = deckTotals(players, encounter.cards, chromatic * (1 + rating / 100));
 
-    $("materials").innerHTML = result.cards
-      .map(
-        (c, i) =>
-          `<div class="materials-group"><strong>第${i + 1}槽 · ${esc(DATA.templates[c.template].name)}</strong>${c.materials.length ? c.materials.map((m) => `<p>拼图第${m.piece}块：<span class="inline-traits">${m.traits.map(traitTag).join("")}</span><br>可刷来源：${m.sources.map((eid) => esc(DATA.catalog.encounters.find((e) => e.id === eid)?.name || `回想${eid}`)).join("／")}</p>`).join("") : "<p>无需携带特性的粒子。</p>"}</div>`
-      )
-      .join("");
-    $("phase-table").querySelector("tbody").innerHTML = "";
-    $("events").textContent = "";
+    renderBattleProcess($("battle-process"), b, (id) => {
+      const item = trait(id);
+      return `<div class="node-trait">${traitPicture(item, false)}<div><strong>${esc(item.name)}</strong><p>${esc(plain(item.description))}</p></div></div>`;
+    });
     $("encounter-content").hidden = false;
     $("encounter-loading").hidden = true;
-    loadBattleDetails();
   } catch (error) {
     if (request !== state.encounterRequest) return;
     state.result = null;
     state.battle = null;
     $("encounter-loading").textContent = `加载失败，请重新选择回想或切换页面重试。${error.message}`;
   }
-}
-
-/** 展开时显示当前本地结算的阶段及特性明细，与总判定数输入保持一致。 */
-function loadBattleDetails() {
-  if (
-    !state.battle ||
-    state.details ||
-    $("encounters-tab").hidden ||
-    (!$("phase-details").open && !$("event-details").open)
-  )
-    return;
-  const details = state.battle;
-  const body = $("phase-table").querySelector("tbody");
-  state.details = details;
-  body.innerHTML = details.phases
-    .map(
-      (p) =>
-        `<tr><td>${p.phase}</td><td>${p.notes}／${p.notes - p.charge}</td><td>${num(p.attack[0])}／${num(p.defense[0])}</td><td>${num(p.attack[1])}／${num(p.defense[1])}</td><td>${num(p.damage[1], 2)}%</td><td>${num(p.damage[0], 2)}%</td><td>${num(Math.max(0, p.after[0]), 2)}%</td><td>${num(100 - p.after[1], 2)}%</td></tr>`
-    )
-    .join("");
-  $("events").innerHTML = details.events.length
-    ? details.events
-        .map(
-          (e) =>
-            `<div class="event-row"><span>判定进度 ${e.at}/${details.notes} · ${e.side === 0 ? "己方" : "对方"}</span>${traitTag(e.trait, false, { showSources: e.side === 0 })}<span>· ${e.kind === "heal" ? "有效回复" : "造成伤害"} ${num(e.amount, 4)}%</span></div>`
-        )
-        .join("")
-    : '<p class="help">没有瞬时攻击或回复事件。</p>';
 }
 
 /** 读取卡牌拼法并忽略失效请求；配队入口携带成品颜色与技能，一览入口使用本色。 */
@@ -671,7 +607,6 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
   state.board = null;
   $("layout-title").textContent = summary.name;
   $("layout-goals").textContent = "";
-  $("layout-stats").textContent = "";
   for (const id of ["layout-card", "layout-card-details", "piece-list", "layout-traits"]) $(id).textContent = "";
   $("layout-board").textContent = "正在加载卡牌详情…";
   $("save-svg").disabled = true;
@@ -702,7 +637,6 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
       craftedCard?.traits.filter((id) => id > 1) ?? [],
       { showChanges: !craftedCard }
     );
-    $("layout-stats").textContent = cardFacts(card).join(" · ");
     const amounts = card.raw_penalties,
       allowances = card.strike_tolerances;
     const strikeRows = DATA.catalog.strike_names
@@ -902,10 +836,9 @@ function boot() {
       document.querySelectorAll(".tab-content").forEach((p) => {
         p.hidden = p.id !== `${button.dataset.tab}-tab`;
       });
-      if (button.dataset.tab === "encounters") {
-        if (!state.result) selectEncounter();
-        else loadBattleDetails();
-      }
+      const nodeTooltip = $("battle-process").querySelector(".battle-node-tooltip");
+      if (nodeTooltip?.matches(":popover-open")) nodeTooltip.hidePopover();
+      if (button.dataset.tab === "encounters" && !state.result) selectEncounter();
     });
   });
   $("recipe-search").addEventListener("input", () => {
@@ -999,8 +932,7 @@ function boot() {
   $("encounter-strikes").addEventListener("input", selectEncounter);
   $("encounter-rating").addEventListener("input", selectEncounter);
   $("encounter-notes").addEventListener("input", selectEncounter);
-  $("phase-details").addEventListener("toggle", loadBattleDetails);
-  $("event-details").addEventListener("toggle", loadBattleDetails);
+
   $("show-conditions").addEventListener("click", () => $("conditions-dialog").showModal());
   $("close-conditions").addEventListener("click", () => $("conditions-dialog").close());
   $("show-traits").addEventListener("click", () => $("traits-dialog").showModal());

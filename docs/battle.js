@@ -159,12 +159,14 @@ export function calculateBattle(players, encounter, traits, rating, notes) {
         healing[side] += amount;
       }
     } else throw new Error("阶段触发使用了未知瞬时效果。");
-    events.push({ at: notesDone, side, trait: effect.trait, kind: effect.kind === 8096 ? "damage" : "heal", amount });
+    return { kind: effect.kind === 8096 ? "damage" : "heal", amount };
   }
 
   /** 按卡槽、阵营、技能槽生成事件，再按原生规则处理进出范围和阶段技能。 */
   function processEvents(current, ending) {
     phase = ending ? Math.min(4, current + 1) : current;
+    const before = { hp: [...hp], ...stats() };
+    const firstEvent = events.length;
     const effective = ending && current === 4 ? -1 : current;
     const queue = [
       { kind: ending ? 1 : 2, side: 0 },
@@ -208,27 +210,56 @@ export function calculateBattle(players, encounter, traits, rating, notes) {
           if (fires) queue.push({ kind: 3, side, effect });
         }
         if (queue.length > before) sortEvents(queue, index + 1);
-      } else if (event.kind === 3) trigger(side, event.effect);
-      else if (event.kind === 4) {
-        const slot = freeSlots[side].pop() ?? modifiers[side].length;
-        slots[side].set(event.effect.identity, slot);
-        modifiers[side][slot] = event.effect;
-      } else if (event.kind === 5) {
-        const slot = slots[side].get(event.effect.identity);
-        modifiers[side][slot] = null;
-        slots[side].delete(event.effect.identity);
-        freeSlots[side].push(slot);
+      } else {
+        const hpBefore = [...hp];
+        let detail;
+        if (event.kind === 3) detail = trigger(side, event.effect);
+        else if (event.kind === 4) {
+          const slot = freeSlots[side].pop() ?? modifiers[side].length;
+          slots[side].set(event.effect.identity, slot);
+          modifiers[side][slot] = event.effect;
+          detail = { kind: "modifier", active: true };
+        } else {
+          const slot = slots[side].get(event.effect.identity);
+          modifiers[side][slot] = null;
+          slots[side].delete(event.effect.identity);
+          freeSlots[side].push(slot);
+          detail = { kind: "modifier", active: false };
+        }
+        events.push({
+          ...detail,
+          at: notesDone,
+          side: event.effect.identity >= 2 ** 48 ? 1 : 0,
+          owner: event.effect.owner,
+          trait: event.effect.trait,
+          before: hpBefore,
+          after: [...hp]
+        });
       }
     }
+    const node = { at: notesDone, before, after: { hp: [...hp], ...stats() }, events: events.slice(firstEvent) };
     phase = current;
+    return node;
+  }
+
+  /** 阶段末按已完成判定比例计算当时的累计成绩，保持原生BattleScore运算顺序。 */
+  function scores() {
+    const reduction = notesDone / notes;
+    const modifier = encounter.mode === "reflection" ? 0.5 : 1;
+    const offensive = (Math.max(1e-13, damage[1]) / (100 + healing[1]) / reduction) * (modifier * 10000);
+    const defensive = (10000 / (Math.max(1e-13, damage[0]) / (100 + healing[0]))) * reduction;
+    const score = Math.min(999999999, ((offensive * defensive) / 10000) * reduction);
+    if (!Number.isFinite(score)) throw new Error("遭遇分计算结果无效。");
+    return { score, offensive_score: offensive, defensive_score: defensive };
   }
 
   for (const [current, count] of phaseCounts(notes).entries()) {
     phase = current;
     const before = [...hp],
       damageBefore = [...damage];
-    processEvents(current, false);
+    const start = processEvents(current, false);
     const values = stats();
+    const curve = [{ at: notesDone, hp: [...hp] }];
     const charge = Math.max(1, Math.floor((count * 4) / 5));
     const outgoing = (values.attack[0] / (values.defense[1] || 100)) * (100 / notes);
     const incoming = (values.attack[1] / (values.defense[0] || 100)) * (100 / notes);
@@ -236,8 +267,10 @@ export function calculateBattle(players, encounter, traits, rating, notes) {
       hurt(1, outgoing * (note < charge ? 1 : values.critical[0]));
       hurt(0, incoming);
       notesDone++;
+      if (note + 1 === charge) curve.push({ at: notesDone, hp: [...hp] });
     }
-    processEvents(current, true);
+    curve.push({ at: notesDone, hp: [...hp] });
+    const end = processEvents(current, true);
     phases.push({
       phase: current + 1,
       notes: count,
@@ -245,21 +278,18 @@ export function calculateBattle(players, encounter, traits, rating, notes) {
       attack: values.attack,
       defense: values.defense,
       before,
+      start,
+      end,
+      curve,
+      scores: scores(),
       after: [...hp],
       damage: damage.map((value, side) => value - damageBefore[side])
     });
   }
   const progress = 100 - hp[1] - (100 - hp[0]);
-  const reduction = notesDone / notes;
-  const modifier = encounter.mode === "reflection" ? 0.5 : 1;
-  const offensive = (Math.max(1e-13, damage[1]) / (100 + healing[1]) / reduction) * (modifier * 10000);
-  const defensive = (10000 / (Math.max(1e-13, damage[0]) / (100 + healing[0]))) * reduction;
-  const score = Math.min(999999999, ((offensive * defensive) / 10000) * reduction);
-  if (!Number.isFinite(score)) throw new Error("遭遇分计算结果无效。");
   return {
-    score,
-    offensive_score: offensive,
-    defensive_score: defensive,
+    ...scores(),
+    mode: encounter.mode,
     passed: encounter.mode === "reflection" ? progress >= 100 : broken[1] && !broken[0],
     hp,
     minimum_hp: minimum,

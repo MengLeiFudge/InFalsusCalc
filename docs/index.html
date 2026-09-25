@@ -217,43 +217,33 @@
               ><h2 id="encounter-title">回想</h2><p id="battle-condition"></p></div
             ><span id="battle-status" class="badge"></span></div
           >
-          <div id="encounter-score" class="score-summary"></div>
           <details class="panel encounter-drops" open
-            ><summary>对应粒子与技能</summary><div id="encounter-drops"></div></details
+            ><summary>掉落与技能来源</summary><div id="encounter-drops"></div></details
           >
-          <div id="settlement" class="settlement"></div>
-          <div
-            id="enemy-totals"
-            class="deck-totals"
-            aria-label="对方总攻防"
-            title="开战前总攻防，包含对应位置的颜色克制，不包含阶段特性。"
-          ></div>
-          <div id="deck-matchups" class="card-strip battle-card-grid" aria-label="上方为对方卡牌，下方为我方卡牌"></div>
-          <div
-            id="player-totals"
-            class="deck-totals"
-            aria-label="我方总攻防"
-            title="开战前总攻防，包含颜色克制、联觉与谱面等级，不包含阶段特性。"
-          ></div>
-          <details id="phase-details" class="panel"
-            ><summary>逐阶段结果</summary
-            ><div class="table-scroll"
-              ><table id="phase-table"
-                ><thead
-                  ><tr
-                    ><th>阶段</th><th>判定数／暴击数</th><th>己方攻击／防御</th><th>对方攻击／防御</th><th>造成伤害</th
-                    ><th>受到伤害</th><th>己方HP</th><th>对方进度</th></tr
-                  ></thead
-                ><tbody></tbody></table
-              ></div
-            ></details
-          >
-          <details class="panel"
-            ><summary>制卡需要的特性粒子</summary><div id="materials"></div></details
-          >
-          <details id="event-details" class="panel"
-            ><summary>特性触发明细</summary><div id="events" class="event-list"></div></details
-          >
+          <section class="battle-cards" aria-label="卡牌情况"
+            ><h3>卡牌情况</h3>
+            <div
+              id="enemy-totals"
+              class="deck-totals"
+              aria-label="对方总攻防"
+              title="开战前总攻防，包含对应位置的颜色克制，不包含阶段特性。"
+            ></div>
+            <div
+              id="deck-matchups"
+              class="card-strip battle-card-grid"
+              aria-label="上方为对方卡牌，下方为我方卡牌"
+            ></div>
+            <div
+              id="player-totals"
+              class="deck-totals"
+              aria-label="我方总攻防"
+              title="开战前总攻防，包含颜色克制、联觉与谱面等级，不包含阶段特性。"
+            ></div>
+          </section>
+          <section class="panel battle-process-panel" aria-labelledby="battle-process-title">
+            <h3 id="battle-process-title">战斗过程</h3>
+            <div id="battle-process" class="battle-process"></div>
+          </section>
           <p class="help explanation"
             >推荐配队按所选允许总惩罚分别搜索，单张卡的总惩罚不会超过该上限。配队固定按谱面等级10、联觉开启、25个代表性全EXACT键（每阶段5键，最后一键为暴击）、初始HP100搜索。谱面等级和总判定数用于在网页实时计算同一推荐配队的战斗结果，不改变卡牌、顺序、颜色或特性。推荐在从零生成的有限模板库内搜索，未声明穷举所有配队后的全局最优。</p
           >
@@ -298,7 +288,6 @@
       <div class="layout-content">
         <aside class="layout-overview">
           <div id="layout-card"></div>
-          <p id="layout-stats" class="help"></p>
           <div id="layout-card-details" class="layout-card-details"></div>
         </aside>
         <div class="layout-workspace">
