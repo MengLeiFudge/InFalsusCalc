@@ -26,6 +26,8 @@ internal sealed class Battle
     private int phase, notesDone;
     private double minimum = 100;
     private bool fast, keepTrace;
+    /// <summary>等价制卡使用的操作序列；记录判定数和HP之外的全部结算输入。</summary>
+    private List<long>? schedule;
 
     /// <summary>构造一场独立战斗，避免候选之间残留状态。</summary>
     /// <param name="catalog">特性与规则资源。</param>
@@ -200,6 +202,20 @@ internal sealed class Battle
     private void Trigger(int side, Effect effect)
     {
         double amount = effect.Value * (double)(float).01;
+        if (schedule is not null)
+        {
+            schedule.AddRange([3, side, effect.Trait, effect.Kind, BitConverter.DoubleToInt64Bits(amount)]);
+            if (effect.Kind == 8096)
+            {
+                var inputs = Stats();
+                schedule.AddRange([BitConverter.DoubleToInt64Bits(inputs.Attack[side]),
+                    BitConverter.DoubleToInt64Bits(inputs.Defense[1 - side]),
+                    BitConverter.DoubleToInt64Bits(inputs.PlainDefense[1 - side])]);
+            }
+            else if (effect.Kind != 8097)
+                throw new InvalidDataException("阶段触发使用了未知瞬时效果。");
+            return;
+        }
         if (effect.Kind == 8096)
         {
             var values = Stats();
@@ -295,6 +311,29 @@ internal sealed class Battle
                 modifiers[e.Side].Remove(e.Identity);
         }
         phase = current;
+    }
+
+    /// <summary>在独立Battle实例上提取结算操作，不执行伤害；相同序列保证任意判定数下的结算一致。</summary>
+    /// <returns>包含原生事件顺序、瞬时技能输入及五阶段攻防/暴击参数的精确位表示。</returns>
+    public long[] Schedule()
+    {
+        if (schedule is not null || notesDone != 0)
+            throw new InvalidOperationException("操作序列需要新的Battle实例。");
+        fast = false;
+        schedule = [];
+        for (int current = 0; current < 5; current++)
+        {
+            phase = current;
+            schedule.AddRange([1, current]);
+            ProcessEvents(current, false);
+            var values = Stats();
+            schedule.Add(2);
+            foreach (double value in values.Attack.Concat(values.Defense).Concat(values.Critical))
+                schedule.Add(BitConverter.DoubleToInt64Bits(value));
+            schedule.Add(4);
+            ProcessEvents(current, true);
+        }
+        return schedule.ToArray();
     }
 
     /// <summary>计算五阶段代表键；逐判定模式只用于保留普通键/暴击键顺序。</summary>

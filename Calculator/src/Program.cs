@@ -34,6 +34,8 @@ internal static class Program
                 Console.WriteLine("已请求停止，程序将在当前求解返回后保存退出。");
                 return 0;
             }
+            if (command == "collect")
+                return CollectionReport.Run(args.Skip(1).ToArray());
             if (command == "debug")
             {
                 if (args.Length < 2)
@@ -50,7 +52,7 @@ internal static class Program
                 throw new ArgumentException("调试命令为debug run或debug confidence。");
             }
             if (command is not null && !command.StartsWith("--", StringComparison.Ordinal))
-                throw new ArgumentException("直接运行程序即可完整计算；另有status、stop和debug命令。");
+                throw new ArgumentException("直接运行程序即可完整计算；另有collect、status、stop和debug命令。");
             return RunPipeline(Parse(args, 0, false));
         }
         catch (Exception error)
@@ -494,9 +496,13 @@ internal static class Program
                 return 2;
             }
             cancellation.Token.ThrowIfCancellationRequested();
+            stage = "跨回想统一制卡";
+            SaveStatus();
+            var collection = new DeckCollection(catalog, byTemplate, cancellation.Token).Optimize(
+                decks.Values.OrderBy(d => d.Encounter).ThenBy(d => d.MaxStrikes).ToArray(), options.Seconds, options.Threads);
             stage = "导出完整计算结果";
             SaveStatus();
-            Reporting.Export(catalog, results.ToArray(), decks.Values.OrderBy(d => d.Encounter).ThenBy(d => d.MaxStrikes).ToArray(), library, options.Output);
+            Reporting.Export(catalog, results.ToArray(), collection.Decks, library, options.Output, collection.Summary);
             stage = "completed";
             SaveStatus();
             Console.WriteLine($"全部成果已生成：{options.Output}");

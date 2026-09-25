@@ -125,7 +125,8 @@ internal static class Reporting
     /// <param name="decks">每个回想的通关得分配置。</param>
     /// <param name="library">统一模板库指纹。</param>
     /// <param name="output">完整结果JSON路径。</param>
-    public static void Export(Catalog catalog, RecipeResult[] recipes, DeckResult[] decks, string library, string output)
+    /// <param name="collection">跨回想统一制卡的清单和证明状态；旧导出调用可省略。</param>
+    public static void Export(Catalog catalog, RecipeResult[] recipes, DeckResult[] decks, string library, string output, CollectionSummary? collection = null)
     {
         if (recipes.Length != catalog.Data.Recipes.Length || recipes.Any(r => !r.Complete))
             throw new InvalidDataException("配方成果尚未全部计算完成。");
@@ -227,6 +228,7 @@ internal static class Reporting
             groups,
             templates,
             library_templates = libraryTemplates,
+            collection,
             encounters = decks.GroupBy(d => d.Encounter)
                 .ToDictionary(group => group.Key, group => group.ToDictionary(deck => deck.MaxStrikes)),
             defaults = new
