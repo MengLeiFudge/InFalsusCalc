@@ -814,6 +814,7 @@ internal sealed partial class KeyRecipeSolver
     /// <summary>记录合法布局，并立即更新同组单项目标和总和并列代表。</summary>
     private static void RecordCandidate(RecipeResult result, GroupState group, string goal, CardTemplate card)
     {
+        result.MaterialPolicy = "";
         result.Cards[card.Id] = card;
         if (goal == "total")
         {
@@ -852,6 +853,7 @@ internal sealed partial class KeyRecipeSolver
             previous.InfeasibleRegionLayers[layer.Key] = previous.InfeasibleRegionLayers.GetValueOrDefault(layer.Key, []).Union(layer.Value).Order().ToArray();
         foreach (var pair in Result.Cards)
             previous.Cards[pair.Key] = pair.Value;
+        previous.MaterialPolicy = Result.MaterialPolicy;
         foreach (var pair in Result.Groups)
         {
             if (!previous.Groups.TryGetValue(pair.Key, out GroupState? group))

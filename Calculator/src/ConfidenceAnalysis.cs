@@ -46,7 +46,7 @@ internal static class ConfidenceAnalysis
     /// <param name="card">槽数及载体能力所属的制卡结果。</param>
     /// <param name="profiles">材料能力表。</param>
     /// <returns>包括空集及未满槽配置的合法集合。</returns>
-    private static HashSet<string> LegalSkillSets(CardTemplate card, MaterialProfile[] profiles)
+    internal static HashSet<string> LegalSkillSets(CardTemplate card, MaterialProfile[] profiles)
     {
         HashSet<string> sets = [];
         int[] available = card.AvailableTraits.Where(t => t > 1).Distinct().Order().ToArray();

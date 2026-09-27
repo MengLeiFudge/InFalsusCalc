@@ -36,6 +36,8 @@ internal static class Program
             }
             if (command == "collect")
                 return CollectionReport.Run(args.Skip(1).ToArray());
+            if (command == "refine-materials")
+                return MaterialTierReport.Run(args.Skip(1).ToArray());
             if (command == "debug")
             {
                 if (args.Length < 2)
@@ -52,7 +54,7 @@ internal static class Program
                 throw new ArgumentException("调试命令为debug run或debug confidence。");
             }
             if (command is not null && !command.StartsWith("--", StringComparison.Ordinal))
-                throw new ArgumentException("直接运行程序即可完整计算；另有collect、status、stop和debug命令。");
+                throw new ArgumentException("直接运行程序即可完整计算；另有collect、refine-materials、status、stop和debug命令。");
             return RunPipeline(Parse(args, 0, false));
         }
         catch (Exception error)
@@ -368,6 +370,7 @@ internal static class Program
                 Storage.Write(Path.Combine(Storage.State, "status.json"), new
                 {
                     policy = KeyRecipeSolver.Policy,
+                    material_policy = MaterialTierRefinement.Policy,
                     selection_scope = ConfidenceAnalysis.Scope,
                     pid = Environment.ProcessId,
                     started,
@@ -405,12 +408,20 @@ internal static class Program
                     throw new InvalidDataException($"配方{recipe.Id}的置信key尚未完成。");
                 results.Add(result);
             }
+            stage = "保持卡牌结果并降低材料阶级";
+            SaveStatus();
+            MaterialTierRefinement.RefineCheckpoints(catalog, results.ToArray(), MaterialTierRefinement.DefaultSecondsPerCard,
+                options.Threads, cancellation.Token);
             CardTemplate[] templates = results.Zip(selectedRecipes).SelectMany(p => ConfidenceAnalysis.SelectedCards(p.First, p.Second, catalog.Data.Profiles)).DistinctBy(c => c.Id).OrderBy(c => c.Id).ToArray();
             if (templates.Select(c => c.BaseId).Distinct().Count() < 5)
                 throw new InvalidDataException("结果不足五种不同名卡。");
             Dictionary<(int Encounter, int MaxStrikes), DeckResult> incumbents = LoadIncumbents();
             Dictionary<string, CardTemplate> byTemplate = templates.ToDictionary(c => c.Id);
-            library = Storage.Digest(new object[] { KeyRecipeSolver.Policy, ConfidenceAnalysis.Scope, DeckSearch.Policy, catalog.Data.Id, templates });
+            library = Storage.Digest(new object[]
+            {
+                KeyRecipeSolver.Policy, ConfidenceAnalysis.Scope, MaterialTierRefinement.Policy,
+                DeckSearch.Policy, catalog.Data.Id, templates
+            });
             stage = "通关约束下的遭遇得分搜索";
             SaveStatus();
             string directory = Path.Combine(Storage.State, "decks", library);

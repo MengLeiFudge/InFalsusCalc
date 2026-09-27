@@ -128,8 +128,9 @@ internal static class Reporting
     /// <param name="collection">跨回想统一制卡的清单和证明状态；旧导出调用可省略。</param>
     public static void Export(Catalog catalog, RecipeResult[] recipes, DeckResult[] decks, string library, string output, CollectionSummary? collection = null)
     {
-        if (recipes.Length != catalog.Data.Recipes.Length || recipes.Any(r => !r.Complete))
-            throw new InvalidDataException("配方成果尚未全部计算完成。");
+        if (recipes.Length != catalog.Data.Recipes.Length || recipes.Any(result => !result.Complete
+            || result.MaterialPolicy != MaterialTierRefinement.Policy))
+            throw new InvalidDataException("配方成果尚未全部计算完成或未应用材料阶级精化。");
         int[] strikeLimits = ConfidenceAnalysis.RetainedStrikes;
         if (decks.Length != catalog.Data.Encounters.Length * strikeLimits.Length
             || !decks.Select(d => d.Encounter).Distinct().Order().SequenceEqual(catalog.Data.Encounters.Select(e => e.Id).Order())
@@ -195,7 +196,7 @@ internal static class Reporting
         var report = new
         {
             schema = 14,
-            version = $"{KeyRecipeSolver.Policy}/{ConfidenceAnalysis.Scope}/{DeckSearch.Policy}",
+            version = $"{KeyRecipeSolver.Policy}/{ConfidenceAnalysis.Scope}/{MaterialTierRefinement.Policy}/{DeckSearch.Policy}",
             library,
             created = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             catalog = new

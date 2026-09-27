@@ -60,6 +60,8 @@ internal sealed class RecipeResult
 {
     /// <summary>当前选择和计算策略。</summary>
     public string Policy { get; set; } = "";
+    /// <summary>已对全部保存代表应用的材料阶级策略；新增布局时清空并在统一精化后重设。</summary>
+    public string MaterialPolicy { get; set; } = "";
     /// <summary>已由安全松弛或完整模型证明不可行的零惩罚区域位集，兼容旧检查点。</summary>
     public uint[] InfeasibleRegions { get; set; } = [];
     /// <summary>按精确净惩罚层保存的安全不可行区域位集。</summary>
