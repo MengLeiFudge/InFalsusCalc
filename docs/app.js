@@ -74,7 +74,8 @@ const state = {
   layoutScale: 1,
   layoutX: 0,
   layoutY: 0,
-  layoutDrag: null,
+  layoutPointers: new Map(),
+  layoutPinch: null,
   layoutRequest: 0,
   encounterRequest: 0,
   board: null,
@@ -625,7 +626,8 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
     state.layoutScale = 1;
     state.layoutX = 0;
     state.layoutY = 0;
-    state.layoutDrag = null;
+    state.layoutPointers.clear();
+    state.layoutPinch = null;
     const goalText = showGoals ? (card.goals || []).map((g) => goalNames[g]).join(" · ") : "";
     $("layout-goals").textContent = goalText;
     $("layout-goals").hidden = !goalText;
@@ -750,44 +752,75 @@ function applyLayoutView() {
   svg.style.top = `calc(50% + ${state.layoutY}px)`;
 }
 
-/** 鼠标滚轮以指针位置为中心缩放拼法画布。 */
-function zoomLayout(event) {
-  event.preventDefault();
-  const board = $("layout-board"),
-    bounds = board.getBoundingClientRect(),
-    oldScale = state.layoutScale;
-  const nextScale = Math.max(0.1, Math.min(8, oldScale * Math.exp(-event.deltaY * 0.001))),
-    ratio = nextScale / oldScale;
-  const x = event.clientX - bounds.left - bounds.width / 2,
-    y = event.clientY - bounds.top - bounds.height / 2;
-  state.layoutX = x - (x - state.layoutX) * ratio;
-  state.layoutY = y - (y - state.layoutY) * ratio;
-  state.layoutScale = nextScale;
+/** 把页面坐标换算为以拼法画布中心为原点的CSS像素坐标。 */
+function layoutPoint(clientX, clientY) {
+  const bounds = $("layout-board").getBoundingClientRect();
+  return { x: clientX - bounds.left - bounds.width / 2, y: clientY - bounds.top - bounds.height / 2 };
+}
+
+/** 在两个画布坐标之间缩放并平移，使手势下的拼法内容持续跟随手指。 */
+function scaleLayout(nextScale, from, to = from) {
+  const oldScale = state.layoutScale,
+    scale = Math.max(0.1, Math.min(8, nextScale)),
+    ratio = scale / oldScale;
+  state.layoutX = to.x - (from.x - state.layoutX) * ratio;
+  state.layoutY = to.y - (from.y - state.layoutY) * ratio;
+  state.layoutScale = scale;
   applyLayoutView();
 }
 
-/** 左键拖动只平移视图，拼法格坐标保持不变。 */
-function startLayoutPan(event) {
-  if (event.button !== 0) return;
+/** 返回当前前两根手指的中点和距离；额外触点不参与缩放。 */
+function layoutPinch() {
+  const points = [...state.layoutPointers.values()].slice(0, 2);
+  if (points.length < 2) return null;
+  return {
+    center: layoutPoint((points[0].x + points[1].x) / 2, (points[0].y + points[1].y) / 2),
+    distance: Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y)
+  };
+}
+
+/** 鼠标滚轮以指针位置为中心缩放拼法画布。 */
+function zoomLayout(event) {
   event.preventDefault();
-  state.layoutDrag = { pointer: event.pointerId, x: event.clientX, y: event.clientY };
+  const point = layoutPoint(event.clientX, event.clientY);
+  scaleLayout(state.layoutScale * Math.exp(-event.deltaY * 0.001), point);
+}
+
+/** 单指或鼠标平移；双指同时按距离缩放、按中点移动平移。 */
+function startLayoutPan(event) {
+  if (event.pointerType === "mouse" && event.button !== 0) return;
+  event.preventDefault();
+  state.layoutPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  state.layoutPinch = layoutPinch();
   event.currentTarget.setPointerCapture(event.pointerId);
   event.currentTarget.classList.add("panning");
 }
 function moveLayoutPan(event) {
-  if (!state.layoutDrag || state.layoutDrag.pointer !== event.pointerId) return;
-  state.layoutX += event.clientX - state.layoutDrag.x;
-  state.layoutY += event.clientY - state.layoutDrag.y;
-  state.layoutDrag.x = event.clientX;
-  state.layoutDrag.y = event.clientY;
+  const previous = state.layoutPointers.get(event.pointerId);
+  if (!previous) return;
+  event.preventDefault();
+  state.layoutPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  if (state.layoutPointers.size >= 2) {
+    const current = layoutPinch();
+    if (state.layoutPinch && current) {
+      const ratio = state.layoutPinch.distance > 0 ? current.distance / state.layoutPinch.distance : 1;
+      scaleLayout(state.layoutScale * ratio, state.layoutPinch.center, current.center);
+    }
+    state.layoutPinch = current;
+    return;
+  }
+  state.layoutPinch = null;
+  state.layoutX += event.clientX - previous.x;
+  state.layoutY += event.clientY - previous.y;
   applyLayoutView();
 }
 function endLayoutPan(event) {
-  if (!state.layoutDrag || state.layoutDrag.pointer !== event.pointerId) return;
-  state.layoutDrag = null;
-  event.currentTarget.classList.remove("panning");
+  if (!state.layoutPointers.has(event.pointerId)) return;
+  state.layoutPointers.delete(event.pointerId);
+  state.layoutPinch = layoutPinch();
   if (event.currentTarget.hasPointerCapture(event.pointerId))
     event.currentTarget.releasePointerCapture(event.pointerId);
+  if (!state.layoutPointers.size) event.currentTarget.classList.remove("panning");
 }
 
 /** 用户主动保存当前拼法，SVG包含全部格子与编号。 */
