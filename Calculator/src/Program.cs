@@ -408,7 +408,7 @@ internal static class Program
                     throw new InvalidDataException($"配方{recipe.Id}的置信key尚未完成。");
                 results.Add(result);
             }
-            stage = "保持卡牌结果并降低材料阶级";
+            stage = "保持卡牌结果并降低原始惩罚与材料阶级";
             SaveStatus();
             MaterialTierRefinement.RefineCheckpoints(catalog, results.ToArray(), MaterialTierRefinement.DefaultSecondsPerCard,
                 options.Threads, cancellation.Token);

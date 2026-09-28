@@ -162,7 +162,7 @@ internal static class Craft
     /// <returns>该目标的最终值。</returns>
     public static int Panel(CardTemplate card, int goal) => goal switch { 0 => card.Power, 1 => card.Fortitude, _ => card.Total };
 
-    /// <summary>在同组候选中选择指定面板目标的代表；主目标相同时优先另一项面板。</summary>
+    /// <summary>在同组候选中选择指定面板目标的代表；面板相同时依次偏好较低原始总惩罚与材料阶级。</summary>
     /// <param name="cards">结构key和惩罚层相同的合法候选。</param>
     /// <param name="goal">power、fortitude或total。</param>
     /// <returns>该目标的确定代表。</returns>
@@ -171,6 +171,7 @@ internal static class Craft
         int index = goal == "power" ? 0 : goal == "fortitude" ? 1 : 2;
         return cards.OrderByDescending(card => Panel(card, index))
             .ThenByDescending(card => goal == "power" ? card.Fortitude : card.Power)
+            .ThenBy(card => card.RawPenalties.Sum())
             .ThenBy(card => card.TierCounts[2]).ThenBy(card => card.TierCounts[1]).ThenBy(card => card.TierCounts[0])
             .ThenBy(card => card.Id, StringComparer.Ordinal).First();
     }

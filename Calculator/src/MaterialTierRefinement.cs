@@ -3,11 +3,11 @@ using Google.OrTools.Sat;
 
 namespace InFalsusCalc;
 
-/// <summary>在卡牌结果、粒子数和原始乖离不变时，依次减少三阶与二阶粒子。</summary>
+/// <summary>在卡牌结果与粒子数不变时，依次减少原始总惩罚、三阶与二阶粒子。</summary>
 internal sealed class MaterialTierRefinement
 {
-    /// <summary>参与卡库指纹并标记检查点已完成材料阶级精化的策略版本。</summary>
-    public const string Policy = "material-tiers-v1";
+    /// <summary>参与卡库指纹并标记检查点已完成材料精化的策略版本。</summary>
+    public const string Policy = "material-tiers-v2";
     /// <summary>正常生成管线给每张卡的求解时间片参考值，单位秒。</summary>
     public const double DefaultSecondsPerCard = 30;
 
@@ -21,10 +21,11 @@ internal sealed class MaterialTierRefinement
     private readonly Candidate[] candidates;
     private readonly Dictionary<(int Id, int Q, int R), int> candidateIndex;
     private readonly Dictionary<string, HashSet<string>> abilitySets = [];
+    private readonly Dictionary<string, long[][]> carrierVectors = [];
 
-    /// <summary>一次精化的合法结果及本次是否闭合了更低阶搜索空间。</summary>
+    /// <summary>一次精化的合法结果及本次是否闭合了更低目标值的搜索空间。</summary>
     /// <param name="Card">已由完整规则复算的卡牌；未改善时为原卡。</param>
-    /// <param name="Complete">不存在更低阶合法布局，或已经找到全局最低阶布局。</param>
+    /// <param name="Complete">不存在更低原始总惩罚或材料阶级的合法布局，或已经找到全局最低目标值。</param>
     /// <param name="Seconds">本次求解墙钟秒数。</param>
     internal sealed record Outcome(CardTemplate Card, bool Complete, double Seconds);
 
@@ -32,7 +33,7 @@ internal sealed class MaterialTierRefinement
     private readonly record struct Target(Hex Cell, int Color);
 
     /// <summary>一项完整合法放置及其求解模型索引。</summary>
-    private sealed record Candidate(Placement Placement, int[] Cells, int[] Matches, bool Outside, int Tier);
+    private sealed record Candidate(Placement Placement, int[] Cells, int[] Matches, bool Outside, int Tier, int Profile);
 
     /// <summary>预编译一个配方的全部形状与平移，精化同配方多张卡时复用。</summary>
     /// <param name="catalog">当前材料、形状和技能资源。</param>
@@ -74,7 +75,7 @@ internal sealed class MaterialTierRefinement
                 int[] matches = Enumerable.Range(0, targets.Length)
                     .Where(index => targets[index].Color == shape.Color && occupied.Contains(targets[index].Cell)).ToArray();
                 placements.Add(new(new Placement { Id = shape.Id, Q = at.Q, R = at.R }, occupiedIndices, matches,
-                    occupied.Any(cell => !safe.Contains(cell)), shape.Tier));
+                    occupied.Any(cell => !safe.Contains(cell)), shape.Tier, shape.Profile));
             }
         }
         candidates = placements.OrderBy(item => item.Placement.Id).ThenBy(item => item.Placement.Q).ThenBy(item => item.Placement.R).ToArray();
@@ -82,12 +83,12 @@ internal sealed class MaterialTierRefinement
             .ToDictionary(pair => (pair.item.Placement.Id, pair.item.Placement.Q, pair.item.Placement.R), pair => pair.index);
     }
 
-    /// <summary>在给定墙钟预算内寻找严格更低阶的等价布局。</summary>
+    /// <summary>在给定墙钟预算内按原始总惩罚、三阶数、二阶数寻找严格改善的等价布局。</summary>
     /// <param name="source">完整复算且属于当前配方的基准卡。</param>
     /// <param name="seconds">本张卡的求解时间片；实际墙钟另含CP模型构建。</param>
     /// <param name="threads">CP-SAT可使用的原生线程数。</param>
     /// <param name="cancellation">用户或上层阶段取消信号。</param>
-    /// <returns>最优性状态和预算内找到的最低阶合法结果。</returns>
+    /// <returns>最优性状态和预算内找到的最低目标值合法结果。</returns>
     public Outcome Refine(CardTemplate source, double seconds, int threads, CancellationToken cancellation)
     {
         if (source.Recipe != recipe.Id || seconds <= 0 || threads < 1)
@@ -99,11 +100,8 @@ internal sealed class MaterialTierRefinement
             throw new InvalidDataException($"配方{recipe.Id}的布局含重复放置，布尔模型无法保持粒子数：{source.Id}。");
 
         Stopwatch timer = Stopwatch.StartNew();
-        double heuristicSeconds = Math.Min(seconds, Math.Max(.25, seconds * .2));
-        CardTemplate best = ImproveSingleReplacements(source, heuristicSeconds, timer, cancellation);
-        int bestCost = TierCost(best);
-        if (bestCost == 0)
-            return new(best, true, timer.Elapsed.TotalSeconds);
+        CardTemplate best = source;
+        long bestCost = RefinementCost(best);
 
         CpModel model = new();
         BoolVar[] take = candidates.Select((_, index) => model.NewBoolVar($"p{index}")).ToArray();
@@ -161,32 +159,43 @@ internal sealed class MaterialTierRefinement
         }
         int overlapAllowance = Craft.Skills[recipe.Character].Overlap + ActiveEffect(source, 10);
         PreservePenalty(model, LinearExpr.Sum(overlap), overlapAllowance, source.Penalties[2]);
-        PreserveComponents(model, occupied, source.RawPenalties[3] + 1);
 
-        long[] costs = candidates.Select(candidate => candidate.Tier switch
+        int splitAllowance = Craft.Skills[recipe.Character].Split + ActiveEffect(source, 11);
+        int componentLimit = source.Penalties[3] == 0 ? splitAllowance + 1 : splitAllowance + source.Penalties[3] + 1;
+        IntVar componentCount = ModelComponents(model, occupied, Math.Min(cells.Length, componentLimit));
+        LinearExpr split = componentCount - 1;
+        PreservePenalty(model, split, splitAllowance, source.Penalties[3]);
+        ConstrainAbilities(model, take, source);
+
+        long[] tierCosts = candidates.Select(candidate => candidate.Tier switch
         {
             3 => (long)source.Count + 1,
             2 => 1L,
             _ => 0L
         }).ToArray();
-        LinearExpr tierCost = LinearExpr.WeightedSum(take, costs);
-        model.Add(tierCost < bestCost);
-        model.Minimize(tierCost);
-        foreach (Placement placement in best.Placements)
-        {
-            if (!candidateIndex.TryGetValue((placement.Id, placement.Q, placement.R), out int index))
-                throw new InvalidDataException($"配方{recipe.Id}的基准放置不在完整合法域中：{placement.Id}/{placement.Q}/{placement.R}。");
-            model.AddHint(take[index], 1);
-        }
+        LinearExpr tierCost = LinearExpr.WeightedSum(take, tierCosts);
+        LinearExpr rawTotal = outside + LinearExpr.Sum(overlap) + split + source.RawPenalties[0];
+        LinearExpr refinementCost = rawTotal * MaterialScale(source.Count) + tierCost;
+        model.Add(refinementCost < bestCost);
+        BoolVar repairNeighborhood = LimitRepairNeighborhood(model, take, source);
+        model.AddAssumption(repairNeighborhood);
+        ApplyHints(model, take, best);
+        LinearExpr retained = LinearExpr.Sum(best.Placements.Select(placement =>
+            take[candidateIndex[(placement.Id, placement.Q, placement.R)]]));
+        model.Maximize(retained);
 
-        while (timer.Elapsed.TotalSeconds < seconds)
+        (CpSolverStatus Status, CpSolver Solver) SolveUntil(double deadline, bool repairHint = false)
         {
-            cancellation.ThrowIfCancellationRequested();
-            double remaining = seconds - timer.Elapsed.TotalSeconds;
+            double remaining = Math.Max(.001, deadline - timer.Elapsed.TotalSeconds);
+            string repairParameters = repairHint
+                ? " repair_hint:true hint_conflict_limit:100000 search_branching:HINT_SEARCH log_search_progress:true log_to_stdout:true"
+                    + " presolve_inclusion_work_limit:0 symmetry_level:0 max_presolve_iterations:1"
+                : "";
+            int presolveLevel = repairHint ? 0 : 2;
             CpSolver solver = new()
             {
                 StringParameters = FormattableString.Invariant(
-                    $"max_time_in_seconds:{Math.Max(.001, remaining)} num_search_workers:{threads} random_seed:1 linearization_level:2 cp_model_probing_level:2")
+                    $"max_time_in_seconds:{remaining} num_search_workers:{threads} random_seed:1 linearization_level:{presolveLevel} cp_model_probing_level:{presolveLevel}{repairParameters}")
             };
             CpSolverStatus status;
             using (cancellation.Register(solver.StopSearch))
@@ -194,101 +203,57 @@ internal sealed class MaterialTierRefinement
             cancellation.ThrowIfCancellationRequested();
             if (status == CpSolverStatus.ModelInvalid)
                 throw new InvalidDataException(solver.ResponseStats());
-            if (status == CpSolverStatus.Infeasible)
-                return new(best, true, timer.Elapsed.TotalSeconds);
-            if (status is not (CpSolverStatus.Optimal or CpSolverStatus.Feasible))
-                return new(best, false, timer.Elapsed.TotalSeconds);
+            return (status, solver);
+        }
 
+        CardTemplate ReadCandidate(CpSolver solver)
+        {
             int[] chosen = Enumerable.Range(0, take.Length).Where(index => solver.Value(take[index]) != 0).ToArray();
             CardTemplate candidate = Craft.Evaluate(catalog, recipe, chosen.Select(index => candidates[index].Placement));
-            if (SameCardResult(source, candidate) && PreservesAbilities(source, candidate))
-            {
-                if (TierCost(candidate) >= TierCost(best))
-                    throw new InvalidDataException($"配方{recipe.Id}的材料目标返回了非改善布局：{source.Id}。");
-                best = candidate;
-                if (status == CpSolverStatus.Optimal)
-                    return new(best, true, timer.Elapsed.TotalSeconds);
-                return new(best, false, timer.Elapsed.TotalSeconds);
-            }
-            // 粒子数固定，因此少选一颗已选粒子即可排除这一整组放置。
-            model.Add(LinearExpr.Sum(chosen.Select(index => take[index])) <= source.Count - 1);
+            if (!SameCardResult(source, candidate) || !PreservesAbilities(source, candidate))
+                throw new InvalidDataException($"配方{recipe.Id}的完整材料模型返回了非等价布局：{source.Id}。");
+            return candidate;
         }
-        return new(best, false, timer.Elapsed.TotalSeconds);
-    }
 
-    /// <summary>先尝试单颗低阶粒子的直接替代，为完整组合模型提供已验证的更好上界。</summary>
-    private CardTemplate ImproveSingleReplacements(CardTemplate source, double seconds, Stopwatch timer, CancellationToken cancellation)
-    {
-        CardTemplate best = source;
-        HashSet<int> activeTargets = source.Active.SelectMany(area => areaTargets[area]).ToHashSet();
-        bool improved;
-        int scanned = 0;
-        do
+        if (timer.Elapsed.TotalSeconds >= seconds)
+            return new(best, false, timer.Elapsed.TotalSeconds);
+        double repairDeadline = Math.Min(seconds, timer.Elapsed.TotalSeconds
+            + Math.Max(.25, (seconds - timer.Elapsed.TotalSeconds) * .4));
+        (CpSolverStatus repairStatus, CpSolver repairSolver) = SolveUntil(repairDeadline, repairHint: true);
+        if (repairStatus is CpSolverStatus.Optimal or CpSolverStatus.Feasible)
         {
-            improved = false;
-            CardTemplate next = best;
-            int[] order = Enumerable.Range(0, best.Placements.Length)
-                .OrderByDescending(index => catalog.Shapes[best.Placements[index].Id].Tier)
-                .ThenByDescending(index => best.Placements[index].Id).ToArray();
-            foreach (int piece in order)
-            {
-                Placement removed = best.Placements[piece];
-                int removedTier = catalog.Shapes[removed.Id].Tier;
-                if (removedTier == 1)
-                    continue;
-                HashSet<(int Id, int Q, int R)> retained = best.Placements.Where((_, index) => index != piece)
-                    .Select(placement => (placement.Id, placement.Q, placement.R)).ToHashSet();
-                HashSet<int> retainedMatches = retained.SelectMany(placement => candidates[candidateIndex[placement]].Matches).ToHashSet();
-                Candidate removedCandidate = candidates[candidateIndex[(removed.Id, removed.Q, removed.R)]];
-                int[] required = removedCandidate.Matches
-                    .Where(target => activeTargets.Contains(target) && !retainedMatches.Contains(target)).ToArray();
-                IEnumerable<Candidate> replacements = candidates.Where(candidate => candidate.Tier < removedTier
-                    && required.All(candidate.Matches.Contains)).OrderBy(candidate => candidate.Tier)
-                    .ThenByDescending(candidate => catalog.Shapes[candidate.Placement.Id].Color == catalog.Shapes[removed.Id].Color)
-                    .ThenByDescending(candidate => candidate.Cells.Intersect(removedCandidate.Cells).Count())
-                    .ThenBy(candidate => candidate.Placement.Id).ThenBy(candidate => candidate.Placement.Q).ThenBy(candidate => candidate.Placement.R);
-                bool lowestTierFound = false;
-                foreach (Candidate replacement in replacements)
-                {
-                    if ((scanned++ & 255) == 0)
-                    {
-                        cancellation.ThrowIfCancellationRequested();
-                        if (timer.Elapsed.TotalSeconds >= seconds)
-                            return next;
-                    }
-                    if (!retained.Add((replacement.Placement.Id, replacement.Placement.Q, replacement.Placement.R)))
-                        continue;
-                    Placement[] layout = best.Placements.Where((_, index) => index != piece).Append(replacement.Placement).ToArray();
-                    CardTemplate candidate = Craft.Evaluate(catalog, recipe, layout);
-                    retained.Remove((replacement.Placement.Id, replacement.Placement.Q, replacement.Placement.R));
-                    if (TierCost(candidate) < TierCost(next) && SameCardResult(source, candidate) && PreservesAbilities(source, candidate))
-                    {
-                        next = candidate;
-                        if (replacement.Tier == 1)
-                        {
-                            lowestTierFound = true;
-                            break;
-                        }
-                    }
-                }
-                if (lowestTierFound)
-                    break;
-            }
-            if (TierCost(next) < TierCost(best))
-            {
-                best = next;
-                improved = true;
-            }
+            CardTemplate candidate = ReadCandidate(repairSolver);
+            if (RefinementCost(candidate) >= bestCost)
+                throw new InvalidDataException($"配方{recipe.Id}的最小改动阶段返回了非改善布局：{source.Id}。");
+            best = candidate;
+            bestCost = RefinementCost(best);
         }
-        while (improved && timer.Elapsed.TotalSeconds < seconds);
-        return best;
+
+        if (timer.Elapsed.TotalSeconds >= seconds)
+            return new(best, false, timer.Elapsed.TotalSeconds);
+        model.ClearAssumptions();
+        model.Add(repairNeighborhood == 0);
+        model.Add(refinementCost < bestCost);
+        model.Minimize(refinementCost);
+        ApplyHints(model, take, best);
+        (CpSolverStatus optimizeStatus, CpSolver optimizeSolver) = SolveUntil(seconds);
+        if (optimizeStatus == CpSolverStatus.Infeasible)
+            return new(best, true, timer.Elapsed.TotalSeconds);
+        if (optimizeStatus is not (CpSolverStatus.Optimal or CpSolverStatus.Feasible))
+            return new(best, false, timer.Elapsed.TotalSeconds);
+
+        CardTemplate optimized = ReadCandidate(optimizeSolver);
+        if (RefinementCost(optimized) >= bestCost)
+            throw new InvalidDataException($"配方{recipe.Id}的材料目标返回了非改善布局：{source.Id}。");
+        best = optimized;
+        return new(best, optimizeStatus == CpSolverStatus.Optimal, timer.Elapsed.TotalSeconds);
     }
 
-    /// <summary>将一个完整配方检查点的全部代表替换为低阶等价布局，并重映射组引用。</summary>
+    /// <summary>将一个完整配方检查点的全部代表替换为较低原始惩罚或材料阶级的等价布局，并重映射组引用。</summary>
     /// <param name="catalog">当前资源。</param>
     /// <param name="recipe">检查点所属配方。</param>
     /// <param name="result">待原位更新的完整检查点。</param>
-    /// <param name="secondsPerCard">每张含高阶材料卡的求解时间片。</param>
+    /// <param name="secondsPerCard">每张卡的求解时间片。</param>
     /// <param name="threads">单张卡求解线程数。</param>
     /// <param name="cancellation">上层阶段取消信号。</param>
     /// <returns>旧模板编号到新模板编号的完整映射。</returns>
@@ -313,6 +278,7 @@ internal sealed class MaterialTierRefinement
             cards[outcome.Card.Id] = outcome.Card;
             if (outcome.Card.Id != source.Id)
                 Console.WriteLine($"[{recipe.Id}] 材料精化 {source.Id} → {outcome.Card.Id}："
+                    + $"原始惩罚[{string.Join(',', source.RawPenalties)}] → [{string.Join(',', outcome.Card.RawPenalties)}]，"
                     + $"阶级[{string.Join(',', source.TierCounts)}] → [{string.Join(',', outcome.Card.TierCounts)}]，{outcome.Seconds:F2}秒。");
         }
         foreach (GroupState group in result.Groups.Values)
@@ -325,7 +291,7 @@ internal sealed class MaterialTierRefinement
         result.MaterialPolicy = Policy;
         result.Updated = DateTimeOffset.UtcNow;
         if (!complete)
-            Console.WriteLine($"[{recipe.Id}] 材料阶级精化已应用预算内验证结果，完整组合空间尚未闭合。");
+            Console.WriteLine($"[{recipe.Id}] 材料精化已应用预算内验证结果，完整组合空间尚未闭合。");
         return remap;
     }
 
@@ -358,23 +324,140 @@ internal sealed class MaterialTierRefinement
         });
     }
 
-    /// <summary>固定占用格的真实连通块数量，并要求每个连通块至少接触一个安全格。</summary>
-    private void PreserveComponents(CpModel model, BoolVar[] occupied, int componentCount)
+    /// <summary>建立围绕原占用区域的任意规模修复邻域，完整优化阶段可关闭该限制。</summary>
+    /// <param name="model">接收条件邻域约束的CP-SAT模型。</param>
+    /// <param name="take">全部合法放置的选择变量。</param>
+    /// <param name="source">定义原占用区域和激活目标的卡牌。</param>
+    /// <returns>为真时启用邻域限制的控制变量。</returns>
+    private BoolVar LimitRepairNeighborhood(CpModel model, BoolVar[] take, CardTemplate source)
     {
-        if (componentCount < 1 || componentCount > cells.Length)
-            throw new InvalidDataException($"配方{recipe.Id}的原始乖离无法建立连通模型：{componentCount - 1}。");
+        HashSet<int> nearbyCells = source.Placements
+            .SelectMany(placement => candidates[candidateIndex[(placement.Id, placement.Q, placement.R)]].Cells).ToHashSet();
+        foreach (int index in nearbyCells.ToArray())
+            foreach (Hex direction in Hex.Directions)
+                if (cellIndex.TryGetValue(cells[index].Add(direction), out int neighbor))
+                    nearbyCells.Add(neighbor);
+        HashSet<int> activeTargets = source.Active.SelectMany(area => areaTargets[area]).ToHashSet();
+        HashSet<(int Id, int Q, int R)> original = source.Placements
+            .Select(placement => (placement.Id, placement.Q, placement.R)).ToHashSet();
+        BoolVar enabled = model.NewBoolVar("repair_neighborhood");
+        for (int index = 0; index < candidates.Length; index++)
+        {
+            Candidate candidate = candidates[index];
+            if (!original.Contains((candidate.Placement.Id, candidate.Placement.Q, candidate.Placement.R))
+                && !candidate.Cells.Any(nearbyCells.Contains) && !candidate.Matches.Any(activeTargets.Contains))
+                model.Add(take[index] == 0).OnlyEnforceIf(enabled);
+        }
+        return enabled;
+    }
+
+    /// <summary>以完整布尔赋值提示求解器从当前布局附近寻找严格改善。</summary>
+    /// <param name="model">接收提示的CP-SAT模型。</param>
+    /// <param name="take">全部合法放置的选择变量。</param>
+    /// <param name="card">作为搜索中心的完整卡牌布局。</param>
+    private void ApplyHints(CpModel model, BoolVar[] take, CardTemplate card)
+    {
+        HashSet<int> selected = [];
+        foreach (Placement placement in card.Placements)
+        {
+            if (!candidateIndex.TryGetValue((placement.Id, placement.Q, placement.R), out int index))
+                throw new InvalidDataException($"配方{recipe.Id}的提示放置不在完整合法域中：{placement.Id}/{placement.Q}/{placement.R}。");
+            selected.Add(index);
+        }
+        model.ClearHints();
+        for (int index = 0; index < take.Length; index++)
+            model.AddHint(take[index], selected.Contains(index));
+    }
+
+    /// <summary>把与原卡完全相同的合法技能集合编码为材料载体表约束。</summary>
+    /// <param name="model">接收材料约束的CP-SAT模型。</param>
+    /// <param name="take">全部合法放置的选择变量。</param>
+    /// <param name="source">定义技能集合能力的原始卡牌。</param>
+    private void ConstrainAbilities(CpModel model, BoolVar[] take, CardTemplate source)
+    {
+        IntVar[] carriers = new IntVar[catalog.Data.Profiles.Length];
+        for (int profile = 0; profile < carriers.Length; profile++)
+        {
+            IntVar count = model.NewIntVar(0, source.Count, $"profile{profile}_count");
+            model.Add(count == LinearExpr.Sum(candidates.Select((candidate, index) => (candidate, index))
+                .Where(pair => pair.candidate.Profile == profile).Select(pair => take[pair.index])));
+            IntVar carrier = model.NewIntVar(0, 3, $"profile{profile}_carrier");
+            model.AddMinEquality(carrier, [count, LinearExpr.Constant(3)]);
+            carriers[profile] = carrier;
+        }
+        TableConstraint table = model.AddAllowedAssignments(carriers);
+        foreach (long[] vector in EquivalentCarrierVectors(source))
+            table.AddTuple(vector);
+    }
+
+    /// <summary>枚举所有与原卡合法技能集合完全相同的截断材料载体向量。</summary>
+    /// <param name="source">提供技能槽数和原始材料能力的卡牌。</param>
+    /// <returns>每项均按0至3截断的允许载体向量。</returns>
+    private long[][] EquivalentCarrierVectors(CardTemplate source)
+    {
+        string key = AbilityKey(source);
+        if (carrierVectors.TryGetValue(key, out long[][]? cached))
+            return cached;
+
+        HashSet<string> sourceSets = AbilitySets(source);
+        List<long[]> result = [];
+        int[] vector = new int[catalog.Data.Profiles.Length];
+        Expand(0);
+        if (result.Count == 0)
+            throw new InvalidDataException($"配方{recipe.Id}无法建立材料能力等价类：{source.Id}。");
+        return carrierVectors[key] = result.ToArray();
+
+        void Expand(int profile)
+        {
+            if (profile < vector.Length)
+            {
+                for (int count = 0; count <= 3; count++)
+                {
+                    vector[profile] = count;
+                    Expand(profile + 1);
+                }
+                return;
+            }
+            CardTemplate candidate = new()
+            {
+                Slots = source.Slots,
+                Carriers = vector.ToArray(),
+                AvailableTraits = catalog.Data.Profiles.Where(item => vector[item.Id] > 0)
+                    .SelectMany(item => item.Options).SelectMany(option => option.Traits).Distinct().Order().ToArray()
+            };
+            if (sourceSets.SetEquals(AbilitySets(candidate)))
+                result.Add(vector.Select(count => (long)count).ToArray());
+        }
+    }
+
+    /// <summary>建立可变数量的真实连通块，并要求每个连通块至少接触一个安全格。</summary>
+    /// <param name="model">接收连通约束的CP-SAT模型。</param>
+    /// <param name="occupied">各合法棋盘格是否被占用。</param>
+    /// <param name="maximum">净乖离不变时允许的最大连通块数。</param>
+    /// <returns>占用格形成的连通块数量。</returns>
+    private IntVar ModelComponents(CpModel model, BoolVar[] occupied, int maximum)
+    {
+        if (maximum < 1 || maximum > cells.Length)
+            throw new InvalidDataException($"配方{recipe.Id}的连通块上限无效：{maximum}。");
         int capacity = cells.Length;
-        BoolVar[,] labels = new BoolVar[componentCount, cells.Length];
-        BoolVar[,] roots = new BoolVar[componentCount, cells.Length];
+        BoolVar[] enabled = Enumerable.Range(0, maximum).Select(component => model.NewBoolVar($"component{component}_enabled")).ToArray();
+        IntVar componentCount = model.NewIntVar(1, maximum, "component_count");
+        model.Add(componentCount == LinearExpr.Sum(enabled));
+        for (int component = 1; component < maximum; component++)
+            model.Add(enabled[component - 1] >= enabled[component]);
+
+        BoolVar[,] labels = new BoolVar[maximum, cells.Length];
+        BoolVar[,] roots = new BoolVar[maximum, cells.Length];
         for (int cell = 0; cell < cells.Length; cell++)
         {
-            BoolVar[] at = new BoolVar[componentCount];
-            for (int component = 0; component < componentCount; component++)
+            BoolVar[] at = new BoolVar[maximum];
+            for (int component = 0; component < maximum; component++)
             {
                 BoolVar label = model.NewBoolVar($"component{component}_cell{cell}");
                 BoolVar root = model.NewBoolVar($"component{component}_root{cell}");
                 labels[component, cell] = label;
                 roots[component, cell] = root;
+                model.Add(label <= enabled[component]);
                 model.Add(root <= label);
                 if (!safe.Contains(cells[cell]))
                     model.Add(root == 0);
@@ -390,15 +473,16 @@ internal sealed class MaterialTierRefinement
                     edges.Add((Math.Min(cell, neighbor), Math.Max(cell, neighbor)));
 
         IntVar? previousRootPosition = null;
-        for (int component = 0; component < componentCount; component++)
+        for (int component = 0; component < maximum; component++)
         {
             BoolVar[] componentRoots = Enumerable.Range(0, cells.Length).Select(cell => roots[component, cell]).ToArray();
-            model.AddExactlyOne(componentRoots);
-            IntVar rootPosition = model.NewIntVar(0, cells.Length - 1, $"component{component}_root_position");
+            model.Add(LinearExpr.Sum(componentRoots) == enabled[component]);
+            IntVar rootPosition = model.NewIntVar(0, cells.Length, $"component{component}_root_position");
             model.Add(rootPosition == LinearExpr.WeightedSum(componentRoots,
-                Enumerable.Range(0, cells.Length).Select(index => (long)index).ToArray()));
+                Enumerable.Range(0, cells.Length).Select(index => (long)index).ToArray())
+                + cells.Length - cells.Length * enabled[component]);
             if (previousRootPosition is not null)
-                model.Add(previousRootPosition < rootPosition);
+                model.Add(previousRootPosition < rootPosition).OnlyEnforceIf(enabled[component]);
             previousRootPosition = rootPosition;
             List<LinearExpr>[] incoming = cells.Select(_ => new List<LinearExpr>()).ToArray();
             List<LinearExpr>[] outgoing = cells.Select(_ => new List<LinearExpr>()).ToArray();
@@ -423,6 +507,7 @@ internal sealed class MaterialTierRefinement
                 model.Add(supply + LinearExpr.Sum(incoming[cell]) - LinearExpr.Sum(outgoing[cell]) == labels[component, cell]);
             }
         }
+        return componentCount;
     }
 
     /// <summary>把原始数量和对应容忍转换为指定净惩罚的线性边界。</summary>
@@ -438,10 +523,25 @@ internal sealed class MaterialTierRefinement
     private int ActiveEffect(CardTemplate card, int kind) => card.Active.Sum(area => recipe.Areas[area].Effects
         .Where(effect => effect.Kind == kind).Sum(effect => effect.Arguments[0].Value));
 
-    /// <summary>粒子数固定时，以大于全部二阶数量的权重表达三阶优先的字典序目标。</summary>
-    private static int TierCost(CardTemplate card) => card.TierCounts[2] * (card.Count + 1) + card.TierCounts[1];
+    /// <summary>粒子数固定时，取得大于全部材料阶级组合的原始总惩罚权重。</summary>
+    /// <param name="count">固定的粒子总数。</param>
+    /// <returns>原始总惩罚每增加一点对应的目标成本。</returns>
+    private static long MaterialScale(int count) => (long)count * (count + 1) + 1;
 
-    /// <summary>比较除材料阶级、放置和可增加能力外的全部卡牌结果。</summary>
+    /// <summary>以三阶优先、二阶其次编码材料阶级。</summary>
+    /// <param name="card">待编码的完整卡牌结果。</param>
+    /// <returns>整张卡的材料阶级成本。</returns>
+    private static long TierCost(CardTemplate card) => (long)card.TierCounts[2] * (card.Count + 1) + card.TierCounts[1];
+
+    /// <summary>依次编码原始总惩罚、三阶数和二阶数。</summary>
+    /// <param name="card">待编码的完整卡牌结果。</param>
+    /// <returns>可直接比较的字典序目标成本。</returns>
+    private static long RefinementCost(CardTemplate card) => card.RawPenalties.Sum() * MaterialScale(card.Count) + TierCost(card);
+
+    /// <summary>比较除原始惩罚、材料阶级、放置和可增加能力外的全部卡牌结果。</summary>
+    /// <param name="source">必须保持行为的原始卡牌。</param>
+    /// <param name="candidate">完整规则复算后的候选卡牌。</param>
+    /// <returns>候选是否保持所有固定卡牌结果。</returns>
     private static bool SameCardResult(CardTemplate source, CardTemplate candidate) =>
         source.Recipe == candidate.Recipe && source.BaseId == candidate.BaseId && source.Name == candidate.Name
         && source.Power == candidate.Power && source.Fortitude == candidate.Fortitude
@@ -451,20 +551,29 @@ internal sealed class MaterialTierRefinement
         && source.RetainedPercent == candidate.RetainedPercent && source.Count == candidate.Count
         && source.Strikes == candidate.Strikes && source.Falsehood == candidate.Falsehood && source.Valid == candidate.Valid
         && source.Colors.SequenceEqual(candidate.Colors) && source.Active.SequenceEqual(candidate.Active)
-        && source.Penalties.SequenceEqual(candidate.Penalties) && source.Group.SequenceEqual(candidate.Group)
-        && source.RawPenalties[0] == candidate.RawPenalties[0]
-        && source.RawPenalties[3] == candidate.RawPenalties[3];
+        && source.Penalties.SequenceEqual(candidate.Penalties) && source.Group.SequenceEqual(candidate.Group);
+
+    /// <summary>取得材料能力缓存使用的完整结构键。</summary>
+    /// <param name="card">提供槽数、可用技能和截断载体数量的卡牌。</param>
+    /// <returns>仅由技能承载能力决定的稳定键。</returns>
+    private static string AbilityKey(CardTemplate card) =>
+        $"{card.Slots}:{string.Join(',', card.AvailableTraits)}:{string.Join(',', card.Carriers)}";
+
+    /// <summary>取得一张卡能够同时装备的全部未排序技能集合。</summary>
+    /// <param name="card">待枚举材料能力的卡牌。</param>
+    /// <returns>包括空集和未满槽配置的合法集合。</returns>
+    private HashSet<string> AbilitySets(CardTemplate card)
+    {
+        string key = AbilityKey(card);
+        if (!abilitySets.TryGetValue(key, out HashSet<string>? sets))
+            abilitySets[key] = sets = ConfidenceAnalysis.LegalSkillSets(card, catalog.Data.Profiles);
+        return sets;
+    }
 
     /// <summary>确保新旧布局可以同时装备的全部未排序技能集合完全相同。</summary>
-    private bool PreservesAbilities(CardTemplate source, CardTemplate candidate)
-    {
-        HashSet<string> Sets(CardTemplate card)
-        {
-            string key = $"{card.Slots}:{string.Join(',', card.AvailableTraits)}:{string.Join(',', card.Carriers)}";
-            if (!abilitySets.TryGetValue(key, out HashSet<string>? sets))
-                abilitySets[key] = sets = ConfidenceAnalysis.LegalSkillSets(card, catalog.Data.Profiles);
-            return sets;
-        }
-        return Sets(source).SetEquals(Sets(candidate));
-    }
+    /// <param name="source">定义原始技能集合的卡牌。</param>
+    /// <param name="candidate">待核验技能集合的候选卡牌。</param>
+    /// <returns>两张卡的全部合法集合是否相同。</returns>
+    private bool PreservesAbilities(CardTemplate source, CardTemplate candidate) =>
+        AbilitySets(source).SetEquals(AbilitySets(candidate));
 }

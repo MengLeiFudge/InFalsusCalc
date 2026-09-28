@@ -130,7 +130,7 @@ internal static class Reporting
     {
         if (recipes.Length != catalog.Data.Recipes.Length || recipes.Any(result => !result.Complete
             || result.MaterialPolicy != MaterialTierRefinement.Policy))
-            throw new InvalidDataException("配方成果尚未全部计算完成或未应用材料阶级精化。");
+            throw new InvalidDataException("配方成果尚未全部计算完成或未应用原始惩罚与材料阶级精化。");
         int[] strikeLimits = ConfidenceAnalysis.RetainedStrikes;
         if (decks.Length != catalog.Data.Encounters.Length * strikeLimits.Length
             || !decks.Select(d => d.Encounter).Distinct().Order().SequenceEqual(catalog.Data.Encounters.Select(e => e.Id).Order())

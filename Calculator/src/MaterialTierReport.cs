@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace InFalsusCalc;
 
-/// <summary>对既有完整报告应用材料阶级精化，不重新搜索卡牌面板或配队。</summary>
+/// <summary>对既有完整报告应用原始惩罚与材料阶级精化，不重新搜索卡牌面板或配队。</summary>
 internal static class MaterialTierReport
 {
     /// <summary>读取报告、精化指定或全部模板，并在完整重映射后原子输出。</summary>
@@ -77,8 +77,9 @@ internal static class MaterialTierReport
                     {
                         Interlocked.Increment(ref changed);
                         Console.WriteLine($"[{source.Recipe}] {source.Name} {source.Id} → {outcome.Card.Id}："
+                            + $"原始惩罚[{string.Join(',', source.RawPenalties)}] → [{string.Join(',', outcome.Card.RawPenalties)}]，"
                             + $"阶级[{string.Join(',', source.TierCounts)}] → [{string.Join(',', outcome.Card.TierCounts)}]，"
-                            + $"粒子{source.Count}，乖离{source.RawPenalties[3]}，{outcome.Seconds:F2}秒{(outcome.Complete ? "" : "（未闭合）")}。");
+                            + $"粒子{source.Count}，{outcome.Seconds:F2}秒{(outcome.Complete ? "" : "（未闭合）")}。");
                     }
                     int done = Interlocked.Increment(ref completed);
                     if (done % 25 == 0 || done == requested.Length)
