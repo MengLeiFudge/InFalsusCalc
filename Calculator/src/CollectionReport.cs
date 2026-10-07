@@ -53,12 +53,12 @@ internal static class CollectionReport
             cancellation.Token.ThrowIfCancellationRequested();
             Storage.Write(output, report);
             CollectionSummary summary = result.Summary;
-            Console.WriteLine($"统一制卡完成：{summary.Before} → {summary.After}张，下界{summary.LowerBound}，{summary.Status}；报告：{output}");
+            Console.WriteLine($"优化配队完成：{summary.Before} → {summary.After}张，下界{summary.LowerBound}，{summary.Status}；报告：{output}");
             return 0;
         }
         catch (OperationCanceledException)
         {
-            Console.WriteLine("统一制卡已取消，输出报告未覆盖。");
+            Console.WriteLine("优化配队已取消，输出报告未覆盖。");
             return 2;
         }
         finally { Console.CancelKeyPress -= handler; }

@@ -60,8 +60,8 @@ internal sealed partial class KeyRecipeSolver
     private readonly bool independent;
     /// <summary>角色和配方共同允许的基础粒子数量。</summary>
     private readonly int limit;
-    /// <summary>每次原生几何求解的时间片，单位秒。</summary>
-    private readonly double slice;
+    /// <summary>每次原生几何求解的时间片，单位秒；单面板求解按轮次改写。</summary>
+    private double slice;
     /// <summary>实际进入几何判断的收益层次数。</summary>
     private long checks;
 
@@ -311,59 +311,11 @@ internal sealed partial class KeyRecipeSolver
         foreach (int[] k in ConfidenceAnalysis.RetainedKeys(recipe))
             if (requested is null || requested.SequenceEqual(k))
                 baseGroups[string.Join(',', k)] = indexedGroups[k[0] * 25 + k[1] * 5 + k[2]] = [];
-        byte[] lower = coverageLower = new byte[1 << recipe.Areas.Length];
-        for (uint mask = 1; mask < lower.Length; mask++)
+        foreach (var (slots, left, right, set) in RegionSets())
         {
-            int i = System.Numerics.BitOperations.TrailingZeroCount(mask);
-            uint rest = mask & (mask - 1);
-            int bound = Math.Max(lower[rest], Math.Min(255, regionMinimum[i] + lower[rest & ~shared[i]]));
-            if (clusterCosts.Count > 0)
-            {
-                uint clustered = clusterCosts.Aggregate(0u, (m, c) => m | c.Mask);
-                int constant = independent ? Enumerable.Range(0, regionMinimum.Length).Where(i => (mask & ~clustered & (1u << i)) != 0).Sum(i => regionMinimum[i]) : 0;
-                int[] costs = Enumerable.Repeat(constant, outsideBudget + 1).ToArray();
-                foreach (var cluster in clusterCosts)
-                {
-                    int[] local = cluster.Costs[mask & cluster.Mask];
-                    costs = Enumerable.Range(0, outsideBudget + 1).Select(b => Enumerable.Range(0, b + 1).Min(n => costs[b - n] + local[n])).ToArray();
-                }
-                bound = Math.Max(bound, costs[outsideBudget]);
-            }
-            lower[mask] = (byte)Math.Min(limit + 1, bound);
-        }
-        // 最大22区；只保存通过安全粒子数下界及精确key的区域集合。
-        for (uint mask = 1; mask < (1u << recipe.Areas.Length); mask++)
-        {
-            if ((mask & 4095) == 0)
-                cancellation.ThrowIfCancellationRequested();
-            if ((mask & excluded) != 0)
-                continue;
-            int slots = 0, left = 0, right = 0, power = 0, fortitude = 0, extra = 0;
-            for (int i = 0; i < recipe.Areas.Length; i++)
-            {
-                if ((mask & (1u << i)) == 0)
-                    continue;
-                slots += effects[i, 7];
-                left += effects[i, 16];
-                right += effects[i, 17];
-                power += effects[i, 3];
-                fortitude += effects[i, 4];
-                extra += effects[i, 15];
-            }
-            int cost = lower[mask];
-            if (cost + extra > limit + ConfidenceAnalysis.RetainedStrikes.Max() || power <= 0 || fortitude <= 0)
-                continue;
-            slots = Math.Min(3, slots);
-            left = Math.Min(4, left);
-            right = Math.Min(4, right);
-            if (slots == 0)
-                left = right = 0;
             if (requested is not null && (slots != requested[0] || left != requested[1] || right != requested[2]))
                 continue;
-            List<RegionSet>? group = indexedGroups[slots * 25 + left * 5 + right];
-            if (group is null)
-                continue;
-            group.Add(new RegionSet(mask, power, fortitude, cost));
+            indexedGroups[slots * 25 + left * 5 + right]?.Add(set);
         }
         if (requested is not null && baseGroups.Count == 0)
             baseGroups[string.Join(',', requested)] = [];
@@ -593,6 +545,76 @@ internal sealed partial class KeyRecipeSolver
         Save();
     }
 
+    /// <summary>
+    /// 枚举通过安全粒子数下界的全部区域激活集合，并按封顶后的槽位与左右范围归类。
+    /// 只做纯计算，不调用几何求解；同时刷新coverageLower供后续可行性搜索复用。
+    /// </summary>
+    /// <returns>每项为封顶槽数、左范围、右范围与区域集合；0槽时范围归零。</returns>
+    private List<(int Slots, int Left, int Right, RegionSet Set)> RegionSets()
+    {
+        List<(int Slots, int Left, int Right, RegionSet Set)> result = [];
+        byte[] lower = coverageLower = new byte[1 << recipe.Areas.Length];
+        for (uint mask = 1; mask < lower.Length; mask++)
+        {
+            int i = System.Numerics.BitOperations.TrailingZeroCount(mask);
+            uint rest = mask & (mask - 1);
+            int bound = Math.Max(lower[rest], Math.Min(255, regionMinimum[i] + lower[rest & ~shared[i]]));
+            if (clusterCosts.Count > 0)
+            {
+                uint clustered = clusterCosts.Aggregate(0u, (m, c) => m | c.Mask);
+                int constant = independent ? Enumerable.Range(0, regionMinimum.Length).Where(i => (mask & ~clustered & (1u << i)) != 0).Sum(i => regionMinimum[i]) : 0;
+                int[] costs = Enumerable.Repeat(constant, outsideBudget + 1).ToArray();
+                foreach (var cluster in clusterCosts)
+                {
+                    int[] local = cluster.Costs[mask & cluster.Mask];
+                    costs = Enumerable.Range(0, outsideBudget + 1).Select(b => Enumerable.Range(0, b + 1).Min(n => costs[b - n] + local[n])).ToArray();
+                }
+                bound = Math.Max(bound, costs[outsideBudget]);
+            }
+            lower[mask] = (byte)Math.Min(limit + 1, bound);
+        }
+        // 最大22区；只保存通过安全粒子数下界及精确key的区域集合。
+        for (uint mask = 1; mask < (1u << recipe.Areas.Length); mask++)
+        {
+            if ((mask & 4095) == 0)
+                cancellation.ThrowIfCancellationRequested();
+            if ((mask & excluded) != 0)
+                continue;
+            int slots = 0, left = 0, right = 0, power = 0, fortitude = 0, extra = 0;
+            for (int i = 0; i < recipe.Areas.Length; i++)
+            {
+                if ((mask & (1u << i)) == 0)
+                    continue;
+                slots += effects[i, 7];
+                left += effects[i, 16];
+                right += effects[i, 17];
+                power += effects[i, 3];
+                fortitude += effects[i, 4];
+                extra += effects[i, 15];
+            }
+            int cost = lower[mask];
+            if (cost + extra > limit + ConfidenceAnalysis.RetainedStrikes.Max() || power <= 0 || fortitude <= 0)
+                continue;
+            slots = Math.Min(3, slots);
+            left = Math.Min(4, left);
+            right = Math.Min(4, right);
+            if (slots == 0)
+                left = right = 0;
+            result.Add((slots, left, right, new RegionSet(mask, power, fortitude, cost)));
+        }
+        return result;
+    }
+
+    /// <summary>面板普查使用的纯计算区域集合，不进行任何几何求解。</summary>
+    /// <returns>每项为封顶槽数、左范围、右范围与区域集合。</returns>
+    public (int Slots, int Left, int Right, uint Mask, int Power, int Fortitude, int Cost)[] SurveySets() =>
+        RegionSets().Select(item => (item.Slots, item.Left, item.Right,
+            item.Set.Mask, item.Set.Power, item.Set.Fortitude, item.Set.Cost)).ToArray();
+
+    /// <summary>已保存检查点中的区域集合到布局映射，供普查统计覆盖情况。</summary>
+    /// <returns>每项为区域位集与净惩罚层，值为已知布局或已证不可行的空引用。</returns>
+    public IReadOnlyDictionary<(uint Mask, int Strikes), CardTemplate?> SurveySolved() => solved;
+
     /// <summary>单区域考虑重叠和越界后的粒子数下界；有限时间只采用安全目标界。</summary>
     /// <param name="region">奖励区域编号。</param>
     /// <param name="budget">可用越界粒子数，空值使用角色与区域奖励上界。</param>
@@ -759,15 +781,77 @@ internal sealed partial class KeyRecipeSolver
     {
         solved[(card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)), currentStrikes)] = card;
         RecordCandidate(Result, group, goal, card);
+        RememberPatterns(card);
+    }
+
+    /// <summary>把一张合法布局中每个激活区域的粒子组加入区域拼法候选，供后续构造搜索优先复用。</summary>
+    /// <param name="card">已完整复算的当前配方布局；含未预编译放置时跳过。</param>
+    private void RememberPatterns(CardTemplate card)
+    {
         if (!recipe.Areas.Any(area => area.Cells.Length > 1))
             return;
-        int[] indices = card.Placements.Select(p => placementIndex[(p.Id, p.Q, p.R)]).ToArray();
+        int[] indices = new int[card.Placements.Length];
+        for (int i = 0; i < indices.Length; i++)
+            if (!placementIndex.TryGetValue((card.Placements[i].Id, card.Placements[i].Q, card.Placements[i].R), out indices[i]))
+                return;
         foreach (int region in card.Active)
         {
             int[] pattern = indices.Where(i => (pieces[i].Regions & (1u << region)) != 0).Order().ToArray();
             List<int[]> patterns = Patterns(region);
             if (!patterns.Any(existing => existing.SequenceEqual(pattern)))
                 patterns.Insert(0, pattern);
+        }
+    }
+
+    /// <summary>把其他求解器实例找到的新布局加入本实例的区域拼法候选。</summary>
+    /// <param name="card">当前配方的合法布局。</param>
+    public void Seed(CardTemplate card) => RememberPatterns(card);
+
+    /// <summary>把检查点中旧布局的区域拼法作为面板求解的起点。</summary>
+    /// <param name="skip">返回真时不用该布局作起点；校准时用来排除样本自身的答案。</param>
+    public void SeedPatternsFromCheckpoint(Func<CardTemplate, bool>? skip = null)
+    {
+        foreach (CardTemplate card in Result.Cards.Values)
+            if (skip is null || !skip(card))
+                RememberPatterns(card);
+    }
+
+    /// <summary>按区域位集索引的普查区域集合，首次单面板求解时建立。</summary>
+    private Dictionary<uint, RegionSet>? panelSets;
+    /// <summary>是否处于单面板求解；为真时Save不写检查点。</summary>
+    private bool panelMode;
+
+    /// <summary>
+    /// 在单个面板的全部区域组合中寻找任一合法布局，复用首轮可行性搜索链；时限为构造时的slice。
+    /// 不写检查点，也不修改分组状态。
+    /// </summary>
+    /// <param name="masks">产生该面板且尚未证明不可行的区域位集。</param>
+    /// <param name="strikes">精确净惩罚层。</param>
+    /// <param name="key">封顶后的槽数、左范围、右范围。</param>
+    /// <param name="seconds">本次求解墙钟上限；为空时沿用构造时的时间片。</param>
+    /// <returns>合法布局；或Infeasible表示已证不可行，Unknown表示时限内未找到。</returns>
+    public (CardTemplate? Card, CpSolverStatus Status) SolvePanel(uint[] masks, int strikes, int[] key, double? seconds = null)
+    {
+        if (seconds is double limit)
+            slice = limit;
+        panelSets ??= RegionSets().ToDictionary(item => item.Set.Mask, item => item.Set);
+        RegionSet[] sets = masks.Select(mask => panelSets[mask]).OrderBy(s => s.Cost).ThenBy(s => s.Mask).ToArray();
+        panelMode = true;
+        retry = false;
+        currentStrikes = strikes;
+        target = $"panel key={string.Join(',', key)} p{strikes}";
+        goalClock = Stopwatch.StartNew();
+        try
+        {
+            var answer = Feasible(sets, key);
+            if (answer.Card is CardTemplate card && (!card.Valid || card.Strikes != strikes
+                || !masks.Contains(card.Active.Aggregate(0u, (mask, i) => mask | (1u << i)))))
+                throw new InvalidDataException($"配方{recipe.Id}的面板求解返回了不符合要求的布局：{card.Id}。");
+            return answer;
+        }
+        finally
+        {
+            goalClock = null;
         }
     }
 
@@ -833,6 +917,9 @@ internal sealed partial class KeyRecipeSolver
     /// <summary>将已完成和未决状态写入新策略目录，不改旧成果。</summary>
     public void Save()
     {
+        // 单面板求解只产出布局，由调用方统一持久化，不能写回旧检查点。
+        if (panelMode)
+            return;
         if (runningGoal is not null && goalClock is not null)
             runningGoal.Seconds = goalClock.Elapsed.TotalSeconds;
         ReuseBounds(Result);

@@ -38,6 +38,19 @@ internal static class Program
                 return CollectionReport.Run(args.Skip(1).ToArray());
             if (command == "refine-materials")
                 return MaterialTierReport.Run(args.Skip(1).ToArray());
+            if (command == "survey-panels")
+                return PanelSurvey.Run(args.Skip(1).ToArray());
+            if (command == "calibrate-panels")
+                return PanelCalibration.Run(args.Skip(1).ToArray());
+            if (command == "solve-panels")
+                return PanelSolve.Run(args.Skip(1).ToArray());
+            if (command == "solve-display")
+                return PanelDisplay.Run(args.Skip(1).ToArray());
+            if (command == "recheck-panels")
+                return PanelRecheck.Run(args.Skip(1).ToArray());
+            // 一阶段成果已由solve-panels与solve-display生成，只执行配队、优化配队与导出。
+            if (command == "compose")
+                return Compute(Parse(args, 1, false));
             if (command == "debug")
             {
                 if (args.Length < 2)
@@ -54,7 +67,7 @@ internal static class Program
                 throw new ArgumentException("调试命令为debug run或debug confidence。");
             }
             if (command is not null && !command.StartsWith("--", StringComparison.Ordinal))
-                throw new ArgumentException("直接运行程序即可完整计算；另有collect、refine-materials、status、stop和debug命令。");
+                throw new ArgumentException("直接运行程序即可完整计算；另有collect、refine-materials、survey-panels、calibrate-panels、solve-panels、solve-display、recheck-panels、compose、status、stop和debug命令。");
             return RunPipeline(Parse(args, 0, false));
         }
         catch (Exception error)
@@ -357,7 +370,7 @@ internal static class Program
         using Timer watcher = new(_ => { if (File.Exists(cancel)) cancellation.Cancel(); }, null, 250, 250);
         Stopwatch elapsed = Stopwatch.StartNew();
         DateTimeOffset started = DateTimeOffset.UtcNow;
-        List<RecipeResult> results = [];
+        List<CardTemplate> cards = [];
         ConcurrentDictionary<(int Encounter, int MaxStrikes), DeckResult> decks = [];
         string stage = "读取并核验游戏资源";
         object statusGate = new();
@@ -369,9 +382,9 @@ internal static class Program
             {
                 Storage.Write(Path.Combine(Storage.State, "status.json"), new
                 {
-                    policy = KeyRecipeSolver.Policy,
+                    policy = PanelSolve.Policy,
                     material_policy = MaterialTierRefinement.Policy,
-                    selection_scope = ConfidenceAnalysis.Scope,
+                    display_policy = PanelDisplay.Policy,
                     pid = Environment.ProcessId,
                     started,
                     updated = DateTimeOffset.UtcNow,
@@ -379,8 +392,7 @@ internal static class Program
                     deadline_seconds = options.Seconds,
                     threads = options.Threads,
                     stage,
-                    recipes = results.Count,
-                    completed_recipes = results.Count(r => r.Complete),
+                    published_cards = cards.Count,
                     completed_encounters = decks.Keys.Select(k => k.Encounter).Distinct().Count(),
                     completed_decks = decks.Count,
                     library,
@@ -394,32 +406,38 @@ internal static class Program
             SaveStatus();
             Console.WriteLine($"C#计算已启动，使用{options.Threads}个求解线程；Ctrl+C可保存后停止。");
             Catalog catalog = new();
-            Recipe[] selectedRecipes = catalog.Data.Recipes;
-            stage = "读取置信key配方库";
+            // 一阶段成果来自面板求解（配队层）与展示层输出，两者都已完成v3材料精化；读取时逐张完整复算。
+            stage = "读取面板求解与展示层成果";
             SaveStatus();
-            foreach (Recipe recipe in selectedRecipes)
-            {
-                cancellation.Token.ThrowIfCancellationRequested();
-                KeyRecipeSolver.MigrateExclusions(catalog, recipe);
-                ConfidenceAnalysis.Migrate(catalog, recipe);
-                KeyRecipeSolver.RestoreBounds(catalog, recipe);
-                RecipeResult result = KeyRecipeSolver.Load(catalog, recipe) ?? throw new InvalidDataException($"配方{recipe.Id}缺少兼容的置信key检查点。");
-                if (!result.Complete)
-                    throw new InvalidDataException($"配方{recipe.Id}的置信key尚未完成。");
-                results.Add(result);
-            }
-            stage = "保持卡牌结果并降低原始惩罚与材料阶级";
-            SaveStatus();
-            MaterialTierRefinement.RefineCheckpoints(catalog, results.ToArray(), MaterialTierRefinement.DefaultSecondsPerCard,
-                options.Threads, cancellation.Token);
-            CardTemplate[] templates = results.Zip(selectedRecipes).SelectMany(p => ConfidenceAnalysis.SelectedCards(p.First, p.Second, catalog.Data.Profiles)).DistinctBy(c => c.Id).OrderBy(c => c.Id).ToArray();
+            CardTemplate[] deckLayer = PanelSolve.LoadCards(catalog, PanelSolve.OutputPath, PanelSolve.Policy, "solve-panels");
+            CardTemplate[] displayLayer = PanelSolve.LoadCards(catalog, PanelDisplay.OutputPath, PanelDisplay.Policy, "solve-display");
+            cards.AddRange(deckLayer.Concat(displayLayer).DistinctBy(c => c.Id));
+            CardTemplate[] templates = ConfidenceAnalysis.Substitutes(deckLayer, catalog.Data.Profiles).OrderBy(c => c.Id, StringComparer.Ordinal).ToArray();
             if (templates.Select(c => c.BaseId).Distinct().Count() < 5)
                 throw new InvalidDataException("结果不足五种不同名卡。");
+            Console.WriteLine($"配队层{deckLayer.Length}张，替代筛选后有效卡库{templates.Length}张；展示层{displayLayer.Length}张。");
             Dictionary<(int Encounter, int MaxStrikes), DeckResult> incumbents = LoadIncumbents();
+            Dictionary<string, CardTemplate> previousTemplates = LoadPreviousTemplates();
             Dictionary<string, CardTemplate> byTemplate = templates.ToDictionary(c => c.Id);
+            ILookup<PanelSurvey.Panel, CardTemplate> byPanel = templates.ToLookup(PanelSolve.Of);
+            // 旧配队引用的模板经过重求解与材料精化后编号可能变化：先找同面板且能承载原颜色与技能的卡（战斗结果不变），
+            // 再找同名、同范围、面板与槽位都不差的卡作为起点；找不到时该配队不作起点。
+            CardTemplate? Resolve(DeckCardResult old)
+            {
+                if (byTemplate.TryGetValue(old.Template, out CardTemplate? same))
+                    return same;
+                if (!previousTemplates.TryGetValue(old.Template, out CardTemplate? previous))
+                    return null;
+                bool Fits(CardTemplate card) => card.Colors.Contains(old.Color) && Craft.Assign(catalog, card, old.Traits) is not null;
+                return byPanel[PanelSolve.Of(previous)].Where(Fits).OrderBy(c => c.Id, StringComparer.Ordinal).FirstOrDefault()
+                    ?? templates.Where(c => c.BaseId == previous.BaseId && c.Left == previous.Left && c.Right == previous.Right
+                        && c.Strikes <= previous.Strikes && c.Slots >= previous.Slots && c.Power >= previous.Power
+                        && c.Fortitude >= previous.Fortitude && Fits(c))
+                        .OrderByDescending(c => c.Total).ThenBy(c => c.Id, StringComparer.Ordinal).FirstOrDefault();
+            }
             library = Storage.Digest(new object[]
             {
-                KeyRecipeSolver.Policy, ConfidenceAnalysis.Scope, MaterialTierRefinement.Policy,
+                PanelSolve.Policy, PanelDisplay.Policy, MaterialTierRefinement.Policy,
                 DeckSearch.Policy, catalog.Data.Id, templates
             });
             stage = "通关约束下的遭遇得分搜索";
@@ -455,9 +473,21 @@ internal static class Program
                     }
                     DeckResult? incumbent = incumbents.GetValueOrDefault((encounter.Id, maxStrikes))
                         ?? incumbents.GetValueOrDefault((encounter.Id, -1));
-                    DeckChoice[]? Team(DeckResult? source) => source is not null
-                        && source.Cards.All(c => byTemplate.TryGetValue(c.Template, out CardTemplate? card) && card.Strikes <= maxStrikes)
-                        ? source.Cards.Select(c => new DeckChoice(byTemplate[c.Template], c.Color, c.Traits)).ToArray() : null;
+                    DeckChoice[]? Team(DeckResult? source)
+                    {
+                        if (source is null)
+                            return null;
+                        DeckChoice[] team = new DeckChoice[source.Cards.Length];
+                        for (int i = 0; i < team.Length; i++)
+                        {
+                            DeckCardResult c = source.Cards[i];
+                            CardTemplate? card = Resolve(c);
+                            if (card is null || card.Strikes > maxStrikes)
+                                return null;
+                            team[i] = new DeckChoice(card, c.Color, c.Traits);
+                        }
+                        return team;
+                    }
                     DeckResult[] baselines = new DeckResult?[] { lowerResult, cacheValid ? cached : null, incumbent }
                         .Where(x => Team(x) is not null).Select(x => x!).Distinct().ToArray();
                     DeckChoice[][] seeds = baselines.Select(Team).Select(x => x!).ToArray();
@@ -476,7 +506,13 @@ internal static class Program
                                 Library = library,
                                 Encounter = encounter.Id,
                                 MaxStrikes = maxStrikes,
-                                Cards = baseline.Cards,
+                                Cards = baselineTeam.Select(c => new DeckCardResult
+                                {
+                                    Template = c.Template.Id,
+                                    Color = c.Color,
+                                    Traits = c.Traits,
+                                    Materials = Craft.Assign(catalog, c.Template, c.Traits)!
+                                }).ToArray(),
                                 Battle = oldBattle,
                                 RatingBattles = oldRatings,
                                 Evaluated = result?.Evaluated ?? 1,
@@ -507,13 +543,16 @@ internal static class Program
                 return 2;
             }
             cancellation.Token.ThrowIfCancellationRequested();
-            stage = "跨回想统一制卡";
+            stage = "跨回想优化配队";
             SaveStatus();
+            // 优化配队只用本次运行的剩余预算，并为导出预留余量，使其到时正常收尾，而不是被总预算取消后丢弃结果。
+            const int exportReserveSeconds = 300;
+            int collectionSeconds = Math.Max(1, (int)(options.Seconds - elapsed.Elapsed.TotalSeconds) - exportReserveSeconds);
             var collection = new DeckCollection(catalog, byTemplate, cancellation.Token).Optimize(
-                decks.Values.OrderBy(d => d.Encounter).ThenBy(d => d.MaxStrikes).ToArray(), options.Seconds, options.Threads);
+                decks.Values.OrderBy(d => d.Encounter).ThenBy(d => d.MaxStrikes).ToArray(), collectionSeconds, options.Threads);
             stage = "导出完整计算结果";
             SaveStatus();
-            Reporting.Export(catalog, results.ToArray(), collection.Decks, library, options.Output, collection.Summary);
+            Reporting.Export(catalog, cards.ToArray(), templates, collection.Decks, library, options.Output, collection.Summary);
             stage = "completed";
             SaveStatus();
             Console.WriteLine($"全部成果已生成：{options.Output}");
@@ -533,6 +572,26 @@ internal static class Program
             throw;
         }
         finally { Console.CancelKeyPress -= handler; }
+    }
+
+    /// <summary>读取本地与已发布报告的全部模板，供旧配队的模板编号映射到新卡库。</summary>
+    /// <returns>按旧模板编号索引的卡；两份报告重复时本地优先。</returns>
+    private static Dictionary<string, CardTemplate> LoadPreviousTemplates()
+    {
+        Dictionary<string, CardTemplate> result = [];
+        foreach (string directory in new[] { "results", "reports" })
+        {
+            string path = Path.Combine(Storage.Root, directory, "report.json");
+            if (!File.Exists(path))
+                continue;
+            using JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(path));
+            if (!document.RootElement.TryGetProperty("templates", out JsonElement templates))
+                continue;
+            foreach (JsonProperty template in templates.EnumerateObject())
+                if (template.Value.Deserialize<CardTemplate>(Storage.Json) is CardTemplate card)
+                    result.TryAdd(template.Name, card);
+        }
+        return result;
     }
 
     /// <summary>合并本地结果与已发布报告的高分队伍，避免旧运行文件遮住更新的发布基准。</summary>

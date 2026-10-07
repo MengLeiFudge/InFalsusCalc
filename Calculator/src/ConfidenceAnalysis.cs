@@ -29,6 +29,16 @@ internal static class ConfidenceAnalysis
         CardTemplate[] cards = result.Groups.Where(p => keys.Contains(Key(p.Value.Key)) && RetainedStrikes.Contains(p.Value.Strikes))
             .SelectMany(p => p.Value.Best.Values.Concat(p.Value.TotalBest)).Distinct()
             .Where(result.Cards.ContainsKey).Select(id => result.Cards[id]).ToArray();
+        return Substitutes(cards, profiles);
+    }
+
+    /// <summary>去掉被同名卡其他布局完整替代的卡：面板、槽位、颜色与可承载技能集合都不差。</summary>
+    /// <param name="cards">待筛选的合法布局，可跨配方。</param>
+    /// <param name="profiles">当前版本的材料能力，判断技能组合是否能同时装备。</param>
+    /// <returns>没有被完整替代的卡；完全等价时保留编号较小的一张。</returns>
+    public static CardTemplate[] Substitutes(CardTemplate[] cards, MaterialProfile[] profiles)
+    {
+        cards = cards.DistinctBy(card => card.Id).ToArray();
         Dictionary<string, HashSet<string>> abilities = [];
         Dictionary<string, HashSet<string>> byCard = [];
         foreach (CardTemplate card in cards)
@@ -392,10 +402,21 @@ internal static class ConfidenceAnalysis
     }
 
     /// <summary>把卡面和每槽最佳覆盖收益换成共同的单项或攻防总量单位。</summary>
-    private static double IdealScore(Panel raw, int[] key, int goal)
+    private static double IdealScore(Panel raw, int[] key, int goal) =>
+        PanelScore(Craft.FinalStat(raw.Power, 0), Craft.FinalStat(raw.Fortitude, 0), key, goal);
+
+    /// <summary>
+    /// 把最终攻防与每槽最佳技能覆盖收益换成共同的单项或攻防总量单位。
+    /// 技能收益按范围内、外围、外部三种增强取最大，使槽位与范围造成的卡面损失可比较。
+    /// </summary>
+    /// <param name="power">最终攻击。</param>
+    /// <param name="fortitude">最终防御。</param>
+    /// <param name="key">槽数、左范围、右范围。</param>
+    /// <param name="goal">0攻击、1防御、2攻防总和。</param>
+    /// <returns>可在同一配方内相互比较的加权分。</returns>
+    internal static double PanelScore(int power, int fortitude, int[] key, int goal)
     {
-        double own = goal == 0 ? Craft.FinalStat(raw.Power, 0) : goal == 1 ? Craft.FinalStat(raw.Fortitude, 0)
-            : Craft.FinalStat(raw.Power, 0) + Craft.FinalStat(raw.Fortitude, 0);
+        double own = goal == 0 ? power : goal == 1 ? fortitude : power + fortitude;
         if (key[0] == 0)
             return own;
         double other = goal == 2 ? 80000 : 40000;

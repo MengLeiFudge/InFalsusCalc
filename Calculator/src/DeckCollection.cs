@@ -4,7 +4,7 @@ using Google.OrTools.Sat;
 
 namespace InFalsusCalc;
 
-/// <summary>跨全部回想的统一制卡清单与最少性证明；不代表配队得分的全局最优。</summary>
+/// <summary>跨全部回想的优化配队清单与最少性证明；不代表配队得分的全局最优。</summary>
 internal sealed class CollectionSummary
 {
     /// <summary>技能时机守恒、原生结算操作序列相同的固定卡牌分配空间。</summary>
@@ -215,7 +215,7 @@ internal sealed class DeckCollection
         LinearExpr count = LinearExpr.Sum(used.Values);
         model.Add(count <= before);
         model.Minimize(count);
-        Console.WriteLine($"统一制卡：{decks.Length}套/{repeated.Count}个独立配置，原{before}张，结构下界{lower}张，候选成品{used.Count}种。");
+        Console.WriteLine($"优化配队：{decks.Length}套/{repeated.Count}个独立配置，原{before}张，结构下界{lower}张，候选成品{used.Count}种。");
         Dictionary<(int Team, int Rating), long[]> schedules = [];
         HashSet<(int Team, string Cards)> accepted = [];
         double seedDeadline = Math.Min(seconds * .4, timer.Elapsed.TotalSeconds + 60);
@@ -229,7 +229,7 @@ internal sealed class DeckCollection
             if (improved >= bestCount) break;
             best = normalized;
             bestCount = improved;
-            Console.WriteLine($"统一制卡：等价换位起点{bestCount}张。");
+            Console.WriteLine($"优化配队：等价换位起点{bestCount}张。");
         }
         if (bestCount < before)
         {
@@ -243,7 +243,7 @@ internal sealed class DeckCollection
                     for (int i = 0; i < positions[team][slot].Variants.Length; i++)
                         model.AddHint(positions[team][slot].Chosen[i], positions[team][slot].Variants[i].Key == Key(best[team][slot]) ? 1 : 0);
             }
-            Console.WriteLine($"统一制卡：等价换位起点{bestCount}张，继续完整模型证明。");
+            Console.WriteLine($"优化配队：等价换位起点{bestCount}张，继续完整模型证明。");
         }
         model.Add(count < bestCount);
         double slice = 5;
@@ -289,12 +289,12 @@ internal sealed class DeckCollection
             }
             if (!valid)
             {
-                Console.WriteLine($"统一制卡：已排除{rejected}种非等价队伍，保留{bestCount}张，下界{lower}张。");
+                Console.WriteLine($"优化配队：已排除{rejected}种非等价队伍，保留{bestCount}张，下界{lower}张。");
                 continue;
             }
             best = candidate;
             bestCount = best.SelectMany(cards => cards).Select(Key).Distinct().Count();
-            Console.WriteLine($"统一制卡：已验证{bestCount}张，下界{lower}张，已排除{rejected}种非等价队伍。");
+            Console.WriteLine($"优化配队：已验证{bestCount}张，下界{lower}张，已排除{rejected}种非等价队伍。");
             if (status == CpSolverStatus.Optimal) { lower = bestCount; break; }
             model.Add(count < bestCount);
             // 新上界排除了旧提示，移除它，避免反复尝试已知过大的基准。
@@ -429,14 +429,14 @@ internal sealed class DeckCollection
     {
         var expected = catalog.Data.Encounters.SelectMany(e => ConfidenceAnalysis.RetainedStrikes.Select(s => (e.Id, s))).Order().ToArray();
         if (!decks.Select(d => (d.Encounter, d.MaxStrikes)).Order().SequenceEqual(expected))
-            throw new InvalidDataException("统一制卡必须包含全部回想的0、1、2惩罚档。");
+            throw new InvalidDataException("优化配队必须包含全部回想的0、1、2惩罚档。");
         foreach (DeckResult deck in decks)
         {
             token.ThrowIfCancellationRequested();
             if (deck.Cards.Length != 5 || deck.Rating != Battle.SearchRating || deck.Notes != Battle.Notes
                 || !deck.Chromatic || deck.InitialHp != 100 || !deck.Battle.Passed
                 || !deck.RatingBattles.Keys.Order().SequenceEqual(Enumerable.Range(1, 20)))
-                throw new InvalidDataException("统一制卡的配队条件或等级结果不完整。");
+                throw new InvalidDataException("优化配队的配队条件或等级结果不完整。");
             foreach (DeckCardResult card in deck.Cards)
             {
                 if (!templates.TryGetValue(card.Template, out CardTemplate? template) || !template.Colors.Contains(card.Color)

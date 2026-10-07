@@ -100,37 +100,36 @@ internal static class Reporting
     private static bool WorseThan(DeckResult next, DeckResult previous) => next.Battle.Score < previous.Battle.Score
         || next.Battle.Score == previous.Battle.Score && next.Battle.RawScore < previous.Battle.RawScore;
 
-    /// <summary>按同组全部已知候选归并字典序单项代表，并展开最大总和的全部面板拆分。</summary>
-    private static KeyValuePair<string, string>[] GoalRepresentatives(RecipeResult recipe, GroupState group)
+    /// <summary>按组内全部已发布卡归并字典序单项代表，并展开最大总和的全部面板拆分。</summary>
+    /// <param name="cards">同配方、同净惩罚、同槽位范围的卡。</param>
+    /// <returns>目标名与代表布局编号；总和可有多项。</returns>
+    private static KeyValuePair<string, string>[] GoalRepresentatives(CardTemplate[] cards)
     {
-        CardTemplate[] cards = group.Best.Values.Concat(group.TotalBest).Distinct().Where(recipe.Cards.ContainsKey).Select(id => recipe.Cards[id]).ToArray();
-        if (cards.Length == 0)
-            return [];
-        List<KeyValuePair<string, string>> result = [];
-        foreach (string goal in group.Best.Keys.Where(goal => goal != "total"))
-            result.Add(new(goal, Craft.BestForGoal(cards, goal).Id));
-        if (group.Best.ContainsKey("total"))
-        {
-            int total = cards.Max(card => card.Total);
-            foreach (CardTemplate card in cards.Where(card => card.Total == total).GroupBy(card => (card.Power, card.Fortitude))
-                .Select(panel => Craft.BestForGoal(panel, "total")).OrderByDescending(card => card.Power).ThenByDescending(card => card.Fortitude))
-                result.Add(new("total", card.Id));
-        }
+        List<KeyValuePair<string, string>> result =
+        [
+            new("power", Craft.BestForGoal(cards, "power").Id),
+            new("fortitude", Craft.BestForGoal(cards, "fortitude").Id)
+        ];
+        int total = cards.Max(card => card.Total);
+        foreach (CardTemplate card in cards.Where(card => card.Total == total).GroupBy(card => (card.Power, card.Fortitude))
+            .Select(panel => Craft.BestForGoal(panel, "total")).OrderByDescending(card => card.Power).ThenByDescending(card => card.Fortitude))
+            result.Add(new("total", card.Id));
         return result.ToArray();
     }
 
     /// <summary>导出完整计算结果，不读取或生成网页资源。</summary>
     /// <param name="catalog">当前资源。</param>
-    /// <param name="recipes">全部配方成果。</param>
+    /// <param name="published">网页展示的全部卡：配队层加展示层，均已材料精化。</param>
+    /// <param name="effective">替代筛选后的有效卡库，配队只能引用其中的卡。</param>
     /// <param name="decks">每个回想的通关得分配置。</param>
     /// <param name="library">统一模板库指纹。</param>
     /// <param name="output">完整结果JSON路径。</param>
-    /// <param name="collection">跨回想统一制卡的清单和证明状态；旧导出调用可省略。</param>
-    public static void Export(Catalog catalog, RecipeResult[] recipes, DeckResult[] decks, string library, string output, CollectionSummary? collection = null)
+    /// <param name="collection">跨回想优化配队的清单和证明状态。</param>
+    public static void Export(Catalog catalog, CardTemplate[] published, CardTemplate[] effective, DeckResult[] decks, string library,
+        string output, CollectionSummary collection)
     {
-        if (recipes.Length != catalog.Data.Recipes.Length || recipes.Any(result => !result.Complete
-            || result.MaterialPolicy != MaterialTierRefinement.Policy))
-            throw new InvalidDataException("配方成果尚未全部计算完成或未应用原始惩罚与材料阶级精化。");
+        if (effective.Any(card => !published.Any(other => other.Id == card.Id)))
+            throw new InvalidDataException("有效卡库含有未发布的卡。");
         int[] strikeLimits = ConfidenceAnalysis.RetainedStrikes;
         if (decks.Length != catalog.Data.Encounters.Length * strikeLimits.Length
             || !decks.Select(d => d.Encounter).Distinct().Order().SequenceEqual(catalog.Data.Encounters.Select(e => e.Id).Order())
@@ -150,42 +149,36 @@ internal static class Reporting
         Dictionary<string, JsonObject> templates = [];
         Dictionary<string, JsonObject> libraryTemplates = [];
         Dictionary<int, object[]> groups = [];
-        foreach (RecipeResult recipe in recipes)
+        HashSet<string> effectiveIds = effective.Select(card => card.Id).ToHashSet();
+        foreach (CardTemplate card in published.DistinctBy(c => c.Id))
         {
-            Recipe definition = catalog.Data.Recipes.Single(r => r.Id == recipe.Recipe);
-            CardTemplate[] selected = ConfidenceAnalysis.SelectedCards(recipe, definition, catalog.Data.Profiles);
-            HashSet<string> retained = ConfidenceAnalysis.RetainedKeys(definition).Select(k => string.Join(',', k)).ToHashSet();
-            GroupState[] retainedGroups = recipe.Groups.Values.Where(g => retained.Contains(string.Join(',', g.Key))).ToArray();
-            string[] visibleIds = retainedGroups.SelectMany(g => GoalRepresentatives(recipe, g).Select(item => item.Value)).Distinct().ToArray();
-            HashSet<string> selectedIds = selected.Select(card => card.Id).ToHashSet();
-            foreach (CardTemplate card in selected.Concat(visibleIds.Select(id => recipe.Cards[id])).DistinctBy(c => c.Id))
-            {
-                JsonObject node = JsonSerializer.SerializeToNode(card, Storage.Json)!.AsObject();
-                node["goals"] = new JsonArray();
-                templates[card.Id] = node;
-                if (selectedIds.Contains(card.Id))
-                    libraryTemplates[card.Id] = node.DeepClone().AsObject();
-            }
+            JsonObject node = JsonSerializer.SerializeToNode(card, Storage.Json)!.AsObject();
+            node["goals"] = new JsonArray();
+            templates[card.Id] = node;
+            if (effectiveIds.Contains(card.Id))
+                libraryTemplates[card.Id] = node.DeepClone().AsObject();
+        }
+        // 网页分组：同配方、同槽位范围、同净惩罚；0槽卡范围归零，与面板口径一致。
+        foreach (var recipe in published.DistinctBy(c => c.Id).GroupBy(card => card.Recipe).OrderBy(g => g.Key))
+        {
             List<object> visible = [];
-            foreach (var pair in recipe.Groups.Where(p => retained.Contains(string.Join(',', p.Value.Key)))
-                .OrderBy(p => p.Value.Key[0]).ThenBy(p => p.Value.Key[1]).ThenBy(p => p.Value.Key[2]).ThenBy(p => p.Value.Strikes))
+            foreach (var group in recipe.GroupBy(card => PanelSolve.Of(card) with { Power = 0, Fortitude = 0 })
+                .OrderBy(g => g.Key.Slots).ThenBy(g => g.Key.Left).ThenBy(g => g.Key.Right).ThenBy(g => g.Key.Strikes))
             {
-                GroupState group = pair.Value;
-                KeyValuePair<string, string>[] representatives = GoalRepresentatives(recipe, group);
-                if (representatives.Length == 0)
-                    continue;
-                var rows = representatives.GroupBy(item => item.Value).Select(items => new { template = items.Key, goals = items.Select(p => p.Key).Distinct().ToArray() }).ToArray();
+                CardTemplate[] members = group.ToArray();
+                var rows = GoalRepresentatives(members).GroupBy(item => item.Value)
+                    .Select(items => new { template = items.Key, goals = items.Select(p => p.Key).Distinct().ToArray() }).ToArray();
                 foreach (var row in rows)
                     templates[row.template]["goals"] = JsonSerializer.SerializeToNode(row.goals, Storage.Json);
-                int palette = rows.SelectMany(row => recipe.Cards[row.template].Colors).Distinct().Sum(color => 1 << color);
+                int palette = members.SelectMany(card => card.Colors).Distinct().Sum(color => 1 << color);
                 visible.Add(new
                 {
-                    key = group.Key.Concat([palette]).ToArray(),
-                    strikes = group.Strikes,
+                    key = new[] { group.Key.Slots, group.Key.Left, group.Key.Right, palette },
+                    strikes = group.Key.Strikes,
                     results = rows
                 });
             }
-            groups[recipe.Recipe] = visible.ToArray();
+            groups[recipe.Key] = visible.ToArray();
         }
         if (decks.SelectMany(deck => deck.Cards.Select(card => (deck, card))).Any(item => !libraryTemplates.ContainsKey(item.card.Template)
             || !templates.TryGetValue(item.card.Template, out JsonObject? template)
@@ -196,7 +189,7 @@ internal static class Reporting
         var report = new
         {
             schema = 14,
-            version = $"{KeyRecipeSolver.Policy}/{ConfidenceAnalysis.Scope}/{MaterialTierRefinement.Policy}/{DeckSearch.Policy}",
+            version = $"{PanelSolve.Policy}/{PanelDisplay.Policy}/{MaterialTierRefinement.Policy}/{DeckSearch.Policy}",
             library,
             created = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
             catalog = new
@@ -251,9 +244,9 @@ internal static class Reporting
                 conditions = decks.Length,
                 deck_objective = $"encounter_score_capped_at_{Battle.MaxScore:0}_with_clear",
                 deck_optimality = "best_found_with_score_cap_proofs",
-                recipe_selection = ConfidenceAnalysis.Scope,
-                deck_selection = DeckSearch.Policy,
-                confidence_targets = recipes.Sum(r => r.Groups.Values.SelectMany(g => g.Goals.Values).Count(v => v.Status == "CONFIDENCE"))
+                recipe_selection = PanelSolve.Policy,
+                display_selection = PanelDisplay.Policy,
+                deck_selection = DeckSearch.Policy
             }
         };
         Storage.Write(output, report);

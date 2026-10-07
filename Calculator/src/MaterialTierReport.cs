@@ -1,7 +1,21 @@
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace InFalsusCalc;
+
+/// <summary>refine-materials 的逐卡续算进度；同一输入报告与策略下重新运行时跳过已精化的模板。</summary>
+internal sealed class MaterialRefineProgress
+{
+    /// <summary>生成进度时的材料精化策略版本，不同版本的进度不复用。</summary>
+    public string Policy { get; set; } = "";
+    /// <summary>生成进度时的资源快照指纹。</summary>
+    public string Catalog { get; set; } = "";
+    /// <summary>输入报告文件字节的SHA-256前缀，与进度文件名一致。</summary>
+    public string Input { get; set; } = "";
+    /// <summary>原模板编号到已完整复算的精化结果；未改善时与原模板相同。</summary>
+    public Dictionary<string, CardTemplate> Cards { get; set; } = [];
+}
 
 /// <summary>对既有完整报告应用原始惩罚与材料阶级精化，不重新搜索卡牌面板或配队。</summary>
 internal static class MaterialTierReport
@@ -32,7 +46,8 @@ internal static class MaterialTierReport
         if (seconds is < 1 or > 86400 || threads < 1 || threads > Environment.ProcessorCount)
             throw new ArgumentException("预算应为1至86400秒，线程数应在本机逻辑CPU数量内。");
 
-        JsonObject report = JsonNode.Parse(File.ReadAllBytes(input))?.AsObject()
+        byte[] inputBytes = File.ReadAllBytes(input);
+        JsonObject report = JsonNode.Parse(inputBytes)?.AsObject()
             ?? throw new InvalidDataException("报告为空。");
         Catalog catalog = new();
         if (report["schema"]?.GetValue<int>() != 14 || report["catalog"]?["id"]?.GetValue<string>() != catalog.Data.Id)
@@ -43,19 +58,28 @@ internal static class MaterialTierReport
             : templates.ContainsKey(selectedTemplate) ? [selectedTemplate]
             : throw new ArgumentException($"报告中不存在模板{selectedTemplate}。");
 
+        // 全量运行按输入报告内容保存逐卡进度；单模板定位运行不读写进度。
+        string inputDigest = Convert.ToHexStringLower(SHA256.HashData(inputBytes))[..24];
+        string? progressPath = selectedTemplate is null
+            ? Path.Combine(Storage.State, "material-refine", $"{inputDigest}.json") : null;
+        MaterialRefineProgress progress = LoadProgress(catalog, progressPath, inputDigest, templates);
+        string[] pending = requested.Where(id => !progress.Cards.ContainsKey(id)).ToArray();
+        if (progress.Cards.Count > 0)
+            Console.WriteLine($"材料精化续算：已完成{progress.Cards.Count}张，剩余{pending.Length}张；进度：{progressPath}");
+
         using CancellationTokenSource cancellation = new(TimeSpan.FromSeconds(seconds));
         ConsoleCancelEventHandler handler = (_, e) => { e.Cancel = true; cancellation.Cancel(); };
         Console.CancelKeyPress += handler;
         try
         {
-            Dictionary<string, CardTemplate> refined = [];
+            Dictionary<string, CardTemplate> refined = new(progress.Cards);
             object refinedGate = new();
-            int completed = 0, changed = 0;
+            int completed = progress.Cards.Count, changed = progress.Cards.Count(pair => pair.Key != pair.Value.Id);
             // 每个求解器只用一个原生线程；总预算按并行槽位均分。每八张同配方模板复用一次预编译域，避免大配方形成串行尾部。
             double secondsPerCard = selectedTemplate is null
-                ? Math.Clamp((double)seconds * threads / requested.Length, 1, MaterialTierRefinement.DefaultSecondsPerCard)
+                ? Math.Clamp((double)seconds * threads / Math.Max(1, pending.Length), 1, MaterialTierRefinement.DefaultSecondsPerCard)
                 : Math.Max(1, seconds - 5);
-            var jobs = requested.GroupBy(id => templates[id].Recipe)
+            var jobs = pending.GroupBy(id => templates[id].Recipe)
                 .SelectMany(group => group.Order(StringComparer.Ordinal).Chunk(8)
                     .Select(ids => (Recipe: group.Key, Ids: ids)))
                 .OrderByDescending(job => job.Ids.Length).ToArray();
@@ -70,9 +94,17 @@ internal static class MaterialTierReport
                 foreach (string id in job.Ids)
                 {
                     CardTemplate source = templates[id];
-                    MaterialTierRefinement.Outcome outcome = refinement.Refine(source, secondsPerCard, 1, cancellation.Token);
+                    MaterialTierRefinement.Outcome outcome = refinement.Refine(source, secondsPerCard, selectedTemplate is null ? 1 : threads, cancellation.Token);
                     lock (refinedGate)
+                    {
                         refined[id] = outcome.Card;
+                        // 每张卡完成即落盘，中断后只损失正在求解的卡；写入与读取在同一把锁内，快照始终一致。
+                        if (progressPath is not null)
+                        {
+                            progress.Cards[id] = outcome.Card;
+                            Storage.Write(progressPath, progress);
+                        }
+                    }
                     if (outcome.Card.Id != source.Id)
                     {
                         Interlocked.Increment(ref changed);
@@ -81,6 +113,9 @@ internal static class MaterialTierReport
                             + $"阶级[{string.Join(',', source.TierCounts)}] → [{string.Join(',', outcome.Card.TierCounts)}]，"
                             + $"粒子{source.Count}，{outcome.Seconds:F2}秒{(outcome.Complete ? "" : "（未闭合）")}。");
                     }
+                    else if (selectedTemplate is not null)
+                        Console.WriteLine($"[{source.Recipe}] {source.Name} {source.Id} 未找到改善，"
+                            + $"{outcome.Seconds:F2}秒{(outcome.Complete ? "，已证明当前布局最低" : "（未闭合）")}。");
                     int done = Interlocked.Increment(ref completed);
                     if (done % 25 == 0 || done == requested.Length)
                         Console.WriteLine($"材料精化进度：{done}/{requested.Length}，已改善{Volatile.Read(ref changed)}张。");
@@ -114,7 +149,7 @@ internal static class MaterialTierReport
                 .ToDictionary(group => group.Key, group => group.ToDictionary(deck => deck.MaxStrikes)), Storage.Json);
 
             CollectionSummary previous = report["collection"]?.Deserialize<CollectionSummary>(Storage.Json)
-                ?? throw new InvalidDataException("报告缺少统一制卡结果。");
+                ?? throw new InvalidDataException("报告缺少优化配队结果。");
             DeckCardResult[] products = decks.SelectMany(deck => deck.Cards).DistinctBy(ProductKey)
                 .OrderBy(ProductKey, StringComparer.Ordinal).ToArray();
             int lower = decks.SelectMany(deck => deck.Cards).Select(card => (card.Template, card.Color)).Distinct().Count();
@@ -137,7 +172,7 @@ internal static class MaterialTierReport
             cancellation.Token.ThrowIfCancellationRequested();
             Storage.Write(output, report);
             Console.WriteLine($"材料精化完成：检查{requested.Length}张，改善{changed}张，有效卡库{libraryCards.Length}张，"
-                + $"统一制卡{collection.After}张；报告：{output}");
+                + $"优化配队{collection.After}张；报告：{output}");
             return 0;
         }
         catch (OperationCanceledException)
@@ -149,6 +184,30 @@ internal static class MaterialTierReport
         {
             Console.CancelKeyPress -= handler;
         }
+    }
+
+    /// <summary>读取与当前输入、资源和策略一致的续算进度，并逐张完整复算已保存的布局。</summary>
+    /// <param name="catalog">当前资源。</param>
+    /// <param name="path">进度文件路径；为空时不读取，返回空进度。</param>
+    /// <param name="input">输入报告指纹。</param>
+    /// <param name="templates">输入报告的全部原始模板。</param>
+    /// <returns>可直接复用的进度；版本不一致时为新的空进度。</returns>
+    private static MaterialRefineProgress LoadProgress(Catalog catalog, string? path, string input,
+        IReadOnlyDictionary<string, CardTemplate> templates)
+    {
+        MaterialRefineProgress fresh = new() { Policy = MaterialTierRefinement.Policy, Catalog = catalog.Data.Id, Input = input };
+        MaterialRefineProgress? saved = path is null ? null : Storage.Read<MaterialRefineProgress>(path);
+        if (saved is null || saved.Policy != fresh.Policy || saved.Catalog != fresh.Catalog || saved.Input != input)
+            return fresh;
+        foreach ((string id, CardTemplate card) in saved.Cards)
+        {
+            if (!templates.TryGetValue(id, out CardTemplate? source) || source.Recipe != card.Recipe)
+                throw new InvalidDataException($"材料精化进度含有输入报告之外的模板{id}：{path}");
+            Recipe recipe = catalog.Data.Recipes.Single(item => item.Id == card.Recipe);
+            if (Craft.Evaluate(catalog, recipe, card.Placements).Id != card.Id)
+                throw new InvalidDataException($"材料精化进度中的布局{card.Id}无法复算：{path}");
+        }
+        return saved;
     }
 
     /// <summary>序列化精化布局并合并因模板编号收敛而重合的展示目标。</summary>
