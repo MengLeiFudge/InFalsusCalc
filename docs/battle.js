@@ -17,19 +17,84 @@ function phaseCounts(notes) {
   });
 }
 
-/** 复现原生等键Array.Sort的分区交换，阶段事件不能改成稳定排序。 */
-function sortEvents(queue, low = 0, high = queue.length - 1) {
-  while (high - low + 1 > 16) {
-    const middle = low + Math.floor((high - low) / 2);
-    [queue[middle], queue[high - 1]] = [queue[high - 1], queue[middle]];
-    let left = low;
-    let right = high - 1;
-    while (++left < --right) [queue[left], queue[right]] = [queue[right], queue[left]];
-    [queue[left], queue[high - 1]] = [queue[high - 1], queue[left]];
-    sortEvents(queue, left + 1, high);
-    high = left - 1;
+/** 与原生Array.Sort一致的内省排序；等键的增减益事件保留原生分区交换顺序。 */
+function sortEvents(queue, start = 0) {
+  const swap = (a, b) => {
+    [queue[a], queue[b]] = [queue[b], queue[a]];
+  };
+  const swapIfGreater = (a, b) => {
+    if (queue[a].priority > queue[b].priority) swap(a, b);
+  };
+  /** 在low起点的区间内修复最大堆；堆索引从1计数。 */
+  function downHeap(index, count, low) {
+    const value = queue[low + index - 1];
+    while (index <= Math.floor(count / 2)) {
+      let child = 2 * index;
+      if (child < count && queue[low + child - 1].priority < queue[low + child].priority) child++;
+      if (value.priority >= queue[low + child - 1].priority) break;
+      queue[low + index - 1] = queue[low + child - 1];
+      index = child;
+    }
+    queue[low + index - 1] = value;
   }
+  /** 排序闭区间，深度耗尽时退回堆排序，保持原生交换顺序。 */
+  function introsort(low, high, depth) {
+    while (high > low) {
+      const count = high - low + 1;
+      if (count <= 16) {
+        if (count === 2) swapIfGreater(low, high);
+        else if (count === 3) {
+          swapIfGreater(low, high - 1);
+          swapIfGreater(low, high);
+          swapIfGreater(high - 1, high);
+        } else {
+          for (let i = low; i < high; i++) {
+            const value = queue[i + 1];
+            let j = i;
+            while (j >= low && value.priority < queue[j].priority) {
+              queue[j + 1] = queue[j];
+              j--;
+            }
+            queue[j + 1] = value;
+          }
+        }
+        return;
+      }
+      if (depth === 0) {
+        for (let i = Math.floor(count / 2); i >= 1; i--) downHeap(i, count, low);
+        for (let i = count; i > 1; i--) {
+          swap(low, low + i - 1);
+          downHeap(1, i - 1, low);
+        }
+        return;
+      }
+      depth--;
+      const middle = low + Math.floor((high - low) / 2);
+      swapIfGreater(low, middle);
+      swapIfGreater(low, high);
+      swapIfGreater(middle, high);
+      const pivot = queue[middle].priority;
+      swap(middle, high - 1);
+      let left = low;
+      let right = high - 1;
+      while (true) {
+        while (queue[++left].priority < pivot) {}
+        while (pivot < queue[--right].priority) {}
+        if (left >= right) break;
+        swap(left, right);
+      }
+      if (left !== high - 1) swap(left, high - 1);
+      introsort(left + 1, high, depth);
+      high = left - 1;
+    }
+  }
+  const count = queue.length - start;
+  if (count > 1) introsort(start, queue.length - 1, 2 * (Math.floor(Math.log2(count)) + 1));
 }
+
+/** 新版_Ph事件排序常量，索引分别为触发条件、当前阶段减来源卡位加5。 */
+const conditionPriority = [100000, 110000, 120000, 130000, 510000, 510000, 510000, 510000, 520000, 530000, 540000];
+const positionPriority = [4500, 3500, 2500, 1500, 500, 0, 1000, 2000, 3000, 4000, 5000];
 
 /** 固定配队的全EXACT结算，与Calculator/src/Battle.cs保持同一技能、事件及得分规则。
  * 判定数限25–32767，下限为网页允许的最少判定数，上限不超过原生有符号16位阶段索引范围。
@@ -168,9 +233,10 @@ export function calculateBattle(players, encounter, traits, rating, notes) {
     const before = { hp: [...hp], ...stats() };
     const firstEvent = events.length;
     const effective = ending && current === 4 ? -1 : current;
+    const kind = ending ? 1 : 2;
     const queue = [
-      { kind: ending ? 1 : 2, side: 0 },
-      { kind: ending ? 1 : 2, side: 1 }
+      { kind, side: 0, priority: kind * 1000000 },
+      { kind, side: 1, priority: kind * 1000000 }
     ];
     for (let slot = 0; slot < 5; slot++) {
       for (let side = 0; side < 2; side++) {
@@ -184,8 +250,9 @@ export function calculateBattle(players, encounter, traits, rating, notes) {
             effect.condition === 4 ? !own : effect.condition === 5 ? !inside : effect.condition === 6 ? own : inside;
           const target = effect.kind >= 128 ? 1 - side : side;
           const exists = slots[target].has(effect.identity);
-          if (enabled && !exists) queue.push({ kind: 4, side: target, effect });
-          else if (!enabled && exists) queue.push({ kind: 5, side: target, effect });
+          const priority = 3000000 + conditionPriority[effect.condition];
+          if (enabled && !exists) queue.push({ kind: 4, side: target, effect, priority });
+          else if (!enabled && exists) queue.push({ kind: 5, side: target, effect, priority });
         }
       }
     }
@@ -207,7 +274,13 @@ export function calculateBattle(players, encounter, traits, rating, notes) {
             : (condition === 10 && effect.owner === current) ||
               (condition === 9 && start <= current && current <= end) ||
               (condition === 8 && current === start);
-          if (fires) queue.push({ kind: 3, side, effect });
+          if (fires) {
+            const traitSlot = Math.floor(effect.identity / 2 ** 16) % 2 ** 16;
+            const effectSlot = effect.identity % 2 ** 16;
+            const priority =
+              3000000 + conditionPriority[condition] + positionPriority[phase - effect.owner + 5] + side * 100 + traitSlot * 10 + effectSlot;
+            queue.push({ kind: 3, side, effect, priority });
+          }
         }
         if (queue.length > before) sortEvents(queue, index + 1);
       } else {

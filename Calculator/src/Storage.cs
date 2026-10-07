@@ -157,7 +157,7 @@ internal sealed class Catalog
         Data = Storage.Read<GameSnapshot>(path) ?? throw new FileNotFoundException("缺少游戏资源快照。", path);
         using (JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(path)))
             Raw = document.RootElement.Clone();
-        if (!Data.Compatible || Data.Rules != "007d2f8-v1")
+        if (!Data.Compatible || Data.Rules != "20261007-v1")
             throw new InvalidDataException("资源快照规则版本不可用。");
         Shapes = Data.Shapes.ToDictionary(shape => shape.Id);
         Traits = Data.Traits.ToDictionary(trait => trait.Id);

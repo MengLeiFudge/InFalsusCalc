@@ -1,38 +1,38 @@
 {
   "schema": 1,
-  "rules": "007d2f8-v1",
+  "rules": "20261007-v1",
   "commit": "007d2f885f0fd931ce7621030ff08311fb74f13b",
-  "binary_hash": "4b593ee87237dab978bdbb7dfd65b73967096e06ce4f33e4a42e68fbe0735807",
+  "binary_hash": "e603dc61c6561762d81934c28e694af1d06ec1f7206074310cfce20cecf35993",
   "compatible": true,
   "game_directory": "/mnt/d/Steam/steamapps/common/In Falsus",
   "sources": [
     {
       "name": "RecipeSpecificationDetails",
-      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/89ab3136a465f6b09640255d07a035b3.bundle",
+      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/1b5e44b904b3e17379312c8b76f30828.bundle",
       "object": 1183886862111235776,
-      "size": 219311,
-      "mtime_ns": 1789131140056026800
+      "size": 219222,
+      "mtime_ns": 1790755567360776400
     },
     {
       "name": "GameData",
-      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/0e4863795e5df3aa4cec6e98eaad881b.bundle",
+      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/e5c3dc9e32054a8ce552f33c040a0e02.bundle",
       "object": 8551595763256829482,
-      "size": 8594,
-      "mtime_ns": 1788963014540603900
+      "size": 8644,
+      "mtime_ns": 1791354539436328100
     },
     {
       "name": "EncounterDetails",
-      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/d31b5a99d5f3d6895d83e86a3faceee5.bundle",
+      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/0e28e62ad8b8bb2f9b365caa3cb5c2ab.bundle",
       "object": -5323428252329421652,
-      "size": 9253,
-      "mtime_ns": 1788973615006566900
+      "size": 9261,
+      "mtime_ns": 1790755570853706500
     },
     {
       "name": "DynamicStringMapping",
-      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/ac1dc779ae6211a3d9a6b312690194ec.bundle",
+      "path": "infalsus_Data/StreamingAssets/aa/StandaloneWindows64/3d24bbfdb36a8c78183f12019348a656.bundle",
       "object": -3130642331749378240,
-      "size": 25783,
-      "mtime_ns": 1788973217058480400
+      "size": 26213,
+      "mtime_ns": 1790755581660049400
     }
   ],
   "recipes": [
@@ -73260,13 +73260,14 @@
       "tier": 0,
       "effects": [
         { "Parameter0": 6600, "TraitEffect": 8096, "TraitActivationCondition": 1, "Unused0": 0 },
+        { "Parameter0": 6600, "TraitEffect": 8096, "TraitActivationCondition": 1, "Unused0": 0 },
         { "Parameter0": 6600, "TraitEffect": 8096, "TraitActivationCondition": 1, "Unused0": 0 }
       ]
     },
     {
       "id": 66,
       "name": "范围色彩隔离：红色",
-      "description": "卡牌范围中：\n将对手红色以外的卡牌攻击力设置为 0",
+      "description": "卡牌范围中：\n对手此阶段的卡牌若非红色，则其总攻击力归零",
       "tier": 0,
       "effects": [{ "Parameter0": 1, "TraitEffect": 4, "TraitActivationCondition": 7, "Unused0": 0 }]
     },
@@ -75280,6 +75281,6 @@
     }
   ],
   "quality": 999,
-  "id": "e32417bd7fa5886ce5fd6345",
-  "imported": 1789723682.3165338
+  "id": "ab5afb262497adfc836bed77",
+  "imported": 1791394637.5907562
 }

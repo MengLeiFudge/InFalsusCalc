@@ -86,42 +86,34 @@ internal sealed class Battle
     /// <param name="Kind">原生效果类型。</param>
     /// <param name="Value">原始参数。</param>
     private readonly record struct Modifier(int Kind, double Value);
-    /// <summary>原生事件队列的等键元素。</summary>
+    /// <summary>原生阶段事件；Priority为新版事件排序键，相同键仍采用原生非稳定排序。</summary>
     /// <param name="Kind">结束1、开始2、触发3、添加4或删除5。</param>
     /// <param name="Side">作用侧。</param>
     /// <param name="Index">阶段或特性效果列表索引。</param>
+    /// <param name="Priority">类型、触发条件及瞬时效果来源构成的升序排序键。</param>
     /// <param name="Identity">持续效果标识。</param>
     /// <param name="Modifier">持续修正参数。</param>
-    private readonly record struct StageEvent(int Kind, int Side, int Index, long Identity = 0, Modifier Modifier = default);
+    private readonly record struct StageEvent(int Kind, int Side, int Index, int Priority, long Identity = 0, Modifier Modifier = default);
 
-    /// <summary>还原旧原生Array.Sort对等键队列的重排，不能使用稳定排序代替。</summary>
+    /// <summary>原生_Ph的触发条件优先级表；索引对应TraitActivationCondition，见Evidence/battle-order-20261007.md。</summary>
+    private static readonly int[] ConditionPriority = [100000, 110000, 120000, 130000, 510000, 510000, 510000, 510000, 520000, 530000, 540000];
+    /// <summary>当前阶段减技能所属卡位再加5后的优先级；同阶段最先，之后依次右一、左一、右二、左二。</summary>
+    private static readonly int[] PositionPriority = [4500, 3500, 2500, 1500, 500, 0, 1000, 2000, 3000, 4000, 5000];
+    /// <summary>按原生整数排序键比较，等键交由Array.Sort的分区交换处理。</summary>
+    private static readonly IComparer<StageEvent> EventComparer = Comparer<StageEvent>.Create((a, b) => a.Priority.CompareTo(b.Priority));
+
+    /// <summary>与原生Array.Sort一致，对未处理的队列后缀作非稳定内省排序。</summary>
     /// <param name="queue">正在处理的事件队列。</param>
     /// <param name="start">已处理前缀之后的起点。</param>
-    private static void NativeSort(List<StageEvent> queue, int start = 0)
-    {
-        Partition(start, queue.Count - 1);
-        // 等键插入排序不移动元素；较长区间保留原生分区交换次序。
-        void Partition(int low, int high)
-        {
-            while (high - low + 1 > 16)
-            {
-                int middle = low + (high - low) / 2;
-                (queue[middle], queue[high - 1]) = (queue[high - 1], queue[middle]);
-                int left = low, right = high - 1;
-                while (true)
-                {
-                    left++;
-                    right--;
-                    if (left >= right)
-                        break;
-                    (queue[left], queue[right]) = (queue[right], queue[left]);
-                }
-                (queue[left], queue[high - 1]) = (queue[high - 1], queue[left]);
-                Partition(left + 1, high);
-                high = left - 1;
-            }
-        }
-    }
+    private static void NativeSort(List<StageEvent> queue, int start = 0) => queue.Sort(start, queue.Count - start, EventComparer);
+
+    /// <summary>构造瞬时技能优先级；敌我方、技能槽、效果槽依次在低位打破同条件同卡位的并列。</summary>
+    /// <param name="effect">含原始技能槽与效果槽标识的瞬时效果。</param>
+    /// <param name="side">来源侧，玩家0、敌方1。</param>
+    /// <returns>与原生_Ph._vmA一致的整数排序键。</returns>
+    private int TriggerPriority(Effect effect, int side) => 3000000 + ConditionPriority[effect.Condition]
+        + PositionPriority[phase - effect.Owner + 5] + side * 100
+        + (int)((effect.Identity >> 16) & 0xffff) * 10 + (int)(effect.Identity & 0xffff);
 
     /// <summary>刷新双方整队攻防；削弱是除数，色彩隔离按当前对位颜色判断。</summary>
     /// <returns>攻击、防御、未修正防御及暴击倍率。</returns>
@@ -259,7 +251,8 @@ internal sealed class Battle
     {
         phase = ending ? Math.Min(4, current + 1) : current;
         int effective = ending && current == 4 ? -1 : current;
-        List<StageEvent> queue = [new(ending ? 1 : 2, 0, current), new(ending ? 1 : 2, 1, current)];
+        int kind = ending ? 1 : 2;
+        List<StageEvent> queue = [new(kind, 0, current, kind * 1000000), new(kind, 1, current, kind * 1000000)];
         for (int slot = 0; slot < 5; slot++)
             for (int side = 0; side < 2; side++)
                 foreach (Effect effect in effects[side])
@@ -278,9 +271,9 @@ internal sealed class Battle
                     };
                     int target = effect.Kind >= 128 ? 1 - side : side;
                     if (enabled && !modifiers[target].ContainsKey(effect.Identity))
-                        queue.Add(new(4, target, 0, effect.Identity, new(effect.Kind, effect.Value)));
+                        queue.Add(new(4, target, 0, 3000000 + ConditionPriority[effect.Condition], effect.Identity, new(effect.Kind, effect.Value)));
                     else if (!enabled && modifiers[target].ContainsKey(effect.Identity))
-                        queue.Add(new(5, target, 0, effect.Identity));
+                        queue.Add(new(5, target, 0, 3000000 + ConditionPriority[effect.Condition], effect.Identity));
                 }
         NativeSort(queue);
         for (int index = 0; index < queue.Count; index++)
@@ -298,7 +291,7 @@ internal sealed class Battle
                         ? effect.Condition == 1 && effect.Owner == current || effect.Condition == 2 && start <= current && current <= end || effect.Condition == 3 && current == end
                         : effect.Condition == 10 && effect.Owner == current || effect.Condition == 9 && start <= current && current <= end || effect.Condition == 8 && current == start;
                     if (fires)
-                        queue.Add(new(3, e.Side, i));
+                        queue.Add(new(3, e.Side, i, TriggerPriority(effect, e.Side)));
                 }
                 if (queue.Count > before)
                     NativeSort(queue, index + 1);

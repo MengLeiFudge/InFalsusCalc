@@ -89,7 +89,7 @@ internal sealed class DeckResult
 internal sealed class DeckSearch
 {
     /// <summary>启发式起点与完整单卡、固定五卡编排及双技能精化的搜索版本。</summary>
-    public const string Policy = "opponent-neighborhood-v6-complete-card-refinement";
+    public const string Policy = "opponent-neighborhood-v7-native-event-priority";
     private readonly Catalog catalog;
     private readonly CardTemplate[] templates;
     /// <summary>惩罚上限内的完整输入库，仅启发式起点使用另一份缩减池。</summary>

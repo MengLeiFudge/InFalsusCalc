@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "catalog_id": "e32417bd7fa5886ce5fd6345",
-  "source": "TraitSpecification.Icon + TraitIconAssets；TraitIcon._qsA RVA0x506EF0，普通Small图层。",
+  "catalog_id": "ab5afb262497adfc836bed77",
+  "source": "TraitSpecification.Icon + TraitIconAssets，普通Small图层；20261007-v1逐项核对69项映射及27张原生纹理一致。",
   "traits": {
     "2": {
       "native_icon": 9,
