@@ -34,7 +34,7 @@ async function loadReport() {
   } catch (error) {
     notice.textContent =
       location.protocol === "file:"
-        ? "请通过 GitHub Pages 访问本页，本地双击无法读取独立数据文件。"
+        ? "请访问 GitHub Pages，或在项目中双击“预览网页.cmd”打开网页。"
         : `无法加载卡牌列表，请稍后刷新。${error.message}`;
     throw error;
   }
@@ -48,9 +48,9 @@ async function loadCommon() {
 const colors = { 0: "#94a3b0", 1: "#ed8585", 2: "#e5c65d", 3: "#83ce9c", 4: "#7caee9", 5: "#b499e8", 6: "#415362" };
 const colorNames = { 0: "无色", 1: "红", 2: "黄", 3: "绿", 4: "蓝", 5: "紫" };
 const goalNames = {
-  power: "攻击最高（同攻取防御最高）",
-  fortitude: "防御最高（同防取攻击最高）",
-  total: "攻防之和最高"
+  power: "攻击优先，持平时选防御更高",
+  fortitude: "防御优先，持平时选攻击更高",
+  total: "攻防总和最高"
 };
 function goalLabel(goal, card) {
   const parts = String(goal).split(":");
@@ -96,7 +96,7 @@ const palette = (mask) =>
     .map(Number)
     .filter((c) => mask & (1 << c));
 const trait = (id) => DATA.catalog.traits.find((t) => t.id === id);
-const traitName = (id) => trait(id)?.name || `特性${id}`;
+const traitName = (id) => trait(id)?.name || `技能${id}`;
 
 /** 按原生比例合成技能图标；浮窗可复用图像而不创建第二个交互入口。 */
 function traitPicture(item, showTier = true) {
@@ -190,40 +190,50 @@ function shapeIcon(id) {
   return `<svg viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}" aria-hidden="true">${points.map(([x, y]) => `<polygon points="${hexPoints(x, y)}" fill="${colors[shape.color]}" stroke="#d7e4e9" stroke-width=".08"/>`).join("")}</svg>`;
 }
 
-/** 按同一效能范围和技能抽取次数归组，完整展示游戏掉落表。 */
+/** 按原生实际绑定的技能池归组；每颗的抽取次数仍显示在各自粒子配置旁。 */
 function encounterDrops(encounter) {
   const loot = encounter.drops,
     groups = new Map();
-  for (const drop of loot.items) {
-    const key = `${drop.min_potency}:${drop.max_potency}:${drop.trait_rolls}`;
-    if (!groups.has(key)) groups.set(key, { ...drop, drops: [] });
-    groups.get(key).drops.push(drop);
+  for (const drop of loot.items.filter((item) => item.weight > 0)) {
+    if (!groups.has(drop.trait_pool)) groups.set(drop.trait_pool, []);
+    groups.get(drop.trait_pool).push(drop);
   }
-  const pool = loot.traits
-    .map(
-      (item) =>
-        `<span class="loot-trait">${traitTag(item.id)}<small>单次技能抽取 ${num((item.weight / loot.trait_total_weight) * 100, 2)}% · 权重 ${item.weight}</small></span>`
-    )
+  const content = [...groups]
+    .map(([id, drops]) => {
+      const pool = loot.trait_pools[id];
+      const particles = drops
+        .map((drop) => {
+          const chance = (drop.weight / loot.total_weight) * 100;
+          return `<div class="drop-shape" style="--chance:${chance}%"><span class="shape-picture">${shapeIcon(drop.shape)}</span><div class="drop-shape-info"><strong>${colorNames[drop.color]} · ${drop.size}格 · ${drop.tier}阶</strong><span class="drop-chance">${num(chance, 2)}%</span><small>效能 ${drop.min_potency}–${drop.max_potency}</small><small>${drop.trait_rolls ? `每颗抽技能 ${drop.trait_rolls} 次` : "不带技能"}</small></div></div>`;
+        })
+        .join("");
+      const skills = pool.traits
+        .filter((item) => item.weight > 0)
+        .map((item) => {
+          const chance = (item.weight / pool.total_weight) * 100;
+          return `<div class="loot-trait" style="--chance:${chance}%">${traitTag(item.id)}<strong>${num(chance, 2)}%</strong></div>`;
+        })
+        .join("");
+      const emptyChance = (pool.no_trait_weight / pool.total_weight) * 100;
+      const skillPool = drops.some((drop) => drop.trait_rolls > 0)
+        ? `<div class="loot-pool"><h4>这些粒子每次抽技能的概率</h4><div class="loot-traits">${skills}<div class="loot-trait loot-empty" style="--chance:${emptyChance}%"><span>空 · 不增加技能</span><strong>${num(emptyChance, 2)}%</strong></div></div></div>`
+        : "";
+      return `<section class="drop-group"><h4>会掉这些粒子</h4><div class="drop-shapes">${particles}</div>${skillPool}</section>`;
+    })
     .join("");
-  const noTrait = loot.no_trait_weight
-    ? `<span class="loot-empty">单次抽到无技能 ${num((loot.no_trait_weight / loot.trait_total_weight) * 100, 2)}% · 权重 ${loot.no_trait_weight}</span>`
-    : "";
-  const content = [...groups.values()]
-    .map(
-      (group) =>
-        `<div class="drop-group"><div class="drop-group-title"><strong>粒子效能 ${group.min_potency}-${group.max_potency}</strong><span>${group.trait_rolls ? `每个粒子最多抽取技能 ${group.trait_rolls} 次` : "这些粒子不抽取技能"} · 本组总概率 ${num((group.drops.reduce((sum, drop) => sum + drop.weight, 0) / loot.total_weight) * 100, 2)}%</span></div><div class="drop-shapes">${group.drops.map((drop) => `<span class="drop-shape" title="粒子${drop.shape} · ${colorNames[drop.color]} · ${drop.tier}阶 · ${drop.size}格"><span class="shape-picture">${shapeIcon(drop.shape)}</span><span>${colorNames[drop.color]} ${drop.tier}阶 · ${drop.size}格<small>粒子配置概率 ${num((drop.weight / loot.total_weight) * 100, 2)}% · 权重 ${drop.weight}</small></span></span>`).join("")}</div></div>`
-    )
-    .join("");
-  $("encounter-drops").innerHTML =
-    `<ol class="loot-flow"><li><strong>抽粒子配置</strong><p>每生成一个粒子，从下方全部配置中按权重抽取一项，确定形状、颜色、阶数、效能范围和技能抽取次数。分组仅便于阅读，概率均以全部配置为分母。</p></li><li><strong>生成效能与技能</strong><p>按命中配置生成效能；有技能抽取次数的配置会从所绑定的技能池逐次抽取。抽中的技能属于这颗粒子，不另行分配给其他粒子。</p></li><li><strong>用于制卡</strong><p>粒子最多携带3种不同技能；空结果或重复结果不增加新的技能。制卡时由实际放入的粒子提供可选技能，卡牌可装备数量由技能槽决定。</p></li></ol><section class="loot-pool"><h4>粒子配置</h4><p class="help">${loot.items.length}项配置 · 总权重${loot.total_weight}。各组列出效能范围与该粒子的技能抽取次数。</p>${content}</section><section class="loot-pool"><h4>本回想已发布的技能池汇总</h4><p class="help">报告所列总权重${loot.trait_total_weight}；百分比按该汇总表计算单次抽取权重，不代表指定粒子最终携带技能的概率。最多保留3种不同技能。</p><div class="loot-traits">${pool}${noTrait}</div></section>`;
+  const quantity =
+    loot.base_rolls > 0
+      ? `<strong>基础掉 <span>${loot.base_rolls}</span> 颗</strong><p>每颗都按下面的概率单独随机；成绩好、有相关全局技能还会多掉。</p>`
+      : "<strong>基础不掉落</strong>";
+  $("encounter-drops").innerHTML = `<div class="loot-summary">${quantity}</div>${content}`;
 }
 
 /** 展示当前材料能提供的技能，并用游戏描述解释触发条件。 */
 function traitList(card) {
-  if (!card.slots) return '<p class="help">没有特性槽。</p>';
+  if (!card.slots) return '<p class="help">这张卡没有技能槽。</p>';
   return (
     card.available_traits.map((id) => traitTag(id, false, { showTier: false })).join("") ||
-    '<p class="help">暂无可用特性。</p>'
+    '<p class="help">这套粒子没有可选技能。</p>'
   );
 }
 
@@ -374,9 +384,12 @@ function renderLibraryPage() {
   state.libraryPage = Math.min(state.libraryPage, pages - 1);
   const start = state.libraryPage * size,
     cards = state.libraryResults.slice(start, start + size);
-  $("results").innerHTML = cards.length
-    ? cards.map(libraryCard).join("")
-    : '<p class="empty-results">没有符合全部条件的卡牌。</p>';
+  renderCards(
+    $("results"),
+    cards.length
+      ? cards.map(libraryCard).join("")
+      : '<p class="empty-results">没有符合条件的卡牌，试试减少筛选条件。</p>'
+  );
   $("library-pagination").hidden = !total;
   $("library-page-prev").disabled = state.libraryPage === 0;
   $("library-page-next").disabled = state.libraryPage >= pages - 1;
@@ -440,7 +453,7 @@ function clearLibraryFilters() {
 
 /** 基础攻防沿用制卡区域求和值；特性种数表示材料可提供的选择，不是槽数或已装备数量。 */
 function cardFacts(card) {
-  return [`攻 ${card.base_power}`, `防 ${card.base_fortitude}`, `特性 ${card.available_trait_count}`];
+  return [`攻 ${card.base_power}`, `防 ${card.base_fortitude}`, `技能 ${card.available_trait_count}`];
 }
 
 /** 玩家与敌方复用游戏卡面；无配方的敌方使用封面且不显示等级图案。 */
@@ -480,7 +493,66 @@ function cardVisual(card, color, traits = [], { interactive = false, showChanges
         .map((text) => `<span>${esc(text)}</span>`)
         .join(" · ")}</div>`
     : "";
-  return `<article class="game-card-visual${interactive ? " interactive" : ""}${color === 0 ? " neutral" : ""}" style="--card-color:${colors[color]}"${behavior}><img class="card-art" loading="lazy" decoding="async" src="${recipe ? assets.art[card.recipe] : assets.enemy_art}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt="">${color ? `<img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色">` : ""}${levelIcon}<img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt="">${changeIcons}<img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4>${facts}<div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div></article>`;
+  const face = `<img class="card-art" decoding="async" src="${recipe ? assets.art[card.recipe] : assets.enemy_art}" alt="${esc(card.name)}立绘"><img class="card-frame" src="${frame}" alt=""><img class="card-inner-frame" src="${assets.common["art-frame"]}" alt=""><img class="card-top-connector" src="${assets.common["connector-top"]}" alt="">${color ? `<img class="card-color-icon" src="${assets.icons[assetKey]}" alt="${colorNames[color]}色">` : ""}${levelIcon}<img class="card-tier-backing" src="${assets.tiers[assetKey]}" alt="">${changeIcons}<img class="card-bottom-drawer" src="${assets.common["medium-bottom-drawer"]}" alt=""><img class="card-bottom-connector" src="${assets.common["connector-top"]}" alt=""><h4>${esc(card.name)}</h4>${facts}<div class="card-stats"><span class="power"><img src="${assets.stat_icons[`${assetKey}-power`]}" alt="攻击"><strong>${num(card.power)}</strong></span><span class="fortitude"><img src="${assets.stat_icons[`${assetKey}-fortitude`]}" alt="防御"><strong>${num(card.fortitude)}</strong></span></div><div class="card-range">${leftPips}<img class="range-center" src="${assets.common["medium-range-center"]}" alt="">${rightPips}</div><div class="card-traits">${slotsHtml}</div>`;
+  // 所有图片统一延迟到卡牌接近视口时加载，避免先出现卡框再补立绘和技能。
+  return `<article class="game-card-visual${interactive ? " interactive" : ""}${color === 0 ? " neutral" : ""}" style="--card-color:${colors[color]}" aria-busy="true"${behavior}>${face.replaceAll(" src=", " data-src=")}<div class="card-placeholder"><span>卡面加载中…</span><button type="button" class="secondary" data-retry-card hidden>重新加载</button></div></article>`;
+}
+
+/** 卡面只在接近视口时解码。替换列表时撤销旧节点观察，异步结果只更新仍在页面内的卡。 */
+const cardObserver = new IntersectionObserver(
+  (entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      cardObserver.unobserve(entry.target);
+      loadCard(entry.target);
+    }
+  },
+  { rootMargin: "240px" }
+);
+
+/** 替换当前卡面容器，并为骨架卡登记视口观察。 */
+function renderCards(root, html) {
+  root.querySelectorAll(".game-card-visual").forEach((card) => cardObserver.unobserve(card));
+  root.innerHTML = html;
+  root.querySelectorAll(".game-card-visual").forEach((card) => cardObserver.observe(card));
+}
+
+/** 全部图层解码成功才显示整张卡；慢网继续等待，加载或解码失败保留骨架与重试。 */
+async function loadCard(card) {
+  if (!card.isConnected || card.classList.contains("is-decoding") || card.classList.contains("is-ready")) return;
+  card.classList.add("is-decoding");
+  card.classList.remove("is-error");
+  card.setAttribute("aria-busy", "true");
+  const placeholder = card.querySelector(".card-placeholder"),
+    retry = placeholder.querySelector("button");
+  placeholder.firstElementChild.textContent = "卡面加载中…";
+  retry.hidden = true;
+  let timer;
+  try {
+    const images = [...card.querySelectorAll("img[data-src]")];
+    const ready = images.map((image) => {
+      image.decoding = "async";
+      image.src = image.dataset.src;
+      return image.decode();
+    });
+    timer = setTimeout(() => {
+      if (card.isConnected) placeholder.firstElementChild.textContent = "加载较慢，请稍候…";
+    }, 20000);
+    await Promise.all(ready);
+    if (!card.isConnected) return;
+    card.classList.add("is-ready");
+    placeholder.hidden = true;
+  } catch (error) {
+    if (!card.isConnected) return;
+    card.classList.add("is-error");
+    placeholder.firstElementChild.textContent = "卡面没加载出来";
+    retry.hidden = false;
+    console.warn("卡面图片加载失败", error);
+  } finally {
+    clearTimeout(timer);
+    card.classList.remove("is-decoding");
+    card.setAttribute("aria-busy", "false");
+  }
 }
 
 /** 一览始终显示本色，其他可用颜色由卡面侧边的原生标记表达。 */
@@ -544,7 +616,7 @@ async function selectEncounter() {
   $("encounter-rating-value").textContent = rating;
   $("encounter-strikes-value").textContent = maxStrikes;
   if (!Number.isInteger(notes) || notes < 25 || notes > 32767) {
-    $("encounter-loading").textContent = "请输入25至32767之间的整数总判定数（包含长条判定）。";
+    $("encounter-loading").textContent = "总判定数请填25–32767的整数，长条也算在内。";
     return;
   }
   try {
@@ -571,15 +643,18 @@ async function selectEncounter() {
       `${encounter.chapter} · ${encounter.name} · ${encounter.mode === "connect" ? "连接" : "映像"}`;
     encounterDrops(encounter);
     $("battle-condition").textContent =
-      `允许总惩罚${maxStrikes} · 谱面等级${rating} · ${notes}个全EXACT判定 · 联觉开启 · 初始HP100`;
-    $("battle-status").textContent = b.passed ? "可通关" : "此推荐尚未通关";
+      `单卡惩罚≤${maxStrikes} · 谱面等级${rating} · ${notes}个全EXACT判定 · 联觉开启 · 初始HP100`;
+    $("battle-status").textContent = b.passed ? "可通关" : "当前条件下未通关";
     $("battle-status").className = `badge ${b.passed ? "good" : "bad"}`;
-    $("deck-matchups").innerHTML = players
-      .map(
-        (card, slot) =>
-          `<div class="matchup-column">${gameCard(encounter.cards[slot], slot)}${matchupVisual(card.color, encounter.cards[slot].color)}${gameCard(card, slot, true)}</div>`
-      )
-      .join("");
+    renderCards(
+      $("deck-matchups"),
+      players
+        .map(
+          (card, slot) =>
+            `<div class="matchup-column">${gameCard(encounter.cards[slot], slot)}${matchupVisual(card.color, encounter.cards[slot].color)}${gameCard(card, slot, true)}</div>`
+        )
+        .join("")
+    );
     const chromatic = 1 + 0.05 * new Set(players.map((card) => card.color).filter((color) => color !== 0)).size;
     $("enemy-totals").innerHTML = deckTotals(encounter.cards, players);
     $("player-totals").innerHTML = deckTotals(players, encounter.cards, chromatic * (1 + rating / 100));
@@ -608,7 +683,8 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
   state.board = null;
   $("layout-title").textContent = summary.name;
   $("layout-goals").textContent = "";
-  for (const id of ["layout-card", "layout-card-details", "piece-list", "layout-traits"]) $(id).textContent = "";
+  renderCards($("layout-card"), "");
+  for (const id of ["layout-card-details", "piece-list", "layout-traits"]) $(id).textContent = "";
   $("layout-board").textContent = "正在加载卡牌详情…";
   $("save-svg").disabled = true;
   $("show-traits").disabled = true;
@@ -633,11 +709,11 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
     $("layout-goals").hidden = !goalText;
     $("layout-title").textContent = card.name;
     const recipe = DATA.catalog.recipes.find((item) => item.id === card.recipe);
-    $("layout-card").innerHTML = cardVisual(
-      card,
-      craftedCard?.color ?? recipe.color,
-      craftedCard?.traits.filter((id) => id > 1) ?? [],
-      { showChanges: !craftedCard }
+    renderCards(
+      $("layout-card"),
+      cardVisual(card, craftedCard?.color ?? recipe.color, craftedCard?.traits.filter((id) => id > 1) ?? [], {
+        showChanges: !craftedCard
+      })
     );
     const amounts = card.raw_penalties,
       allowances = card.strike_tolerances;
@@ -647,7 +723,7 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
           allowance = allowances[index];
         const used = Math.min(amount, allowance),
           excess = Math.max(0, amount - allowance);
-        const description = `${name}：发生${amount}次，容许${allowance}次，超出${excess}次`;
+        const description = `${name}：${amount}次，可抵消${allowance}次，实际罚${excess}分`;
         const marks = [
           ["excess", excess],
           ["unused", allowance - used],
@@ -665,7 +741,7 @@ async function showLayout(identity, assignment = null, showGoals = true, crafted
       })
       .join("");
     $("layout-card-details").innerHTML =
-      `<div><span>粒子实际用量</span><strong>Ⅰ ${card.tier_counts[0]} · Ⅱ ${card.tier_counts[1]} · Ⅲ ${card.tier_counts[2]}</strong></div><div><span>粒子总数</span><strong>${card.count}/${card.particle_limit}</strong></div>${strikeRows}<div><span>总惩罚</span><strong>${card.strikes}分（${num(card.retained_percent, card.strikes ? 2 : 0)}%）</strong></div>`;
+      `<div><span>所需粒子</span><strong>Ⅰ ${card.tier_counts[0]} · Ⅱ ${card.tier_counts[1]} · Ⅲ ${card.tier_counts[2]}</strong></div><div><span>粒子总数</span><strong>${card.count}/${card.particle_limit}</strong></div>${strikeRows}<div><span>总惩罚</span><strong>${card.strikes}分 · 面板保留${num(card.retained_percent, card.strikes ? 2 : 0)}%</strong></div>`;
     $("layout-traits").innerHTML = traitList(card);
     drawLayout();
     $("save-svg").disabled = false;
@@ -688,56 +764,131 @@ function hexPoints(x, y) {
   ).join(" ");
 }
 
-/** 编号、形状小图和原始坐标共同描述拼法，重叠格保留全部粒子编号。 */
+/** 先绘底板，再绘连通粒子的外轮廓；重叠、目标色及颜色不符单独标注，SVG可独立保存。 */
 function drawLayout() {
   if (!state.layout) return;
   const card = state.layout,
     recipe = state.board;
   const xy = (q, r) => [1.5 * q, -Math.sqrt(3) * (r + q / 2)];
   const safe = new Set(recipe.safe.map(([q, r]) => `${q},${r}`));
+  const targets = new Map(recipe.targets.map(([q, r, color]) => [`${q},${r}`, color]));
   const occupied = new Map();
-  card.placements.forEach((p, i) => {
-    p.cells.forEach(([q, r]) => {
+  card.placements.forEach((piece, i) => {
+    for (const [q, r] of piece.cells) {
       const key = `${q},${r}`;
       if (!occupied.has(key)) occupied.set(key, []);
       occupied.get(key).push(i + 1);
-    });
+    }
   });
-  const relevant = [...recipe.safe, ...card.placements.flatMap((p) => p.cells)].map(([q, r]) => xy(q, r));
-  const minX = Math.min(...relevant.map((p) => p[0])) - 2,
-    maxX = Math.max(...relevant.map((p) => p[0])) + 2,
-    minY = Math.min(...relevant.map((p) => p[1])) - 2,
-    maxY = Math.max(...relevant.map((p) => p[1])) + 2;
-  const targets = new Map(recipe.targets.map(([q, r, color]) => [`${q},${r}`, color]));
-  const cells = [];
-  for (const [q, r] of recipe.cells) {
-    const key = `${q},${r}`,
-      [x, y] = xy(q, r);
-    if (x < minX - 1 || x > maxX + 1 || y < minY - 1 || y > maxY + 1) continue;
+  const relevant = [...recipe.safe, ...card.placements.flatMap((piece) => piece.cells)].map(([q, r]) => xy(q, r));
+  const minX = Math.min(...relevant.map(([x]) => x)) - 2,
+    maxX = Math.max(...relevant.map(([x]) => x)) + 2,
+    minY = Math.min(...relevant.map(([, y]) => y)) - 2,
+    boardMaxY = Math.max(...relevant.map(([, y]) => y)) + 2;
+  const board = [],
+    overlaps = [],
+    marks = [];
+  const allCells = new Map(
+    [...recipe.cells, ...card.placements.flatMap((piece) => piece.cells)].map(([q, r]) => [`${q},${r}`, [q, r]])
+  );
+  for (const [key, [q, r]] of allCells) {
+    const [x, y] = xy(q, r);
+    if (x < minX - 1 || x > maxX + 1 || y < minY - 1 || y > boardMaxY + 1) continue;
     const pieces = occupied.get(key) || [],
       target = targets.get(key),
-      fill = pieces.length ? colors[card.placements[pieces[0] - 1].color] : target ? colors[target] : "#14202b";
-    const dim = state.piece && !pieces.includes(state.piece),
-      high = state.piece && pieces.includes(state.piece);
-    cells.push(
-      `<g class="layout-cell ${dim ? "dim" : ""} ${high ? "highlight" : ""}"><title>Q=${q}, R=${r}${pieces.length ? ` · 粒子${pieces.join("、")}` : ""}</title><polygon points="${hexPoints(x, y)}" fill="${fill}" fill-opacity="${pieces.length ? 0.86 : target ? 0.23 : 0.45}" stroke="${safe.has(key) ? "#657b8b" : "#2a3b49"}" stroke-width=".045" ${safe.has(key) ? "" : 'stroke-dasharray=".13 .1"'}/>${pieces.length ? `<text x="${x}" y="${y + 0.16}" text-anchor="middle" font-size="0.5" font-family="sans-serif" font-weight="600" fill="#10202a">${pieces.join("/")}</text>` : ""}</g>`
+      isSafe = safe.has(key),
+      wrong = !!target && pieces.some((id) => card.placements[id - 1].color !== target),
+      dim = state.piece && !pieces.includes(state.piece);
+    const label = target ? `${colorNames[target]}色目标` : isSafe ? "白区" : "框外·会扣分（容忍可抵消）";
+    board.push(
+      `<g><title>Q=${q}, R=${r} · ${label}</title><polygon points="${hexPoints(x, y)}" fill="${target ? colors[target] : isSafe ? "#e4edf2" : "#3c2228"}" fill-opacity="${target ? 0.36 : 1}" stroke="${isSafe ? "#758c99" : "#9c6571"}" stroke-width=".045" ${isSafe ? "" : 'stroke-dasharray=".12 .08"'}/></g>`
     );
+    if (pieces.length > 1)
+      overlaps.push(
+        `<g class="layout-cell${dim ? " dim" : ""}"><polygon points="${hexPoints(x, y)}" fill="url(#layout-overlap)"/></g>`
+      );
+    const overlay = [
+      pieces.length > 1
+        ? `<circle cx="${x + 0.48}" cy="${y - 0.43}" r=".25" fill="#132430" stroke="${wrong ? "#ffd17a" : "#f0f6fa"}" stroke-width=".04"/><text x="${x + 0.48}" y="${y - 0.34}" font-size=".26" fill="#fff" text-anchor="middle">×${pieces.length}</text>`
+        : "",
+      pieces.length
+        ? `<text x="${x}" y="${y + 0.12}" class="piece-number" text-anchor="middle">${pieces.join("/")}</text>`
+        : "",
+      pieces.length
+        ? `<rect x="${x - 0.19}" y="${y + 0.52}" width=".38" height=".13" rx=".05" fill="${target ? colors[target] : isSafe ? "#e4edf2" : "#3c2228"}" stroke="${target ? "#edf4f7" : isSafe ? "#7a93a3" : "#bd8590"}" stroke-width=".04"/>`
+        : "",
+      wrong
+        ? `<path d="M${x - 0.68},${y - 0.46} l.2,-.35 .2,.35 Z" fill="#ffd17a" stroke="#3a2b18" stroke-width=".035"/><text x="${x - 0.48}" y="${y - 0.52}" font-size=".25" fill="#392714" text-anchor="middle">!</text>`
+        : ""
+    ].join("");
+    if (overlay)
+      marks.push(
+        `<g class="layout-cell${dim ? " dim" : ""}"><title>${label}${pieces.length ? ` · 粒子${pieces.join("、")}` : ""}${pieces.length > 1 ? ` · 重叠${pieces.length}层` : ""}${wrong ? " · 颜色不符" : ""}</title>${overlay}</g>`
+      );
   }
+  // 已放粒子的格保留白区/目标色/框外扣分区的小色标；粒子内部不再绘格线。
+  // R轴在SVG中向上；六条边按屏幕顺时针排列，每条边仅在本粒子无相邻格时画轮廓。
+  const neighbors = [
+    [1, -1],
+    [0, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, 1],
+    [1, 0]
+  ];
+  const pieceLayers = card.placements.map((piece, i) => {
+    const cells = new Set(piece.cells.map(([q, r]) => `${q},${r}`));
+    // 全部六边格合成一个填充path，内部公共边相互抵消，避免逐格抗锯齿产生接缝。
+    const fill = [],
+      edges = [];
+    for (const [q, r] of piece.cells) {
+      const [x, y] = xy(q, r);
+      fill.push(`M${hexPoints(x, y).replaceAll(" ", " L")} Z`);
+      neighbors.forEach(([dq, dr], edge) => {
+        if (cells.has(`${q + dq},${r + dr}`)) return;
+        const angle = (edge * Math.PI) / 3,
+          next = ((edge + 1) * Math.PI) / 3;
+        edges.push(`M${x + Math.cos(angle)},${y + Math.sin(angle)} L${x + Math.cos(next)},${y + Math.sin(next)}`);
+      });
+    }
+    const selected = state.piece === i + 1,
+      className = `layout-piece${state.piece && !selected ? " dim" : ""}${selected ? " highlight" : ""}`;
+    // 填充和外轮廓分层，后画粒子的底色不会遮住重叠粒子的边界。
+    return {
+      fill: `<g class="${className}"><path d="${fill.join(" ")}" fill="${colors[piece.color]}"/></g>`,
+      outline: `<g class="${className}"><path class="piece-outline" d="${edges.join(" ")}" fill="none" stroke="#172a38" stroke-width=".085" stroke-linecap="round" stroke-linejoin="round"/></g>`
+    };
+  });
+  const legendLabels = ["白区", "目标色", "框外·会扣分", "重叠", "颜色不符"],
+    legendColumns = Math.min(5, Math.max(1, Math.floor((maxX - minX - 1) / 3.4))),
+    legendRows = Math.ceil(legendLabels.length / legendColumns),
+    maxY = boardMaxY + legendRows * 0.7;
+  const legend = legendLabels
+    .map((label, i) => {
+      const x = minX + 0.65 + (i % legendColumns) * 3.4,
+        y = boardMaxY + Math.floor(i / legendColumns) * 0.7;
+      const swatch =
+        i === 4
+          ? `<path d="M${x - 0.2},${y + 0.18} l.2,-.36 .2,.36 Z" fill="#ffd17a"/>`
+          : `<rect x="${x - 0.2}" y="${y - 0.17}" width=".4" height=".34" rx=".04" fill="${["#e4edf2", colors[1], "#3c2228", "url(#layout-overlap)"][i]}" stroke="${i === 2 ? "#9c6571" : "#91a7b5"}" stroke-width=".035" ${i === 2 ? 'stroke-dasharray=".12 .08"' : ""}/>`;
+      return `${swatch}<text x="${x + 0.36}" y="${y + 0.14}" font-size=".4" fill="#c4d4df">${label}</text>`;
+    })
+    .join("");
   state.layoutSize = { width: (maxX - minX) * layoutCellRadius, height: (maxY - minY) * layoutCellRadius };
   $("layout-board").innerHTML =
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${state.layoutSize.width}" height="${state.layoutSize.height}" viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}"><rect x="${minX}" y="${minY}" width="${maxX - minX}" height="${maxY - minY}" fill="#0c151d"/>${cells.join("")}</svg>`;
+    `<svg xmlns="http://www.w3.org/2000/svg" class="layout-plot" width="${state.layoutSize.width}" height="${state.layoutSize.height}" viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}" role="img" aria-label="${esc(card.name)}的粒子拼法"><style>.layout-plot text{font-family:sans-serif;pointer-events:none}.layout-plot .layout-piece.dim,.layout-plot .layout-cell.dim{opacity:.2}.layout-plot .layout-piece.highlight .piece-outline{stroke:#fff;stroke-width:.13}.layout-plot .piece-number{font-size:.34px;fill:#142b38;fill-opacity:.8;font-weight:600;paint-order:stroke;stroke:#f3f7fa;stroke-width:.025px}</style><defs><pattern id="layout-overlap" width=".24" height=".24" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><path d="M0,0 V.24" stroke="#102433" stroke-opacity=".65" stroke-width=".075"/></pattern></defs><rect x="${minX}" y="${minY}" width="${maxX - minX}" height="${maxY - minY}" fill="#0c151d"/>${board.join("")}${pieceLayers.map((piece) => piece.fill).join("")}${overlaps.join("")}${pieceLayers.map((piece) => piece.outline).join("")}${marks.join("")}${legend}</svg>`;
   applyLayoutView();
   $("piece-list").innerHTML = card.placements
-    .map((p, i) => {
-      const shape = DATA.catalog.shapes.find((s) => s.id === p.id),
+    .map((piece, i) => {
+      const shape = DATA.catalog.shapes.find((item) => item.id === piece.id),
         points = shape.cells.map(([q, r]) => xy(q, r));
-      const x0 = Math.min(...points.map((c) => c[0])) - 1.2,
-        y0 = Math.min(...points.map((c) => c[1])) - 1.2,
-        w = Math.max(...points.map((c) => c[0])) - x0 + 1.2,
-        h = Math.max(...points.map((c) => c[1])) - y0 + 1.2;
-      const material = state.assignment?.find((m) => m.piece === i + 1),
+      const x0 = Math.min(...points.map(([x]) => x)) - 1.2,
+        y0 = Math.min(...points.map(([, y]) => y)) - 1.2,
+        w = Math.max(...points.map(([x]) => x)) - x0 + 1.2,
+        h = Math.max(...points.map(([, y]) => y)) - y0 + 1.2;
+      const material = state.assignment?.find((item) => item.piece === i + 1),
         skills = material ? ` · ${material.traits.map(traitName).join("、")}` : "";
-      return `<button class="${state.piece === i + 1 ? "selected" : ""}" data-piece="${i + 1}" title="${shape.tier}阶 · Q=${p.q}, R=${p.r}${esc(skills)}">${i + 1}<svg viewBox="${x0} ${y0} ${w} ${h}">${points.map(([x, y]) => `<polygon points="${hexPoints(x, y)}" fill="${colors[p.color]}" stroke="#172933" stroke-width=".08"/>`).join("")}</svg><span>${p.q},${p.r}</span></button>`;
+      return `<button class="${state.piece === i + 1 ? "selected" : ""}" data-piece="${i + 1}" title="${shape.tier}阶 · Q=${piece.q}, R=${piece.r}${esc(skills)}">${i + 1}<svg viewBox="${x0} ${y0} ${w} ${h}">${points.map(([x, y]) => `<polygon points="${hexPoints(x, y)}" fill="${colors[piece.color]}" stroke="#172933" stroke-width=".08"/>`).join("")}</svg><span>${piece.q},${piece.r}</span></button>`;
     })
     .join("");
 }
@@ -829,6 +980,7 @@ function saveSvg() {
   if (!source) return;
   const svg = source.cloneNode(true);
   svg.removeAttribute("style");
+  svg.querySelectorAll(".dim, .highlight").forEach((node) => node.classList.remove("dim", "highlight"));
   svg.setAttribute("width", state.layoutSize.width);
   svg.setAttribute("height", state.layoutSize.height);
   const content = new XMLSerializer().serializeToString(svg),
@@ -852,6 +1004,13 @@ function toast(message) {
 
 /** 连接纯查询控件；成果页没有请求服务端计算的入口。 */
 function boot() {
+  for (const path of new Set([...Object.values(DATA.catalog.card_assets.common), DATA.catalog.trait_border])) {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = path;
+    document.head.append(link);
+  }
   $("summary").textContent =
     `配方${DATA.catalog.recipes.length} · 卡牌${libraryCards.length} · 回想${DATA.catalog.encounters.length}`;
   $("created").textContent = `生成于 ${new Date(DATA.created * 1000).toLocaleString("zh-CN")}`;
@@ -973,6 +1132,7 @@ function boot() {
   $("close-layout").addEventListener("click", () => $("layout-dialog").close());
   $("layout-dialog").addEventListener("close", () => {
     if (!$("layout-dialog").open) {
+      renderCards($("layout-card"), "");
       if ($("traits-dialog").open) $("traits-dialog").close();
       state.layoutRequest++;
       state.layout = null;
@@ -1013,12 +1173,21 @@ function boot() {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") hideTraitTooltip();
     const card = event.target.closest("[data-library-layout], [data-player-layout]");
-    if (card && !event.target.closest("[data-trait]") && (event.key === "Enter" || event.key === " ")) {
+    if (
+      card &&
+      !event.target.closest("[data-trait], [data-retry-card]") &&
+      (event.key === "Enter" || event.key === " ")
+    ) {
       event.preventDefault();
       card.click();
     }
   });
   document.addEventListener("click", (event) => {
+    const retry = event.target.closest("[data-retry-card]");
+    if (retry) {
+      loadCard(retry.closest(".game-card-visual"));
+      return;
+    }
     if (!event.target.closest("#recipe-multiselect")) setRecipeOptions(false);
     const libraryCard = event.target.closest("[data-library-layout]");
     if (libraryCard) {

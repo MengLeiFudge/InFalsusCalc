@@ -1,0 +1,4648 @@
+{
+  "schema": 1,
+  "catalog_id": "ab5afb262497adfc836bed77",
+  "source": {
+    "commit": "007d2f885f0fd931ce7621030ff08311fb74f13b",
+    "binary_hash": "e603dc61c6561762d81934c28e694af1d06ec1f7206074310cfce20cecf35993",
+    "assets": [
+      {
+        "name": "GameData",
+        "sha256": "c2de1fb562288d705965035b3bb8a35dd7aad250c38049e99fc672d9e582ea03"
+      },
+      {
+        "name": "EncounterDetails",
+        "sha256": "72fc24c3c5c584e04a27fd381e27bb306e065bd97de95e4790e7d427e9edb471"
+      }
+    ],
+    "pool_binding": "ResultsScene.Start RVA0x737A6F/0x737A73、0x7382D5及_c._d RVA0x47E5AE：使用回想LootTableIndex的技能池。"
+  },
+  "encounters": {
+    "1": {
+      "table": 0,
+      "base_rolls": 4,
+      "total_weight": 12,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 0
+        }
+      ],
+      "trait_pools": {
+        "0": {
+          "total_weight": 1,
+          "no_trait_weight": 1,
+          "traits": []
+        }
+      }
+    },
+    "2": {
+      "table": 1,
+      "base_rolls": 4,
+      "total_weight": 9,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 1
+        }
+      ],
+      "trait_pools": {
+        "1": {
+          "total_weight": 1,
+          "no_trait_weight": 1,
+          "traits": []
+        }
+      }
+    },
+    "3": {
+      "table": 2,
+      "base_rolls": 4,
+      "total_weight": 18,
+      "items": [
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 133,
+          "trait_rolls": 0,
+          "trait_pool": 2
+        }
+      ],
+      "trait_pools": {
+        "2": {
+          "total_weight": 1,
+          "no_trait_weight": 1,
+          "traits": []
+        }
+      }
+    },
+    "4": {
+      "table": 3,
+      "base_rolls": 4,
+      "total_weight": 18,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 3
+        }
+      ],
+      "trait_pools": {
+        "3": {
+          "total_weight": 1,
+          "no_trait_weight": 1,
+          "traits": []
+        }
+      }
+    },
+    "5": {
+      "table": 4,
+      "base_rolls": 4,
+      "total_weight": 18,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 0,
+          "trait_pool": 4
+        }
+      ],
+      "trait_pools": {
+        "4": {
+          "total_weight": 1,
+          "no_trait_weight": 1,
+          "traits": []
+        }
+      }
+    },
+    "15": {
+      "table": 15,
+      "base_rolls": 4,
+      "total_weight": 9,
+      "items": [
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 15
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 15
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 15
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 15
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 15
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 15
+        }
+      ],
+      "trait_pools": {
+        "15": {
+          "total_weight": 8,
+          "no_trait_weight": 8,
+          "traits": []
+        }
+      }
+    },
+    "16": {
+      "table": 16,
+      "base_rolls": 4,
+      "total_weight": 9,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 16
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 16
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 16
+        },
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 16
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 16
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 177,
+          "trait_rolls": 1,
+          "trait_pool": 16
+        }
+      ],
+      "trait_pools": {
+        "16": {
+          "total_weight": 8,
+          "no_trait_weight": 8,
+          "traits": []
+        }
+      }
+    },
+    "17": {
+      "table": 17,
+      "base_rolls": 4,
+      "total_weight": 9,
+      "items": [
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 17
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 17
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 17
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 17
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 17
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 17
+        }
+      ],
+      "trait_pools": {
+        "17": {
+          "total_weight": 8,
+          "no_trait_weight": 8,
+          "traits": []
+        }
+      }
+    },
+    "18": {
+      "table": 18,
+      "base_rolls": 4,
+      "total_weight": 9,
+      "items": [
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 18
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 18
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 18
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 18
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 18
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 205,
+          "trait_rolls": 1,
+          "trait_pool": 18
+        }
+      ],
+      "trait_pools": {
+        "18": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 40,
+              "weight": 1
+            },
+            {
+              "id": 43,
+              "weight": 1
+            },
+            {
+              "id": 22,
+              "weight": 1
+            },
+            {
+              "id": 25,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "19": {
+      "table": 19,
+      "base_rolls": 4,
+      "total_weight": 9,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 19
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 19
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 19
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 19
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 19
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 19
+        }
+      ],
+      "trait_pools": {
+        "19": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 46,
+              "weight": 1
+            },
+            {
+              "id": 49,
+              "weight": 1
+            },
+            {
+              "id": 2,
+              "weight": 1
+            },
+            {
+              "id": 5,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "20": {
+      "table": 20,
+      "base_rolls": 4,
+      "total_weight": 18,
+      "items": [
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 237,
+          "trait_rolls": 1,
+          "trait_pool": 20
+        }
+      ],
+      "trait_pools": {
+        "20": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 22,
+              "weight": 1
+            },
+            {
+              "id": 25,
+              "weight": 1
+            },
+            {
+              "id": 28,
+              "weight": 1
+            },
+            {
+              "id": 33,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "21": {
+      "table": 21,
+      "base_rolls": 4,
+      "total_weight": 18,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 287,
+          "trait_rolls": 1,
+          "trait_pool": 21
+        }
+      ],
+      "trait_pools": {
+        "21": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 2,
+              "weight": 1
+            },
+            {
+              "id": 5,
+              "weight": 1
+            },
+            {
+              "id": 8,
+              "weight": 1
+            },
+            {
+              "id": 13,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "29": {
+      "table": 29,
+      "base_rolls": 4,
+      "total_weight": 12,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 348,
+          "trait_rolls": 1,
+          "trait_pool": 29
+        }
+      ],
+      "trait_pools": {
+        "29": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 47,
+              "weight": 1
+            },
+            {
+              "id": 41,
+              "weight": 1
+            },
+            {
+              "id": 50,
+              "weight": 1
+            },
+            {
+              "id": 44,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "30": {
+      "table": 30,
+      "base_rolls": 4,
+      "total_weight": 12,
+      "items": [
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 383,
+          "trait_rolls": 1,
+          "trait_pool": 30
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 383,
+          "trait_rolls": 1,
+          "trait_pool": 30
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 383,
+          "trait_rolls": 1,
+          "trait_pool": 30
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 383,
+          "trait_rolls": 1,
+          "trait_pool": 30
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 383,
+          "trait_rolls": 1,
+          "trait_pool": 30
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 383,
+          "trait_rolls": 1,
+          "trait_pool": 30
+        }
+      ],
+      "trait_pools": {
+        "30": {
+          "total_weight": 24,
+          "no_trait_weight": 16,
+          "traits": [
+            {
+              "id": 3,
+              "weight": 1
+            },
+            {
+              "id": 6,
+              "weight": 1
+            },
+            {
+              "id": 9,
+              "weight": 1
+            },
+            {
+              "id": 14,
+              "weight": 1
+            },
+            {
+              "id": 23,
+              "weight": 1
+            },
+            {
+              "id": 26,
+              "weight": 1
+            },
+            {
+              "id": 29,
+              "weight": 1
+            },
+            {
+              "id": 34,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "52": {
+      "table": 37,
+      "base_rolls": 4,
+      "total_weight": 18,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 37
+        }
+      ],
+      "trait_pools": {
+        "37": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 14,
+              "weight": 1
+            },
+            {
+              "id": 34,
+              "weight": 1
+            },
+            {
+              "id": 50,
+              "weight": 1
+            },
+            {
+              "id": 44,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "53": {
+      "table": 41,
+      "base_rolls": 4,
+      "total_weight": 18,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 41
+        }
+      ],
+      "trait_pools": {
+        "41": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 9,
+              "weight": 1
+            },
+            {
+              "id": 47,
+              "weight": 1
+            },
+            {
+              "id": 29,
+              "weight": 1
+            },
+            {
+              "id": 41,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "54": {
+      "table": 42,
+      "base_rolls": 4,
+      "total_weight": 9,
+      "items": [
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 42
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 42
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 42
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 42
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 42
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 464,
+          "trait_rolls": 1,
+          "trait_pool": 42
+        }
+      ],
+      "trait_pools": {
+        "42": {
+          "total_weight": 12,
+          "no_trait_weight": 8,
+          "traits": [
+            {
+              "id": 3,
+              "weight": 1
+            },
+            {
+              "id": 6,
+              "weight": 1
+            },
+            {
+              "id": 9,
+              "weight": 1
+            },
+            {
+              "id": 14,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "55": {
+      "table": 43,
+      "base_rolls": 4,
+      "total_weight": 20,
+      "items": [
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 43
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 43
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 43
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 43
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 43
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 43
+        },
+        {
+          "shape": 35,
+          "color": 3,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 43
+        },
+        {
+          "shape": 36,
+          "color": 3,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 43
+        }
+      ],
+      "trait_pools": {
+        "43": {
+          "total_weight": 18,
+          "no_trait_weight": 10,
+          "traits": [
+            {
+              "id": 23,
+              "weight": 2
+            },
+            {
+              "id": 26,
+              "weight": 2
+            },
+            {
+              "id": 29,
+              "weight": 2
+            },
+            {
+              "id": 34,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "78": {
+      "table": 54,
+      "base_rolls": 4,
+      "total_weight": 20,
+      "items": [
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 54
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 54
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 54
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 54
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 54
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 54
+        },
+        {
+          "shape": 39,
+          "color": 5,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 54
+        },
+        {
+          "shape": 40,
+          "color": 5,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 54
+        }
+      ],
+      "trait_pools": {
+        "54": {
+          "total_weight": 15,
+          "no_trait_weight": 11,
+          "traits": [
+            {
+              "id": 38,
+              "weight": 2
+            },
+            {
+              "id": 37,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "79": {
+      "table": 55,
+      "base_rolls": 4,
+      "total_weight": 40,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 31,
+          "color": 1,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 55
+        },
+        {
+          "shape": 32,
+          "color": 1,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 55
+        },
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 55
+        },
+        {
+          "shape": 33,
+          "color": 2,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 55
+        },
+        {
+          "shape": 34,
+          "color": 2,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 55
+        }
+      ],
+      "trait_pools": {
+        "55": {
+          "total_weight": 15,
+          "no_trait_weight": 11,
+          "traits": [
+            {
+              "id": 51,
+              "weight": 2
+            },
+            {
+              "id": 19,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "80": {
+      "table": 56,
+      "base_rolls": 4,
+      "total_weight": 40,
+      "items": [
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 35,
+          "color": 3,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 56
+        },
+        {
+          "shape": 36,
+          "color": 3,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 56
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 1,
+          "trait_pool": 56
+        },
+        {
+          "shape": 37,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 56
+        },
+        {
+          "shape": 38,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 681,
+          "trait_rolls": 2,
+          "trait_pool": 56
+        }
+      ],
+      "trait_pools": {
+        "56": {
+          "total_weight": 15,
+          "no_trait_weight": 11,
+          "traits": [
+            {
+              "id": 45,
+              "weight": 2
+            },
+            {
+              "id": 21,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "81": {
+      "table": 57,
+      "base_rolls": 4,
+      "total_weight": 40,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 31,
+          "color": 1,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 57
+        },
+        {
+          "shape": 32,
+          "color": 1,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 57
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 57
+        },
+        {
+          "shape": 37,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 57
+        },
+        {
+          "shape": 38,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 57
+        }
+      ],
+      "trait_pools": {
+        "57": {
+          "total_weight": 45,
+          "no_trait_weight": 33,
+          "traits": [
+            {
+              "id": 51,
+              "weight": 2
+            },
+            {
+              "id": 45,
+              "weight": 2
+            },
+            {
+              "id": 10,
+              "weight": 2
+            },
+            {
+              "id": 15,
+              "weight": 2
+            },
+            {
+              "id": 30,
+              "weight": 2
+            },
+            {
+              "id": 35,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "82": {
+      "table": 58,
+      "base_rolls": 4,
+      "total_weight": 60,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 33,
+          "color": 2,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 58
+        },
+        {
+          "shape": 34,
+          "color": 2,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 58
+        },
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 35,
+          "color": 3,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 58
+        },
+        {
+          "shape": 36,
+          "color": 3,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 58
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 2,
+          "trait_pool": 58
+        },
+        {
+          "shape": 39,
+          "color": 5,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 58
+        },
+        {
+          "shape": 40,
+          "color": 5,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 825,
+          "trait_rolls": 3,
+          "trait_pool": 58
+        }
+      ],
+      "trait_pools": {
+        "58": {
+          "total_weight": 45,
+          "no_trait_weight": 33,
+          "traits": [
+            {
+              "id": 48,
+              "weight": 2
+            },
+            {
+              "id": 42,
+              "weight": 2
+            },
+            {
+              "id": 4,
+              "weight": 2
+            },
+            {
+              "id": 7,
+              "weight": 2
+            },
+            {
+              "id": 24,
+              "weight": 2
+            },
+            {
+              "id": 27,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "83": {
+      "table": 59,
+      "base_rolls": 4,
+      "total_weight": 40,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 31,
+          "color": 1,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 59
+        },
+        {
+          "shape": 32,
+          "color": 1,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 59
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 59
+        },
+        {
+          "shape": 37,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 59
+        },
+        {
+          "shape": 38,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 59
+        }
+      ],
+      "trait_pools": {
+        "59": {
+          "total_weight": 56,
+          "no_trait_weight": 28,
+          "traits": [
+            {
+              "id": 48,
+              "weight": 2
+            },
+            {
+              "id": 42,
+              "weight": 2
+            },
+            {
+              "id": 51,
+              "weight": 2
+            },
+            {
+              "id": 45,
+              "weight": 2
+            },
+            {
+              "id": 4,
+              "weight": 2
+            },
+            {
+              "id": 7,
+              "weight": 2
+            },
+            {
+              "id": 10,
+              "weight": 2
+            },
+            {
+              "id": 15,
+              "weight": 2
+            },
+            {
+              "id": 24,
+              "weight": 2
+            },
+            {
+              "id": 27,
+              "weight": 2
+            },
+            {
+              "id": 30,
+              "weight": 2
+            },
+            {
+              "id": 35,
+              "weight": 2
+            },
+            {
+              "id": 36,
+              "weight": 2
+            },
+            {
+              "id": 39,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "84": {
+      "table": 60,
+      "base_rolls": 4,
+      "total_weight": 60,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 33,
+          "color": 2,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 60
+        },
+        {
+          "shape": 34,
+          "color": 2,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 60
+        },
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 22,
+          "color": 3,
+          "tier": 2,
+          "size": 4,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 23,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 24,
+          "color": 3,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 35,
+          "color": 3,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 60
+        },
+        {
+          "shape": 36,
+          "color": 3,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 60
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 2,
+          "trait_pool": 60
+        },
+        {
+          "shape": 39,
+          "color": 5,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 60
+        },
+        {
+          "shape": 40,
+          "color": 5,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 60
+        }
+      ],
+      "trait_pools": {
+        "60": {
+          "total_weight": 56,
+          "no_trait_weight": 28,
+          "traits": [
+            {
+              "id": 48,
+              "weight": 2
+            },
+            {
+              "id": 42,
+              "weight": 2
+            },
+            {
+              "id": 51,
+              "weight": 2
+            },
+            {
+              "id": 45,
+              "weight": 2
+            },
+            {
+              "id": 4,
+              "weight": 2
+            },
+            {
+              "id": 7,
+              "weight": 2
+            },
+            {
+              "id": 10,
+              "weight": 2
+            },
+            {
+              "id": 15,
+              "weight": 2
+            },
+            {
+              "id": 24,
+              "weight": 2
+            },
+            {
+              "id": 27,
+              "weight": 2
+            },
+            {
+              "id": 30,
+              "weight": 2
+            },
+            {
+              "id": 35,
+              "weight": 2
+            },
+            {
+              "id": 36,
+              "weight": 2
+            },
+            {
+              "id": 39,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "85": {
+      "table": 61,
+      "base_rolls": 0,
+      "total_weight": 45,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 3,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 1,
+          "trait_pool": 61
+        }
+      ],
+      "trait_pools": {
+        "61": {
+          "total_weight": 38,
+          "no_trait_weight": 19,
+          "traits": [
+            {
+              "id": 11,
+              "weight": 1
+            },
+            {
+              "id": 12,
+              "weight": 1
+            },
+            {
+              "id": 31,
+              "weight": 1
+            },
+            {
+              "id": 32,
+              "weight": 1
+            },
+            {
+              "id": 20,
+              "weight": 2
+            },
+            {
+              "id": 21,
+              "weight": 2
+            },
+            {
+              "id": 18,
+              "weight": 2
+            },
+            {
+              "id": 19,
+              "weight": 2
+            },
+            {
+              "id": 37,
+              "weight": 1
+            },
+            {
+              "id": 38,
+              "weight": 1
+            },
+            {
+              "id": 16,
+              "weight": 1
+            },
+            {
+              "id": 63,
+              "weight": 4
+            }
+          ]
+        }
+      }
+    },
+    "101": {
+      "table": 38,
+      "base_rolls": 4,
+      "total_weight": 20,
+      "items": [
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 38
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 38
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 38
+        },
+        {
+          "shape": 19,
+          "color": 2,
+          "tier": 2,
+          "size": 4,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 38
+        },
+        {
+          "shape": 20,
+          "color": 2,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 38
+        },
+        {
+          "shape": 21,
+          "color": 2,
+          "tier": 2,
+          "size": 6,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 38
+        },
+        {
+          "shape": 33,
+          "color": 2,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 38
+        },
+        {
+          "shape": 34,
+          "color": 2,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 38
+        }
+      ],
+      "trait_pools": {
+        "38": {
+          "total_weight": 18,
+          "no_trait_weight": 10,
+          "traits": [
+            {
+              "id": 47,
+              "weight": 4
+            },
+            {
+              "id": 50,
+              "weight": 4
+            }
+          ]
+        }
+      }
+    },
+    "102": {
+      "table": 39,
+      "base_rolls": 4,
+      "total_weight": 20,
+      "items": [
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 39
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 39
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 39
+        },
+        {
+          "shape": 28,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 39
+        },
+        {
+          "shape": 29,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 39
+        },
+        {
+          "shape": 30,
+          "color": 5,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 39
+        },
+        {
+          "shape": 39,
+          "color": 5,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 39
+        },
+        {
+          "shape": 40,
+          "color": 5,
+          "tier": 3,
+          "size": 7,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 39
+        }
+      ],
+      "trait_pools": {
+        "39": {
+          "total_weight": 18,
+          "no_trait_weight": 10,
+          "traits": [
+            {
+              "id": 3,
+              "weight": 2
+            },
+            {
+              "id": 6,
+              "weight": 2
+            },
+            {
+              "id": 9,
+              "weight": 2
+            },
+            {
+              "id": 14,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "103": {
+      "table": 40,
+      "base_rolls": 4,
+      "total_weight": 20,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 40
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 40
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 40
+        },
+        {
+          "shape": 16,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 40
+        },
+        {
+          "shape": 17,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 40
+        },
+        {
+          "shape": 18,
+          "color": 1,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 40
+        },
+        {
+          "shape": 31,
+          "color": 1,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 40
+        },
+        {
+          "shape": 32,
+          "color": 1,
+          "tier": 3,
+          "size": 8,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 40
+        }
+      ],
+      "trait_pools": {
+        "40": {
+          "total_weight": 18,
+          "no_trait_weight": 10,
+          "traits": [
+            {
+              "id": 63,
+              "weight": 4
+            },
+            {
+              "id": 16,
+              "weight": 4
+            }
+          ]
+        }
+      }
+    },
+    "104": {
+      "table": 44,
+      "base_rolls": 4,
+      "total_weight": 20,
+      "items": [
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 44
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 44
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 44
+        },
+        {
+          "shape": 25,
+          "color": 4,
+          "tier": 2,
+          "size": 4,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 44
+        },
+        {
+          "shape": 26,
+          "color": 4,
+          "tier": 2,
+          "size": 5,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 44
+        },
+        {
+          "shape": 27,
+          "color": 4,
+          "tier": 2,
+          "size": 6,
+          "weight": 4,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 1,
+          "trait_pool": 44
+        },
+        {
+          "shape": 37,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 44
+        },
+        {
+          "shape": 38,
+          "color": 4,
+          "tier": 3,
+          "size": 6,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 562,
+          "trait_rolls": 2,
+          "trait_pool": 44
+        }
+      ],
+      "trait_pools": {
+        "44": {
+          "total_weight": 18,
+          "no_trait_weight": 10,
+          "traits": [
+            {
+              "id": 41,
+              "weight": 4
+            },
+            {
+              "id": 44,
+              "weight": 4
+            }
+          ]
+        }
+      }
+    },
+    "105": {
+      "table": 62,
+      "base_rolls": 4,
+      "total_weight": 20,
+      "items": [
+        {
+          "shape": 1,
+          "color": 1,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 2,
+          "color": 1,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 3,
+          "color": 1,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 4,
+          "color": 2,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 5,
+          "color": 2,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 6,
+          "color": 2,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 7,
+          "color": 3,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 8,
+          "color": 3,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 9,
+          "color": 3,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 10,
+          "color": 4,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 11,
+          "color": 4,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 12,
+          "color": 4,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 13,
+          "color": 5,
+          "tier": 1,
+          "size": 1,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 14,
+          "color": 5,
+          "tier": 1,
+          "size": 2,
+          "weight": 1,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        },
+        {
+          "shape": 15,
+          "color": 5,
+          "tier": 1,
+          "size": 3,
+          "weight": 2,
+          "min_potency": 1,
+          "max_potency": 999,
+          "trait_rolls": 3,
+          "trait_pool": 62
+        }
+      ],
+      "trait_pools": {
+        "62": {
+          "total_weight": 76,
+          "no_trait_weight": 38,
+          "traits": [
+            {
+              "id": 11,
+              "weight": 4
+            },
+            {
+              "id": 12,
+              "weight": 4
+            },
+            {
+              "id": 31,
+              "weight": 4
+            },
+            {
+              "id": 32,
+              "weight": 4
+            },
+            {
+              "id": 20,
+              "weight": 2
+            },
+            {
+              "id": 21,
+              "weight": 2
+            },
+            {
+              "id": 18,
+              "weight": 2
+            },
+            {
+              "id": 19,
+              "weight": 2
+            },
+            {
+              "id": 37,
+              "weight": 4
+            },
+            {
+              "id": 38,
+              "weight": 4
+            },
+            {
+              "id": 16,
+              "weight": 4
+            },
+            {
+              "id": 63,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    }
+  }
+}

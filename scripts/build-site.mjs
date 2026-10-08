@@ -14,6 +14,7 @@ const catalog = JSON.parse(readFileSync(join(root, "Calculator/Data/catalog.json
 const assets = JSON.parse(readFileSync(join(root, "reports/assets.json"), "utf8"));
 const craftingUi = JSON.parse(readFileSync(join(root, "reports/crafting-ui.json"), "utf8"));
 const traitVisuals = JSON.parse(readFileSync(join(root, "reports/trait-visuals.json"), "utf8"));
+const lootUi = JSON.parse(readFileSync(join(root, "reports/loot-ui.json"), "utf8"));
 
 /** 按网页消费字段显式投影；缺失字段阻止发布，避免生成不完整页面。 */
 function pick(value, fields) {
@@ -36,6 +37,13 @@ if (
   craftingUi.catalog_id !== catalog.id ||
   traitVisuals.schema !== 1 ||
   traitVisuals.catalog_id !== catalog.id ||
+  lootUi.schema !== 1 ||
+  lootUi.catalog_id !== catalog.id ||
+  lootUi.source.binary_hash !== catalog.binary_hash ||
+  !sameIds(
+    Object.keys(lootUi.encounters).map(Number),
+    catalog.encounters.map((e) => e.id)
+  ) ||
   !sameIds(
     report.catalog.traits.map((trait) => trait.id),
     Object.keys(traitVisuals.traits).map(Number)
@@ -75,6 +83,34 @@ for (const encounter of report.catalog.encounters) {
     }
   }
 }
+
+/** 网页快照只补基础数量及已核实的池绑定；配置和权重须与完整成果一致。 */
+function checkedDrops(encounter) {
+  const drops = lootUi.encounters[encounter.id];
+  const fields = ["shape", "color", "tier", "size", "weight", "min_potency", "max_potency", "trait_rolls"];
+  const pool = drops.trait_pools[drops.table];
+  const sortedTraits = (traits) => traits.toSorted((a, b) => a.id - b.id);
+  if (
+    !Number.isInteger(drops.base_rolls) ||
+    drops.base_rolls < 0 ||
+    drops.table !== encounter.drops.table ||
+    drops.total_weight !== encounter.drops.total_weight ||
+    drops.total_weight <= 0 ||
+    drops.items.reduce((sum, item) => sum + item.weight, 0) !== drops.total_weight ||
+    JSON.stringify(drops.items.map((item) => pick(item, fields))) !==
+      JSON.stringify(encounter.drops.items.map((item) => pick(item, fields))) ||
+    drops.items.some((item) => item.trait_pool !== drops.table) ||
+    !pool ||
+    pool.total_weight <= 0 ||
+    pool.total_weight !== encounter.drops.trait_total_weight ||
+    pool.no_trait_weight !== encounter.drops.no_trait_weight ||
+    pool.no_trait_weight + pool.traits.reduce((sum, item) => sum + item.weight, 0) !== pool.total_weight ||
+    JSON.stringify(sortedTraits(pool.traits)) !== JSON.stringify(sortedTraits(encounter.drops.traits))
+  )
+    throw new Error(`回想 ${encounter.id} 的网页掉落快照不完整或与成果不一致。`);
+  return drops;
+}
+const webpageDrops = new Map(report.catalog.encounters.map((encounter) => [encounter.id, checkedDrops(encounter)]));
 
 const published = Object.values(report.templates);
 // 卡库由计算器的完整替代判定生成，构建阶段不再另按面板删除候选。
@@ -133,31 +169,34 @@ function chunk(value) {
   return path;
 }
 
-/** 效能999的特性来源只看游戏顺序最后四个回想，粒子须有正权重且能抽取特性。 */
+/** 效能999的技能来源取游戏顺序最后四个回想，逐配置核对抽取次数、绑定池及阶数。 */
 const traitDrops = report.catalog.encounters
   .toSorted((a, b) => a.order - b.order)
   .slice(-4)
-  .map((encounter) => ({
-    encounter: encounter.id,
-    traits: encounter.drops.traits.filter((trait) => trait.weight > 0).map((trait) => trait.id),
-    tiers: [
-      ...new Set(
-        encounter.drops.items
-          .filter(
-            (drop) => drop.weight > 0 && drop.trait_rolls > 0 && drop.min_potency <= 999 && drop.max_potency >= 999
-          )
-          .map((drop) => drop.tier)
-      )
-    ].sort((a, b) => a - b)
-  }));
+  .flatMap((encounter) => {
+    const drops = webpageDrops.get(encounter.id),
+      tiers = new Map();
+    for (const item of drops.items) {
+      if (item.weight <= 0 || item.trait_rolls <= 0 || item.min_potency > 999 || item.max_potency < 999) continue;
+      for (const entry of drops.trait_pools[item.trait_pool].traits) {
+        if (entry.weight <= 0) continue;
+        if (!tiers.has(entry.id)) tiers.set(entry.id, new Set());
+        tiers.get(entry.id).add(item.tier);
+      }
+    }
+    return [...tiers].map(([trait, values]) => ({
+      encounter: encounter.id,
+      trait,
+      tiers: [...values].sort((a, b) => a - b)
+    }));
+  });
+
 const common = chunk({
   // 图像按原生TraitSpecification.Icon与主动/被动材质选择，不使用报告中的效果归类推测。
   traits: report.catalog.traits.map((trait) => ({
     ...pick(trait, ["id", "name", "description", "tier", "effects"]),
     ...pick(traitVisuals.traits[trait.id], ["icon", "frame"]),
-    drop_sources: traitDrops
-      .filter((drop) => drop.tiers.length && drop.traits.includes(trait.id))
-      .map((drop) => pick(drop, ["encounter", "tiers"]))
+    drop_sources: traitDrops.filter((drop) => drop.trait === trait.id).map((drop) => pick(drop, ["encounter", "tiers"]))
   })),
   shapes: report.catalog.shapes.map((shape) => ({
     id: shape.Id.Value,
@@ -265,7 +304,7 @@ for (const encounter of report.catalog.encounters) {
       cards: encounter.cards.map((card) =>
         pick(card, ["name", "color", "power", "fortitude", "left", "right", "traits"])
       ),
-      drops: encounter.drops,
+      drops: webpageDrops.get(encounter.id),
       decks,
       templates
     })

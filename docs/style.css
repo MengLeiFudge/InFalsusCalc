@@ -937,10 +937,25 @@ summary {
   height: 24px;
   flex-basis: 24px;
 }
-.explanation {
+.team-note {
   margin: 20px 0;
-  line-height: 1.9;
-  max-width: 1120px;
+  padding: 16px 20px;
+  border-left: 3px solid #548d84;
+  border-radius: 0 7px 7px 0;
+  background: #14252c;
+  color: #b6cdd8;
+  font-size: 13px;
+  line-height: 1.75;
+}
+.team-note p {
+  margin: 0;
+}
+.team-note details {
+  margin-top: 12px;
+  color: var(--muted);
+}
+.team-note details p {
+  margin-top: 10px;
 }
 .deck-totals {
   display: flex;
@@ -1032,6 +1047,61 @@ summary {
   container-type: inline-size;
   isolation: isolate;
   filter: drop-shadow(0 9px 10px #0008);
+}
+/* 卡面所有图层完成解码后统一显现；骨架尺寸与最终卡面相同，避免加载时跳动。 */
+.game-card-visual:not(.is-ready) > :not(.card-placeholder) {
+  visibility: hidden;
+}
+.card-placeholder {
+  position: absolute;
+  z-index: 9;
+  inset: 3% 7% 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 15% 8%;
+  border: 1px solid color-mix(in srgb, var(--card-color) 35%, #304959);
+  border-radius: 15px;
+  background: linear-gradient(145deg, #223745, #14242e);
+  color: #9eb5c4;
+  font-size: var(--min-font-size);
+  text-align: center;
+}
+.card-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 6% 9% 43%;
+  border-radius: 7px;
+  background: linear-gradient(125deg, #314b5b, #213642);
+  box-shadow:
+    0 54px 0 -18px #304957,
+    0 80px 0 -22px #2b424e;
+  animation: card-skeleton 1.6s ease-in-out infinite alternate;
+}
+.card-placeholder > * {
+  position: relative;
+}
+.card-placeholder button {
+  font-size: var(--min-font-size);
+  padding: 6px 12px;
+}
+.game-card-visual.is-error .card-placeholder::before {
+  animation: none;
+}
+@keyframes card-skeleton {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-placeholder::before {
+    animation: none;
+  }
 }
 /* 无色敌卡没有原生中型卡框，只将框饰和属性符号去色。 */
 .game-card-visual.neutral .card-frame,
@@ -1390,23 +1460,6 @@ th {
 .encounter-drops {
   margin: 0 0 18px !important;
 }
-.loot-flow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  padding: 0 0 18px 20px;
-  margin: 4px 0 18px;
-  border-bottom: 1px solid var(--line);
-}
-.loot-flow li {
-  padding: 0 12px 0 3px;
-  font-size: 13px;
-}
-.loot-flow p {
-  margin: 6px 0 0;
-  color: var(--muted);
-  line-height: 1.6;
-}
 .battle-cards {
   margin: 24px 0 30px;
 }
@@ -1664,9 +1717,6 @@ th {
   }
 }
 @media (max-width: 700px) {
-  .loot-flow {
-    grid-template-columns: 1fr;
-  }
   .battle-stage-summary {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -1675,89 +1725,148 @@ th {
     flex-direction: column;
   }
 }
-.loot-pool {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
-}
-.loot-pool h4 {
-  font-size: 12px;
-}
-.loot-pool p {
-  color: var(--muted);
-  font-size: var(--min-font-size);
-}
-.loot-traits {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
-  gap: 7px;
-}
-.loot-trait {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 7px;
-}
-.loot-trait small {
-  color: var(--muted);
-  font-size: var(--min-font-size);
-  white-space: nowrap;
-}
-.loot-empty {
+.loot-summary {
   display: flex;
-  align-items: center;
-  padding: 7px 10px;
-  border: 1px dashed #50606b;
-  border-radius: 5px;
-  color: var(--muted);
-  font-size: var(--min-font-size);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 24px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  background: #122b31;
+  border: 1px solid #355d62;
+  border-radius: 8px;
+}
+.loot-summary > strong {
+  color: #d9f5ee;
+  font-size: 15px;
+}
+.loot-summary > strong span {
+  margin: 0 3px;
+  color: #8de0c5;
+  font-size: 28px;
+}
+.loot-summary p {
+  margin: 0;
+  color: #aac6c8;
+  font-size: 13px;
 }
 .drop-group {
-  padding: 16px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--line);
 }
 .drop-group:last-child {
+  padding-bottom: 0;
   border-bottom: 0;
 }
-.drop-group-title {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 9px;
-}
-.drop-group-title strong {
-  font-size: 12px;
-}
-.drop-group-title span {
-  font-size: var(--min-font-size);
-  color: var(--muted);
+.drop-group h4 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #c1d5df;
 }
 .drop-shapes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 7px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 265px), 1fr));
+  gap: 10px;
 }
 .drop-shape {
+  position: relative;
   display: grid;
   grid-template-columns: 52px minmax(0, 1fr);
   align-items: center;
-  gap: 6px;
-  min-height: 58px;
-  padding: 4px 8px;
+  gap: 10px;
+  padding: 10px 12px;
   background: #12202a;
   border: 1px solid #29414f;
-  border-radius: 5px;
-  color: #afcbd9;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.drop-shape-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 3px 8px;
+}
+.drop-shape-info > strong {
+  color: #c8dbe6;
+  font-size: 13px;
+  font-weight: 500;
+}
+.drop-chance {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  color: #95dfcc;
+  font-size: 21px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.drop-shape-info small {
+  grid-column: 1;
+  color: #91a9b8;
   font-size: var(--min-font-size);
 }
 .shape-picture svg {
   display: block;
   width: 52px;
-  height: 40px;
+  height: 42px;
 }
-.drop-shape small {
-  display: block;
-  color: #78909e;
-  font-size: var(--min-font-size);
+.loot-pool {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.loot-traits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 9px;
+}
+.loot-trait {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 49px;
+  padding: 7px 12px 9px;
+  background: #142630;
+  border: 1px solid #2d4654;
+  border-radius: 6px;
+}
+.loot-trait .trait-tag {
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.loot-trait .trait-label {
+  white-space: nowrap;
+}
+.loot-trait > strong {
+  color: #a2e9d6;
+  font-size: 16px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.drop-shape::after,
+.loot-trait::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--chance);
+  height: 3px;
+  background: #65c7ae;
+  border-radius: 0 2px 2px 0;
+  pointer-events: none;
+}
+.loot-empty {
+  color: #a0b5c3;
+  border-style: dashed;
+}
+.loot-empty > strong {
+  color: #b4c6d2;
+}
+.loot-empty::after {
+  background: #728da0;
 }
 dialog {
   width: min(1180px, 94vw);
@@ -1928,13 +2037,6 @@ dialog::backdrop {
 .piece-list svg {
   width: 55px;
   height: 32px;
-}
-.layout-cell.dim {
-  opacity: 0.15;
-}
-.layout-cell.highlight polygon {
-  stroke: #fff;
-  stroke-width: 0.13;
 }
 .notice {
   padding: 15px 20px;
