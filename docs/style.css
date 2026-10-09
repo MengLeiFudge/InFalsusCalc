@@ -148,20 +148,122 @@ small {
   flex-wrap: wrap;
   gap: 10px 20px;
 }
-.title-row h1 {
+.title-row h1,
+.title-row h2 {
   margin: 0;
 }
-.title-row button {
+.guide-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  font-size: 13px;
+  text-decoration: none;
   flex-shrink: 0;
 }
-#conditions-dialog {
-  width: min(560px, 94vw);
+.help-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-inline-start: 6px;
+  border: 1px solid #456d65;
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
-.conditions-list {
-  display: grid;
-  gap: 12px;
-  margin: 18px 0 0;
-  padding-left: 20px;
+.guide-link:hover,
+.help-link:hover {
+  background: #234139;
+}
+.guide-link:focus-visible,
+.help-link:focus-visible,
+.guide-main a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.guide-topbar,
+.guide-main {
+  max-width: 1050px;
+}
+.guide-topbar {
+  flex-wrap: wrap;
+}
+.guide-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+.guide-main a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+.guide-section {
+  margin-top: 20px;
+  scroll-margin-top: 24px;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+  line-height: 1.85;
+}
+.guide-section:target {
+  border-color: #548d84;
+}
+.guide-section h2 {
+  margin-bottom: 12px;
+}
+.guide-section h3 {
+  margin: 18px 0 8px;
+  font-size: 16px;
+}
+.guide-section ul,
+.guide-section ol {
+  padding-left: 24px;
+  margin: 10px 0;
+}
+.guide-section li + li {
+  margin-top: 7px;
+}
+.guide-section > :last-child {
+  margin-bottom: 0;
+}
+.guide-formula {
+  padding: 12px 16px;
+  background: #10252c;
+  border: 1px solid #355d62;
+  border-radius: 7px;
+}
+.guide-formula code {
+  display: block;
+  font-size: 14px;
+}
+.guide-table {
+  margin: 12px 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.guide-table caption {
+  margin-bottom: 8px;
+  color: var(--muted);
+  text-align: left;
+}
+.guide-table th,
+.guide-table td {
+  white-space: normal;
+  vertical-align: top;
+}
+.guide-table th:first-child {
+  width: 24%;
+}
+.guide-footer {
+  margin-top: 24px;
 }
 main {
   max-width: 1500px;
@@ -950,13 +1052,6 @@ summary {
 .team-note p {
   margin: 0;
 }
-.team-note details {
-  margin-top: 12px;
-  color: var(--muted);
-}
-.team-note details p {
-  margin-top: 10px;
-}
 .deck-totals {
   display: flex;
   justify-content: center;
@@ -1725,6 +1820,9 @@ th {
     flex-direction: column;
   }
 }
+.encounter-drops {
+  margin: 18px 0;
+}
 .loot-summary {
   display: flex;
   flex-wrap: wrap;
@@ -1745,10 +1843,8 @@ th {
   color: #8de0c5;
   font-size: 28px;
 }
-.loot-summary p {
-  margin: 0;
-  color: #aac6c8;
-  font-size: 13px;
+.drop-probability-title {
+  margin: 20px 0 0;
 }
 .drop-group {
   padding: 18px 0;

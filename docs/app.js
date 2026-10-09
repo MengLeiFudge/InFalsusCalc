@@ -190,7 +190,7 @@ function shapeIcon(id) {
   return `<svg viewBox="${minX} ${minY} ${maxX - minX} ${maxY - minY}" aria-hidden="true">${points.map(([x, y]) => `<polygon points="${hexPoints(x, y)}" fill="${colors[shape.color]}" stroke="#d7e4e9" stroke-width=".08"/>`).join("")}</svg>`;
 }
 
-/** 按原生实际绑定的技能池归组；每颗的抽取次数仍显示在各自粒子配置旁。 */
+/** 按原生实际绑定的技能池归组；基础次数和每组技能抽取次数分别展示。 */
 function encounterDrops(encounter) {
   const loot = encounter.drops,
     groups = new Map();
@@ -204,7 +204,7 @@ function encounterDrops(encounter) {
       const particles = drops
         .map((drop) => {
           const chance = (drop.weight / loot.total_weight) * 100;
-          return `<div class="drop-shape" style="--chance:${chance}%"><span class="shape-picture">${shapeIcon(drop.shape)}</span><div class="drop-shape-info"><strong>${colorNames[drop.color]} · ${drop.size}格 · ${drop.tier}阶</strong><span class="drop-chance">${num(chance, 2)}%</span><small>效能 ${drop.min_potency}–${drop.max_potency}</small><small>${drop.trait_rolls ? `每颗抽技能 ${drop.trait_rolls} 次` : "不带技能"}</small></div></div>`;
+          return `<div class="drop-shape" style="--chance:${chance}%"><span class="shape-picture">${shapeIcon(drop.shape)}</span><div class="drop-shape-info"><strong>${colorNames[drop.color]} · ${drop.size}格 · ${drop.tier}阶</strong><span class="drop-chance">${num(chance, 2)}%</span><small>效能 ${drop.min_potency}–${drop.max_potency}</small><small>${drop.trait_rolls ? `抽技能 ${drop.trait_rolls} 次` : "不带技能"}</small></div></div>`;
         })
         .join("");
       const skills = pool.traits
@@ -216,16 +216,13 @@ function encounterDrops(encounter) {
         .join("");
       const emptyChance = (pool.no_trait_weight / pool.total_weight) * 100;
       const skillPool = drops.some((drop) => drop.trait_rolls > 0)
-        ? `<div class="loot-pool"><h4>这些粒子每次抽技能的概率</h4><div class="loot-traits">${skills}<div class="loot-trait loot-empty" style="--chance:${emptyChance}%"><span>空 · 不增加技能</span><strong>${num(emptyChance, 2)}%</strong></div></div></div>`
+        ? `<div class="loot-pool"><h4>每次抽技能的概率</h4><div class="loot-traits">${skills}<div class="loot-trait loot-empty" style="--chance:${emptyChance}%"><span>空 · 不增加技能</span><strong>${num(emptyChance, 2)}%</strong></div></div></div>`
         : "";
-      return `<section class="drop-group"><h4>会掉这些粒子</h4><div class="drop-shapes">${particles}</div>${skillPool}</section>`;
+      return `<section class="drop-group"><h4>粒子概率</h4><div class="drop-shapes">${particles}</div>${skillPool}</section>`;
     })
     .join("");
-  const quantity =
-    loot.base_rolls > 0
-      ? `<strong>基础掉 <span>${loot.base_rolls}</span> 颗</strong><p>每颗都按下面的概率单独随机；成绩好、有相关全局技能还会多掉。</p>`
-      : "<strong>基础不掉落</strong>";
-  $("encounter-drops").innerHTML = `<div class="loot-summary">${quantity}</div>${content}`;
+  $("encounter-drops").innerHTML =
+    `<div class="loot-summary"><strong>基础次数 <span>${loot.base_rolls}</span></strong></div><h3 class="drop-probability-title">抽一组时</h3>${content}`;
 }
 
 /** 展示当前材料能提供的技能，并用游戏描述解释触发条件。 */
@@ -1125,8 +1122,6 @@ function boot() {
   $("encounter-rating").addEventListener("input", selectEncounter);
   $("encounter-notes").addEventListener("input", selectEncounter);
 
-  $("show-conditions").addEventListener("click", () => $("conditions-dialog").showModal());
-  $("close-conditions").addEventListener("click", () => $("conditions-dialog").close());
   $("show-traits").addEventListener("click", () => $("traits-dialog").showModal());
   $("close-traits").addEventListener("click", () => $("traits-dialog").close());
   $("close-layout").addEventListener("click", () => $("layout-dialog").close());

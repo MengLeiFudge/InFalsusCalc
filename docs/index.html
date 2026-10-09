@@ -13,14 +13,7 @@
         ><p class="eyebrow">IN FALSUS / COLLECTION</p>
         <div class="title-row"
           ><h1>In Falsus 制卡配队计算器</h1>
-          <button
-            id="show-conditions"
-            class="secondary"
-            type="button"
-            aria-haspopup="dialog"
-            aria-controls="conditions-dialog"
-            >计算条件</button
-          >
+          <a class="guide-link" href="./guide.html">使用说明</a>
         </div></div
       ><div class="header-meta"
         ><span id="summary" class="badge"></span><span id="created" class="help"></span></div
@@ -34,7 +27,16 @@
       >
       <section id="recipes-tab" class="tab-content">
         <details class="panel library-controls card-library-filters" open>
-          <summary><h2>卡牌筛选</h2></summary>
+          <summary
+            ><h2>卡牌筛选</h2
+            ><a
+              class="help-link"
+              href="./guide.html#crafting"
+              aria-label="查看制卡与筛选说明"
+              title="查看制卡与筛选说明"
+              >？</a
+            ></summary
+          >
           <button id="clear-recipe-filters" class="secondary filter-reset" type="button">全部重置</button>
           <div class="base-filter-grid">
             <section class="visual-filter-block level-filter"
@@ -209,7 +211,15 @@
             ></label
           ></div
         >
-        <p id="note-count-help" class="help">填结算页的总判定数，长条也算在内。分数按全EXACT计算。</p>
+        <p id="note-count-help" class="help"
+          >填结算页的总判定数，长条也算在内。分数按全EXACT计算。<a
+            class="help-link"
+            href="./guide.html#battle"
+            aria-label="查看判定数与战斗计算说明"
+            title="查看判定数与战斗计算说明"
+            >？</a
+          ></p
+        >
         <p id="encounter-loading" class="help" role="status">请选择回想。</p>
         <div id="encounter-content" hidden>
           <div class="section-intro"
@@ -217,9 +227,19 @@
               ><h2 id="encounter-title">回想</h2><p id="battle-condition"></p></div
             ><span id="battle-status" class="badge"></span></div
           >
-          <details class="panel encounter-drops" open
-            ><summary>掉落与技能来源</summary><div id="encounter-drops"></div></details
-          >
+          <section class="panel encounter-drops" aria-labelledby="drops-title">
+            <h3 id="drops-title"
+              >掉落与技能来源
+              <a
+                class="help-link"
+                href="./guide.html#drops"
+                aria-label="查看掉落数量与概率说明"
+                title="查看掉落数量与概率说明"
+                >？</a
+              ></h3
+            >
+            <div id="encounter-drops"></div>
+          </section>
           <section class="battle-cards" aria-label="敌我配队"
             ><h3>敌我配队</h3>
             <div
@@ -241,41 +261,43 @@
             ></div>
           </section>
           <section class="panel battle-process-panel" aria-labelledby="battle-process-title">
-            <h3 id="battle-process-title">战斗过程</h3>
+            <h3 id="battle-process-title"
+              >战斗过程
+              <a class="help-link" href="./guide.html#battle" aria-label="查看配队与战斗说明" title="查看配队与战斗说明"
+                >？</a
+              ></h3
+            >
             <div id="battle-process" class="battle-process"></div>
           </section>
           <div class="team-note">
-            <p>这队每张卡的惩罚都不超过你设的上限。调整等级和判定数后，会重算这队的分数；点击我方卡牌查看拼法。</p>
-            <details>
-              <summary>推荐配队按什么条件计算？</summary>
-              <p
-                >按10级谱面、25个全EXACT判定选队，每阶段5个判定，最后1个为暴击；联觉开启，初始HP100。换等级或判定数后，卡牌、顺序、颜色和技能保持不变。推荐是当前卡库里找到的高分队伍，还不能保证所有可能配队中的最高分。</p
-              >
-            </details>
+            <p
+              >每张卡的惩罚都不超过所设上限。改等级或判定数会重算这队的分数；点我方卡牌查看拼法。<a
+                class="help-link"
+                href="./guide.html#battle"
+                aria-label="查看推荐配队的计算条件"
+                title="查看推荐配队的计算条件"
+                >？</a
+              ></p
+            >
           </div>
         </div>
       </section>
     </main>
-    <dialog id="conditions-dialog" aria-labelledby="conditions-title">
-      <div class="dialog-header">
-        <h2 id="conditions-title">计算条件</h2>
-        <button id="close-conditions" class="secondary" type="button">关闭</button>
-      </div>
-      <ul class="conditions-list">
-        <li>完全探索</li>
-        <li>角色技能全解锁</li>
-        <li>粒子效能999</li>
-        <li>材料充足</li>
-        <li>全EXACT · 总判定数可输入</li>
-        <li>按10级选队，可查看1–20级分数</li>
-        <li>联觉开启</li>
-        <li>初始HP100</li>
-      </ul>
-    </dialog>
+
     <dialog id="layout-dialog">
       <div class="dialog-header">
         <div
-          ><p id="layout-goals" class="eyebrow"></p><h2 id="layout-title">卡牌详情</h2></div
+          ><p id="layout-goals" class="eyebrow"></p
+          ><div class="title-row"
+            ><h2 id="layout-title">卡牌详情</h2
+            ><a
+              class="help-link"
+              href="./guide.html#crafting"
+              aria-label="查看粒子拼法与惩罚说明"
+              title="查看粒子拼法与惩罚说明"
+              >？</a
+            ></div
+          ></div
         >
         <div class="dialog-actions">
           <button
