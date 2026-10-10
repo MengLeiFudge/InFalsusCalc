@@ -23,7 +23,8 @@
       <div id="notice" class="notice" hidden></div>
       <nav class="tabs" aria-label="页面"
         ><button class="tab active" data-tab="recipes" type="button">卡牌一览</button
-        ><button class="tab" data-tab="encounters" type="button">回想配队</button></nav
+        ><button class="tab" data-tab="encounters" type="button">回想配队</button
+        ><button class="tab" data-tab="b50" type="button">Best 50</button></nav
       >
       <section id="recipes-tab" class="tab-content">
         <details class="panel library-controls card-library-filters" open>
@@ -282,6 +283,21 @@
           </div>
         </div>
       </section>
+      <section id="b50-tab" class="tab-content" hidden>
+        <div class="panel b50-source">
+          <p
+            >来源：
+            <a href="https://github.com/unknnownnn003/infalsus-b50" target="_blank" rel="noopener noreferrer"
+              >unknnownnn003 / infalsus-b50（GitHub）</a
+            >
+            ·
+            <a href="https://unknnownnn003.github.io/infalsus-b50/" target="_blank" rel="noopener noreferrer">原网页</a>
+          </p>
+          <a class="guide-link" href="./b50/index.html" target="_blank" rel="noopener noreferrer">独立打开</a>
+        </div>
+        <p id="b50-loading" class="help" role="status">正在加载 Best 50…</p>
+        <iframe id="b50-frame" class="b50-frame" title="In Falsus Best 50 存档成绩工具"></iframe>
+      </section>
     </main>
 
     <dialog id="layout-dialog">
@@ -349,6 +365,6 @@
       });
     }
     </script>
-    <noscript>请启用 JavaScript，以显示卡牌和回想计算结果。</noscript>
+    <noscript>请启用 JavaScript，以显示卡牌、回想计算结果和 Best 50。</noscript>
   </body>
 </html>

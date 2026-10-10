@@ -1,6 +1,7 @@
 /* 成果页读取静态配队，在浏览器按当前谱面条件结算，不发起搜索。 */
 import { calculateBattle } from "./battle.js";
 import { renderBattleProcess } from "./battle-view.js";
+import { loadB50 } from "./b50-tab.js";
 const $ = (id) => document.getElementById(id);
 /** 同一路径共享请求与已加载数据；失败后移除缓存，允许用户重新选择重试。 */
 const requests = new Map();
@@ -1028,6 +1029,7 @@ function boot() {
       const nodeTooltip = $("battle-process").querySelector(".battle-node-tooltip");
       if (nodeTooltip?.matches(":popover-open")) nodeTooltip.hidePopover();
       if (button.dataset.tab === "encounters" && !state.result) selectEncounter();
+      if (button.dataset.tab === "b50") loadB50();
     });
   });
   $("recipe-search").addEventListener("input", () => {

@@ -4,13 +4,15 @@
 
 ## 直接查看
 
-打开 [GitHub Pages](https://mengleifudge.github.io/InFalsusCalc/)，即可查询卡牌和回想配队，无需下载或运行计算器。
+打开 [GitHub Pages](https://mengleifudge.github.io/InFalsusCalc/)，即可查询卡牌和回想配队，或导入存档查看 Best 50，无需下载或运行计算器。
 
 项目分为两部分：`Calculator/` 中的 C# 程序只计算并输出 JSON；`docs/` 中的静态网页读取已发布的 JSON 和图片。网页不会触发求解。后续不再制作 Release，历史 Release 保留为旧版本下载。
 
 网页需通过 GitHub Pages 或静态网站服务访问，直接打开 HTML 会显示预览指引。首批只读取卡牌摘要与索引；点卡牌加载拼法，进入回想页加载当前配队、掉落和技能。掉落区显示基础抽取次数、单组粒子概率、技能抽取次数及共用技能池；战斗区展示敌我配队与五阶段HP曲线，点开始、结束节点查看技能，切换阶段查看累计分数。谱面等级和总判定数变化时，浏览器重算同一队伍的战斗结果，读取过的数据会复用缓存。顶栏“使用说明”和各处“？”链接到独立的[说明页](docs/guide.html)，集中解释网页前提、制卡筛选、配队战斗和掉落数量。
 
-立绘保留 512×1024，以质量 85 编码为 WebP；30 张主卡框同为 512×1024，采用质量 92 的有损 WebP，透明通道与原图一致，图标和其他框饰保留无损 WebP。卡牌接近视口时才加载，全部图层解码完成后整卡显示，等待时使用骨架占位，失败可重试；共用框饰提前加载。当前主卡框由约 4.00 MiB 压缩到 0.25 MiB，`docs/` 约 10.4 MiB。
+第三个“Best 50”Tab 可选择或拖入潜力值模组的 `savestate_ptt_v1.json` 或原生 `savestate_V3.sav`，查看最佳50谱面、B50／B30／B10平均潜力值、整体潜力值，以及完成等级、纪录时间与来源明细，并导出PNG或分享JSON。原生存档逐局读取 history，使用同一次成绩的分数与完成等级计算每谱面最高 PTT；JSON读取模组从历史同步的真实最佳纪录、定数和已知时间。界面基于 [unknnownnn003/infalsus-b50](https://github.com/unknnownnn003/infalsus-b50) 修改，原站为 https://unknnownnn003.github.io/infalsus-b50/；首次进入载入，切换Tab保留结果，存档只在浏览器中处理。固定版本、读取规则、第三方声明和复建步骤见 [B50来源说明](docs/b50/README.md)。
+
+立绘保留 512×1024，以质量 85 编码为 WebP；30 张主卡框同为 512×1024，采用质量 92 的有损 WebP，透明通道与原图一致，图标和其他框饰保留无损 WebP。卡牌接近视口时才加载，全部图层解码完成后整卡显示，等待时使用骨架占位，失败可重试；共用框饰提前加载。当前主卡框由约 4.00 MiB 压缩到 0.25 MiB，含B50页面、曲目表与曲绘后，`docs/` 约 13.8 MiB。
 
 ## 本地预览
 
@@ -64,7 +66,7 @@ Calculator\bin\Release\net10.0\win-x64\InFalsusCalc.exe
 .\scripts\Save-Checkpoints.ps1
 ```
 
-两个脚本只准备本地文件，不自动提交或推送。检查改动后按需提交；推送后由仓库的 GitHub Pages（`main` 分支的 `/docs`）发布。只修改网页样式或脚本时，直接修改 `docs/`，无需重新计算。
+两个脚本只准备本地文件，不自动提交或推送。检查改动后按需提交；推送后由仓库的 GitHub Pages（`main` 分支的 `/docs`）发布。只修改网页样式或脚本时，无需重新计算；主页面直接修改 `docs/`，Best 50 修改 `B50/` 后执行 `npm --prefix B50 run build`。
 
 `Publish-Results.ps1` 默认优先读取 `results/report.json`；没有新的计算输出时，使用仓库的 `reports/report.json` 重建网页数据。也可用 `-InputFile <路径>` 指定完整结果。构建会保留格式化的完整报告，只向 `docs/data/` 写入实际展示字段，去除计算内部状态、重复战斗结果和多余棋盘属性。生成的数据使用紧凑 JSON，文件名由内容哈希决定，全部构建成功后再替换目录。完整报告和检查点不属于 Pages 站点。
 
@@ -163,6 +165,7 @@ InFalsusCalc.exe debug confidence
 - `Calculator/InFalsusCalc.csproj`、`Calculator/src/`：计算工程、制卡、配队、战斗和结果导出代码。
 - `Calculator/Data/catalog.json`：当前兼容的求解资源快照；材料来源使用其中 `shapes.sources` 的最高效能材料回想。
 - `Calculator/Data/encounter-loot.json`：同版本31个回想完整掉落表，用于导出展示数据，不参与求解。
+- `B50/`：Best 50 的 TypeScript 源码、整数定数规则及两种存档解析；构建输出到 `docs/b50/`。
 - `docs/`：网页源码及 Pages 站点；`data/index.json` 为最小列表索引，`data/chunks/` 为按需加载、按内容去重的紧凑 JSON，`assets/` 为 WebP 图片。
 - `reports/`：格式化的发布输入；`report.json` 是完整计算成果，`assets.json` 是图片清单，`loot-ui.json` 只供网页展示基础抽取次数和实际技能池。
 - `checkpoints/`：可提交的计算进度快照；`key-recipes/` 为当前制卡进度，`decks/` 为选定的配队库，`recipes/` 为仍供恢复逻辑使用的旧布局。

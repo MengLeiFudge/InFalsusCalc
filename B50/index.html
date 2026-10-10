@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111015" />
+    <meta name="description" content="读取 In Falsus 存档，算出你的 Best 50，可导出成 PNG 图片。" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <title>In Falsus · Best 50</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="brand-name">IN FALSUS</span>
+          <span class="brand-divider" aria-hidden="true"></span>
+          <span class="brand-caption">BEST 50 TOOL</span>
+        </div>
+        <div class="local-badge"><span class="local-dot" aria-hidden="true"></span>本地运行</div>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-mark"></span>UNOFFICIAL FAN TOOL</p>
+            <h1 id="page-title"><span>IN FALSUS</span><strong>BEST 50</strong></h1>
+            <p class="hero-subtitle">把你成绩最好的 50 张谱面，排成一页。</p>
+          </div>
+          <div class="hero-index" aria-hidden="true">
+            <strong>50</strong>
+            <span>BEST<br />CHARTS</span>
+            <div class="index-bars"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </section>
+
+        <section class="import-panel" aria-labelledby="import-title">
+          <div class="section-heading">
+            <div class="section-number">01</div>
+            <div>
+              <p class="section-kicker">SAVE FILE</p>
+              <h2 id="import-title">载入成绩</h2>
+            </div>
+          </div>
+          <div id="drop-zone" class="drop-zone" aria-describedby="privacy-note">
+            <div class="drop-copy">
+              <span class="drop-symbol" aria-hidden="true">+</span>
+              <div>
+                <p class="drop-title">选择或拖入 <code>savestate_ptt_v1.json</code> 或 <code>savestate_V3.sav</code></p>
+                <p class="drop-help">原生存档从逐局游玩历史计算每张谱面的最佳 PTT；模组 JSON 同步保存真实最佳纪录及已知时间。</p>
+              </div>
+            </div>
+            <button id="browse-button" class="button button-primary" type="button">
+              <span>选择存档</span><span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+            <input id="file-input" type="file" accept=".sav,.json,application/json,application/octet-stream" hidden />
+          </div>
+
+          <div class="save-path">
+            <div class="save-path-head">
+              <span class="save-path-label">存档在哪？</span>
+              <div class="save-path-actions">
+                <button id="copy-path-button" class="button button-ghost" type="button">复制文件路径</button>
+                <button id="copy-directory-button" class="button button-ghost" type="button">复制目录路径</button>
+              </div>
+            </div>
+            <code id="save-directory-value" class="save-path-value">C:\Users\&lt;你的用户名&gt;\AppData\LocalLow\lowiro\infalsus</code>
+            <code id="save-path-value" class="save-path-value">C:\Users\&lt;你的用户名&gt;\AppData\LocalLow\lowiro\infalsus\&lt;SteamID64&gt;\release\savestate_ptt_v1.json</code>
+            <p class="save-path-help">
+              网页不能直接打开本地目录；点“复制目录路径”后粘贴到文件资源管理器地址栏即可。存档文件还位于
+              <code>&lt;SteamID64&gt;\release\savestate_ptt_v1.json</code>；<code>&lt;SteamID64&gt;</code> 是
+              <code>lowiro\infalsus</code> 里那串很长的数字。<code>&lt;你的用户名&gt;</code> 也可以用
+              <code>%USERPROFILE%</code> 代替。<code>savestate_ptt_v1.json</code> 由模组读取游玩历史后生成，和 <code>savestate_V3.sav</code> 放在同一个目录。
+            </p>
+          </div>
+
+          <div class="import-foot">
+            <p id="privacy-note" class="privacy-note"><span class="privacy-lock" aria-hidden="true">◆</span>存档只在这台电脑的浏览器里读一遍，不会传到网上。</p>
+            <p id="status" class="status" role="status" aria-live="polite">还没有选择存档。</p>
+          </div>
+        </section>
+
+        <section id="results" class="results" aria-labelledby="results-title" hidden>
+          <div class="results-heading">
+            <div class="section-heading">
+              <div class="section-number">02</div>
+              <div>
+                <p class="section-kicker">YOUR BEST 50</p>
+                <h2 id="results-title">最佳成绩 <span class="result-count"><span id="b50-count">0</span><span>/50</span></span></h2>
+              </div>
+            </div>
+            <div class="result-controls">
+              <label class="name-field" for="player-name">
+                <span>图片上的名字 <small>可选</small></span>
+                <input id="player-name" type="text" maxlength="32" autocomplete="off" placeholder="留空就不显示" />
+              </label>
+              <div class="export-actions">
+                <button id="export-png-button" class="button button-primary" type="button" disabled>
+                  <span>下载 PNG</span><span class="button-arrow" aria-hidden="true">↓</span>
+                </button>
+                <button id="export-json-button" class="button button-secondary" type="button" disabled>导出 B50 JSON</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-band" aria-label="B50、B30、B10 与整体潜力值">
+            <div class="stat">
+              <span class="stat-label">B50 平均潜力值</span>
+              <strong id="b50-average-rating">0.000</strong>
+            </div>
+            <div class="stat">
+              <span class="stat-label">B30 平均潜力值</span>
+              <strong id="b30-average-rating">0.000</strong>
+            </div>
+            <div class="stat">
+              <span class="stat-label">B10 平均潜力值</span>
+              <strong id="b10-average-rating">0.000</strong>
+            </div>
+            <div class="stat stat-overall stat-primary">
+              <span class="stat-label">整体潜力值</span>
+              <strong id="overall-potential">0.000</strong>
+            </div>
+          </div>
+
+          <div class="cards-heading">
+            <h3><span class="heading-slash">/</span> BEST 50</h3>
+            <p>单曲潜力值从高到低 <span aria-hidden="true">·</span> 一张谱面一条记录</p>
+          </div>
+          <p class="save-path-help">整体 PTT = (B50 总和 + B10 总和) / 60；均值固定除以 50、30、10，未游玩的空位按零计。原生记录没有可靠时间时显示“未知”。</p>
+          <div id="b50-cards" class="b50-grid" role="list" aria-label="B50 排名成绩"></div>
+
+          <p id="export-status" class="export-status" role="status" aria-live="polite"></p>
+
+          <details class="details-panel">
+            <summary>
+              <span>Best 50 成绩明细</span>
+              <span class="details-summary-meta"><span id="unmatched-count">0</span> 条没匹配上 <span class="details-toggle" aria-hidden="true">+</span></span>
+            </summary>
+            <div id="diagnostics" class="diagnostics" hidden>
+              <h3>没匹配上的谱面</h3>
+              <p>这些谱面未匹配当前曲目表的身份，因此暂不纳入 B50。游戏新增或更换谱面后，需要同步更新曲目表。</p>
+              <ul id="diagnostic-list"></ul>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">排名</th>
+                    <th scope="col">曲名</th>
+                    <th scope="col">难度</th>
+                    <th scope="col">定数</th>
+                    <th scope="col">分数</th>
+                    <th scope="col">单曲潜力值</th>
+                    <th scope="col">完成等级</th>
+                    <th scope="col">纪录时间（本地）</th>
+                    <th scope="col">来源</th>
+                    <th scope="col">谱面 ID</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-brand"><span class="footer-mark" aria-hidden="true">IF</span><span>IN FALSUS / BEST 50</span></div>
+        <p>基于 <a href="https://github.com/unknnownnn003/infalsus-b50" target="_blank" rel="noreferrer">unknnownnn003 / infalsus-b50</a> 修改 · <a href="https://unknnownnn003.github.io/infalsus-b50/" target="_blank" rel="noreferrer">原网站</a> · 非官方工具 · 曲绘与曲目版权归原作者所有</p>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

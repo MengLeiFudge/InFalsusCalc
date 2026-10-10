@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "sourceFingerprint": "a2a13cea6bb887ea2bc262b610530d7c22e574bf341fd8c29fee4d77192a12d4",
+  "catalogSha256": "3ef3e46390aa10a1f4ca8d851fabf2cbaac0c11a154f6966ba1d68467580dd85",
+  "catalogBytes": 87874,
+  "toolchain": {
+    "unityPy": "1.25.0",
+    "pillow": "12.1.1",
+    "webp": "1.6.0"
+  },
+  "jackets": {
+    "alamode.webp": {
+      "sha256": "eecc229e06555b1a2c0216b612cb690653175f5fb93f114f9cc8f3ab1a7bdd7f",
+      "bytes": 40106
+    },
+    "albedo.webp": {
+      "sha256": "8c37ec544072a38f1855e80dc3015015b5c398bdbe476311961f9c0cfa96ebe8",
+      "bytes": 38906
+    },
+    "alterededge.webp": {
+      "sha256": "4daf55c7e5bb514c24b543a85fb4af565add446e919a0c15ab1a95637f8b1d8f",
+      "bytes": 35144
+    },
+    "bethere.webp": {
+      "sha256": "6f8c25876920b71b5b9894bee2e1943a8537894b94a3ee726bc2815a92e2032a",
+      "bytes": 47174
+    },
+    "chaoticismlegacy.webp": {
+      "sha256": "a493d9daa8cb01f0ef56a87ec6257371af23e6c15e3a6f7ddb9b772f30619215",
+      "bytes": 53792
+    },
+    "chronomia.webp": {
+      "sha256": "fe2dcded48fa70656bf02396d2db96f584de6ee381ea6b07357fd3db25c5604d",
+      "bytes": 36648
+    },
+    "chronophobia.webp": {
+      "sha256": "6400526354cce954ab1406ec1d2afa8415246cdd8877d81f9422af1839524d78",
+      "bytes": 55916
+    },
+    "codeleviathan.webp": {
+      "sha256": "dc26de53a08dbc3dd37e2c7d6fc2348147f5c331a8bdb51d53a34888d2fbf2b5",
+      "bytes": 42472
+    },
+    "coldsea.webp": {
+      "sha256": "ff22d467f6d7b72c5047403e6539b4b469cc1af4c653af10849dbe4db1e9099d",
+      "bytes": 29940
+    },
+    "cryogenic.webp": {
+      "sha256": "302a9942f3007f8750ac489e0394228fec01d9ee542de7997e52db7aa9cd96fa",
+      "bytes": 50518
+    },
+    "cyaegha.webp": {
+      "sha256": "cb9458f5fb746d7f3cbca966ccd0b7b43fb8fda8ebec1da71ec0c2531a74f7d7",
+      "bytes": 48678
+    },
+    "cylin.webp": {
+      "sha256": "a6fd1968b082274148a515d373c62012c4369e79b5f12847e8fbb65ede9a2113",
+      "bytes": 29458
+    },
+    "deepintothevibe.webp": {
+      "sha256": "d14575fcd30046627e151e035092785faddb811a87d0686fadc64bc58befa7a0",
+      "bytes": 28678
+    },
+    "destroyer.webp": {
+      "sha256": "792b86476d594bb18a86f045b88c927c8c6c9a74d41d2ef35626a2c3734bee23",
+      "bytes": 11988
+    },
+    "enigma.webp": {
+      "sha256": "da7cd9194d907812557c5608035eca5be8d667960e11700a4486390093214f8f",
+      "bytes": 51082
+    },
+    "everything.webp": {
+      "sha256": "9aab42b9329d593e0f2e0385775aff1603c6e37d39ebcdd467be8997f5381668",
+      "bytes": 43156
+    },
+    "exceedmind.webp": {
+      "sha256": "df7bb6ed7dba49a2bd0da152bdfbd6901d19f3e8f3f6a7aa417f9cd52b3e6e0b",
+      "bytes": 48096
+    },
+    "fallingshadow.webp": {
+      "sha256": "6bb40390c784dab04b5b0f4097d7266f181b4fca1b61f635b50a6c01870a98c2",
+      "bytes": 42920
+    },
+    "falsequre.webp": {
+      "sha256": "e67f7165f47be63bcaa0f039d37b3c5d6b7841646d9bdf1f42fb59259de9ef7f",
+      "bytes": 49212
+    },
+    "ffff.webp": {
+      "sha256": "22f55d822e5f012f9346d0c3021ae0b4118d6ae3e13413f499e9331f55b6b014",
+      "bytes": 34672
+    },
+    "fochaos.webp": {
+      "sha256": "797dd2922776b0616fe438800916095af1eb52238980c7a2674b08944b3b35a4",
+      "bytes": 36176
+    },
+    "forbiddensouls.webp": {
+      "sha256": "b5a4162cdaba22451d5f73d945368fe6be290e316eca43e424eba746ff77c7da",
+      "bytes": 32106
+    },
+    "ghostray.webp": {
+      "sha256": "5092346b03f8e141063d38810f21234196283faf9ee3892385f441cbf5c1f7ac",
+      "bytes": 29754
+    },
+    "greyscalecity.webp": {
+      "sha256": "b3524f4b69380ab238b5cd7957c1ca979d48b978f6262f203620b03f9de107d2",
+      "bytes": 39918
+    },
+    "hanabi.webp": {
+      "sha256": "29204c11b8697243d97f8fbda2a5df16721a8f35e518af049ba4e966412eb60f",
+      "bytes": 39942
+    },
+    "hyalouyne.webp": {
+      "sha256": "464320138299dd0ca18d3f0f63ef2355ce8085fe4550c03d88afa1235120bec6",
+      "bytes": 54724
+    },
+    "init.webp": {
+      "sha256": "26aa191a273fe813563cb4273f99248cd0b9ca31d2f797b3770ff750afcede51",
+      "bytes": 35830
+    },
+    "kakushicommand.webp": {
+      "sha256": "24c7786b076b0b67724f7457103072b86d76018c6ea454bfcc5667418d90486b",
+      "bytes": 36562
+    },
+    "kirapico.webp": {
+      "sha256": "eaf3749b89d0a13121ad21debe6b94dcd203f7cd1da1585fde0f48d4e92c65ca",
+      "bytes": 54334
+    },
+    "kiretsu.webp": {
+      "sha256": "c3a5833dc671723c0cf5d829127e61e19a502bf9e9e8b2660f1efafdac7fac40",
+      "bytes": 50084
+    },
+    "kuukaku.webp": {
+      "sha256": "89071370a35f210b760f7eded8c7bf9f6def3178f88712415cf3fb54ea3a4a14",
+      "bytes": 50504
+    },
+    "latentduality.webp": {
+      "sha256": "158f4761ef8b5b5dc632799a0466453fe42c9c9a2ddf81c91ed6e0b7e9d65e23",
+      "bytes": 54370
+    },
+    "lfdy.webp": {
+      "sha256": "30fb61b1eda530d0b3e6a961aa5452f64a938ddc2c84e090b3b23e6d3abb4dca",
+      "bytes": 42872
+    },
+    "lightsout.webp": {
+      "sha256": "b9757150a84dbbb79944edc1016a09b87fab80cc988ed3fa1eab4677864c5d84",
+      "bytes": 44976
+    },
+    "lostonesweeping.webp": {
+      "sha256": "aba2deca58d852e755eadd0edae625e4582908b02f234a5871148f9c9719d00e",
+      "bytes": 33332
+    },
+    "memoire.webp": {
+      "sha256": "8e48ce44ba9e3c6210a6a162210fc28b8d784c2ab41f89a569605af42260b978",
+      "bytes": 52708
+    },
+    "minerva.webp": {
+      "sha256": "bd2a321629743077e7ef1d1abaecd693027d37e22ceba48758cf41e7a20513b6",
+      "bytes": 48102
+    },
+    "mirinae.webp": {
+      "sha256": "0ddeb02ddd498371c1eca2f1578dd951f4b388d91ebdabee239587fe2f122c33",
+      "bytes": 41406
+    },
+    "monitoring.webp": {
+      "sha256": "3b682ea0abfc7e36e269c0db476c93ee22fa957d6577eb096e14b90177b77591",
+      "bytes": 27390
+    },
+    "moondiver.webp": {
+      "sha256": "15ea0f80bb3d4594d3169b57fccab7bfd34f0273cdf26847a2f59d1eb24dd99b",
+      "bytes": 32622
+    },
+    "moonsliders.webp": {
+      "sha256": "fe32dd5f266f8172888709f7c0d119e648cfa01b44557d9aaa327422f671422b",
+      "bytes": 45520
+    },
+    "mydeadlysins.webp": {
+      "sha256": "346011173925bc922783e5abc6518ad760b755a741417bd9557ffa1d4b3fa47b",
+      "bytes": 37166
+    },
+    "neonvision.webp": {
+      "sha256": "549090c183c2bae28448b70adf9b148b9c0b325926b7ac12a4895edf8cec54f2",
+      "bytes": 42992
+    },
+    "newvision.webp": {
+      "sha256": "1933e21f87cbb5961bde68040df241d2bd24a044330e550ccda5957a254bd0d3",
+      "bytes": 47924
+    },
+    "noctidea.webp": {
+      "sha256": "43a47747d4a154367649009e84f990a3344b1ea8f8ddbd0b6144227afff5f020",
+      "bytes": 50628
+    },
+    "nonbreathoblige.webp": {
+      "sha256": "7e3546734b34022a8d2c653aee96d4a9e4fb8abb57a15a865e6691af43d537a9",
+      "bytes": 31884
+    },
+    "nowiknow.webp": {
+      "sha256": "276722bd2066fafd77a1e46bd06e75bb285fdb95e3f40bdba701640798deb572",
+      "bytes": 41400
+    },
+    "ordirehv.webp": {
+      "sha256": "c4d44b56d6a320ae641a346d7cd651d4c4740a9d19a9f9efe6b2e9f1328a10df",
+      "bytes": 25184
+    },
+    "outerjustice.webp": {
+      "sha256": "4726fce6acc4da0cb3d6366df471efac0da3a7d85bd31a416d031d5dfbae58ef",
+      "bytes": 34816
+    },
+    "papillonblanc.webp": {
+      "sha256": "8ac5687688007a417f4b4531d3e610022073dabe7b5a3f4cc3f973204a7e1b88",
+      "bytes": 45972
+    },
+    "phylaxron.webp": {
+      "sha256": "02b6a1ba4cbc71f41986cd40f8a123752afa3722ab9b65dc3e8d00efd4df0050",
+      "bytes": 53518
+    },
+    "primevaltexture.webp": {
+      "sha256": "3dd3b8aa62ed12a817adf50aee6cdef2393fbe3cd60b1f6bcd84db590126b917",
+      "bytes": 44314
+    },
+    "rainshower.webp": {
+      "sha256": "67986df800fa9d9508af6a35019d228ba746dd7e9555e281579d1b1e9619181a",
+      "bytes": 64338
+    },
+    "reconnect.webp": {
+      "sha256": "22385eb7e29a7f0b65c9812f783bddb1f9db3495939b4576997129deaa39e015",
+      "bytes": 53798
+    },
+    "reflection.webp": {
+      "sha256": "691ad718be1389c349472fecd7422a16fb34b2d44498d0ae3f284c17fad7e3f4",
+      "bytes": 46146
+    },
+    "roki.webp": {
+      "sha256": "b3f5aacd0794b3094467cfa03e6fd3e6764b167ee05650e01557ec971844bce5",
+      "bytes": 46520
+    },
+    "scarletespada.webp": {
+      "sha256": "89e8d9259626c7d8c571bcc2e9a9f5760383f7609fa2304733c9c2f8a4b1daa0",
+      "bytes": 47710
+    },
+    "selfconfrontation.webp": {
+      "sha256": "82ec73ed848d237f680f853551221a9bc894e5d57b3c60ce8abce161d1d0d64a",
+      "bytes": 33610
+    },
+    "shadowsofunknown.webp": {
+      "sha256": "15f66394a81beffbb2e2e4f54f8948cc2e11002e13f86d5af1d3c7a20fe17ce5",
+      "bytes": 42332
+    },
+    "shouldhavebeen.webp": {
+      "sha256": "ad1ed1cd8822cef4b28a957e88803cb53a6bc6ff80ed2bffeebf95fbc3a13e16",
+      "bytes": 46002
+    },
+    "sinutopia.webp": {
+      "sha256": "ae7b20321a5c74fad973aa4a2f722c35eb471a38d4f664e36ca886b3990ad217",
+      "bytes": 51510
+    },
+    "sunanokioku.webp": {
+      "sha256": "9cdf882809c52b2596c6dee3e70a6094c1026a828765ab9e7985c855bb89dc6f",
+      "bytes": 40162
+    },
+    "tactom.webp": {
+      "sha256": "55f3a6dadd89e159ab11613b9ec7c1fa82e500b4832be1a399b4d441486724c5",
+      "bytes": 51626
+    },
+    "thingsitreasure.webp": {
+      "sha256": "54e147723f328cd030ab329b0019c7284af862a60c0a3bbe64a9999affdd6fa2",
+      "bytes": 55116
+    },
+    "toccatafunebre.webp": {
+      "sha256": "859d3646313d6551f9303888ede41ce371bf9068fcc4447d541c214c6813dbe5",
+      "bytes": 28264
+    },
+    "tokonagi.webp": {
+      "sha256": "ef3f00afa611f3e9803f4a0e3111881fe5623cb74ed69173a14fa4488608df6d",
+      "bytes": 38912
+    },
+    "trajectoryofhope.webp": {
+      "sha256": "c11d0298da4fea851a4d66036fa4c885a475540978e7419d6b3d0f92d992d18d",
+      "bytes": 34232
+    },
+    "transparency.webp": {
+      "sha256": "1e66cc23fd1f3cdf42208b20e89a9ee77c86f7510e1330ec62ae692b555fadb7",
+      "bytes": 45624
+    },
+    "tutorialevolong.webp": {
+      "sha256": "d9ddfcf55bfea966305a8b1d8efad7b564bfc70bc8575b08b81b575bc9d50bee",
+      "bytes": 39094
+    },
+    "tutorialevoshort.webp": {
+      "sha256": "d9ddfcf55bfea966305a8b1d8efad7b564bfc70bc8575b08b81b575bc9d50bee",
+      "bytes": 39094
+    },
+    "tutorialmin.webp": {
+      "sha256": "d9ddfcf55bfea966305a8b1d8efad7b564bfc70bc8575b08b81b575bc9d50bee",
+      "bytes": 39094
+    },
+    "vesper.webp": {
+      "sha256": "7ee6ba6f355309bd3a59e2229e0d81382e390f0ebb93c6aac2d32436ae709e81",
+      "bytes": 38226
+    },
+    "withtruth.webp": {
+      "sha256": "421078815433dcb1d0f972386d6d8d698c0fac7d900fa0010e14872bd53989e9",
+      "bytes": 36098
+    },
+    "wonderroom.webp": {
+      "sha256": "ffc180e8776e1c0a8b052661153f87f7e6fa2c1e58bb69f35617f3eca44f463b",
+      "bytes": 44460
+    },
+    "worldender.webp": {
+      "sha256": "14f9c9c9797fed662d3c10d121d408d33ecba7a0a002ad86865bfe5f0d4151ca",
+      "bytes": 35782
+    },
+    "yggthrasir.webp": {
+      "sha256": "d79b9a1ffe5daa100008bea12b037d7b2259b9ba90f4de8c02fcc272e394306a",
+      "bytes": 42388
+    },
+    "zetta.webp": {
+      "sha256": "400dd2576cd826a5ea9a3c161ca0e98284953bd52711accc4a99db6777f2158e",
+      "bytes": 48428
+    },
+    "zfc.webp": {
+      "sha256": "0eacb3d23ef075fe9ee02da4eb29687f73d82da51a182d832f248fbb0dd43d27",
+      "bytes": 46718
+    }
+  }
+}
